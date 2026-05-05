@@ -2347,7 +2347,7 @@ function formatAIMsg(text) {
   return text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
 }
 </script>
-</body></html>\`);
+</body></html>`);
 });
 
 // Implementation HQ — AI Chat endpoint
@@ -2357,7 +2357,7 @@ app.post('/consultant/implementation-hq/chat', async (req, res) => {
   const { message, history } = req.body;
   if (!message) return res.status(400).json({ error: 'No message' });
 
-  const systemPrompt = \`You are the EX3 Implementation Coach — a senior SmartRecruiters implementation expert built from 60 source documents. You help EX3 consultants deliver successful implementations.
+  const systemPrompt = `You are the EX3 Implementation Coach — a senior SmartRecruiters implementation expert built from 60 source documents. You help EX3 consultants deliver successful implementations.
 
 PLATFORM LIMITS: Max 10 custom system roles, max 5 custom hiring team roles, max 120 hiring processes, max 8 steps per status, max 500 candidate custom fields. Email addresses are unique globally across ALL SR instances.
 
@@ -2384,7 +2384,7 @@ SOW: Read every line before client contact. Always name every integration explic
 
 UAT: Run by the client, supported by EX3. Get written sign-off before confirming go-live. UAT is not a design phase — scope changes need a change request. Critical issues must be resolved before go-live, no exceptions.
 
-Answer directly and practically. Use formatting for lists. Be specific with gotchas and exact steps.\`;
+Answer directly and practically. Use formatting for lists. Be specific with gotchas and exact steps.`;
 
   const messages = [
     { role:'system', content:systemPrompt },
