@@ -705,6 +705,7 @@ app.get('/consultant', (req, res) => {
     <div class="sb-item" onclick="showPage('faq')">FAQ & Troubleshooting</div>
     <div class="sb-section">Tools</div>
     <a href="/consultant/sow-builder" style="display:block;padding:9px 20px;font-size:13px;color:#aaa;transition:all .15s;border-left:2px solid transparent;background:#1a3a1a;border-left-color:#4ade80;color:#4ade80;font-weight:600">✨ SOW Builder</a>
+    <a href="/consultant/implementation-hq" style="display:block;padding:9px 20px;font-size:13px;transition:all .15s;border-left:2px solid transparent;background:#1B1040;border-left-color:#412288;color:#c4b5fd;font-weight:600;margin-top:4px">🏗 Implementation HQ</a>
   </nav>
 
   <!-- Main -->
@@ -1421,6 +1422,991 @@ document.addEventListener('keydown', e => {
 </script>
 </body>
 </html>`);
+});
+
+// ─── Implementation HQ ───────────────────────────────────────────────────────
+
+const IMPL_HQ_PASSWORD = '4416';
+
+function requireImplPassword(req, res, next) {
+  const token = req.cookies?.impl_hq_auth;
+  if (token === IMPL_HQ_PASSWORD) return next();
+  if (req.method === 'POST' && req.body?.password === IMPL_HQ_PASSWORD) {
+    res.setHeader('Set-Cookie', `impl_hq_auth=${IMPL_HQ_PASSWORD}; Path=/; HttpOnly`);
+    return res.redirect('/consultant/implementation-hq');
+  }
+  const wrong = req.method === 'POST';
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Implementation HQ — EX3</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sora',sans-serif;background:#1B1040;min-height:100vh;display:flex;align-items:center;justify-content:center;color:#fff}
+.gate{text-align:center;max-width:360px;padding:24px}
+.logo{font-size:52px;font-weight:900;letter-spacing:-.15em;line-height:1;margin-bottom:4px;background:linear-gradient(135deg,#c4b5fd,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.portal-tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#6d5a9c;margin-bottom:44px}
+.lock{font-size:36px;margin-bottom:20px}
+.gate-title{font-size:24px;font-weight:700;margin-bottom:8px;letter-spacing:-.02em}
+.gate-sub{font-size:13px;color:#7c6fac;margin-bottom:32px;line-height:1.6}
+input[type=password]{width:100%;padding:14px 20px;background:#2d1f5e;border:1px solid #412288;border-radius:10px;color:#fff;font-family:'Sora',sans-serif;font-size:22px;letter-spacing:.5em;text-align:center;outline:none;transition:border-color .2s;margin-bottom:14px}
+input[type=password]::placeholder{letter-spacing:0;font-size:13px;color:#5a4a8a}
+input[type=password]:focus{border-color:#7c3aed;background:#3a2870}
+button{width:100%;padding:14px;background:#412288;border:none;border-radius:10px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;letter-spacing:.03em}
+button:hover{background:#5b21b6}
+.err{color:#FF2E00;font-size:12px;margin-bottom:10px}
+.back-link{display:block;margin-top:24px;font-size:12px;color:#5a4a8a;text-decoration:none;transition:color .2s}
+.back-link:hover{color:#c4b5fd}
+</style>
+</head>
+<body>
+<div class="gate">
+  <div class="logo">ex3</div>
+  <div class="portal-tag">Consultant Portal</div>
+  <div class="lock">🔒</div>
+  <div class="gate-title">Implementation HQ</div>
+  <div class="gate-sub">Restricted to EX3 implementation consultants.</div>
+  <form method="post" action="/consultant/implementation-hq">
+    ${wrong ? '<div class="err">Incorrect password — try again</div>' : ''}
+    <input type="password" name="password" placeholder="Enter access code" autofocus autocomplete="off"/>
+    <button type="submit">Enter Implementation HQ →</button>
+  </form>
+  <a href="/consultant" class="back-link">← Back to Consultant Portal</a>
+</div>
+</body></html>`);
+}
+
+app.all('/consultant/implementation-hq', requireImplPassword);
+
+app.get('/consultant/implementation-hq', (req, res) => {
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Implementation HQ — EX3</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sora',sans-serif;background:#0d0a1f;color:#e2dff7;line-height:1.65;font-size:14px}
+a{color:inherit;text-decoration:none}
+/* Layout */
+.layout{display:flex;min-height:100vh}
+/* Sidebar */
+.sidebar{width:260px;flex-shrink:0;background:#0a0718;border-right:1px solid #1e1540;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;display:flex;flex-direction:column}
+.sb-brand{padding:22px 20px;border-bottom:1px solid #1e1540}
+.sb-logo{font-size:32px;font-weight:900;letter-spacing:-.12em;line-height:1;background:linear-gradient(135deg,#c4b5fd,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sb-tag{font-size:10px;color:#5a4a8a;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.sb-back{display:flex;align-items:center;gap:6px;padding:10px 20px;font-size:12px;color:#5a4a8a;border-bottom:1px solid #1e1540;cursor:pointer;transition:color .15s;text-decoration:none}
+.sb-back:hover{color:#c4b5fd}
+.sb-section{padding:14px 20px 4px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#3d2f6b;font-weight:600}
+.sb-item{display:block;padding:9px 20px;font-size:13px;color:#8b7fc7;cursor:pointer;transition:all .15s;border-left:3px solid transparent}
+.sb-item:hover{color:#c4b5fd;background:#130e2e}
+.sb-item.active{color:#c4b5fd;border-left-color:#412288;background:#130e2e}
+.sb-badge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;background:#412288;color:#c4b5fd;margin-left:6px;vertical-align:middle}
+/* Main */
+.main{margin-left:260px;flex:1;padding:40px 48px;max-width:960px}
+.page{display:none}.page.active{display:block}
+/* Beginner banner */
+.beginner-banner{background:linear-gradient(135deg,#1B1040,#2d1f5e);border:1px solid #412288;border-radius:12px;padding:16px 20px;margin-bottom:28px;display:flex;align-items:center;gap:14px}
+.beginner-banner .icon{font-size:24px;flex-shrink:0}
+.beginner-banner h3{font-size:14px;font-weight:700;color:#c4b5fd;margin-bottom:2px}
+.beginner-banner p{font-size:12px;color:#8b7fc7}
+/* Hero */
+.hero{margin-bottom:36px}
+.hero h1{font-size:30px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px;background:linear-gradient(135deg,#e2dff7,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:14px;color:#8b7fc7;max-width:560px}
+.hq-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:14px}
+.badge-violet{background:#2d1f5e;color:#c4b5fd;border:1px solid #412288}
+.badge-scarlet{background:#2d0a00;color:#ff6b4a;border:1px solid #FF2E00}
+.badge-indigo{background:#1B1040;color:#a78bfa;border:1px solid #2d1f5e}
+.badge-green{background:#0a2e1a;color:#4ade80;border:1px solid #166534}
+.badge-amber{background:#2a1a00;color:#fbbf24;border:1px solid #78350f}
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:28px}
+.card{background:#130e2e;border:1px solid #1e1540;border-radius:12px;padding:18px;transition:border-color .15s}
+.card:hover{border-color:#412288}
+.card .num{font-size:28px;font-weight:800;color:#c4b5fd;margin-bottom:4px}
+.card h3{font-size:13px;font-weight:600;margin-bottom:4px;color:#e2dff7}
+.card p{font-size:12px;color:#6d5a9c}
+/* Phase accordion */
+.phase{background:#130e2e;border:1px solid #1e1540;border-radius:12px;margin-bottom:12px;overflow:hidden}
+.phase-header{padding:16px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;transition:background .15s}
+.phase-header:hover{background:#1a1340}
+.phase-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.phase-title{font-weight:700;font-size:15px;flex:1;color:#e2dff7}
+.phase-meta{font-size:11px;color:#5a4a8a}
+.phase-chevron{transition:transform .2s;color:#5a4a8a}
+.phase-body{display:none;padding:0 20px 24px;border-top:1px solid #1e1540}
+.phase-body.open{display:block}
+/* Playbook styles */
+.step-block{background:#0d0a1f;border:1px solid #1e1540;border-radius:10px;margin-top:16px;overflow:hidden}
+.step-header{padding:12px 16px;background:#1a1340;display:flex;align-items:center;gap:10px}
+.step-num{width:24px;height:24px;border-radius:50%;background:#412288;color:#c4b5fd;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.step-title{font-size:13px;font-weight:700;color:#c4b5fd}
+.step-body{padding:14px 16px;display:grid;gap:12px}
+.step-section{font-size:12px}
+.step-section .label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5a4a8a;margin-bottom:6px}
+.step-section p,.step-section li{font-size:12px;color:#a89fd6;line-height:1.65}
+.step-section ul{padding-left:16px}
+.step-section li{margin-bottom:3px}
+.warn{background:#2a0800;border:1px solid #7f1d1d;border-radius:8px;padding:10px 14px;font-size:12px;color:#fca5a5;margin-top:8px}
+.warn strong{color:#ff6b4a}
+.say{background:#0f1f40;border:1px solid #1e3a6e;border-radius:8px;padding:10px 14px;font-size:12px;color:#93c5fd;font-style:italic;margin-top:8px}
+.tip-hq{background:#1a2a0a;border:1px solid #166534;border-radius:8px;padding:10px 14px;font-size:12px;color:#86efac;margin-top:8px}
+/* Section title */
+h2.sec{font-size:20px;font-weight:800;margin-bottom:6px;letter-spacing:-.02em;color:#e2dff7}
+p.sec-sub{font-size:13px;color:#6d5a9c;margin-bottom:20px}
+/* Table */
+table.hq{width:100%;border-collapse:collapse;background:#130e2e;border:1px solid #1e1540;border-radius:10px;overflow:hidden;margin-bottom:20px}
+table.hq th{background:#1B1040;color:#c4b5fd;padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+table.hq td{padding:10px 14px;border-bottom:1px solid #1e1540;font-size:12px;color:#a89fd6}
+table.hq tr:last-child td{border-bottom:none}
+/* Timeline */
+.timeline-wrap{overflow-x:auto;padding-bottom:16px;margin-bottom:24px}
+.timeline{display:flex;gap:0;min-width:max-content;padding:20px 0}
+.tl-phase-group{display:flex;flex-direction:column;gap:0}
+.tl-phase-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px 4px 0 0;text-align:center;margin-bottom:0}
+.tl-steps{display:flex;gap:4px;padding:8px;border-radius:0 0 8px 8px;border:1px solid #1e1540;border-top:none}
+.tl-step{min-width:100px;padding:10px 10px;border-radius:8px;cursor:pointer;transition:all .2s;position:relative;text-align:center;border:1px solid transparent}
+.tl-step:hover,.tl-step.active{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:2}
+.tl-step-title{font-size:11px;font-weight:600;color:#e2dff7;line-height:1.3}
+.tl-detail{background:#130e2e;border:1px solid #1e1540;border-radius:12px;padding:20px;margin-bottom:16px;display:none}
+.tl-detail.visible{display:block}
+.tl-detail h3{font-size:16px;font-weight:700;color:#c4b5fd;margin-bottom:12px}
+.tl-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tl-detail-item .label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5a4a8a;margin-bottom:4px}
+.tl-detail-item p{font-size:13px;color:#a89fd6}
+/* Doc vault */
+.doc-category{margin-bottom:28px}
+.doc-category h3{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5a4a8a;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #1e1540}
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.doc-item{background:#130e2e;border:1px solid #1e1540;border-radius:10px;padding:14px 16px;transition:border-color .15s;display:flex;align-items:flex-start;gap:12px}
+.doc-item:hover{border-color:#412288}
+.doc-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.doc-info h4{font-size:13px;font-weight:600;color:#e2dff7;margin-bottom:3px}
+.doc-info p{font-size:11px;color:#6d5a9c;line-height:1.4}
+.doc-link{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:11px;color:#a78bfa;transition:color .15s}
+.doc-link:hover{color:#c4b5fd}
+/* Gotcha library */
+.gotcha-search{width:100%;padding:12px 16px;background:#130e2e;border:1px solid #1e1540;border-radius:10px;color:#e2dff7;font-family:'Sora',sans-serif;font-size:13px;margin-bottom:16px;outline:none;transition:border-color .2s}
+.gotcha-search:focus{border-color:#412288}
+.gotcha-search::placeholder{color:#5a4a8a}
+.gotcha-item{background:#130e2e;border:1px solid #1e1540;border-radius:10px;padding:14px 16px;margin-bottom:8px;transition:border-color .15s}
+.gotcha-item:hover{border-color:#412288}
+.gotcha-item .g-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.gotcha-item .g-phase{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px}
+.gotcha-item .g-title{font-size:13px;font-weight:700;color:#e2dff7}
+.gotcha-item .g-detail{font-size:12px;color:#8b7fc7;line-height:1.6}
+/* Integration wizard */
+.int-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.int-tab{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #1e1540;background:#130e2e;color:#8b7fc7;transition:all .15s}
+.int-tab:hover{border-color:#412288;color:#c4b5fd}
+.int-tab.active{background:#412288;color:#c4b5fd;border-color:#412288}
+.int-content{display:none}.int-content.active{display:block}
+.int-section{margin-bottom:20px}
+.int-section h3{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5a4a8a;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1e1540}
+.int-step{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #1e1540}
+.int-step:last-child{border-bottom:none}
+.int-step-num{width:22px;height:22px;border-radius:50%;background:#412288;color:#c4b5fd;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.int-step p{font-size:13px;color:#a89fd6;line-height:1.6}
+.checklist-hq{list-style:none}
+.checklist-hq li{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:12px;color:#a89fd6;border-bottom:1px solid #1e1540}
+.checklist-hq li:last-child{border-bottom:none}
+.checklist-hq li::before{content:'☐';font-size:14px;flex-shrink:0;color:#5a4a8a;cursor:pointer}
+/* AI Coach */
+.ai-fab{position:fixed;bottom:28px;right:28px;z-index:9000;background:#412288;color:#e2dff7;border:none;border-radius:50px;padding:13px 22px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 24px rgba(65,34,136,.5);transition:all .2s;display:flex;align-items:center;gap:8px}
+.ai-fab:hover{background:#5b21b6;transform:translateY(-2px)}
+.ai-panel{position:fixed;bottom:0;right:0;width:400px;height:100vh;background:#0a0718;border-left:1px solid #1e1540;z-index:8999;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.ai-panel.open{transform:translateX(0)}
+.ai-header{padding:16px 20px;border-bottom:1px solid #1e1540;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.ai-title{font-size:14px;font-weight:700;color:#c4b5fd}
+.ai-close{background:none;border:none;color:#5a4a8a;font-size:20px;cursor:pointer;transition:color .15s;line-height:1}
+.ai-close:hover{color:#c4b5fd}
+.ai-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.ai-msg{max-width:85%;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.6}
+.ai-msg.user{background:#2d1f5e;color:#e2dff7;align-self:flex-end;border-bottom-right-radius:3px}
+.ai-msg.assistant{background:#130e2e;color:#a89fd6;border:1px solid #1e1540;align-self:flex-start;border-bottom-left-radius:3px}
+.ai-msg.assistant strong{color:#c4b5fd}
+.ai-quick{padding:12px 16px;border-top:1px solid #1e1540;display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
+.ai-quick-btn{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid #1e1540;background:#130e2e;color:#8b7fc7;cursor:pointer;transition:all .15s;font-family:'Sora',sans-serif}
+.ai-quick-btn:hover{border-color:#412288;color:#c4b5fd}
+.ai-input-row{padding:12px 16px;border-top:1px solid #1e1540;display:flex;gap:8px;flex-shrink:0}
+.ai-input{flex:1;padding:10px 14px;background:#130e2e;border:1px solid #1e1540;border-radius:8px;color:#e2dff7;font-family:'Sora',sans-serif;font-size:13px;outline:none;transition:border-color .2s;resize:none}
+.ai-input:focus{border-color:#412288}
+.ai-send{padding:10px 16px;background:#412288;border:none;border-radius:8px;color:#c4b5fd;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;flex-shrink:0}
+.ai-send:hover{background:#5b21b6}
+.ai-send:disabled{opacity:.4;cursor:not-allowed}
+/* Questionnaire */
+.q-card{background:#130e2e;border:1px solid #1e1540;border-radius:12px;padding:24px;margin-bottom:16px}
+.q-num{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5a4a8a;margin-bottom:8px}
+.q-text{font-size:16px;font-weight:700;color:#e2dff7;margin-bottom:16px;letter-spacing:-.01em}
+.q-options{display:flex;flex-direction:column;gap:8px}
+.q-opt{padding:12px 16px;border:1px solid #1e1540;border-radius:8px;cursor:pointer;transition:all .15s;font-size:13px;color:#8b7fc7;background:#0d0a1f}
+.q-opt:hover{border-color:#412288;color:#c4b5fd}
+.q-opt.sel{border-color:#412288;background:#2d1f5e;color:#c4b5fd;font-weight:600}
+.q-result{background:linear-gradient(135deg,#1B1040,#2d1f5e);border:1px solid #412288;border-radius:12px;padding:24px;margin-bottom:24px;display:none}
+.q-result.visible{display:block}
+.q-result h2{font-size:20px;font-weight:800;color:#c4b5fd;margin-bottom:8px}
+.q-result p{font-size:13px;color:#a89fd6;margin-bottom:12px;line-height:1.6}
+.q-result .nav-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:#412288;border:none;border-radius:8px;color:#c4b5fd;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;margin-right:8px;margin-top:4px}
+.q-result .nav-btn:hover{background:#5b21b6}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">ex3</div>
+    <div class="sb-tag">Implementation HQ</div>
+  </div>
+  <a href="/consultant" class="sb-back">
+    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
+    Back to Consultant Portal
+  </a>
+  <div class="sb-section">Start Here</div>
+  <div class="sb-item active" onclick="showPage('dashboard')">Dashboard</div>
+  <div class="sb-section">Core Tools</div>
+  <div class="sb-item" onclick="showPage('timeline')">Implementation Timeline</div>
+  <div class="sb-item" onclick="showPage('playbooks')">Phase Playbooks</div>
+  <div class="sb-item" onclick="showPage('vault')">Document Vault <span class="sb-badge">60</span></div>
+  <div class="sb-section">Reference</div>
+  <div class="sb-item" onclick="showPage('gotchas')">Gotcha Library</div>
+  <div class="sb-item" onclick="showPage('integrations')">Integration Wizard</div>
+</nav>
+
+<!-- Main -->
+<main class="main">
+
+<!-- DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <div id="beginner-banner" class="beginner-banner" style="display:none">
+    <div class="icon">🎓</div>
+    <div><h3>Beginner Mode Active</h3><p>Extra guidance and warnings are shown throughout based on your answers.</p></div>
+  </div>
+  <div class="hero">
+    <span class="hq-badge badge-violet">Implementation HQ</span>
+    <h1>Implementation Command Centre</h1>
+    <p>Everything you need to deliver a flawless SmartRecruiters implementation — playbooks, documents, gotchas, and an AI coach built from 60 source documents.</p>
+  </div>
+
+  <div id="q-result" class="q-result">
+    <h2 id="q-result-title">Your Profile</h2>
+    <p id="q-result-body"></p>
+    <button class="nav-btn" onclick="showPage('playbooks')">Go to Phase Playbooks →</button>
+    <button class="nav-btn" onclick="showPage('timeline')">View Timeline →</button>
+  </div>
+
+  <h2 class="sec">Orientation Questionnaire</h2>
+  <p class="sec-sub">Answer four quick questions so we can direct you to the right starting point.</p>
+
+  <div class="q-card">
+    <div class="q-num">Question 1 of 4</div>
+    <div class="q-text">Have you done a SmartRecruiters implementation before?</div>
+    <div class="q-options">
+      <div class="q-opt" onclick="selectQ(1,'yes','Experienced')">Yes — I've done at least one end to end</div>
+      <div class="q-opt" onclick="selectQ(1,'partial','Developing')">Partially — I've been involved but not led one</div>
+      <div class="q-opt" onclick="selectQ(1,'no','New')">No — this is my first time</div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Question 2 of 4</div>
+    <div class="q-text">Do you have a signed SOW for this project?</div>
+    <div class="q-options">
+      <div class="q-opt" onclick="selectQ(2,'yes','SOW signed')">Yes — it's signed and I've read it</div>
+      <div class="q-opt" onclick="selectQ(2,'notyet','SOW not yet signed')">Not yet — we're pre-sales or in proposal stage</div>
+      <div class="q-opt" onclick="selectQ(2,'no','No SOW')">No — we're starting without one</div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Question 3 of 4</div>
+    <div class="q-text">Which phase are you currently in?</div>
+    <div class="q-options">
+      <div class="q-opt" onclick="selectQ(3,'notstarted','Not started yet')">Not started yet — haven't kicked off</div>
+      <div class="q-opt" onclick="selectQ(3,'discovery','Discovery')">Discovery / Workshops</div>
+      <div class="q-opt" onclick="selectQ(3,'config','Config / Build')">Configuration or Build</div>
+      <div class="q-opt" onclick="selectQ(3,'uat','UAT')">UAT (testing)</div>
+      <div class="q-opt" onclick="selectQ(3,'training','Training')">Training</div>
+      <div class="q-opt" onclick="selectQ(3,'golive','Go-Live / Hypercare')">Go-Live or Hypercare</div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Question 4 of 4</div>
+    <div class="q-text">How confident do you feel about this implementation?</div>
+    <div class="q-options">
+      <div class="q-opt" onclick="selectQ(4,'new','Completely new — need full guidance')">Completely new — I need step-by-step guidance for everything</div>
+      <div class="q-opt" onclick="selectQ(4,'some','Some experience — mainly need the detail')">Some experience — I know the shape, I need the detail</div>
+      <div class="q-opt" onclick="selectQ(4,'confident','Confident — using this as a reference')">Confident — I'm using this as a reference tool</div>
+    </div>
+  </div>
+
+  <button onclick="submitQuestionnaire()" style="padding:13px 28px;background:#412288;border:none;border-radius:10px;color:#c4b5fd;font-family:'Sora',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:8px">
+    Set my profile →
+  </button>
+
+  <div style="margin-top:48px">
+    <h2 class="sec">Quick Access</h2>
+    <div class="cards">
+      <div class="card" style="cursor:pointer" onclick="showPage('playbooks')"><div class="num">6</div><h3>Phase Playbooks</h3><p>Fully spoon-fed guides for every phase</p></div>
+      <div class="card" style="cursor:pointer" onclick="showPage('vault')"><div class="num">60</div><h3>Documents</h3><p>Every implementation file with Drive links</p></div>
+      <div class="card" style="cursor:pointer" onclick="showPage('gotchas')"><div class="num">19</div><h3>Gotchas</h3><p>Real pitfalls extracted from source documents</p></div>
+      <div class="card" style="cursor:pointer" onclick="showPage('integrations')"><div class="num">7</div><h3>Integrations</h3><p>Step-by-step setup wizards</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="page" id="page-timeline">
+  <div class="hero">
+    <span class="hq-badge badge-violet">Timeline</span>
+    <h1>Implementation Timeline</h1>
+    <p>Every step from Sales Handover to Hypercare Close. Click any step to expand the full detail.</p>
+  </div>
+
+  <div id="tl-detail-panel" class="tl-detail">
+    <h3 id="tl-detail-title"></h3>
+    <div class="tl-detail-grid">
+      <div class="tl-detail-item"><div class="label">What happens</div><p id="tl-what"></p></div>
+      <div class="tl-detail-item"><div class="label">Who's involved</div><p id="tl-who"></p></div>
+      <div class="tl-detail-item"><div class="label">Document to have open</div><p id="tl-doc"></p></div>
+      <div class="tl-detail-item"><div class="label">Output / deliverable</div><p id="tl-output"></p></div>
+    </div>
+  </div>
+
+  <div class="timeline-wrap">
+    <div class="timeline" id="tl-root"></div>
+  </div>
+  <p style="font-size:12px;color:#3d2f6b;margin-top:-12px">← Scroll horizontally to see full journey</p>
+</div>
+
+<!-- PLAYBOOKS (content added in next pass) -->
+<div class="page" id="page-playbooks">
+  <div id="pb-beginner-tip" class="warn" style="display:none;margin-bottom:24px"><strong>Beginner Mode:</strong> Extra warnings and guidance are shown throughout these playbooks. Read everything — don't skip the "What can go wrong" sections.</div>
+  <div class="hero">
+    <span class="hq-badge badge-violet">Phase Playbooks</span>
+    <h1>Phase Playbooks</h1>
+    <p>Exactly what to do, what to say, what to ask, what to prepare, and what can go wrong — for every phase.</p>
+  </div>
+  <div id="playbooks-content"></div>
+</div>
+
+<!-- DOCUMENT VAULT (content added in next pass) -->
+<div class="page" id="page-vault">
+  <div class="hero">
+    <span class="hq-badge badge-indigo">Document Vault</span>
+    <h1>Document Vault</h1>
+    <p>All 60 implementation documents organised by phase. Every file links directly to Google Drive.</p>
+  </div>
+  <p style="font-size:12px;color:#5a4a8a;margin-bottom:20px">
+    <a href="https://drive.google.com/drive/folders/1p4Y2PVaBGXOvYdkhldrJrhbYWO6xV_gD" target="_blank" style="color:#a78bfa">📁 Open full Drive folder →</a>
+  </p>
+  <div id="vault-content"></div>
+</div>
+
+<!-- GOTCHA LIBRARY (content added in next pass) -->
+<div class="page" id="page-gotchas">
+  <div class="hero">
+    <span class="hq-badge badge-scarlet">Gotcha Library</span>
+    <h1>Gotcha Library</h1>
+    <p>Real implementation pitfalls extracted from source documents. Search by keyword or filter by phase.</p>
+  </div>
+  <input class="gotcha-search" type="text" id="gotcha-search" placeholder="Search gotchas..." oninput="filterGotchas(this.value)"/>
+  <div id="gotcha-phase-filters" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"></div>
+  <div id="gotchas-list"></div>
+</div>
+
+<!-- INTEGRATION WIZARD (content added in next pass) -->
+<div class="page" id="page-integrations">
+  <div class="hero">
+    <span class="hq-badge badge-green">Integration Wizard</span>
+    <h1>Integration Setup Wizard</h1>
+    <p>Step-by-step setup guides for the most common SmartRecruiters integrations — pre-flight checklist, steps, and what to test.</p>
+  </div>
+  <div class="int-tabs" id="int-tabs"></div>
+  <div id="int-contents"></div>
+</div>
+
+</main>
+</div>
+
+<!-- AI COACH FAB -->
+<button class="ai-fab" id="ai-fab" onclick="toggleAI()">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  AI Coach
+</button>
+
+<div class="ai-panel" id="ai-panel">
+  <div class="ai-header">
+    <div class="ai-title">🤖 EX3 Implementation Coach</div>
+    <button class="ai-close" onclick="toggleAI()">×</button>
+  </div>
+  <div class="ai-messages" id="ai-messages">
+    <div class="ai-msg assistant">Hi! I'm your EX3 Implementation Coach. I have deep knowledge of SmartRecruiters implementations — gotchas, config limits, integration pitfalls, UAT steps, and more. What do you need help with?</div>
+  </div>
+  <div class="ai-quick">
+    <button class="ai-quick-btn" onclick="aiQuick('Walk me through a full implementation from scratch')">From scratch</button>
+    <button class="ai-quick-btn" onclick="aiQuick('I am stuck on integrations — help me debug')">Stuck on integrations</button>
+    <button class="ai-quick-btn" onclick="aiQuick('Help me prepare for UAT')">Prep for UAT</button>
+    <button class="ai-quick-btn" onclick="aiQuick('What are the biggest gotchas I need to know?')">Biggest gotchas</button>
+  </div>
+  <div class="ai-input-row">
+    <textarea class="ai-input" id="ai-input" rows="2" placeholder="Ask anything about your implementation..." onkeydown="aiKeydown(event)"></textarea>
+    <button class="ai-send" id="ai-send" onclick="aiSend()">Send</button>
+  </div>
+</div>
+
+<script>
+// ── Page navigation ──────────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const items = document.querySelectorAll('.sb-item');
+  items.forEach(i => { if (i.getAttribute('onclick') && i.getAttribute('onclick').includes("'" + id + "'")) i.classList.add('active'); });
+  window.scrollTo(0,0);
+}
+
+// ── Questionnaire ────────────────────────────────────────────────
+const answers = {};
+function selectQ(q, val, label) {
+  answers[q] = { val, label };
+  const cards = document.querySelectorAll('.q-card');
+  const card = cards[q - 1];
+  card.querySelectorAll('.q-opt').forEach(o => o.classList.remove('sel'));
+  event.target.classList.add('sel');
+}
+function submitQuestionnaire() {
+  const beginner = (answers[1] && answers[1].val === 'no') || (answers[4] && answers[4].val === 'new');
+  const noSOW = answers[2] && answers[2].val === 'no';
+  const phase = answers[3] ? answers[3].label : 'Not specified';
+  const exp = answers[1] ? answers[1].label : 'Not specified';
+  const banner = document.getElementById('beginner-banner');
+  const pbTip = document.getElementById('pb-beginner-tip');
+  if (beginner) { banner.style.display = 'flex'; pbTip.style.display = 'block'; }
+  let title = 'Your Implementation Profile';
+  let body = 'Based on your answers: ';
+  body += 'Experience level: <strong>' + exp + '</strong>. ';
+  body += 'Current phase: <strong>' + phase + '</strong>. ';
+  if (noSOW) body += '<strong style="color:#ff6b4a">⚠ Warning: No SOW — this is risky. Make sure scope is documented before doing any build work.</strong> ';
+  if (beginner) body += 'Beginner Mode is active — extra guidance is shown throughout. ';
+  body += 'Jump straight to the Phase Playbooks to get started, or use the AI Coach (bottom right) to ask anything.';
+  const resultEl = document.getElementById('q-result');
+  document.getElementById('q-result-title').textContent = title;
+  document.getElementById('q-result-body').innerHTML = body;
+  resultEl.classList.add('visible');
+  resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ── Timeline data ─────────────────────────────────────────────────
+const tlPhases = [
+  { label: 'Pre-Project', color: '#374151', bg: '#1f2937',
+    steps: [
+      { title: 'Sales Handover', what: 'Sales team hands over to implementation. Review the CRM notes, signed SOW, and any pre-sales promises made.', who: 'EX3 Consultant + Sales', doc: 'Signed SOW + CRM notes', output: 'Consultant fully briefed, project set up in PM tool' },
+      { title: 'Internal Kickoff', what: 'Internal EX3 prep — set up project tracking, read the SOW line by line, flag any ambiguous scope items before client contact.', who: 'EX3 Consultant (+ PM)', doc: 'SOW, Config Workbook (blank)', output: 'Project plan drafted, kickoff call booked, questionnaire sent' },
+    ]
+  },
+  { label: 'Kickoff', color: '#5b21b6', bg: '#2d1f5e',
+    steps: [
+      { title: 'Welcome Kickoff Call', what: 'First call with the client. Introductions, review scope, confirm stakeholders, set expectations for the project.', who: 'EX3 Consultant + Client HR, IT, Lead Recruiter', doc: 'Welcome Kickoff deck, SOW', output: 'Stakeholder map, shared project channel/space set up' },
+      { title: 'Planning Meeting', what: 'Agree timeline, book discovery workshops, confirm who attends which sessions, agree on sign-off process.', who: 'EX3 Consultant + Client Project Owner', doc: 'Planning Meeting Agenda, Project Management Plan', output: 'Confirmed workshop schedule, RACI agreed, project plan shared' },
+    ]
+  },
+  { label: 'Discovery', color: '#1d4ed8', bg: '#1e3a8a',
+    steps: [
+      { title: 'WS1: System Controls', what: 'Map user roles, permissions, system access, SSO requirements, and company structure.', who: 'Consultant + HR Admin, IT', doc: 'Session 1 deck, Config Workbook', output: 'User roles defined, SSO decision made, company structure documented' },
+      { title: 'WS2: Job Management', what: 'Map job creation process, approval chains, job templates, custom fields, and posting workflow.', who: 'Consultant + Lead Recruiter, HR', doc: 'Session 2 deck, Config Workbook', output: 'Job templates defined, approval chain mapped, custom fields listed' },
+      { title: 'WS3: Integrations', what: 'Identify all integrations needed: HRIS, background check, onboarding, LinkedIn, calendar.', who: 'Consultant + IT, HR', doc: 'Session 3 deck, Integrations Workbook', output: 'Integration matrix confirmed, IT contacts identified, timelines agreed' },
+      { title: 'WS4: Career Site', what: 'Agree career site design, branding, application flow, and job board connections.', who: 'Consultant + Marketing/Brand, HR', doc: 'Session 4 deck', output: 'Career site requirements doc, brand assets requested' },
+      { title: 'WS5: Candidate Mgmt 1', what: 'Map candidate pipeline stages, hiring process steps, interviewer roles, and feedback forms.', who: 'Consultant + Lead Recruiter, Hiring Managers', doc: 'Session 5 deck, Config Workbook', output: 'Hiring process designs for each job type' },
+      { title: 'WS6: Candidate Mgmt 2', what: 'Deep dive into offer management, offer approvals, contracts, and rejection communications.', who: 'Consultant + HR, Finance (if offer approvals involve budget)', doc: 'Session 6 deck', output: 'Offer approval chains, offer letter templates spec' },
+      { title: 'WS7: Offer & Hiring', what: 'Review onboarding trigger, hire confirmation, and handover to onboarding system.', who: 'Consultant + HR, IT', doc: 'Session 7 deck, Config Workbook', output: 'Hiring/onboarding handoff process documented' },
+      { title: 'WS8: Analytics', what: 'Agree on reporting requirements, key metrics, and dashboard configuration.', who: 'Consultant + HR Director, Talent Lead', doc: 'Session 8 deck', output: 'Reporting requirements list, standard vs custom analytics agreed' },
+    ]
+  },
+  { label: 'Config', color: '#0f766e', bg: '#134e4a',
+    steps: [
+      { title: 'Config Workbook Review', what: 'Validate the completed config workbook with the client before building anything. Every field matters.', who: 'Consultant + Client Project Owner', doc: 'Configuration Workbook', output: 'Signed-off config workbook' },
+      { title: 'System Build', what: 'Build the platform: users, roles, hiring processes, job templates, email templates, offer templates.', who: 'EX3 Consultant', doc: 'Config Workbook, Best Practices guide', output: 'Configured sandbox environment' },
+    ]
+  },
+  { label: 'Build', color: '#065f46', bg: '#064e3b',
+    steps: [
+      { title: 'Integration Build', what: 'Set up all agreed integrations — HRIS, SSO, background check, LinkedIn, calendar. Involve client IT.', who: 'Consultant + Client IT', doc: 'Integrations Workbook', output: 'All integrations built and ready for testing' },
+      { title: 'Career Site Build', what: 'Brand the career site, configure the application form, set up job board connections.', who: 'EX3 Consultant (+ Marketing assets from client)', doc: 'Career site requirements doc', output: 'Career site live in sandbox, job boards connected' },
+      { title: 'Integration Testing', what: 'End-to-end testing of every integration with real test data. Document pass/fail for each.', who: 'Consultant + Client IT', doc: 'Integrations Workbook', output: 'Integration test report, all critical issues resolved' },
+    ]
+  },
+  { label: 'UAT', color: '#b45309', bg: '#451a03',
+    steps: [
+      { title: 'UAT Preparation', what: 'Prepare UAT test scripts per role, brief the client team, set up the issue tracker.', who: 'EX3 Consultant + Client Project Owner', doc: 'UAT Prep doc, UAT Scripts', output: 'UAT scripts shared, client team briefed, issue tracker live' },
+      { title: 'UAT Execution', what: 'Client runs through test scripts. EX3 supports, logs issues, and triages fixes.', who: 'Client HR, IT, Recruiters, Hiring Managers — supported by Consultant', doc: 'UAT Scripts, Issue tracker', output: 'Issue log with all findings' },
+      { title: 'UAT Sign-off', what: 'All critical issues resolved. Client provides written sign-off to confirm the platform is ready for go-live.', who: 'Client Project Owner + Consultant', doc: 'Iteration Sign-off doc', output: 'Signed UAT sign-off document' },
+    ]
+  },
+  { label: 'Training', color: '#0d7c4c', bg: '#064e3b',
+    steps: [
+      { title: 'Admin Training', what: '90-minute session covering configuration, user management, reporting, and system administration.', who: 'Consultant + Client System Admins', doc: 'Admin Training Guide', output: 'Admins trained, recording shared' },
+      { title: 'Recruiter Training', what: '60-minute session covering full hiring workflow, candidate management, and reporting.', who: 'Consultant + Client Recruiters', doc: 'HR/Recruiter Training Guide', output: 'Recruiters trained, Quick Reference Card shared' },
+      { title: 'HM Training', what: '45-minute session covering review, approval, interview scheduling, and offer decisions.', who: 'Consultant + Hiring Managers', doc: 'HM Training Guide, HM Quick Reference Card', output: 'HMs trained, Quick Reference Card shared' },
+    ]
+  },
+  { label: 'Go-Live', color: '#b91c1c', bg: '#450a0a',
+    steps: [
+      { title: 'Go-Live Alignment', what: 'Final check call the day before go-live. Confirm everything is ready, agree on communication plan.', who: 'Consultant + Client Project Owner + IT', doc: 'Go-Live Alignment Call Overview, Go-Live Checklist', output: 'Green light confirmed, go-live comms ready to send' },
+      { title: 'Go-Live Day', what: 'Production environment activated. Users get access. EX3 on standby for any critical issues.', who: 'EX3 Consultant (on standby) + all client users', doc: 'Go-Live Checklist, Cutover Plan', output: 'System live in production' },
+    ]
+  },
+  { label: 'Hypercare', color: '#d97706', bg: '#451a03',
+    steps: [
+      { title: 'Hypercare Week 1', what: 'Daily check-in calls. Log and resolve any issues immediately. Most critical period.', who: 'Consultant + Client Project Owner', doc: 'Hypercare Tracker', output: 'Issues resolved, confidence building' },
+      { title: 'Hypercare Wk 2–4', what: 'Weekly check-ins. Issues become less frequent. Build client self-sufficiency.', who: 'Consultant + Client HR', doc: 'Hypercare Tracker', output: 'Issue log closed, client increasingly self-sufficient' },
+      { title: 'Closing Meeting', what: 'Formal close-out meeting. Review project vs scope, lessons learned, hand to BAU support.', who: 'Consultant + Client Project Owner + EX3 Account Lead', doc: 'Closing Meeting doc, Lessons Learned log', output: 'Project formally closed, client handed to support' },
+    ]
+  },
+];
+
+function buildTimeline() {
+  const root = document.getElementById('tl-root');
+  tlPhases.forEach(phase => {
+    const group = document.createElement('div');
+    group.className = 'tl-phase-group';
+    group.style.marginRight = '12px';
+    const label = document.createElement('div');
+    label.className = 'tl-phase-label';
+    label.textContent = phase.label;
+    label.style.background = phase.bg;
+    label.style.color = '#e2dff7';
+    label.style.border = '1px solid ' + phase.color;
+    group.appendChild(label);
+    const stepsRow = document.createElement('div');
+    stepsRow.className = 'tl-steps';
+    stepsRow.style.background = phase.bg + '44';
+    stepsRow.style.borderColor = phase.color + '44';
+    phase.steps.forEach(step => {
+      const el = document.createElement('div');
+      el.className = 'tl-step';
+      el.style.background = phase.bg;
+      el.style.borderColor = phase.color;
+      el.innerHTML = '<div class="tl-step-title">' + step.title + '</div>';
+      el.onclick = () => showTlDetail(step, phase.label, phase.color, el);
+      stepsRow.appendChild(el);
+    });
+    group.appendChild(stepsRow);
+    root.appendChild(group);
+  });
+}
+
+let activeTlStep = null;
+function showTlDetail(step, phaseLabel, color, el) {
+  if (activeTlStep) activeTlStep.classList.remove('active');
+  if (activeTlStep === el) { activeTlStep = null; document.getElementById('tl-detail-panel').classList.remove('visible'); return; }
+  activeTlStep = el;
+  el.classList.add('active');
+  document.getElementById('tl-detail-title').textContent = step.title + ' — ' + phaseLabel;
+  document.getElementById('tl-detail-title').style.color = '#c4b5fd';
+  document.getElementById('tl-what').textContent = step.what;
+  document.getElementById('tl-who').textContent = step.who;
+  document.getElementById('tl-doc').textContent = step.doc;
+  document.getElementById('tl-output').textContent = step.output;
+  const panel = document.getElementById('tl-detail-panel');
+  panel.classList.add('visible');
+  panel.style.borderColor = color;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+buildTimeline();
+
+// ── Playbooks data ────────────────────────────────────────────────
+const playbooks = [
+  { num:1, color:'#412288', title:'Sales Handover & Kickoff Prep', weeks:'Before Day 1', steps:[
+    { title:'Read the SOW — every line', what:'The SOW is your contract. Understand exactly what is in scope, what is out, how many processes/templates/users are included, and what the hypercare period is.', say:"I've reviewed the SOW in detail and I have a few questions before we meet the client.", ask:['Is there a data migration?','Any integrations not explicitly named?','Were any verbal promises made outside the SOW?','What is the client most worried about?'], prepare:['Signed SOW','CRM / sales notes','Blank config workbook'], output:'List of SOW clarifications raised and answered before kickoff call', warn:'Never start building until you have a signed SOW. If scope is vague, escalate immediately — vague scope becomes scope creep.' },
+    { title:'Set up project infrastructure', what:'Create project in PM tool, set up shared folder, draft the project plan, book the welcome kickoff call, send the pre-kickoff questionnaire to the client.', say:"I'm reaching out ahead of our kickoff call to share a short questionnaire — your answers will help us hit the ground running.", ask:['Who is the internal project owner?','Who attends the kickoff?','What is the preferred comms channel?'], prepare:['Project plan template','Pre-kickoff questionnaire'], output:'Project plan v1 shared, kickoff booked, questionnaire sent', warn:'If you cannot identify a single decision-maker on the client side, raise it before kickoff. No decision-maker = stalled project.' },
+  ]},
+  { num:2, color:'#1d4ed8', title:'Welcome Kickoff & Planning Meeting', weeks:'Week 1', steps:[
+    { title:'Welcome Kickoff Call', what:'Introductions, review the SOW scope together, confirm the project team, set communication norms, explain what happens next.', say:"We're really excited to get started. My role is to guide you through every step — you'll always know what's coming next and why.", ask:['Who makes the final decision on hiring process design?','Who owns the technical side — SSO and integrations?','What does success look like for you at the end of this?'], prepare:['Welcome Kickoff deck','SOW'], output:'Shared understanding of scope, named decision-makers confirmed', warn:"Don't let the kickoff drift into discovery. Keep it to introductions and logistics — save the detail for workshops." },
+    { title:'Implementation Planning Meeting', what:'Agree the full workshop schedule, confirm attendees for each session, agree on sign-off process, set timeline milestones.', say:"For each workshop I need the right people in the room — I'll send a guide on who should attend what.", ask:['Is the proposed timeline realistic given key people availability?','Are there any immovable dates — holidays, freeze periods?','Who signs off at each phase gate?'], prepare:['Planning Meeting Agenda','RACI template','Workshop Planning doc'], output:'Confirmed workshop schedule, RACI agreed, project plan v2 with real dates', warn:'Never agree a go-live date at the planning meeting. Get through discovery first — you will find complexity that changes the timeline.' },
+  ]},
+  { num:3, color:'#065f46', title:'Discovery Workshops (8 Sessions)', weeks:'Weeks 2–4', steps:[
+    { title:'WS1 — System Controls & User Permissions', what:'Map the org structure, user roles, permission levels, SSO requirements, and system access needs.', say:"There are no wrong answers in discovery — I need to understand how you work today before we design how you'll work in SmartRecruiters.", ask:['How many admins will you have?','Do different business units need different access?','Do you require SSO? If so, which IdP?','Any compliance requirements around user access?'], prepare:['Session 1 deck','Config Workbook — Roles tab'], output:'User role matrix, org structure, SSO decision documented', warn:'Maximum 10 custom system roles. If clients want more, challenge whether they really need them before designing a complex role structure.' },
+    { title:'WS2 — Job Management', what:'Map job creation, approval chains, custom fields, job templates, and how jobs are categorised.', say:"Let's walk through a real job you posted recently — that will tell us more than any hypothetical.", ask:['Who creates jobs? Who approves them?','Do different job types need different approval chains?','What custom fields do you capture that are not standard?','Do you track headcount or positions in an HRIS?'], prepare:['Session 2 deck','Config Workbook — Jobs tab'], output:'Job template designs, approval chain map, custom fields list', warn:'Job approvals being turned on prevents population of position/headcount info — known SR bug. Document the workaround upfront if they need both.' },
+    { title:'WS3 — Functional Integrations', what:'Identify all integrations, confirm technical contacts, agree on ownership, and set realistic timeline for integration work.', say:"Integrations are where timelines slip — not because they are complex, but because getting IT in the room takes time. Let's lock that in now.", ask:['Which HRIS system do you use? What version?','Do you use a background screening provider?','Do you need LinkedIn Recruiter seat integration?','What calendar system — Office 365 or Google?'], prepare:['Session 3 deck','Integrations Workbook'], output:'Integration matrix — what, who owns it, when', warn:'Never create items manually in production when an integration is in scope — the integration will not match them and will fail. Tell the client this clearly.' },
+    { title:'WS4 — Career Site & Applications', what:'Agree career site design, branding, application form, and job board connections.', say:"Your career site is the first thing a candidate sees — it needs to reflect your employer brand, not look like an out-of-the-box ATS.", ask:['Do you have brand guidelines you can share?','Who owns the career site content — HR or Marketing?','Do you need multi-language support?'], prepare:['Session 4 deck','Brand assets request list'], output:'Career site requirements doc, brand assets requested', warn:'Email templates cannot be triggered purely by job ad language — you need org fields to drive language routing for multi-language clients.' },
+    { title:'WS5–6 — Candidate Management', what:'Map candidate pipeline stages, hiring process steps for each job type, feedback forms, and rejection communications.', say:"For each different type of role you hire, walk me through the stages a candidate goes through from application to offer.", ask:['Do different job types have different hiring processes?','Who can see candidate profiles?','What information do you collect in structured feedback?','How do you handle internal candidates?'], prepare:['Sessions 5 & 6 decks','Config Workbook — Hiring Processes tab'], output:'Hiring process designs for each job type, feedback form spec', warn:'Maximum 120 hiring processes, maximum 8 steps per status. Design for consolidation early — hard to merge after building.' },
+    { title:'WS7–8 — Offer, Hiring & Analytics', what:'Design offer creation, approval chains, offer templates, hiring handoff to onboarding, and agree reporting requirements.', say:"Once a candidate is offered and accepts — what happens next? Walk me through it.", ask:['Who can create an offer? Who approves it?','How many offer letter templates do you need?','What triggers the handoff to your onboarding system?','What are the 3 most important metrics your HR Director looks at?'], prepare:['Sessions 7 & 8 decks','Config Workbook — Offers tab'], output:'Offer approval chain, offer template specs, reporting requirements list', warn:'Do not create the onboarding status field in production until the integration is ready to go live — causes sync issues if it exists before the integration is configured.' },
+  ]},
+  { num:4, color:'#b45309', title:'UAT — User Acceptance Testing', weeks:'Weeks 5–7', steps:[
+    { title:'UAT Preparation', what:'Prepare test scripts per user role, brief the client UAT team, set up the issue tracker, confirm the sign-off process.', say:"UAT is your project team's chance to find anything that doesn't match what we agreed. My job is to support you, log issues, and fix them fast.", ask:['Who will run UAT for each role?','How many business days are available?','Who provides written sign-off?'], prepare:['UAT Scripts','Issue tracker (shared)','UAT Prep overview doc'], output:'UAT scripts shared, issue tracker live, UAT team briefed', warn:'Brief the client on what counts as a bug vs a change request. UAT is not a design phase.' },
+    { title:'UAT Execution & Issue Resolution', what:'Client runs test scripts. EX3 triages and fixes issues. Categorise: Critical (blocker), Major (fix before go-live), Minor (post go-live).', say:"Log everything — even minor things. We'd rather have a full picture.", ask:['Is this issue a blocker for go-live?','Does this match what was agreed in the config workbook?','Have all hiring processes been tested end-to-end?'], prepare:['Issue tracker','Config workbook for cross-reference'], output:'Issue log with categories, all critical issues resolved', warn:'Never let the client proceed to go-live with unresolved Critical issues. If they push back, escalate — it is your professional reputation on the line.' },
+    { title:'UAT Sign-Off', what:'Confirm all critical issues resolved. Obtain written sign-off from the named project owner before any go-live date is confirmed.', say:"Before we set the go-live date, I need written confirmation from you that the system is ready. This protects both of us.", ask:['Are there any outstanding issues you have not raised?','Is there anything you expected to see that you have not seen?'], prepare:['Iteration Sign-Off doc'], output:'Signed UAT sign-off (email acceptable)', warn:'Email sign-off counts. A reply confirming readiness is acceptable. Do not rely on verbal agreement.' },
+  ]},
+  { num:5, color:'#0d7c4c', title:'Training', weeks:'Weeks 6–8', steps:[
+    { title:'Admin Training (90 mins)', what:'Cover configuration, user management, job setup, email templates, reporting, and system admin tasks.', say:"Admin training is the most important session — the admin is the person who keeps the system healthy after we leave.", ask:['Who will be the go-to admin internally?','Are there backup admins who need training?'], prepare:['Admin Training Guide','System walkthrough plan'], output:'Admins trained, recording shared, Admin Training Guide distributed', warn:"Don't let admins make changes in production until training is complete." },
+    { title:'Recruiter Training (60 mins)', what:'Cover posting jobs, managing the candidate pipeline, interview scheduling, communication templates, and reporting.', say:"This session is hands-on — I want you doing things in the system, not just watching me.", ask:['Will there be users who need a recording rather than attending live?'], prepare:['Recruiter Training Guide','Quick Reference Card'], output:'Recruiters trained, Quick Reference Card shared', warn:'' },
+    { title:'Hiring Manager Training (45 mins)', what:'Cover reviewing candidates, leaving feedback, approving offers, and interview scheduling. Keep it tight and role-specific.', say:"HMs are busy — we'll cover exactly what you need to do your job in SmartRecruiters, nothing more.", ask:['How tech-savvy is your hiring manager population?'], prepare:['HM Training Guide','HM Quick Reference Card'], output:'HMs trained, Quick Reference Card shared', warn:'Never mix hiring managers and recruiters in the same training session — different workflows, you will confuse both groups.' },
+  ]},
+  { num:6, color:'#b91c1c', title:'Go-Live & Hypercare', weeks:'Weeks 8–12', steps:[
+    { title:'Go-Live Alignment Call', what:'Final readiness check the day before go-live. Confirm communication plan, agree hypercare contacts and escalation path.', say:"We're good to go. Here is exactly what happens tomorrow and what to do if anything comes up.", ask:['Is everyone who needs access set up?','Has the go-live communication been drafted and approved?','Do you have our direct contact details for tomorrow?'], prepare:['Go-Live Checklist','Go-Live Alignment Call Overview','Cutover Plan'], output:'Green light confirmed, go-live comms ready to send', warn:'Do not confirm go-live until the Go-Live Checklist is fully complete. One missing item — like not migrating production users — causes chaos on day 1.' },
+    { title:'Go-Live Day', what:'Production activated. Users get access. EX3 on standby all day. Respond within 1 hour to anything reported.', say:"You're live! Message me the moment anything does not look right — I'm available all day.", ask:['Has everyone received their access email?','Are jobs posting successfully?','Are integrations running?'], prepare:['Hypercare Tracker','Direct contact details shared with client'], output:'System live in production, no critical blockers', warn:'The most common go-live issue: sandbox users loaded with production email addresses. Double check before activation — email addresses are globally unique across all SR instances.' },
+    { title:'Hypercare (Weeks 1–4)', what:'Week 1: daily check-ins. Weeks 2–4: weekly. Log and resolve all issues. Build client confidence and self-sufficiency.', say:"We'll be in daily contact this first week. No issue is too small to raise — better we catch it early.", ask:['Are users encountering anything unexpected?','Are integrations running cleanly?','Are any hiring managers struggling to adopt the system?'], prepare:['Hypercare Tracker (shared with client)','Lessons Learned log'], output:'Issues resolved, client self-sufficient', warn:'' },
+    { title:'Closing Meeting & Formal Close', what:'Review project vs SOW scope, share lessons learned, hand over to BAU support, celebrate success.', say:"This project is officially closed. You're in safe hands with the support team — and you've got this guide forever.", ask:['Is there anything we could have done better?','Do you know how to raise a support case directly with SmartRecruiters?'], prepare:['Closing Meeting agenda','Lessons Learned log','Handover documentation pack'], output:'Project formally closed, client handed to support', warn:'' },
+  ]},
+];
+
+function buildPlaybooks() {
+  const container = document.getElementById('playbooks-content');
+  playbooks.forEach(phase => {
+    const el = document.createElement('div');
+    el.className = 'phase';
+    el.innerHTML = '<div class="phase-header" onclick="togglePhase(this)"><div class="phase-dot" style="background:' + phase.color + '"></div><div class="phase-title">' + phase.num + '. ' + phase.title + '</div><div class="phase-meta">' + phase.weeks + '</div><svg class="phase-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div><div class="phase-body">' +
+      phase.steps.map(function(s,i){ return '<div class="step-block"><div class="step-header"><div class="step-num">' + (i+1) + '</div><div class="step-title">' + s.title + '</div></div><div class="step-body"><div class="step-section"><div class="label">Exactly what to do</div><p>' + s.what + '</p></div>' + (s.say ? '<div class="say">&#128172; <strong>What to say:</strong> &ldquo;' + s.say + '&rdquo;</div>' : '') + (s.ask && s.ask.length ? '<div class="step-section"><div class="label">Key questions to ask</div><ul>' + s.ask.map(function(q){return '<li>'+q+'</li>';}).join('') + '</ul></div>' : '') + (s.prepare && s.prepare.length ? '<div class="step-section"><div class="label">Prepare / have open</div><ul>' + s.prepare.map(function(p){return '<li>'+p+'</li>';}).join('') + '</ul></div>' : '') + (s.output ? '<div class="tip-hq">&#10003; <strong>Output:</strong> ' + s.output + '</div>' : '') + (s.warn ? '<div class="warn">&#9888;&#65039; <strong>Watch out:</strong> ' + s.warn + '</div>' : '') + '</div></div>'; }).join('') + '</div>';
+    container.appendChild(el);
+  });
+}
+buildPlaybooks();
+
+// ── Document Vault data ───────────────────────────────────────────
+var vaultDocs = [
+  { cat:'Configuration Workbooks', icon:'&#128203;', items:[
+    { name:'SFMASTER EXTERNAL Configuration Workbook v2', desc:'Main configuration workbook — the bible of your implementation', id:'13v74fSxV0MgSUoDUUU2AXHhgpIJbVwWb' },
+    { name:'SFMASTER EXTERNAL SmartSuccess Configuration Workbook', desc:'SmartSuccess tier configuration workbook', id:'1Bxy_UoPaFWglYcepYOfsRL53ZXFlrZDR' },
+    { name:'SFMASTER EXTERNAL Essentials Lite Configuration Workbook', desc:'Essentials Lite tier configuration workbook', id:'1LITLEOygS7ef6XriFCfDqzCQjXUOGmp3' },
+    { name:'SF Winston Chat MASTER Configuration Workbook', desc:'Winston AI Chat feature configuration workbook', id:'1bLGB7JaBBT7AfS2fsZRXCl7VXd6yHTFr' },
+    { name:'SFMASTER EXTERNAL Integrations Workbook', desc:'Capture all integration requirements — use in WS3', id:'1DrJ5WueJ2PlhkdiJuors3m1a2viT5vrB' },
+  ]},
+  { cat:'UAT Scripts', icon:'&#129514;', items:[
+    { name:'SFMASTER EXTERNAL General UAT Scripts', desc:'Standard UAT test scripts for all user roles', id:'1-W5PbI4aniXhYyKoSKYhL1keGagC6y4N' },
+    { name:'SFMASTER EXTERNAL Example Custom UAT Scripts', desc:'Examples of customised test scripts', id:'1ia47AiaCm13-BalBO8LJnMU3OB9ZzpI1' },
+    { name:'SFMASTER EXTERNAL CRM UAT Scripts', desc:'UAT scripts for CRM / candidate sourcing features', id:'1ydypqARgFiissgTD4PIUKIANTDPLTXVH' },
+    { name:'SFMASTER EXTERNAL Mobile UAT Scripts', desc:'UAT scripts for mobile experience testing', id:'12sEbvW5k9dDPL2q8BLjr5C-S6Odo_sco' },
+  ]},
+  { cat:'Go-Live & Cutover', icon:'&#128640;', items:[
+    { name:'SFMASTER EXTERNAL Go Live Checklist and Hypercare Tracker', desc:'Master go-live checklist and hypercare issue tracker', id:'1SqGFbwN98RxmoqjVH5oZnM7jW95dDLVZ' },
+    { name:'SF MASTER EXTERNAL Cutover Plan Options', desc:'Cutover strategy options — review with client pre go-live', id:'12ekVpMSePPHPGbSNmt0W0BTH2V3Oknj1' },
+    { name:'SF MASTER EXTERNAL Cutover Strategy', desc:'Detailed cutover strategy and execution guide', id:'1aB22z5sfBT7WwAZMXwskHUIvImOtU8aD' },
+    { name:'SFMASTER INTERNAL SR Cutover Overview', desc:'Internal EX3 reference for SR cutover approach', id:'1-t95m1DK-4t4YzkqtlBPwamHhD_SNfFa' },
+  ]},
+  { cat:'Training Materials', icon:'&#127891;', items:[
+    { name:'MASTER HR Recruiter Training Guide', desc:'Full recruiter training guide', id:'1P8w6f_BmvOFGKHD5nZAIHG-C3nZQr3Hm' },
+    { name:'MASTER Admin Training Guide', desc:'Full admin training guide', id:'1jF54u1NdGTNTFx2dX-jzHZF4EBUYQnsp' },
+    { name:'SF MASTER EXTERNAL Hiring Manager Training Guide', desc:'Hiring manager training guide', id:'1yxAO4jnzl7jQmtToDfsSA008-4i20abz' },
+    { name:'SF MASTER EXTERNAL Hiring Manager Quick Reference Card', desc:'One-page quick reference for hiring managers', id:'1uLY_lBVPYlGBJA00VIE2OvYwEAd5ESs6' },
+    { name:'SF MASTER INTERNAL ONLY Training Overview', desc:'Internal overview of training approach and session plans', id:'1CULMb8d0ZGqFJ6zsbepuJxnEpDtC50m-' },
+  ]},
+  { cat:'Closing & Go-Live Alignment', icon:'&#127937;', items:[
+    { name:'SF MASTER Closing Meeting BAU', desc:'Closing meeting agenda and BAU handover template', id:'18msXnrpANj2Vowm3bXDcK-DeUgbN3wOY' },
+    { name:'SF MASTER INTERNAL ONLY Go Live Alignment Call Overview', desc:'Internal guide for the go-live alignment call', id:'1gU8WIOUTnH93vJ95XU2rX5hiToX2MSg3' },
+  ]},
+  { cat:'Reference & Best Practices', icon:'&#128218;', items:[
+    { name:'SFMASTER EXTERNAL Configuration Best Practices HRIS Integrations', desc:'Best practices for HRIS integration configuration', id:'1J7zaTeoD_Fiy1ta6kX5fwpxqPBrp4iSS' },
+    { name:'SFMASTER EXTERNAL SmartRecruiters Standard Values', desc:'Standard platform values — departments, locations, job types', id:'13mBUWjmXqsZ8i1kjnr9U4yFQmoY1LHjp' },
+    { name:'SF MASTER EXTERNAL Multilingualism Best Practices', desc:'Best practices for multi-language implementations', id:'1aNxs1udLvbbdfoAXKfb76XbaThGx93zg' },
+    { name:'SF MASTER Languages in the Platform', desc:'Full list of supported platform languages and limitations', id:'1FOvJ3ExlEhw-mthgYgAgMtZPx6VIRjHC' },
+    { name:'SF MASTER EXTERNAL Job Field Translations', desc:'Job field translation reference for multilingual setups', id:'1VpXyFx8Rlz8oJ_81vZ2N7UkYAMk7HLbp' },
+    { name:'What Type of Field Should I Create', desc:'Decision guide for custom field type selection', id:'1Cnoyt2NdfIgozquQvmHK5yKZ4Mh82D3J' },
+    { name:'SF MASTER Lessons Learned Log', desc:'Accumulated lessons from past implementations', id:'1RkTvfKFgyL2y9P3MUyOVRvCE8Lzx_w6w' },
+    { name:'SF Email Template Merge Fields List', desc:'Full list of available merge fields for email templates', id:'1kpSlEV68B8q1aiC1BTWSHCA4HUyX9LWo' },
+  ]},
+  { cat:'Discovery Workshop Decks', icon:'&#128193;', items:[
+    { name:'Session 1 — System Controls & User Permissions', desc:'Workshop deck for Session 1', id:'1tOoFMiSkRmrZIzT2qiHq7qe0bzTeJzMx' },
+    { name:'Session 2 — Job Creation & Management', desc:'Workshop deck for Session 2', id:'1QSovZ5Ny0lTk9-4INRe51Zi-c3v6xHFZ' },
+    { name:'Session 3 — Functional Integrations & Ecosystem', desc:'Workshop deck for Session 3', id:'1xHv778Ssn_5sL2deUaarftdzE-FpusqG' },
+    { name:'Session 4 — Career Site & Candidate Application', desc:'Workshop deck for Session 4', id:'1ImcSleiPBHnQuNh3ZRrEOMjyGITLh-W8' },
+    { name:'Session 5 — Candidate Management 1', desc:'Workshop deck for Session 5', id:'1MqDFkhqZTfPL-4ULHo5cVARG7e923bCO' },
+    { name:'Session 6 — Candidate Management 2', desc:'Workshop deck for Session 6', id:'1a0LlScPWj_zaY6h9XjbxCs6FhQ0dL-8l' },
+    { name:'Session 7 — Offer Management & Hiring', desc:'Workshop deck for Session 7', id:'1pW17ZjkUfk4x48VV3vGHz_hqN4gUJ8F-' },
+    { name:'Session 8 — Analytics', desc:'Workshop deck for Session 8', id:'1tWWqDY-YdMHjPcfmeNroHGHIwplCd-Vh' },
+  ]},
+  { cat:'Project Management & Governance', icon:'&#128202;', items:[
+    { name:'SF Project Management Plan PMO', desc:'Project management plan template', id:'1vcCTx-RNb5FoRn8QidS-jN4HEhSGQjGB' },
+    { name:'SF Iteration Signoff PMO', desc:'Phase gate sign-off document', id:'1e-efaWRmN1e2-6z5TeWL8iMtlWjyuONo' },
+    { name:'SF MASTER TEMPLATE RACI', desc:'RACI matrix template', id:'1vqRwmTr8bDraxfYC3wr422kuN3rokohd' },
+  ]},
+  { cat:'Kickoff & Workshop Planning', icon:'&#128197;', items:[
+    { name:'SF MASTER Welcome Implementation Kickoff', desc:'Welcome kickoff presentation deck', id:'16hHsRIbsYRx2CLapBKxBr8mVrs4YnFmP' },
+    { name:'SF MASTER Implementation Planning Meeting Agenda', desc:'Planning meeting agenda template', id:'1SZOxq4jyEDnCE7oubnj9KlA6jL3BkClS' },
+    { name:'SF MASTER INTERNAL Implementation Planning Meeting Overview', desc:'Internal guide for running the planning meeting', id:'1yzuAk7a7gnAC8jDNPc6JhNLG-x5f-qhM' },
+    { name:'SF MASTER INTERNAL Workshop Planning', desc:'Internal workshop planning guide', id:'12J4y0RG30nWEFoWE4Rx_-hhQ36t0bCej' },
+    { name:'SF MASTER INTERNAL Implementation Workshops Overview', desc:'Internal overview of all 8 discovery workshops', id:'1iWUOq3UZatqiDzsfZqGJa975-SCdupQg' },
+    { name:'SF MASTER Client Implementation Playbook', desc:'Client-facing implementation playbook', id:'1KC8BYsc-ICgh3XSQyJs0o-1NO55pntyx' },
+    { name:'SF MASTER EXTERNAL Discovery Workshops ONLINE Agenda', desc:'Online workshop agenda (remote delivery)', id:'1XD0CbUx3RIqQ156uX4CvytZ-JGkpRyXb' },
+    { name:'SF MASTER EXTERNAL Discovery Workshops ONSITE 2 days', desc:'2-day on-site workshop agenda', id:'1nPlSB0vVkCXGawUtViPhl9bY24TnW1BX' },
+    { name:'SF MASTER EXTERNAL Discovery Workshops ONSITE 3 days', desc:'3-day on-site workshop agenda', id:'1I00-GOntP9iSph8WSNsEoIkB2bwTTq6E' },
+    { name:'SF MASTER INTERNAL Understanding the SOW', desc:'Internal guide to reading and understanding the SOW', id:'1yZqHV-nb5jORtuuSqCbHnW8vDruouoIV' },
+  ]},
+  { cat:'Internal Reference', icon:'&#128272;', items:[
+    { name:'SFMASTER INTERNAL SR Limits and FYIs', desc:'Platform limits and important FYIs — read before every project', id:'1smJo8hzn4RQA_CA2Y7xH2d05zabmRN5j' },
+  ]},
+  { cat:'Process Flows & Partner Readiness', icon:'&#128260;', items:[
+    { name:'MHR65 Recruiting for SmartRecruiters DRAFT', desc:'MHR65 recruitment process flow for SR', id:'1xQgto943oLaton9Lm46JZ5SEC74aAsAa' },
+    { name:'SAP Partner Readiness Guide SmartRecruiters', desc:'SAP partner readiness and integration guide', id:'1oCzpc8ABb7NE3GisgyvpfDBOjLbHWrCI' },
+  ]},
+  { cat:'UAT Preparation', icon:'&#9989;', items:[
+    { name:'SF MASTER EXTERNAL UAT Preparation', desc:'Full UAT preparation guide — share 2 weeks before UAT starts', id:'1p-upRtH1Sev1gIUT93ER-A9VXtO79h-y' },
+  ]},
+  { cat:'Advertising & Analytics', icon:'&#128200;', items:[
+    { name:'A&A Recruiting Marketing Workbook 2024', desc:'Advertising and analytics recruiting marketing workbook', id:'1ZJDRF4d0VyTY3A45ZJGqiPZt4Yc-Ba_V' },
+  ]},
+];
+
+function buildVault() {
+  var container = document.getElementById('vault-content');
+  vaultDocs.forEach(function(cat) {
+    var section = document.createElement('div');
+    section.className = 'doc-category';
+    section.innerHTML = '<h3>' + cat.icon + ' ' + cat.cat + '</h3><div class="doc-grid">' + cat.items.map(function(d){ return '<div class="doc-item"><div class="doc-icon">' + cat.icon + '</div><div class="doc-info"><h4>' + d.name + '</h4><p>' + d.desc + '</p><a href="https://drive.google.com/file/d/' + d.id + '/view" target="_blank" class="doc-link">Open in Drive &#8594;</a></div></div>'; }).join('') + '</div>';
+    container.appendChild(section);
+  });
+}
+buildVault();
+
+// ── Gotcha Library data ───────────────────────────────────────────
+var gotchas = [
+  { phase:'Config', color:'#5b21b6', title:'SSO identifier is case sensitive', detail:'The SSO identifier must match exactly — including case — with what your IdP sends. A mismatch causes login failures. Test with a real user before go-live.' },
+  { phase:'Config', color:'#5b21b6', title:'Never use production emails in sandbox', detail:'Email addresses are unique globally across all SR instances. If you create sandbox users with real production email addresses, those emails cannot be reused in production without raising a support case.' },
+  { phase:'Build', color:'#065f46', title:'Never create items manually when an integration is in scope', detail:'If a HRIS integration will create departments, locations, or users — do not create them manually first. The integration cannot match manually created records and will either duplicate or fail.' },
+  { phase:'Config', color:'#5b21b6', title:'Standard Department field cannot be used in HRIS integrations', detail:'The standard Department field cannot be mapped in integrations. Create a custom field (e.g. Department_HRIS) for the integration to write to.' },
+  { phase:'Build', color:'#065f46', title:'Do not create onboarding status field until integration is ready', detail:'Creating the onboarding status field in production before the integration is configured causes sync issues. The integration needs to own this field from day one.' },
+  { phase:'Config', color:'#5b21b6', title:'Pre-defined Locations disables location editing in the UI', detail:'Turning on Pre-defined Locations removes the ability for users to free-type a location. They can only select from the predefined list. Brief the client before enabling.' },
+  { phase:'Config', color:'#5b21b6', title:'Custom field names must not match standard field names', detail:'If a custom field shares a name with a standard field, the standard field is overwritten and cannot be recovered without a support case. Always use distinct naming.' },
+  { phase:'Config', color:'#5b21b6', title:'Job approvals prevent headcount/position population', detail:'Turning on job approvals triggers a known SR bug — Position and Headcount fields cannot be populated. If the client needs both, document the workaround at design stage.' },
+  { phase:'Build', color:'#065f46', title:'Job field dependencies fail if integration omits dependent fields', detail:'If a job field has a dependency, the integration must send values for ALL dependent fields — even non-required ones. Omitting them causes the dependency chain to fail silently.' },
+  { phase:'Build', color:'#065f46', title:'Do not mark job fields as required after integration is built', detail:'If you add a required flag to a job field after the integration is built, any sync run that omits that field will fail. Agree required fields before building.' },
+  { phase:'Config', color:'#5b21b6', title:'Email templates cannot be triggered by job ad language alone', detail:'You need org-level custom fields (e.g. Country or Language preference) to drive language-specific email routing. Job ad language alone is not sufficient.' },
+  { phase:'Config', color:'#5b21b6', title:'Custom hiring process steps stay in creation language', detail:'Step names do not auto-translate. For multilingual clients, all step names must be written in the agreed master language to avoid a mixed-language UI.' },
+  { phase:'Config', color:'#5b21b6', title:'Maximum 10 custom system roles, 5 custom hiring team roles', detail:'Hard platform limit. If clients want more, challenge whether they really need them at design stage rather than discovering the limit mid-build.' },
+  { phase:'Config', color:'#5b21b6', title:'Maximum 120 hiring processes, 8 steps per status', detail:'Hard platform limits. For clients with complex multi-brand or multi-country setups, design for consolidation early.' },
+  { phase:'Config', color:'#5b21b6', title:'Maximum 500 candidate custom fields', detail:'Multi-language clients adding fields for each language can approach this. Monitor field count during build.' },
+  { phase:'Build', color:'#065f46', title:'Do not use onboarding status field visibility as an integration filter', detail:'Using visibility on the onboarding status field as a trigger or filter causes unreliable behaviour. Use dedicated integration filter fields instead.' },
+  { phase:'Discovery', color:'#1d4ed8', title:'Engage IT at kickoff — not at integration phase', detail:'The most common cause of integration delays is not having IT engaged until Week 3. Get IT named at the planning meeting. SSO requires IT — without them you are blocked.' },
+  { phase:'UAT', color:'#b45309', title:'UAT is not a design phase', detail:'Clients regularly try to redesign during UAT. Changes to agreed scope require a formal change request. Let them raise bugs, not new requirements.' },
+  { phase:'Discovery', color:'#1d4ed8', title:'Verbal promises in sales do not equal scope', detail:"Sales teams sometimes make verbal commitments not in the SOW. Confirm with sales before kickoff whether any out-of-scope promises were made — fix it before the client assumes it's included." },
+];
+
+var activeGotchaPhase = 'all';
+function buildGotchas() {
+  var filters = document.getElementById('gotcha-phase-filters');
+  var phases = ['all'];
+  gotchas.forEach(function(g){ if(phases.indexOf(g.phase)===-1) phases.push(g.phase); });
+  phases.forEach(function(p) {
+    var btn = document.createElement('button');
+    btn.className = 'int-tab' + (p==='all' ? ' active' : '');
+    btn.textContent = p==='all' ? 'All phases' : p;
+    btn.onclick = function() {
+      activeGotchaPhase = p;
+      document.querySelectorAll('#gotcha-phase-filters .int-tab').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      filterGotchas(document.getElementById('gotcha-search').value);
+    };
+    filters.appendChild(btn);
+  });
+  renderGotchas(gotchas);
+}
+function filterGotchas(search) {
+  var term = (search||'').toLowerCase();
+  var filtered = gotchas.filter(function(g){
+    return (activeGotchaPhase==='all' || g.phase===activeGotchaPhase) &&
+           (!term || g.title.toLowerCase().indexOf(term)>=0 || g.detail.toLowerCase().indexOf(term)>=0);
+  });
+  renderGotchas(filtered);
+}
+function renderGotchas(list) {
+  var container = document.getElementById('gotchas-list');
+  if(!list.length){ container.innerHTML='<p style="color:#5a4a8a;font-size:13px">No matching gotchas.</p>'; return; }
+  container.innerHTML = list.map(function(g){ return '<div class="gotcha-item"><div class="g-header"><span class="g-phase" style="background:'+g.color+'22;color:'+g.color+';border:1px solid '+g.color+'44">'+g.phase+'</span><span class="g-title">'+g.title+'</span></div><div class="g-detail">'+g.detail+'</div></div>'; }).join('');
+}
+buildGotchas();
+
+// ── Integration Wizard data ───────────────────────────────────────
+var integrationWizard = [
+  { id:'usersync', label:'User Sync (HRIS)',
+    preflight:['Confirm HRIS system and version','Get HRIS API credentials from IT','Confirm which user attributes to sync (name, email, role, department, location)','Agree on user deprovisioning approach','Confirm sync frequency (real-time vs scheduled)'],
+    steps:[{t:'Configure HRIS connector in SR Marketplace',d:'Navigate to SR Admin > Integrations > Marketplace. Find your HRIS connector and enter API credentials from client IT.'},{t:'Map user attributes',d:'Map HRIS fields to SR fields. Key note: do NOT map to the standard Department field — use a custom field. Map: First Name, Last Name, Email, Job Title, custom Department, Location, Manager.'},{t:'Configure user role assignment',d:'Decide whether roles are assigned by the integration or manually. If integration-driven, map HRIS role values to SR role names exactly.'},{t:'Set sync schedule',d:'Configure frequency. Recommended: real-time for new starters and leavers, daily batch for profile updates.'},{t:'Run test sync in sandbox',d:'Run a test with 5-10 test users. Verify all attributes mapped correctly. Never use production email addresses in sandbox.'},{t:'Validate in production',d:'Run first production sync. Verify users created with correct roles and attributes. Confirm deprovisioning works for a test leaver.'}],
+    test:['New user in HRIS appears in SR within expected timeframe','User attributes are correct (name, email, department, location)','Role assignment is correct','Deprovisioned user loses SR access','Sync logs show no errors'] },
+  { id:'configsync', label:'Config Sync',
+    preflight:['Understand what config items will be synced (departments, locations, job types)','Agree which environment is the master source','Confirm sync direction (one-way vs bi-directional)'],
+    steps:[{t:'Identify config objects to sync',d:'Determine which config objects the integration manages: departments, locations, cost centres, job types.'},{t:'Configure config sync connector',d:'Set up in SR and map source fields to SR config objects.'},{t:'Test with non-production data',d:'Run a test sync with a subset of config data and verify objects appear correctly.'},{t:'Agree on manual override policy',d:'Decide whether admins can manually add config items alongside the integration. Document this — confusion causes duplicates.'}],
+    test:['Config objects appear correctly in SR','Manual additions do not conflict with integration','Deleted source items handled correctly in SR'] },
+  { id:'jobsync', label:'Job Sync (HRIS → SR)',
+    preflight:['Confirm job/position object structure in HRIS','Agree which fields flow from HRIS vs are managed in SR','Confirm whether headcount/position tracking is required'],
+    steps:[{t:'Map job/position fields',d:'Map HRIS position fields to SR job fields. The standard Department field cannot be used — map to a custom department field.'},{t:'Handle job approvals before job sync',d:'If the client needs job approvals AND position tracking, document the known SR bug before building and agree a workaround.'},{t:'Build field dependency handling',d:'Ensure the integration sends values for ALL dependent fields — even non-required ones — or the dependency chain fails silently.'},{t:'Test job creation end-to-end',d:'Create a test position in HRIS. Verify it appears in SR with correct values. Post the job to test the full workflow.'}],
+    test:['Position in HRIS appears as job in SR','All mapped fields populated correctly','Job approval workflow triggers if applicable','Field dependencies resolve correctly'] },
+  { id:'hiresync', label:'Hire Sync (SR → HRIS)',
+    preflight:['Confirm what "hired" trigger means — offer accepted or start date confirmed?','Agree which fields SR sends to HRIS at hire','Confirm HRIS receiving endpoint and credentials'],
+    steps:[{t:'Agree hire trigger event',d:'Define exactly what event in SR triggers the hire sync: moved to Hired status, offer countersigned, or a specific step. Document precisely.'},{t:'Map hire payload fields',d:'Define which SR fields are sent: candidate name, start date, job title, department, location, salary (if applicable), manager. Get HR sign-off.'},{t:'Handle onboarding status field carefully',d:'Do NOT create the onboarding status field in production until the integration is configured and ready to go live.'},{t:'Test end-to-end',d:'Create a test candidate in SR, move to hired, verify the hire payload arrives in HRIS correctly.'}],
+    test:['Hire event in SR triggers sync within expected timeframe','All hire payload fields arrive in HRIS correctly','No duplicate records created in HRIS','Onboarding status field updates correctly'] },
+  { id:'sso', label:'SSO (SuccessFactors / Azure / Okta)',
+    preflight:['Confirm IdP provider (Azure AD, Okta, SuccessFactors, ADFS)','Get IT contact who owns the IdP — must be present for setup','Confirm SSO protocol: SAML 2.0 or OIDC','Agree on provisioning: SSO only or SSO + SCIM'],
+    steps:[{t:'Obtain SR SSO metadata',d:'SR Admin > Company Settings > Security > Single Sign-On. Download the SR SP metadata XML. Share with client IT.'},{t:'Configure IdP application',d:'Client IT creates SR application in IdP. They upload SR metadata and configure attribute mappings. NameID = email. THE IDENTIFIER IS CASE SENSITIVE.'},{t:'Obtain IdP metadata',d:'Client IT provides their IdP metadata XML (or entityID + SSO URL + certificate). Load into SR SSO settings.'},{t:'Test SSO in sandbox first',d:'Never test SSO in production first. Test in sandbox with at least 2 different users with different roles.'},{t:'Enable in production',d:'Once sandbox confirmed working, replicate config in production. Run a final test before communicating to users.'}],
+    test:['SSO login works for at least 3 different users','Users redirected to IdP login correctly','After authentication, user lands in correct SR session with correct role','Failed authentication shows appropriate error (not blank page)'] },
+  { id:'linkedin', label:'LinkedIn Recruiter',
+    preflight:['Confirm client has LinkedIn Recruiter seats (not just LinkedIn Jobs)','Get LinkedIn account admin contact at the client','Confirm whether InMail sync and profile sync are required'],
+    steps:[{t:'Enable LinkedIn RSC in SR',d:'SR Admin > Integrations > LinkedIn Recruiter System Connect. Follow OAuth flow to connect SR to LinkedIn.'},{t:'Connect individual recruiter seats',d:'Each recruiter with a LinkedIn seat must connect their own LinkedIn account to SR. Done per-user in their SR profile settings.'},{t:'Configure profile sync settings',d:'Decide which LinkedIn profile fields sync to SR candidate records.'},{t:'Test with a real LinkedIn profile',d:'Send an InMail from LinkedIn Recruiter — verify it appears in SR candidate timeline. Import a profile and verify field mapping.'}],
+    test:['InMails from LinkedIn appear in SR candidate timeline','LinkedIn profiles can be imported to SR','Recruiter seat connections show as active','No duplicate candidate records on import'] },
+  { id:'calendar', label:'Calendar (Office 365 / Google)',
+    preflight:['Confirm calendar provider: Office 365 or Google Workspace','Confirm whether candidate self-scheduling is required','Get O365/Google admin contact — they may need to grant OAuth permissions'],
+    steps:[{t:'Configure calendar integration in SR',d:'SR Admin > Integrations > Calendar. Select provider and follow OAuth flow. Admin may need to grant SR permissions in their tenant.'},{t:'Configure interview scheduling settings',d:'Set default meeting duration options. Configure self-scheduling (if required). Set recruiter availability display.'},{t:'Connect interviewer calendars',d:'Each interviewer must connect their own calendar in their SR profile settings. Test with at least 3 interviewers.'},{t:'Test a live interview booking',d:'Schedule a test interview from SR. Verify calendar invites sent to all parties. Verify accept/decline updates the SR record.'}],
+    test:['Calendar invites sent when interview scheduled','Interview visible in SR candidate timeline','Interviewer accept/decline reflected in SR','Candidate self-scheduling works end-to-end (if enabled)','Interview cancellation updates calendar correctly'] },
+];
+
+function buildIntegrations() {
+  var tabs = document.getElementById('int-tabs');
+  var contents = document.getElementById('int-contents');
+  integrationWizard.forEach(function(intg, i) {
+    var tab = document.createElement('button');
+    tab.className = 'int-tab' + (i===0 ? ' active' : '');
+    tab.textContent = intg.label;
+    tab.onclick = (function(id){ return function() {
+      document.querySelectorAll('#int-tabs .int-tab').forEach(function(t){t.classList.remove('active');});
+      document.querySelectorAll('.int-content').forEach(function(c){c.classList.remove('active');});
+      tab.classList.add('active');
+      document.getElementById('intg-'+id).classList.add('active');
+    }; })(intg.id);
+    tabs.appendChild(tab);
+    var div = document.createElement('div');
+    div.className = 'int-content' + (i===0 ? ' active' : '');
+    div.id = 'intg-' + intg.id;
+    div.innerHTML = '<div class="int-section"><h3>Pre-flight Checklist</h3><ul class="checklist-hq">' + intg.preflight.map(function(p){return '<li>'+p+'</li>';}).join('') + '</ul></div>' +
+      '<div class="int-section"><h3>Setup Steps</h3>' + intg.steps.map(function(s,j){return '<div class="int-step"><div class="int-step-num">'+(j+1)+'</div><div><strong style="color:#e2dff7;font-size:13px">'+s.t+'</strong><p style="margin-top:4px">'+s.d+'</p></div></div>';}).join('') + '</div>' +
+      '<div class="int-section"><h3>What to Test</h3><ul class="checklist-hq">' + intg.test.map(function(t){return '<li>'+t+'</li>';}).join('') + '</ul></div>';
+    contents.appendChild(div);
+  });
+}
+buildIntegrations();
+
+// ── Phase accordion ───────────────────────────────────────────────
+function togglePhase(header) {
+  var body = header.nextElementSibling;
+  body.classList.toggle('open');
+  var chevron = header.querySelector('.phase-chevron');
+  if(chevron) chevron.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+
+// ── AI Coach ──────────────────────────────────────────────────────
+var aiOpen = false;
+var aiHistory = [];
+function toggleAI() {
+  aiOpen = !aiOpen;
+  document.getElementById('ai-panel').classList.toggle('open', aiOpen);
+  document.getElementById('ai-fab').style.display = aiOpen ? 'none' : 'flex';
+}
+function aiKeydown(e) {
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); aiSend(); }
+}
+function aiQuick(msg) {
+  document.getElementById('ai-input').value = msg;
+  aiSend();
+}
+async function aiSend() {
+  var input = document.getElementById('ai-input');
+  var msg = input.value.trim();
+  if(!msg) return;
+  input.value = '';
+  appendAIMsg('user', msg);
+  aiHistory.push({ role:'user', content:msg });
+  var sendBtn = document.getElementById('ai-send');
+  sendBtn.disabled = true;
+  var assistantEl = appendAIMsg('assistant', '&#8230;');
+  try {
+    var resp = await fetch('/consultant/implementation-hq/chat', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ message:msg, history:aiHistory.slice(-10) })
+    });
+    if(!resp.ok) throw new Error('failed');
+    var reader = resp.body.getReader();
+    var decoder = new TextDecoder();
+    var fullText = '';
+    while(true) {
+      var read = await reader.read();
+      if(read.done) break;
+      fullText += decoder.decode(read.value);
+      assistantEl.innerHTML = formatAIMsg(fullText);
+      document.getElementById('ai-messages').scrollTop = 99999;
+    }
+    aiHistory.push({ role:'assistant', content:fullText });
+  } catch(err) {
+    assistantEl.textContent = 'Sorry, something went wrong. Try again.';
+  }
+  sendBtn.disabled = false;
+}
+function appendAIMsg(role, text) {
+  var el = document.createElement('div');
+  el.className = 'ai-msg ' + role;
+  el.innerHTML = formatAIMsg(text);
+  document.getElementById('ai-messages').appendChild(el);
+  document.getElementById('ai-messages').scrollTop = 99999;
+  return el;
+}
+function formatAIMsg(text) {
+  return text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+}
+</script>
+</body></html>\`);
+});
+
+// Implementation HQ — AI Chat endpoint
+app.post('/consultant/implementation-hq/chat', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+  const { message, history } = req.body;
+  if (!message) return res.status(400).json({ error: 'No message' });
+
+  const systemPrompt = \`You are the EX3 Implementation Coach — a senior SmartRecruiters implementation expert built from 60 source documents. You help EX3 consultants deliver successful implementations.
+
+PLATFORM LIMITS: Max 10 custom system roles, max 5 custom hiring team roles, max 120 hiring processes, max 8 steps per status, max 500 candidate custom fields. Email addresses are unique globally across ALL SR instances.
+
+CRITICAL GOTCHAS:
+- SSO identifier is case sensitive — must match IdP exactly
+- Never load sandbox users with the same emails they will have in production
+- Never create items manually (departments, users, locations) when an integration will manage them
+- Standard Department field cannot be used in HRIS integrations — use a custom field
+- Do not create the onboarding status field in production until the integration is ready
+- Pre-defined Locations disables UI location editing
+- Custom field names must not match standard field names — you lose the standard field permanently
+- Job approvals being turned on prevents population of position/headcount (known SR bug)
+- Job field dependencies fail if integration omits dependent fields — even non-required ones
+- Do not mark job fields as required after the integration is built — it will fail
+- Email templates cannot be triggered by job ad language alone — use org fields
+- Custom hiring process steps stay in creation language — no auto-translate
+- Do not use onboarding status field visibility as an integration filter
+
+INTEGRATION NOTES: Always involve IT at kickoff. SSO: always test in sandbox first — the identifier is CASE SENSITIVE. User sync: map to custom department field not standard. Hire sync: agree exact trigger event before building. Each recruiter must individually connect their LinkedIn seat. Each interviewer must individually connect their calendar.
+
+PHASES: Sales Handover → Internal Kickoff → Welcome Kickoff → Planning Meeting → 8 Discovery Workshops → Config Review → System Build → Integration Build → Career Site → Integration Testing → UAT Prep → UAT Execution → UAT Sign-off → Admin/Recruiter/HM Training → Go-Live Alignment → Go-Live → Hypercare (4 weeks) → Closing
+
+SOW: Read every line before client contact. Always name every integration explicitly. Always include Out of Scope section. Always name the decision-maker in Client Responsibilities. Never agree a go-live date at the planning meeting.
+
+UAT: Run by the client, supported by EX3. Get written sign-off before confirming go-live. UAT is not a design phase — scope changes need a change request. Critical issues must be resolved before go-live, no exceptions.
+
+Answer directly and practically. Use formatting for lists. Be specific with gotchas and exact steps.\`;
+
+  const messages = [
+    { role:'system', content:systemPrompt },
+    ...(Array.isArray(history) ? history.slice(-10) : []),
+    { role:'user', content:message }
+  ];
+
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  res.setHeader('Transfer-Encoding', 'chunked');
+  res.setHeader('Cache-Control', 'no-cache');
+
+  try {
+    const stream = await openai.chat.completions.create({ model:'gpt-4o', messages, stream:true });
+    for await (const chunk of stream) {
+      const text = chunk.choices[0]?.delta?.content || '';
+      if(text) res.write(text);
+    }
+    res.end();
+  } catch(err) {
+    console.error('AI coach error:', err.message);
+    res.status(500).end('Error generating response');
+  }
 });
 
 // SOW AI Generation
