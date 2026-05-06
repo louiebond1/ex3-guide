@@ -6455,6 +6455,175 @@ function beginDemo(){
 });
 
 
+// Web Analytics page
+app.all('/analytics/web', requirePassword);
+app.get('/analytics/web', (req, res) => {
+  const logs = readWebLogs();
+
+  const total = logs.length;
+  const errors = logs.filter(l => !l.success).length;
+  const uncertain = logs.filter(l => l.uncertain).length;
+  const avgMs = total ? Math.round(logs.reduce((s, l) => s + l.ms, 0) / total) : 0;
+
+  // Unique sessions (threadIds)
+  const uniqueSessions = new Set(logs.map(l => l.threadId).filter(Boolean)).size;
+
+  // Questions per day
+  const byDay = {};
+  for (const l of logs) {
+    const day = (l.ts || '').slice(0, 10);
+    if (day) byDay[day] = (byDay[day] || 0) + 1;
+  }
+
+  // Top 10 questions (deduplicated by normalising whitespace + lowercase)
+  const qCount = {};
+  for (const l of logs) {
+    if (!l.question) continue;
+    const key = l.question.trim().toLowerCase().replace(/\s+/g, ' ');
+    qCount[key] = (qCount[key] || { count: 0, original: l.question });
+    qCount[key].count++;
+  }
+  const top10 = Object.values(qCount)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  // Uncertain answers
+  const uncertainRows = logs.filter(l => l.uncertain).slice(-20).reverse();
+
+  // Recent 50
+  const recent = logs.slice().reverse().slice(0, 50);
+
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  const dayRows = Object.entries(byDay).sort().reverse().slice(0, 14)
+    .map(([d, c]) => `<tr><td>${d}</td><td><div class="bar-wrap"><div class="bar" style="width:${Math.round(c/Math.max(...Object.values(byDay))*100)}%"></div><span>${c}</span></div></td></tr>`).join('');
+
+  const top10Rows = top10.map((q, i) =>
+    `<tr><td class="rank">${i+1}</td><td>${esc(q.original)}</td><td class="cnt">${q.count}</td></tr>`
+  ).join('');
+
+  const uncertainHtml = uncertainRows.map(l =>
+    `<div class="u-row"><div class="u-q">${esc(l.question)}</div><div class="u-a">${esc((l.answer||'').slice(0,200))}${(l.answer||'').length>200?'…':''}</div><div class="u-ts">${(l.ts||'').replace('T',' ').slice(0,16)}</div></div>`
+  ).join('');
+
+  const recentRows = recent.map(l => {
+    const status = !l.success ? '<span class="badge err">Error</span>' : l.uncertain ? '<span class="badge unc">Uncertain</span>' : '<span class="badge ok">OK</span>';
+    return `<tr>
+      <td>${(l.ts||'').replace('T',' ').slice(0,16)}</td>
+      <td>${esc(l.question)}</td>
+      <td class="preview" onclick="this.classList.toggle('open')" data-full="${esc(l.answer||'')}">${esc((l.answer||'').slice(0,100))}${(l.answer||'').length>100?'<span class="more"> ▾</span>':''}</td>
+      <td>${status}</td>
+      <td>${((l.ms||0)/1000).toFixed(1)}s</td>
+    </tr>`;
+  }).join('');
+
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Web Chat Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#f5f4f1;color:#0f0f0e;min-height:100vh}
+.topbar{background:#0f0f0e;padding:16px 32px;display:flex;align-items:center;justify-content:space-between}
+.topbar-brand{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.topbar-nav{display:flex;gap:20px}
+.topbar-nav a{font-size:13px;font-weight:600;color:#888;text-decoration:none;transition:color .15s}
+.topbar-nav a:hover,.topbar-nav a.active{color:#fff}
+.wrap{max-width:1100px;margin:0 auto;padding:32px 24px}
+.page-title{font-size:28px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.page-sub{font-size:14px;color:#666;margin-bottom:32px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:32px}
+.stat{background:#fff;border:1px solid #e4e2dc;border-radius:10px;padding:20px 24px}
+.stat-num{font-size:32px;font-weight:800;color:#0f0f0e;letter-spacing:-.03em;line-height:1}
+.stat-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-top:6px}
+.stat-err .stat-num{color:#dc2626}
+.stat-warn .stat-num{color:#d97706}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+.card{background:#fff;border:1px solid #e4e2dc;border-radius:10px;overflow:hidden}
+.card-head{padding:16px 20px;border-bottom:1px solid #f0ede8;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#0f0f0e}
+.card-body{padding:20px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 14px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#888;border-bottom:1px solid #e4e2dc}
+td{padding:10px 14px;border-bottom:1px solid #f5f4f1;vertical-align:top;color:#333}
+tr:last-child td{border-bottom:none}
+.rank{font-weight:800;color:#0f0f0e;width:32px}
+.cnt{font-weight:700;color:#0f0f0e;text-align:right}
+.bar-wrap{display:flex;align-items:center;gap:10px}
+.bar{height:8px;background:#0f0f0e;border-radius:4px;min-width:2px}
+.bar-wrap span{font-size:12px;font-weight:600;color:#555}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.badge.ok{background:#dcfce7;color:#16a34a}
+.badge.err{background:#fee2e2;color:#dc2626}
+.badge.unc{background:#fef3c7;color:#d97706}
+.u-row{padding:12px 0;border-bottom:1px solid #f5f4f1}
+.u-row:last-child{border-bottom:none}
+.u-q{font-size:13px;font-weight:600;color:#0f0f0e;margin-bottom:4px}
+.u-a{font-size:12px;color:#666;line-height:1.5;margin-bottom:4px}
+.u-ts{font-size:11px;color:#aaa}
+.preview{cursor:pointer;max-width:320px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.preview.open{white-space:normal;overflow:visible;text-overflow:unset}
+.more{color:#0f0f0e;font-size:11px}
+.full-card{margin-bottom:24px}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-brand">ex3 — Analytics</div>
+  <div class="topbar-nav">
+    <a href="/analytics">WhatsApp</a>
+    <a href="/analytics/web" class="active">Web Chat</a>
+    <a href="/conversations">Conversations</a>
+  </div>
+</div>
+<div class="wrap">
+  <div class="page-title">Web Chat Analytics</div>
+  <div class="page-sub">All questions asked to the EX3 AI assistant via the website chatbot</div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">${total}</div><div class="stat-label">Total Questions</div></div>
+    <div class="stat"><div class="stat-num">${uniqueSessions}</div><div class="stat-label">Unique Sessions</div></div>
+    <div class="stat"><div class="stat-num">${avgMs > 0 ? (avgMs/1000).toFixed(1)+'s' : '—'}</div><div class="stat-label">Avg Response Time</div></div>
+    <div class="stat stat-warn"><div class="stat-num">${uncertain}</div><div class="stat-label">Uncertain Answers</div></div>
+    <div class="stat stat-err"><div class="stat-num">${errors}</div><div class="stat-label">Errors</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head"><div class="card-title">Top 10 Questions Asked</div></div>
+      <table>
+        <thead><tr><th>#</th><th>Question</th><th style="text-align:right">Asked</th></tr></thead>
+        <tbody>${top10Rows || '<tr><td colspan="3" style="color:#aaa;text-align:center;padding:24px">No data yet</td></tr>'}</tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title">Questions Per Day</div></div>
+      <table>
+        <thead><tr><th>Date</th><th>Volume</th></tr></thead>
+        <tbody>${dayRows || '<tr><td colspan="2" style="color:#aaa;text-align:center;padding:24px">No data yet</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>
+
+  ${uncertainRows.length ? `<div class="card full-card">
+    <div class="card-head"><div class="card-title">Uncertain Answers — Review These</div><span style="font-size:12px;color:#d97706;font-weight:600">${uncertain} total</span></div>
+    <div class="card-body">${uncertainHtml}</div>
+  </div>` : ''}
+
+  <div class="card full-card">
+    <div class="card-head"><div class="card-title">Recent Questions</div><span style="font-size:12px;color:#888">Last 50</span></div>
+    <table>
+      <thead><tr><th>Time</th><th>Question</th><th>Answer</th><th>Status</th><th>Speed</th></tr></thead>
+      <tbody>${recentRows || '<tr><td colspan="5" style="color:#aaa;text-align:center;padding:24px">No data yet</td></tr>'}</tbody>
+    </table>
+  </div>
+</div>
+</body></html>`);
+});
+
 // Conversation history page
 app.all('/conversations', requirePassword);
 app.get('/conversations', (req, res) => {
