@@ -1690,6 +1690,52 @@ table.hq tr:last-child td{border-bottom:none}
 .risk-low{color:#16a34a;font-weight:700}
 .gen-ol{padding-left:20px;margin:0;line-height:2;font-size:13px;color:#333}
 @media(max-width:700px){.gen-grid{grid-template-columns:1fr}}
+/* Meeting Coach */
+.mc-hero{background:#0f0f0e;padding:56px 48px 52px;margin:-32px -32px 0}
+.mc-hero-inner{max-width:680px}
+.mc-hero-label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#666;margin-bottom:16px}
+.mc-hero-title{font-size:40px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.1;margin:0 0 16px}
+.mc-hero-sub{font-size:14px;color:#888;line-height:1.7;margin:0;max-width:560px}
+.mc-form-wrap{padding:32px 0 0}
+.mc-form-card{background:#fff;border:1px solid #e4e2dc;border-radius:10px;padding:28px 32px}
+.mc-form-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+.mc-label{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px}
+.mc-optional{font-weight:400;text-transform:none;letter-spacing:0;color:#aaa}
+.mc-select,.mc-input{width:100%;padding:11px 14px;border:1px solid #e4e2dc;border-radius:8px;font-size:14px;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e;background:#fafaf9;outline:none;transition:border-color .2s;box-sizing:border-box;appearance:none;-webkit-appearance:none}
+.mc-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23555' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.mc-select:focus,.mc-input:focus{border-color:#0f0f0e;background:#fff}
+.mc-run-btn{display:inline-flex;align-items:center;gap:9px;padding:13px 28px;background:#0f0f0e;border:none;border-radius:8px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;letter-spacing:-.01em}
+.mc-run-btn:hover{background:#2a2a2a}
+.mc-run-btn:disabled{opacity:.4;cursor:not-allowed}
+.mc-loading{display:none;align-items:center;gap:14px;padding:40px 0;font-size:13px;color:#888}
+.mc-spinner{width:20px;height:20px;border:2px solid #e4e2dc;border-top-color:#0f0f0e;border-radius:50%;animation:gen-spin .7s linear infinite;flex-shrink:0}
+.mc-brief{margin-top:32px;border:1px solid #e4e2dc;border-radius:10px;overflow:hidden}
+.mc-brief-topbar{background:#0f0f0e;padding:24px 32px;display:flex;align-items:center;justify-content:space-between}
+.mc-brief-label{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#555;margin-bottom:6px}
+.mc-brief-title{font-size:20px;font-weight:700;color:#fff;letter-spacing:-.02em}
+.mc-export-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:transparent;border:1px solid #333;border-radius:7px;color:#aaa;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.mc-export-btn:hover{border-color:#fff;color:#fff}
+.mc-body{padding:32px}
+.mc-two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:28px}
+.mc-section{margin-bottom:28px}
+.mc-two-col .mc-section{margin-bottom:0}
+.mc-section-label{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#0f0f0e;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #e4e2dc}
+.mc-purpose-text{font-size:14px;color:#333;line-height:1.75}
+.mc-agenda-item{padding:14px 0;border-bottom:1px solid #f0ede8}
+.mc-agenda-item:last-child{border-bottom:none}
+.mc-agenda-item-title{font-size:13px;font-weight:700;color:#0f0f0e;margin-bottom:5px}
+.mc-agenda-item-notes{font-size:13px;color:#555;line-height:1.6}
+.mc-ol{padding-left:0;margin:0;list-style:none;counter-reset:mc-counter}
+.mc-ol li{counter-increment:mc-counter;display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #f5f4f1;font-size:13px;color:#333;line-height:1.6}
+.mc-ol li:last-child{border-bottom:none}
+.mc-ol li::before{content:counter(mc-counter);display:flex;align-items:center;justify-content:center;min-width:22px;height:22px;background:#0f0f0e;color:#fff;border-radius:4px;font-size:10px;font-weight:800;margin-top:1px;flex-shrink:0}
+.mc-warn-list li::before{background:#dc2626}
+.mc-qa-table{width:100%;border-collapse:collapse;font-size:13px}
+.mc-qa-table th{background:#f5f4f1;padding:10px 16px;text-align:left;font-weight:700;color:#0f0f0e;border:1px solid #e4e2dc;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.mc-qa-table td{padding:12px 16px;border:1px solid #e4e2dc;color:#333;line-height:1.6;vertical-align:top}
+.mc-qa-table tr:nth-child(even) td{background:#fafaf9}
+.mc-qa-q{font-weight:600;color:#0f0f0e}
+@media(max-width:800px){.mc-two-col{grid-template-columns:1fr}.mc-hero{padding:36px 24px 32px}.mc-form-row{grid-template-columns:1fr}.mc-body{padding:20px}.mc-brief-topbar{padding:20px 24px}}
 </style>
 </head>
 <body>
@@ -1716,6 +1762,7 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="sb-item" onclick="showPage('integrations')">Integration Wizard</div>
   <div class="sb-section">Generate</div>
   <div class="sb-item" onclick="showPage('generator')">Kickoff Generator</div>
+  <div class="sb-item" onclick="showPage('meetingcoach')">Meeting Coach</div>
 </nav>
 
 <!-- Main -->
@@ -1940,6 +1987,122 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="gen-loading" id="gen-loading" style="display:none">
     <div class="gen-spinner"></div>
     <p>Generating your personalised brief — searching 60 SAP documents...</p>
+  </div>
+</div>
+
+<!-- MEETING COACH -->
+<div class="page" id="page-meetingcoach">
+  <div class="mc-hero">
+    <div class="mc-hero-inner">
+      <div class="mc-hero-label">Meeting Coach</div>
+      <h1 class="mc-hero-title">Walk in prepared.<br>Every time.</h1>
+      <p class="mc-hero-sub">Select the meeting you're about to run. Get a full intelligence briefing drawn from 60 implementation documents — agenda, questions, client objections, red flags, and what success looks like.</p>
+    </div>
+  </div>
+
+  <div class="mc-form-wrap">
+    <div class="mc-form-card">
+      <div class="mc-form-row">
+        <div class="mc-form-col">
+          <label class="mc-label">Meeting Type</label>
+          <select class="mc-select" id="mc-meeting">
+            <option value="">— Select a meeting —</option>
+            <optgroup label="Project Start">
+              <option value="Sales Handover">Sales Handover</option>
+              <option value="Implementation Kickoff">Implementation Kickoff</option>
+              <option value="Discovery Workshop">Discovery Workshop</option>
+            </optgroup>
+            <optgroup label="Configuration Sessions">
+              <option value="Session 1: System Controls, Settings & User Permissions">Session 1 — System Controls, Settings &amp; User Permissions</option>
+              <option value="Session 2: Job Creation & Management">Session 2 — Job Creation &amp; Management</option>
+              <option value="Session 3: Functional Integrations & Ecosystem">Session 3 — Functional Integrations &amp; Ecosystem</option>
+              <option value="Session 4: Career Site & Candidate Application">Session 4 — Career Site &amp; Candidate Application</option>
+              <option value="Session 5: Candidate Management Part 1">Session 5 — Candidate Management Part 1</option>
+              <option value="Session 6: Candidate Management Part 2">Session 6 — Candidate Management Part 2</option>
+              <option value="Session 7: Offer Management & Hiring">Session 7 — Offer Management &amp; Hiring</option>
+              <option value="Session 8: Analytics">Session 8 — Analytics</option>
+            </optgroup>
+            <optgroup label="Testing & Go-Live">
+              <option value="UAT Preparation & Kickoff">UAT Preparation &amp; Kickoff</option>
+              <option value="UAT Review & Sign-Off">UAT Review &amp; Sign-Off</option>
+              <option value="Go-Live Alignment Call">Go-Live Alignment Call</option>
+              <option value="Closing Meeting & BAU Handover">Closing Meeting &amp; BAU Handover</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="mc-form-col">
+          <label class="mc-label">Context <span class="mc-optional">(optional)</span></label>
+          <input class="mc-input" id="mc-context" type="text" placeholder="e.g. 3 integrations, nervous client, 8 weeks to go-live">
+        </div>
+      </div>
+      <button class="mc-run-btn" id="mc-run-btn" onclick="runMeetingCoach()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Brief Me
+      </button>
+    </div>
+  </div>
+
+  <div class="mc-loading" id="mc-loading" style="display:none">
+    <div class="mc-spinner"></div>
+    <span>Searching 60 documents&hellip;</span>
+  </div>
+
+  <div class="mc-brief" id="mc-brief" style="display:none">
+    <div class="mc-brief-topbar">
+      <div>
+        <div class="mc-brief-label" id="mc-brief-label"></div>
+        <div class="mc-brief-title" id="mc-brief-mtitle"></div>
+      </div>
+      <button class="mc-export-btn" onclick="exportMeetingBrief()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Brief
+      </button>
+    </div>
+
+    <div class="mc-body">
+      <div class="mc-two-col">
+        <div class="mc-section" id="mc-purpose-wrap">
+          <div class="mc-section-label">Meeting Purpose</div>
+          <div class="mc-purpose-text" id="mc-purpose"></div>
+        </div>
+        <div class="mc-section" id="mc-success-wrap">
+          <div class="mc-section-label">What Good Looks Like</div>
+          <div class="mc-purpose-text" id="mc-success"></div>
+        </div>
+      </div>
+
+      <div class="mc-section">
+        <div class="mc-section-label">Your Agenda &amp; Talking Points</div>
+        <div id="mc-agenda"></div>
+      </div>
+
+      <div class="mc-two-col">
+        <div class="mc-section">
+          <div class="mc-section-label">Questions You Must Ask</div>
+          <ol class="mc-ol" id="mc-must-ask"></ol>
+        </div>
+        <div class="mc-section">
+          <div class="mc-section-label">Watch For</div>
+          <ol class="mc-ol mc-warn-list" id="mc-watch"></ol>
+        </div>
+      </div>
+
+      <div class="mc-section">
+        <div class="mc-section-label">What the Client Will Ask You</div>
+        <div id="mc-qa-table"></div>
+      </div>
+
+      <div class="mc-two-col">
+        <div class="mc-section">
+          <div class="mc-section-label">Before the Meeting</div>
+          <ol class="mc-ol" id="mc-pre"></ol>
+        </div>
+        <div class="mc-section">
+          <div class="mc-section-label">After the Meeting</div>
+          <ol class="mc-ol" id="mc-post"></ol>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2546,6 +2709,113 @@ function renderBrief(d){
 
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+// ── Meeting Coach ──────────────────────────────────────────────────
+var mcBriefData = null;
+function runMeetingCoach() {
+  var meeting = document.getElementById('mc-meeting').value;
+  if(!meeting){ alert('Please select a meeting type.'); return; }
+  var context = document.getElementById('mc-context').value.trim();
+
+  document.getElementById('mc-brief').style.display = 'none';
+  var loadEl = document.getElementById('mc-loading');
+  loadEl.style.display = 'flex';
+  document.getElementById('mc-run-btn').disabled = true;
+
+  fetch('/consultant/implementation-hq/meeting-brief', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ meeting, context })
+  })
+  .then(function(r){ if(!r.ok) throw new Error('failed'); return r.json(); })
+  .then(function(data){
+    mcBriefData = data;
+    loadEl.style.display = 'none';
+    renderMeetingBrief(data);
+    document.getElementById('mc-brief').style.display = 'block';
+    document.getElementById('mc-brief').scrollIntoView({ behavior:'smooth', block:'start' });
+  })
+  .catch(function(){ loadEl.style.display = 'none'; alert('Failed to generate brief. Please try again.'); })
+  .finally(function(){ document.getElementById('mc-run-btn').disabled = false; });
+}
+
+function renderMeetingBrief(d) {
+  document.getElementById('mc-brief-label').textContent = 'Meeting Brief';
+  document.getElementById('mc-brief-mtitle').textContent = d.meeting;
+
+  document.getElementById('mc-purpose').textContent = d.purpose || '';
+  document.getElementById('mc-success').textContent = d.success || '';
+
+  var agendaEl = document.getElementById('mc-agenda');
+  agendaEl.innerHTML = '';
+  (d.agenda || []).forEach(function(item) {
+    var div = document.createElement('div');
+    div.className = 'mc-agenda-item';
+    div.innerHTML = '<div class="mc-agenda-item-title">' + esc(item.item) + '</div>' +
+      (item.notes ? '<div class="mc-agenda-item-notes">' + esc(item.notes) + '</div>' : '');
+    agendaEl.appendChild(div);
+  });
+
+  var askEl = document.getElementById('mc-must-ask');
+  askEl.innerHTML = '';
+  (d.mustAsk || []).forEach(function(q) {
+    var li = document.createElement('li');
+    li.textContent = q;
+    askEl.appendChild(li);
+  });
+
+  var watchEl = document.getElementById('mc-watch');
+  watchEl.innerHTML = '';
+  (d.watchFor || []).forEach(function(w) {
+    var li = document.createElement('li');
+    li.textContent = w;
+    watchEl.appendChild(li);
+  });
+
+  var qaEl = document.getElementById('mc-qa-table');
+  if(d.clientWillAsk && d.clientWillAsk.length) {
+    var tbl = '<table class="mc-qa-table"><thead><tr><th width="40%">They will ask</th><th>Your answer</th></tr></thead><tbody>';
+    d.clientWillAsk.forEach(function(qa) {
+      tbl += '<tr><td class="mc-qa-q">' + esc(qa.question) + '</td><td>' + esc(qa.answer) + '</td></tr>';
+    });
+    tbl += '</tbody></table>';
+    qaEl.innerHTML = tbl;
+  } else { qaEl.innerHTML = ''; }
+
+  var preEl = document.getElementById('mc-pre');
+  preEl.innerHTML = '';
+  (d.preMeeting || []).forEach(function(item) {
+    var li = document.createElement('li'); li.textContent = item; preEl.appendChild(li);
+  });
+
+  var postEl = document.getElementById('mc-post');
+  postEl.innerHTML = '';
+  (d.followUp || []).forEach(function(item) {
+    var li = document.createElement('li'); li.textContent = item; postEl.appendChild(li);
+  });
+}
+
+function exportMeetingBrief() {
+  if(!mcBriefData){ alert('Generate a brief first.'); return; }
+  var btn = document.querySelector('.mc-export-btn');
+  btn.disabled = true;
+  fetch('/consultant/implementation-hq/export-meeting-brief', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(mcBriefData)
+  })
+  .then(function(r){ if(!r.ok) throw new Error('failed'); return r.blob(); })
+  .then(function(blob){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = (mcBriefData.meeting||'Meeting').replace(/[^a-z0-9]/gi,'_') + '_Brief.docx';
+    a.click();
+    URL.revokeObjectURL(url);
+  })
+  .catch(function(){ alert('Export failed. Please try again.'); })
+  .finally(function(){ btn.disabled = false; });
+}
+
 function exportBrief(){
   if(!genBriefData){ alert('Generate a brief first.'); return; }
   document.getElementById('gen-export-btn').disabled = true;
@@ -2849,6 +3119,191 @@ app.post('/consultant/implementation-hq/export-brief', async (req, res) => {
     res.send(buffer);
   } catch(err) {
     console.error('Export error:', err.message);
+    res.status(500).json({ error: 'Export failed: ' + err.message });
+  }
+});
+
+// Meeting Coach — brief generation
+app.post('/consultant/implementation-hq/meeting-brief', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+
+  const { meeting, context } = req.body;
+  if (!meeting) return res.status(400).json({ error: 'Missing meeting type' });
+
+  const contextLine = context ? `\nAdditional context: ${context}` : '';
+
+  const prompt = `You are a senior SmartRecruiters implementation consultant preparing a junior colleague for a client meeting. Using the knowledge from the implementation documents provided, generate a complete meeting intelligence brief for the following meeting:
+
+Meeting: ${meeting}${contextLine}
+
+Return ONLY a valid JSON object with this exact structure (no markdown, no preamble):
+{
+  "meeting": "${meeting}",
+  "purpose": "2-3 sentences on what this meeting is really for — the real goal, not just the agenda",
+  "agenda": [
+    { "item": "Agenda item title", "notes": "What to actually say or do here — be specific and practical" }
+  ],
+  "mustAsk": [
+    "Question the consultant must ask the client"
+  ],
+  "watchFor": [
+    "Red flag or warning sign to watch for in this meeting"
+  ],
+  "clientWillAsk": [
+    { "question": "Question the client will almost certainly ask", "answer": "Suggested answer the consultant should give" }
+  ],
+  "preMeeting": [
+    "Concrete action to take before the meeting"
+  ],
+  "followUp": [
+    "Concrete action to take after the meeting"
+  ],
+  "success": "1-2 sentences describing what a successful outcome for this meeting looks like"
+}
+
+Rules:
+- agenda: 5-8 items, each with practical talking point notes — not generic filler
+- mustAsk: 5-6 questions that will genuinely help the consultant understand the client and project
+- watchFor: 4-6 specific red flags (e.g. scope creep, integration complexity, client engagement issues)
+- clientWillAsk: 4-6 Q&A pairs — the questions a nervous new consultant would not know how to answer
+- preMeeting: 4-5 concrete preparation steps
+- followUp: 4-5 concrete follow-up actions with specifics (e.g. "Send meeting notes within 24 hours with decisions logged")
+- Be specific to ${meeting} — reference actual SmartRecruiters concepts, configuration steps, and document names where relevant
+- Write as if briefing a new consultant who has never run this meeting before`;
+
+  try {
+    const thread = await openai.beta.threads.create();
+    await openai.beta.threads.messages.create(thread.id, { role: 'user', content: prompt });
+
+    await openai.beta.threads.runs.createAndPoll(thread.id, {
+      assistant_id: process.env.ASSISTANT_ID,
+    });
+
+    const messages = await openai.beta.threads.messages.list(thread.id);
+    const last = messages.data.find(m => m.role === 'assistant');
+    if (!last) return res.status(500).json({ error: 'No response from AI' });
+
+    let raw = (last.content[0]?.text?.value || '').replace(/【[^】]*】/g, '').trim();
+    raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch(e) {
+      const match = raw.match(/\{[\s\S]*\}/);
+      if (match) data = JSON.parse(match[0]);
+      else return res.status(500).json({ error: 'AI returned invalid JSON' });
+    }
+
+    return res.json(data);
+  } catch(err) {
+    console.error('Meeting coach error:', err.message);
+    return res.status(500).json({ error: 'Generation failed: ' + err.message });
+  }
+});
+
+// Meeting Coach — Word export
+app.post('/consultant/implementation-hq/export-meeting-brief', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+
+  const d = req.body;
+  if (!d || !d.meeting) return res.status(400).json({ error: 'No brief data' });
+
+  try {
+    const { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun,
+            AlignmentType, BorderStyle, WidthType, ShadingType } = require('docx');
+
+    const NAVY = '0f0f0e';
+    const GREY = 'f5f4f1';
+    const BORDER = { style: BorderStyle.SINGLE, size: 1, color: 'e4e2dc' };
+    const CB = { top: BORDER, bottom: BORDER, left: BORDER, right: BORDER };
+
+    const hCell = (text, w) => new TableCell({
+      width: w ? { size: w, type: WidthType.DXA } : undefined,
+      shading: { type: ShadingType.SOLID, color: GREY, fill: GREY },
+      borders: CB,
+      children: [new Paragraph({ children: [new TextRun({ text, bold: true, size: 20, color: NAVY, font: 'Calibri' })] })],
+    });
+    const bCell = (text) => new TableCell({
+      borders: CB,
+      children: [new Paragraph({ children: [new TextRun({ text: String(text||''), size: 20, font: 'Calibri', color: '333333' })] })],
+    });
+
+    const secHead = (text) => new Paragraph({
+      spacing: { before: 360, after: 160 },
+      children: [new TextRun({ text, bold: true, size: 22, allCaps: true, font: 'Calibri', color: NAVY })],
+      border: { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'e4e2dc' } },
+    });
+
+    const numbered = (items, color) => items.map((item, i) => new Paragraph({
+      spacing: { after: 80 },
+      children: [
+        new TextRun({ text: String(i+1) + '.  ', bold: true, size: 20, font: 'Calibri', color: color || NAVY }),
+        new TextRun({ text: String(item||''), size: 20, font: 'Calibri', color: '333333' }),
+      ],
+    }));
+
+    const children = [];
+
+    // Title block
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 0, after: 60 }, children: [new TextRun({ text: 'EX3', bold: true, size: 64, font: 'Calibri', color: NAVY })] }));
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 0, after: 80 }, children: [new TextRun({ text: 'Meeting Intelligence Brief', size: 32, font: 'Calibri', color: '666666' })] }));
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 0, after: 480 }, children: [new TextRun({ text: d.meeting, bold: true, size: 44, font: 'Calibri', color: NAVY })] }));
+
+    // Purpose + Success
+    children.push(secHead('Meeting Purpose'));
+    children.push(new Paragraph({ spacing: { after: 240 }, children: [new TextRun({ text: d.purpose||'', size: 20, font: 'Calibri', color: '333333' })] }));
+
+    children.push(secHead('What Good Looks Like'));
+    children.push(new Paragraph({ spacing: { after: 240 }, children: [new TextRun({ text: d.success||'', size: 20, font: 'Calibri', color: '333333' })] }));
+
+    // Agenda
+    children.push(secHead('Your Agenda & Talking Points'));
+    children.push(new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: [
+        new TableRow({ children: [hCell('Agenda Item', 2800), hCell('Your Talking Points')] }),
+        ...(d.agenda||[]).map(a => new TableRow({ children: [bCell(a.item), bCell(a.notes)] })),
+      ],
+    }));
+
+    // Must Ask
+    children.push(secHead('Questions You Must Ask'));
+    children.push(...numbered(d.mustAsk||[]));
+
+    // Watch For
+    children.push(secHead('Watch For'));
+    children.push(...numbered(d.watchFor||[], 'dc2626'));
+
+    // Client Q&A
+    children.push(secHead('What the Client Will Ask You'));
+    children.push(new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: [
+        new TableRow({ children: [hCell('They Will Ask', 3200), hCell('Your Answer')] }),
+        ...(d.clientWillAsk||[]).map(qa => new TableRow({ children: [bCell(qa.question), bCell(qa.answer)] })),
+      ],
+    }));
+
+    // Pre + Post
+    children.push(secHead('Before the Meeting'));
+    children.push(...numbered(d.preMeeting||[]));
+    children.push(secHead('After the Meeting'));
+    children.push(...numbered(d.followUp||[]));
+
+    // Footer
+    children.push(new Paragraph({ spacing: { before: 640 }, alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'EX3 Confidential  |  Generated by EX3 Implementation HQ', size: 18, font: 'Calibri', color: 'aaaaaa', italics: true })] }));
+
+    const doc = new Document({ sections: [{ children }] });
+    const buffer = await Packer.toBuffer(doc);
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', `attachment; filename="Meeting_Brief.docx"`);
+    res.send(buffer);
+  } catch(err) {
+    console.error('Meeting export error:', err.message);
     res.status(500).json({ error: 'Export failed: ' + err.message });
   }
 });
