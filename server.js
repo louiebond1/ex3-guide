@@ -2285,7 +2285,7 @@ function togglePhase(header) {
 
 // ── AI Coach ──────────────────────────────────────────────────────
 var aiOpen = false;
-var aiHistory = [];
+var aiThreadId = null;
 function toggleAI() {
   aiOpen = !aiOpen;
   document.getElementById('ai-panel').classList.toggle('open', aiOpen);
@@ -2304,7 +2304,6 @@ async function aiSend() {
   if(!msg) return;
   input.value = '';
   appendAIMsg('user', msg);
-  aiHistory.push({ role:'user', content:msg });
   var sendBtn = document.getElementById('ai-send');
   sendBtn.disabled = true;
   var assistantEl = appendAIMsg('assistant', '&#8230;');
@@ -2312,9 +2311,10 @@ async function aiSend() {
     var resp = await fetch('/consultant/implementation-hq/chat', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ message:msg, history:aiHistory.slice(-10) })
+      body:JSON.stringify({ message:msg, threadId:aiThreadId })
     });
     if(!resp.ok) throw new Error('failed');
+    aiThreadId = resp.headers.get('X-Thread-Id') || aiThreadId;
     var reader = resp.body.getReader();
     var decoder = new TextDecoder();
     var fullText = '';
@@ -2325,7 +2325,6 @@ async function aiSend() {
       assistantEl.innerHTML = formatAIMsg(fullText);
       document.getElementById('ai-messages').scrollTop = 99999;
     }
-    aiHistory.push({ role:'assistant', content:fullText });
   } catch(err) {
     assistantEl.textContent = 'Sorry, something went wrong. Try again.';
   }
@@ -2350,58 +2349,40 @@ function formatAIMsg(text) {
 app.post('/consultant/implementation-hq/chat', async (req, res) => {
   const token = req.cookies?.impl_hq_auth;
   if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
-  const { message, history } = req.body;
+  const { message, threadId } = req.body;
   if (!message) return res.status(400).json({ error: 'No message' });
-
-  const systemPrompt = `You are the EX3 Implementation Coach — a senior SmartRecruiters implementation expert built from 60 source documents. You help EX3 consultants deliver successful implementations.
-
-PLATFORM LIMITS: Max 10 custom system roles, max 5 custom hiring team roles, max 120 hiring processes, max 8 steps per status, max 500 candidate custom fields. Email addresses are unique globally across ALL SR instances.
-
-CRITICAL GOTCHAS:
-- SSO identifier is case sensitive — must match IdP exactly
-- Never load sandbox users with the same emails they will have in production
-- Never create items manually (departments, users, locations) when an integration will manage them
-- Standard Department field cannot be used in HRIS integrations — use a custom field
-- Do not create the onboarding status field in production until the integration is ready
-- Pre-defined Locations disables UI location editing
-- Custom field names must not match standard field names — you lose the standard field permanently
-- Job approvals being turned on prevents population of position/headcount (known SR bug)
-- Job field dependencies fail if integration omits dependent fields — even non-required ones
-- Do not mark job fields as required after the integration is built — it will fail
-- Email templates cannot be triggered by job ad language alone — use org fields
-- Custom hiring process steps stay in creation language — no auto-translate
-- Do not use onboarding status field visibility as an integration filter
-
-INTEGRATION NOTES: Always involve IT at kickoff. SSO: always test in sandbox first — the identifier is CASE SENSITIVE. User sync: map to custom department field not standard. Hire sync: agree exact trigger event before building. Each recruiter must individually connect their LinkedIn seat. Each interviewer must individually connect their calendar.
-
-PHASES: Sales Handover → Internal Kickoff → Welcome Kickoff → Planning Meeting → 8 Discovery Workshops → Config Review → System Build → Integration Build → Career Site → Integration Testing → UAT Prep → UAT Execution → UAT Sign-off → Admin/Recruiter/HM Training → Go-Live Alignment → Go-Live → Hypercare (4 weeks) → Closing
-
-SOW: Read every line before client contact. Always name every integration explicitly. Always include Out of Scope section. Always name the decision-maker in Client Responsibilities. Never agree a go-live date at the planning meeting.
-
-UAT: Run by the client, supported by EX3. Get written sign-off before confirming go-live. UAT is not a design phase — scope changes need a change request. Critical issues must be resolved before go-live, no exceptions.
-
-Answer directly and practically. Use formatting for lists. Be specific with gotchas and exact steps.`;
-
-  const messages = [
-    { role:'system', content:systemPrompt },
-    ...(Array.isArray(history) ? history.slice(-10) : []),
-    { role:'user', content:message }
-  ];
-
-  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-  res.setHeader('Transfer-Encoding', 'chunked');
-  res.setHeader('Cache-Control', 'no-cache');
+  if (!process.env.ASSISTANT_ID) return res.status(500).json({ error: 'Assistant not configured' });
 
   try {
-    const stream = await openai.chat.completions.create({ model:'gpt-4o', messages, stream:true });
-    for await (const chunk of stream) {
-      const text = chunk.choices[0]?.delta?.content || '';
-      if(text) res.write(text);
-    }
+    const thread = threadId
+      ? { id: threadId }
+      : await openai.beta.threads.create();
+
+    await openai.beta.threads.messages.create(thread.id, { role: 'user', content: message });
+
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Transfer-Encoding', 'chunked');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('X-Thread-Id', thread.id);
+
+    await new Promise((resolve, reject) => {
+      openai.beta.threads.runs.stream(thread.id, {
+        assistant_id: process.env.ASSISTANT_ID,
+        additional_instructions: `You are the EX3 Implementation Coach. The user is an EX3 consultant using the Implementation HQ. Focus on implementation methodology, platform limits, gotchas, configuration, integrations, UAT, and go-live. Be specific and practical. Reference document names when relevant. Do not include citation markers in your response.`,
+      })
+      .on('textDelta', (delta) => {
+        const clean = (delta.value || '').replace(/【[^】]*】/g, '');
+        if (clean) res.write(clean);
+      })
+      .on('end', resolve)
+      .on('error', reject);
+    });
+
     res.end();
   } catch(err) {
     console.error('AI coach error:', err.message);
-    res.status(500).end('Error generating response');
+    if (!res.headersSent) res.status(500).end('Error generating response');
+    else res.end();
   }
 });
 
