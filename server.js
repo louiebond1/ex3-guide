@@ -1744,15 +1744,19 @@ table.hq tr:last-child td{border-bottom:none}
 .pw-hero-sub{font-size:14px;color:#888;line-height:1.7;margin:0;max-width:600px}
 .pw-form-wrap{padding:32px 0 0}
 .pw-form-card{background:#fff;border:1px solid #e4e2dc;border-radius:10px;padding:28px 32px}
-.pw-form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:28px}
+.pw-form-row,.pw-form-row2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:28px}
+.pw-form-divider{display:flex;align-items:center;gap:16px;margin:4px 0 22px}
+.pw-form-divider-label{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#aaa;white-space:nowrap}
+.pw-form-divider-line{flex:1;height:1px;background:#e4e2dc}
 .pw-label{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px}
 .pw-input,.pw-select{width:100%;padding:11px 14px;border:1px solid #e4e2dc;border-radius:8px;font-size:14px;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e;background:#fafaf9;outline:none;transition:border-color .2s;box-sizing:border-box;appearance:none;-webkit-appearance:none}
 .pw-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23555' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
 .pw-input:focus,.pw-select:focus{border-color:#0f0f0e;background:#fff}
-.pw-areas-label{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:14px}
 .pw-areas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 20px}
-.pw-area-check{display:flex;align-items:center;gap:9px;cursor:pointer;font-size:13px;color:#333;line-height:1.4}
+.pw-area-check,.pw-int-check{display:flex;align-items:center;gap:9px;cursor:pointer;font-size:13px;color:#333;line-height:1.4}
 .pw-area-check input{width:15px;height:15px;accent-color:#0f0f0e;cursor:pointer;flex-shrink:0}
+.pw-int-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 20px}
+.pw-int-check input{width:15px;height:15px;accent-color:#7c3aed;cursor:pointer;flex-shrink:0}
 .pw-run-btn{display:inline-flex;align-items:center;gap:9px;padding:13px 28px;background:#0f0f0e;border:none;border-radius:8px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;letter-spacing:-.01em}
 .pw-run-btn:hover{background:#2a2a2a}
 .pw-run-btn:disabled{opacity:.4;cursor:not-allowed}
@@ -1764,40 +1768,79 @@ table.hq tr:last-child td{border-bottom:none}
 .pw-result-topbar{background:#0f0f0e;padding:24px 32px;display:flex;align-items:center;justify-content:space-between;border-radius:10px 10px 0 0;margin-top:32px}
 .pw-result-label{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#555;margin-bottom:6px}
 .pw-result-title{font-size:20px;font-weight:700;color:#fff;letter-spacing:-.02em}
+.pw-topbar-right{display:flex;align-items:center;gap:12px}
 .pw-export-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:transparent;border:1px solid #333;border-radius:7px;color:#aaa;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
 .pw-export-btn:hover{border-color:#fff;color:#fff}
 .pw-export-btn:disabled{opacity:.4;cursor:not-allowed}
-.pw-weeks-container{border:1px solid #e4e2dc;border-top:none;border-radius:0 0 10px 10px;overflow:hidden}
+.pw-stats-bar{background:#111;padding:14px 32px;display:flex;gap:32px;border-bottom:1px solid #1c1c1c}
+.pw-stat{display:flex;flex-direction:column;gap:2px}
+.pw-stat-num{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1}
+.pw-stat-label{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.pw-view-tabs{background:#111;padding:0 32px;display:flex;border-bottom:1px solid #222}
+.pw-view-tab{font-size:11px;font-weight:800;color:#555;padding:11px 18px;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;letter-spacing:.08em;text-transform:uppercase}
+.pw-view-tab:hover{color:#888}
+.pw-view-tab.active{color:#fff;border-bottom-color:#fff}
+.pw-weeks-container,.pw-by-area{border:1px solid #e4e2dc;border-top:none;border-radius:0 0 10px 10px;overflow:hidden}
+.pw-container-toolbar{display:flex;align-items:center;justify-content:flex-end;padding:10px 20px;background:#fafaf9;border-bottom:1px solid #e4e2dc;gap:10px}
+.pw-toggle-all-btn{font-size:11px;font-weight:700;color:#555;background:none;border:1px solid #e4e2dc;border-radius:5px;padding:5px 12px;cursor:pointer;transition:all .15s;font-family:'Inter',system-ui,sans-serif;letter-spacing:.02em}
+.pw-toggle-all-btn:hover{border-color:#0f0f0e;color:#0f0f0e}
 .pw-week{border-bottom:1px solid #e4e2dc}
 .pw-week:last-child{border-bottom:none}
 .pw-week-header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;cursor:pointer;user-select:none;background:#fff;transition:background .15s}
 .pw-week-header:hover{background:#fafaf9}
 .pw-week-header.open{background:#f5f4f1}
-.pw-week-left{display:flex;align-items:center;gap:16px}
-.pw-week-num{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#888;min-width:52px}
-.pw-week-theme{font-size:15px;font-weight:700;color:#0f0f0e;letter-spacing:-.01em}
-.pw-week-focus{font-size:12px;color:#888;margin-top:3px;line-height:1.4}
+.pw-week-left{display:flex;align-items:flex-start;gap:16px}
+.pw-week-num{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#888;min-width:52px;padding-top:2px}
+.pw-week-theme{font-size:15px;font-weight:700;color:#0f0f0e;letter-spacing:-.01em;margin-bottom:3px}
+.pw-week-focus{font-size:12px;color:#888;line-height:1.4;margin-bottom:3px}
+.pw-week-milestone{font-size:11px;color:#16a34a;font-weight:600}
+.pw-week-meta{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .pw-week-count{font-size:11px;color:#888;font-weight:600;background:#f0ede8;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.pw-week-hours{font-size:11px;color:#666;font-weight:700;white-space:nowrap;background:#f5f4f1;padding:4px 9px;border-radius:20px}
 .pw-week-chevron{width:16px;height:16px;color:#aaa;transition:transform .2s;flex-shrink:0}
 .pw-week-header.open .pw-week-chevron{transform:rotate(180deg)}
 .pw-week-body{display:none;border-top:1px solid #e4e2dc}
 .pw-week-body.open{display:block}
-.pw-process{padding:24px 28px;border-bottom:1px solid #f0ede8}
+.pw-process{padding:22px 28px;border-bottom:1px solid #f0ede8;border-left:3px solid transparent}
 .pw-process:last-child{border-bottom:none}
-.pw-process-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
-.pw-process-area-badge{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#0f0f0e;background:#f5f4f1;padding:4px 10px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.pw-process-header{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}
+.pw-process-title-block{display:flex;align-items:flex-start;gap:12px;flex:1;min-width:0}
+.pw-process-area-badge{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:2px}
 .pw-process-title{font-size:14px;font-weight:700;color:#0f0f0e;margin-bottom:4px}
 .pw-process-nav{font-size:12px;color:#888}
 .pw-process-nav strong{color:#555;font-weight:600}
-.pw-steps{margin:0 0 14px;padding:0;list-style:none;counter-reset:pw-step}
+.pw-process-badges{display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.pw-owner{font-size:10px;font-weight:800;letter-spacing:.06em;padding:4px 10px;border-radius:4px;white-space:nowrap;text-transform:uppercase}
+.pw-owner-ex3{background:#0f0f0e;color:#fff}
+.pw-owner-client{background:#dbeafe;color:#1e40af}
+.pw-owner-both{background:#ede9fe;color:#6d28d9}
+.pw-duration{font-size:11px;color:#666;font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.pw-depends{font-size:12px;color:#555;background:#f8f7f5;border-left:3px solid #d6d3cd;padding:8px 12px;border-radius:0 5px 5px 0;margin-bottom:12px;line-height:1.6}
+.pw-depends-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#aaa;display:block;margin-bottom:2px}
+.pw-steps{margin:0 0 12px;padding:0;list-style:none;counter-reset:pw-step}
 .pw-steps li{counter-increment:pw-step;display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #f5f4f1;font-size:13px;color:#333;line-height:1.6}
 .pw-steps li:last-child{border-bottom:none}
 .pw-steps li::before{content:counter(pw-step);display:flex;align-items:center;justify-content:center;min-width:24px;height:24px;background:#0f0f0e;color:#fff;border-radius:5px;font-size:10px;font-weight:800;margin-top:1px;flex-shrink:0}
-.pw-output{font-size:12px;color:#16a34a;font-weight:600;display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
-.pw-output-badge{font-size:9px;font-weight:800;letter-spacing:.08em;background:#dcfce7;color:#16a34a;padding:2px 6px;border-radius:3px;flex-shrink:0;margin-top:1px}
-.pw-gotcha{font-size:12px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start;margin-top:4px}
+.pw-output{font-size:12px;color:#166534;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:9px 14px;display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.pw-output-badge{font-size:9px;font-weight:800;letter-spacing:.08em;background:#16a34a;color:#fff;padding:2px 7px;border-radius:3px;flex-shrink:0;margin-top:1px}
+.pw-gotcha{font-size:12px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start}
 .pw-gotcha-icon{display:flex;align-items:center;justify-content:center;min-width:18px;height:18px;background:#f59e0b;color:#fff;border-radius:3px;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px}
-@media(max-width:800px){.pw-hero{padding:36px 24px 32px}.pw-form-row{grid-template-columns:1fr}.pw-areas-grid{grid-template-columns:1fr 1fr}.pw-result-topbar{flex-direction:column;gap:16px;align-items:flex-start}.pw-week-header{padding:14px 18px}.pw-process{padding:16px 18px}}
+.pw-area-section{border-bottom:1px solid #e4e2dc}
+.pw-area-section:last-child{border-bottom:none}
+.pw-area-section-header{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;cursor:pointer;user-select:none;background:#fafaf9;transition:background .15s;border-left:4px solid transparent}
+.pw-area-section-header:hover{background:#f5f4f1}
+.pw-area-section-header.open{background:#f0ede8}
+.pw-area-section-left{display:flex;align-items:center;gap:12px}
+.pw-area-section-title{font-size:14px;font-weight:700}
+.pw-area-section-count{font-size:11px;color:#888;font-weight:600;background:#e8e5e0;padding:4px 10px;border-radius:20px}
+.pw-area-chevron{width:16px;height:16px;color:#aaa;transition:transform .2s;flex-shrink:0}
+.pw-area-section-header.open .pw-area-chevron{transform:rotate(180deg)}
+.pw-area-section-body{display:none}
+.pw-area-section-body.open{display:block}
+.pw-area-proc-item{padding:16px 28px 4px;border-bottom:1px solid #f0ede8}
+.pw-area-proc-item:last-child{border-bottom:none}
+.pw-area-week-badge{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:3px;display:inline-block;margin-bottom:10px}
+@media(max-width:900px){.pw-hero{padding:36px 24px 32px}.pw-form-row,.pw-form-row2{grid-template-columns:1fr}.pw-areas-grid,.pw-int-grid{grid-template-columns:1fr 1fr}.pw-result-topbar{flex-direction:column;gap:16px;align-items:flex-start}.pw-week-header{padding:14px 18px}.pw-process{padding:16px 18px}.pw-stats-bar{gap:20px;flex-wrap:wrap}.pw-view-tabs{padding:0 18px}.pw-process-header{flex-direction:column;gap:10px}.pw-process-badges{justify-content:flex-start}}
 </style>
 </head>
 <body>
@@ -2175,7 +2218,7 @@ table.hq tr:last-child td{border-bottom:none}
     <div class="pw-hero-inner">
       <div class="pw-hero-label">Project Workbook Builder</div>
       <h1 class="pw-hero-title">Your entire project.<br>Step by step.</h1>
-      <p class="pw-hero-sub">Generate a complete week-by-week workbook with exact click-level instructions for every SmartRecruiters configuration process. Export as a Word document.</p>
+      <p class="pw-hero-sub">Generate a complete week-by-week workbook personalised to your engagement. Every process mapped with exact SmartRecruiters navigation, click-level instructions, owner, time estimates, and gotchas.</p>
     </div>
   </div>
 
@@ -2200,8 +2243,57 @@ table.hq tr:last-child td{border-bottom:none}
           </select>
         </div>
       </div>
-      <div class="pw-areas-label">Process Areas</div>
-      <div class="pw-areas-grid">
+
+      <div class="pw-form-divider">
+        <div class="pw-form-divider-line"></div>
+        <div class="pw-form-divider-label">Project Context</div>
+        <div class="pw-form-divider-line"></div>
+      </div>
+
+      <div class="pw-form-row2">
+        <div>
+          <label class="pw-label">Countries / Regions</label>
+          <input class="pw-input" id="pw-countries" type="text" placeholder="e.g. UK, Germany, UAE">
+        </div>
+        <div>
+          <label class="pw-label">Hiring Processes</label>
+          <input class="pw-input" id="pw-processes" type="number" min="1" max="50" placeholder="e.g. 5" value="5">
+        </div>
+        <div>
+          <label class="pw-label">Your Experience</label>
+          <select class="pw-select" id="pw-experience">
+            <option value="new">New to SmartRecruiters</option>
+            <option value="some" selected>1&ndash;2 Implementations</option>
+            <option value="experienced">Experienced Consultant</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="pw-form-divider">
+        <div class="pw-form-divider-line"></div>
+        <div class="pw-form-divider-label">Integrations in Scope</div>
+        <div class="pw-form-divider-line"></div>
+      </div>
+
+      <div class="pw-int-grid" style="margin-bottom:28px">
+        <label class="pw-int-check"><input type="checkbox" value="SAP SuccessFactors Employee Central"><span>SAP SuccessFactors EC</span></label>
+        <label class="pw-int-check"><input type="checkbox" value="DocuSign e-signature"><span>DocuSign</span></label>
+        <label class="pw-int-check"><input type="checkbox" value="LinkedIn Recruiter"><span>LinkedIn Recruiter</span></label>
+        <label class="pw-int-check"><input type="checkbox" value="Indeed"><span>Indeed</span></label>
+        <label class="pw-int-check"><input type="checkbox" value="SAP HCM"><span>SAP HCM</span></label>
+        <label class="pw-int-check"><input type="checkbox" value="Workday HCM"><span>Workday HCM</span></label>
+        <label class="pw-int-check"><input type="checkbox" value="Outlook Calendar"><span>Outlook Calendar</span></label>
+        <label class="pw-int-check"><input type="checkbox" value="Google Calendar"><span>Google Calendar</span></label>
+        <label class="pw-int-check"><input type="checkbox" value="Background Screening"><span>Background Screening</span></label>
+      </div>
+
+      <div class="pw-form-divider">
+        <div class="pw-form-divider-line"></div>
+        <div class="pw-form-divider-label">Process Areas</div>
+        <div class="pw-form-divider-line"></div>
+      </div>
+
+      <div class="pw-areas-grid" style="margin-bottom:28px">
         <label class="pw-area-check"><input type="checkbox" value="System Controls &amp; User Permissions" checked><span>System Controls &amp; User Permissions</span></label>
         <label class="pw-area-check"><input type="checkbox" value="Job Creation &amp; Management" checked><span>Job Creation &amp; Management</span></label>
         <label class="pw-area-check"><input type="checkbox" value="Functional Integrations" checked><span>Functional Integrations</span></label>
@@ -2214,7 +2306,8 @@ table.hq tr:last-child td{border-bottom:none}
         <label class="pw-area-check"><input type="checkbox" value="Go-Live &amp; Cutover" checked><span>Go-Live &amp; Cutover</span></label>
         <label class="pw-area-check"><input type="checkbox" value="Hypercare &amp; Handover" checked><span>Hypercare &amp; Handover</span></label>
       </div>
-      <div style="margin-top:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
         <button class="pw-run-btn" id="pw-run-btn" onclick="runWorkbook()">
           <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Build Workbook
@@ -2228,7 +2321,7 @@ table.hq tr:last-child td{border-bottom:none}
     <div class="pw-spinner"></div>
     <div>
       <div class="pw-loading-title">Building your workbook&hellip;</div>
-      <div class="pw-loading-sub">Mapping every process across all weeks and generating click-level instructions from 60 documents. Hang tight.</div>
+      <div class="pw-loading-sub">Personalising every process to your engagement and generating click-level instructions from 60 documents.</div>
     </div>
   </div>
 
@@ -2238,12 +2331,20 @@ table.hq tr:last-child td{border-bottom:none}
         <div class="pw-result-label" id="pw-result-label"></div>
         <div class="pw-result-title" id="pw-result-title"></div>
       </div>
-      <button class="pw-export-btn" id="pw-export-btn" onclick="exportWorkbook()">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Export Workbook
-      </button>
+      <div class="pw-topbar-right">
+        <button class="pw-export-btn" id="pw-export-btn" onclick="exportWorkbook()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Workbook
+        </button>
+      </div>
+    </div>
+    <div class="pw-stats-bar" id="pw-stats-bar"></div>
+    <div class="pw-view-tabs">
+      <div class="pw-view-tab active" id="pw-tab-week" onclick="pwSetView('week')">By Week</div>
+      <div class="pw-view-tab" id="pw-tab-area" onclick="pwSetView('area')">By Area</div>
     </div>
     <div id="pw-weeks-container" class="pw-weeks-container"></div>
+    <div id="pw-area-container" class="pw-by-area" style="display:none"></div>
   </div>
 </div>
 
@@ -2983,18 +3084,42 @@ function exportBrief(){
 
 // ── Project Workbook Builder ────────────────────────────────────
 var pwWorkbookData = null;
+var pwAllOpen = false;
+
+var PW_AREA_COLORS = {
+  'System Controls & User Permissions': '#6366f1',
+  'Job Creation & Management': '#0891b2',
+  'Functional Integrations': '#7c3aed',
+  'Career Site & Candidate Application': '#db2777',
+  'Candidate Management': '#d97706',
+  'Offer Management & Hiring': '#16a34a',
+  'Analytics & Reporting': '#ea580c',
+  'Training & Enablement': '#0284c7',
+  'UAT & Testing': '#dc2626',
+  'Go-Live & Cutover': '#0f0f0e',
+  'Hypercare & Handover': '#71717a'
+};
+
+function pwAreaColor(area) {
+  return PW_AREA_COLORS[area] || '#0f0f0e';
+}
 
 function runWorkbook() {
   var client = document.getElementById('pw-client').value.trim();
   var golive = document.getElementById('pw-golive').value;
   var weeks = document.getElementById('pw-weeks').value;
+  var countries = document.getElementById('pw-countries').value.trim();
+  var processes = document.getElementById('pw-processes').value.trim();
+  var experience = document.getElementById('pw-experience').value;
   if(!client){ alert('Please enter a client name.'); return; }
   if(!golive){ alert('Please select a go-live date.'); return; }
 
-  var checkboxes = document.querySelectorAll('#page-workbook .pw-area-check input:checked');
   var areas = [];
-  checkboxes.forEach(function(cb){ areas.push(cb.value); });
+  document.querySelectorAll('#page-workbook .pw-area-check input:checked').forEach(function(cb){ areas.push(cb.value); });
   if(!areas.length){ alert('Select at least one process area.'); return; }
+
+  var integrations = [];
+  document.querySelectorAll('#page-workbook .pw-int-check input:checked').forEach(function(cb){ integrations.push(cb.value); });
 
   document.getElementById('pw-result').style.display = 'none';
   var loadEl = document.getElementById('pw-loading');
@@ -3005,7 +3130,7 @@ function runWorkbook() {
   fetch('/consultant/implementation-hq/generate-workbook', {
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ client: client, golive: golive, weeks: weeks, areas: areas })
+    body: JSON.stringify({ client:client, golive:golive, weeks:weeks, areas:areas, integrations:integrations, countries:countries, processes:processes, experience:experience })
   })
   .then(function(r){ if(!r.ok) throw new Error('failed'); return r.json(); })
   .then(function(data){
@@ -3020,15 +3145,78 @@ function runWorkbook() {
   .finally(function(){ document.getElementById('pw-run-btn').disabled = false; });
 }
 
+function pwProcCard(proc) {
+  var color = pwAreaColor(proc.area || '');
+  var ownerClass = proc.owner === 'Client' ? 'pw-owner-client' : proc.owner === 'Both' ? 'pw-owner-both' : 'pw-owner-ex3';
+  var ownerLabel = proc.owner || 'EX3';
+
+  var html = '<div class="pw-process" style="border-left-color:' + color + '">';
+  html += '<div class="pw-process-header">' +
+    '<div class="pw-process-title-block">' +
+    '<span class="pw-process-area-badge" style="background:' + color + '18;color:' + color + '">' + esc(proc.area || '') + '</span>' +
+    '<div><div class="pw-process-title">' + esc(proc.title || '') + '</div>' +
+    (proc.navPath ? '<div class="pw-process-nav"><strong>Nav:</strong> ' + esc(proc.navPath) + '</div>' : '') +
+    '</div></div>' +
+    '<div class="pw-process-badges">' +
+    '<span class="pw-owner ' + ownerClass + '">' + esc(ownerLabel) + '</span>' +
+    (proc.duration ? '<span class="pw-duration"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + esc(proc.duration) + '</span>' : '') +
+    '</div></div>';
+
+  if(proc.depends && proc.depends !== 'null' && proc.depends !== null) {
+    html += '<div class="pw-depends"><span class="pw-depends-label">Depends on</span>' + esc(String(proc.depends)) + '</div>';
+  }
+
+  if((proc.steps || []).length) {
+    html += '<ol class="pw-steps">';
+    proc.steps.forEach(function(step){ html += '<li>' + esc(step) + '</li>'; });
+    html += '</ol>';
+  }
+
+  if(proc.output) {
+    html += '<div class="pw-output"><span class="pw-output-badge">OUTPUT</span>' + esc(proc.output) + '</div>';
+  }
+  if(proc.gotcha && proc.gotcha !== 'null' && proc.gotcha !== null) {
+    html += '<div class="pw-gotcha"><span class="pw-gotcha-icon">!</span>' + esc(String(proc.gotcha)) + '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
 function renderWorkbook(d) {
+  var totalProcs = 0;
+  var totalHours = 0;
+  (d.weeks || []).forEach(function(w){
+    totalProcs += (w.processes || []).length;
+    (w.processes || []).forEach(function(p){
+      if(p.duration){ var m = String(p.duration).match(/(\d+)/); if(m) totalHours += parseInt(m[1], 10); }
+    });
+  });
+
   document.getElementById('pw-result-label').textContent = 'Project Workbook';
   document.getElementById('pw-result-title').textContent = (d.client || '') + '  —  ' + (d.totalWeeks || '') + '-Week Implementation';
 
-  var container = document.getElementById('pw-weeks-container');
-  container.innerHTML = '';
+  var sb = document.getElementById('pw-stats-bar');
+  sb.innerHTML =
+    '<div class="pw-stat"><div class="pw-stat-num">' + (d.totalWeeks||'') + '</div><div class="pw-stat-label">Weeks</div></div>' +
+    '<div class="pw-stat"><div class="pw-stat-num">' + totalProcs + '</div><div class="pw-stat-label">Processes</div></div>' +
+    (totalHours > 0 ? '<div class="pw-stat"><div class="pw-stat-num">' + totalHours + 'h+</div><div class="pw-stat-label">Est. Hours</div></div>' : '') +
+    '<div class="pw-stat"><div class="pw-stat-num">' + esc(d.golive || '') + '</div><div class="pw-stat-label">Go-Live</div></div>';
+
+  renderByWeek(d);
+  renderByArea(d);
+  pwSetView('week');
+  pwAllOpen = false;
+}
+
+function renderByWeek(d) {
+  var c = document.getElementById('pw-weeks-container');
+  c.innerHTML = '<div class="pw-container-toolbar"><button class="pw-toggle-all-btn" id="pw-expand-all" onclick="pwExpandAll()">Expand All</button></div>';
 
   (d.weeks || []).forEach(function(week, wi) {
-    var totalProcs = (week.processes || []).length;
+    var procs = week.processes || [];
+    var wHrs = 0;
+    procs.forEach(function(p){ if(p.duration){ var m = String(p.duration).match(/(\d+)/); if(m) wHrs += parseInt(m[1],10); }});
+
     var weekDiv = document.createElement('div');
     weekDiv.className = 'pw-week';
 
@@ -3037,39 +3225,20 @@ function renderWorkbook(d) {
       '<div class="pw-week-num">Week ' + week.num + '</div>' +
       '<div><div class="pw-week-theme">' + esc(week.theme || '') + '</div>' +
       (week.focus ? '<div class="pw-week-focus">' + esc(week.focus) + '</div>' : '') +
+      (week.milestone ? '<div class="pw-week-milestone">✓ ' + esc(week.milestone) + '</div>' : '') +
       '</div></div>' +
-      '<div style="display:flex;align-items:center;gap:12px">' +
-      '<span class="pw-week-count">' + totalProcs + ' process' + (totalProcs !== 1 ? 'es' : '') + '</span>' +
+      '<div class="pw-week-meta">' +
+      (wHrs > 0 ? '<span class="pw-week-hours">~' + wHrs + 'h</span>' : '') +
+      '<span class="pw-week-count">' + procs.length + ' task' + (procs.length !== 1 ? 's' : '') + '</span>' +
       '<svg class="pw-week-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>' +
       '</div></div>';
 
     var bodyHtml = '<div class="pw-week-body" id="pw-wb-' + wi + '">';
-    (week.processes || []).forEach(function(proc) {
-      bodyHtml += '<div class="pw-process">' +
-        '<div class="pw-process-header">' +
-        '<span class="pw-process-area-badge">' + esc(proc.area || '') + '</span>' +
-        '<div><div class="pw-process-title">' + esc(proc.title || '') + '</div>' +
-        (proc.navPath ? '<div class="pw-process-nav"><strong>Nav:</strong> ' + esc(proc.navPath) + '</div>' : '') +
-        '</div></div>';
-
-      if((proc.steps || []).length) {
-        bodyHtml += '<ol class="pw-steps">';
-        proc.steps.forEach(function(step){ bodyHtml += '<li>' + esc(step) + '</li>'; });
-        bodyHtml += '</ol>';
-      }
-
-      if(proc.output) {
-        bodyHtml += '<div class="pw-output"><span class="pw-output-badge">OUTPUT</span>' + esc(proc.output) + '</div>';
-      }
-      if(proc.gotcha && proc.gotcha !== 'null' && proc.gotcha !== null) {
-        bodyHtml += '<div class="pw-gotcha"><span class="pw-gotcha-icon">!</span>' + esc(proc.gotcha) + '</div>';
-      }
-      bodyHtml += '</div>';
-    });
+    procs.forEach(function(proc){ bodyHtml += pwProcCard(proc); });
     bodyHtml += '</div>';
 
     weekDiv.innerHTML = headerHtml + bodyHtml;
-    container.appendChild(weekDiv);
+    c.appendChild(weekDiv);
 
     if(wi === 0) {
       var fh = weekDiv.querySelector('.pw-week-header');
@@ -3080,17 +3249,77 @@ function renderWorkbook(d) {
   });
 }
 
+function renderByArea(d) {
+  var areaMap = {};
+  var areaOrder = [];
+  (d.weeks || []).forEach(function(week) {
+    (week.processes || []).forEach(function(proc) {
+      var area = proc.area || 'Other';
+      if(!areaMap[area]){ areaMap[area] = []; areaOrder.push(area); }
+      areaMap[area].push({ proc:proc, weekNum:week.num, weekTheme:week.theme || '' });
+    });
+  });
+
+  var c = document.getElementById('pw-area-container');
+  c.innerHTML = '';
+
+  areaOrder.forEach(function(area, ai) {
+    var items = areaMap[area];
+    var color = pwAreaColor(area);
+    var sectionDiv = document.createElement('div');
+    sectionDiv.className = 'pw-area-section';
+
+    var headerHtml = '<div class="pw-area-section-header" id="pw-ah-' + ai + '" onclick="pwToggleArea(' + ai + ')" style="border-left-color:' + color + '">' +
+      '<div class="pw-area-section-left">' +
+      '<div class="pw-area-section-title" style="color:' + color + '">' + esc(area) + '</div>' +
+      '<div class="pw-area-section-count">' + items.length + ' task' + (items.length !== 1 ? 's' : '') + '</div>' +
+      '</div>' +
+      '<svg class="pw-area-chevron" id="pw-ach-' + ai + '" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>' +
+      '</div>';
+
+    var bodyHtml = '<div class="pw-area-section-body" id="pw-ab-' + ai + '">';
+    items.forEach(function(item) {
+      bodyHtml += '<div class="pw-area-proc-item">';
+      bodyHtml += '<div class="pw-area-week-badge" style="background:' + color + '18;color:' + color + '">Week ' + item.weekNum + ' — ' + esc(item.weekTheme) + '</div>';
+      bodyHtml += pwProcCard(item.proc);
+      bodyHtml += '</div>';
+    });
+    bodyHtml += '</div>';
+
+    sectionDiv.innerHTML = headerHtml + bodyHtml;
+    c.appendChild(sectionDiv);
+  });
+}
+
+function pwSetView(view) {
+  document.getElementById('pw-tab-week').className = 'pw-view-tab' + (view === 'week' ? ' active' : '');
+  document.getElementById('pw-tab-area').className = 'pw-view-tab' + (view === 'area' ? ' active' : '');
+  document.getElementById('pw-weeks-container').style.display = view === 'week' ? 'block' : 'none';
+  document.getElementById('pw-area-container').style.display = view === 'area' ? 'block' : 'none';
+}
+
 function pwToggleWeek(wi) {
-  var header = document.getElementById('pw-wh-' + wi);
-  var body = document.getElementById('pw-wb-' + wi);
-  if(!header || !body) return;
-  if(header.classList.contains('open')) {
-    header.classList.remove('open');
-    body.classList.remove('open');
-  } else {
-    header.classList.add('open');
-    body.classList.add('open');
-  }
+  var h = document.getElementById('pw-wh-' + wi);
+  var b = document.getElementById('pw-wb-' + wi);
+  if(!h || !b) return;
+  if(h.classList.contains('open')){ h.classList.remove('open'); b.classList.remove('open'); }
+  else { h.classList.add('open'); b.classList.add('open'); }
+}
+
+function pwToggleArea(ai) {
+  var h = document.getElementById('pw-ah-' + ai);
+  var b = document.getElementById('pw-ab-' + ai);
+  var ch = document.getElementById('pw-ach-' + ai);
+  if(!h || !b) return;
+  if(b.classList.contains('open')){ b.classList.remove('open'); h.classList.remove('open'); if(ch) ch.style.transform=''; }
+  else { b.classList.add('open'); h.classList.add('open'); if(ch) ch.style.transform='rotate(180deg)'; }
+}
+
+function pwExpandAll() {
+  pwAllOpen = !pwAllOpen;
+  document.getElementById('pw-expand-all').textContent = pwAllOpen ? 'Collapse All' : 'Expand All';
+  document.querySelectorAll('#pw-weeks-container .pw-week-header').forEach(function(h){ pwAllOpen ? h.classList.add('open') : h.classList.remove('open'); });
+  document.querySelectorAll('#pw-weeks-container .pw-week-body').forEach(function(b){ pwAllOpen ? b.classList.add('open') : b.classList.remove('open'); });
 }
 
 function exportWorkbook() {
@@ -3588,17 +3817,24 @@ app.post('/consultant/implementation-hq/generate-workbook', async (req, res) => 
   const token = req.cookies?.impl_hq_auth;
   if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
-  const { client, golive, weeks, areas } = req.body;
+  const { client, golive, weeks, areas, integrations, countries, processes, experience } = req.body;
   if (!client || !golive || !weeks || !areas || !areas.length) return res.status(400).json({ error: 'Missing fields' });
 
   const areasList = Array.isArray(areas) ? areas.join(', ') : areas;
+  const integrationsList = Array.isArray(integrations) && integrations.length ? integrations.join(', ') : 'None';
   const weeksNum = parseInt(weeks, 10) || 12;
+  const coreEnd = Math.round(weeksNum * 0.62);
+  const uatStart = coreEnd + 1;
 
-  const prompt = `You are an expert SmartRecruiters implementation consultant with deep knowledge of every platform configuration step. Generate a complete week-by-week project workbook for this engagement.
+  const prompt = `You are an expert SmartRecruiters implementation consultant. Generate a complete personalised project workbook for this engagement.
 
 Client: ${client}
 Go-Live Date: ${golive}
 Total Weeks: ${weeksNum}
+Countries/Regions: ${countries || 'Not specified'}
+Number of Hiring Processes: ${processes || 'Not specified'}
+Integrations in Scope: ${integrationsList}
+Consultant Experience: ${experience === 'new' ? 'New to SmartRecruiters — provide extra guidance and context in steps' : experience === 'experienced' ? 'Experienced — be concise and technical' : '1-2 prior implementations'}
 Process Areas in Scope: ${areasList}
 
 Return ONLY a valid JSON object (no markdown, no code fences, no preamble):
@@ -3610,38 +3846,47 @@ Return ONLY a valid JSON object (no markdown, no code fences, no preamble):
     {
       "num": 1,
       "theme": "Examine & Discovery",
-      "focus": "One sentence describing this week's main focus",
+      "focus": "One sentence summary of this week",
+      "milestone": "Key deliverable or gate that closes this week e.g. Discovery sign-off received",
       "processes": [
         {
           "area": "System Controls & User Permissions",
-          "title": "Short descriptive process title",
-          "navPath": "Exact SmartRecruiters navigation path e.g. Main Menu -> Settings -> Configuration -> Company Settings",
+          "title": "Descriptive process title",
+          "navPath": "Main Menu -> Settings -> Configuration -> Company Settings",
           "steps": [
-            "Step 1: Exactly what to click, name every button, field, and menu option",
+            "Step 1: exact click-level instruction naming real buttons, fields, toggles",
             "Step 2: ..."
           ],
-          "output": "Specific deliverable completed at the end of this task e.g. Hiring process configured with 5 stages",
-          "gotcha": "Most important SmartRecruiters-specific warning or common mistake, or null"
+          "output": "Concrete deliverable e.g. 6-stage hiring process configured with approval chain",
+          "gotcha": "Most important platform-specific warning, or null",
+          "owner": "EX3",
+          "duration": "2-3 hours",
+          "depends": "Requires: X completed first, or null"
         }
       ]
     }
   ]
 }
 
-Strict rules:
-- Generate exactly ${weeksNum} weeks
-- Weeks 1-2: Examine and discovery — kickoff, discovery workshops, tenant access, initial system setup
-- Weeks 3-${Math.round(weeksNum * 0.6)}: Core configuration — work through the process areas in logical order (system controls first, then jobs, integrations, career site, candidate flows, offer management, analytics)
-- Weeks ${Math.round(weeksNum * 0.6) + 1}-${weeksNum - 2}: UAT prep, UAT execution, training sessions
-- Week ${weeksNum - 1}: Go-live and cutover activities
-- Week ${weeksNum}: Hypercare support and handover
-- Each week: 3-5 processes maximum — be specific, not generic
-- navPath: use the exact SmartRecruiters UI path — real menu names like "Main Menu -> Settings -> Hiring -> Hiring Stages" or "Admin Panel -> Job Ad Library -> Templates"
-- steps: 5-8 steps per process — name real SmartRecruiters fields, buttons, toggle names. Be click-level precise.
-- output: concrete thing delivered e.g. "6-stage hiring process built and saved with approval chain on final stage"
-- gotcha: real platform-specific trap e.g. "Hiring process changes do not apply to jobs already posted — create new process and test on a draft job first"
-- Only include process areas from the scope list provided — do not add areas not listed
-- Reference real SmartRecruiters features: Hiring Process Builder, SmartMessage templates, Assessment steps, Offer Approval Chain, Career Site Builder, RBP roles, Job Ad Library, SuccessFactors connector, SmartConnect, Candidate Portal settings, Data Retention rules, Analytics dashboards`;
+Rules:
+- Generate exactly ${weeksNum} weeks in the correct structure
+- Week 1: Kickoff, environment access, discovery workshops, initial requirements gathering
+- Week 2: Detailed discovery, requirements sign-off, configuration planning, tenant setup
+- Weeks 3-${coreEnd}: Core configuration in logical order — system controls and RBP first, then jobs, career site, integrations (if in scope), candidate management, offer management, analytics
+- Weeks ${uatStart}-${weeksNum - 2}: UAT preparation, UAT execution, training delivery, issue resolution
+- Week ${weeksNum - 1}: Go-live activities, data migration final run, cutover
+- Week ${weeksNum}: Hypercare, post-go-live support, handover to BAU
+- 3-5 processes per week — quality over quantity, each one genuinely useful
+- navPath: EXACT SmartRecruiters UI navigation (e.g. "Main Menu -> Settings -> Hiring -> Hiring Stages", "Admin Panel -> Career Site Builder -> Branding")
+- steps: 5-8 precise steps naming exact SmartRecruiters elements — field names, button labels, dropdown values, toggle names
+- owner: "EX3" (consultant does it alone), "Client" (client action required), "Both" (joint session)
+- duration: realistic estimate e.g. "1-2 hours", "Half day", "Full day"
+- depends: what must exist before starting, or null
+- milestone: closing gate for the week (what signals week is done)
+- Personalise for the specific integrations: if SuccessFactors EC is in scope, include connector setup, field mapping, and position sync steps in the integrations weeks; if DocuSign, include offer template e-signature setup
+- Personalise for countries: if Middle East or UAE in scope, note Arabic/PDPL compliance configuration; if multiple EU countries, note GDPR data retention settings
+- If multiple hiring processes in scope (${processes || '5+'}), include steps for building and testing multiple process variants
+- Reference real SmartRecruiters features by name: Hiring Process Builder, SmartMessage templates, Offer Approval Chain, Career Site Builder, RBP Role Configuration, Job Ad Library, Assessment Steps, SmartConnect integration hub, Candidate Portal, Data Retention Policies, Analytics Dashboards`;
 
   try {
     const thread = await openai.beta.threads.create();
@@ -3687,73 +3932,125 @@ app.post('/consultant/implementation-hq/export-workbook', async (req, res) => {
   if (!d || !d.weeks || !d.weeks.length) return res.status(400).json({ error: 'No workbook data' });
 
   try {
-    const { Document, Packer, Paragraph, TextRun, AlignmentType, BorderStyle } = require('docx');
+    const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
+            AlignmentType, BorderStyle, WidthType, VerticalAlign } = require('docx');
 
     const children = [];
     const spacer = () => new Paragraph({ children: [new TextRun({ text: '' })] });
+    const noBorder = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' };
+    const thinBorder = { style: BorderStyle.SINGLE, size: 2, color: 'e4e2dc' };
 
-    // Cover page
+    // Totals
+    let totalProcs = 0;
+    (d.weeks || []).forEach(w => { totalProcs += (w.processes || []).length; });
+
+    const now = new Date();
+    const months2 = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const dateStr = now.getDate() + ' ' + months2[now.getMonth()] + ' ' + now.getFullYear();
+
+    // ── COVER PAGE ──────────────────────────────────────────────
     children.push(new Paragraph({
       alignment: AlignmentType.CENTER,
-      spacing: { before: 2880, after: 200 },
-      children: [new TextRun({ text: 'PROJECT WORKBOOK', size: 16, font: 'Calibri', color: 'aaaaaa', bold: true, allCaps: true })],
-    }));
-    children.push(new Paragraph({
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 200 },
-      children: [new TextRun({ text: d.client || 'Client', size: 64, font: 'Calibri', bold: true, color: '0f0f0e' })],
+      spacing: { before: 2400, after: 200 },
+      children: [new TextRun({ text: 'PROJECT WORKBOOK', size: 15, font: 'Calibri', color: 'aaaaaa', bold: true, allCaps: true, characterSpacing: 200 })],
     }));
     children.push(new Paragraph({
       alignment: AlignmentType.CENTER,
       spacing: { after: 160 },
-      children: [new TextRun({ text: (d.totalWeeks || '') + '-Week SmartRecruiters Implementation', size: 28, font: 'Calibri', color: '555555' })],
+      children: [new TextRun({ text: d.client || 'Client', size: 72, font: 'Calibri', bold: true, color: '0f0f0e' })],
     }));
     children.push(new Paragraph({
       alignment: AlignmentType.CENTER,
-      spacing: { after: 80 },
-      children: [new TextRun({ text: 'Go-Live: ' + (d.golive || ''), size: 22, font: 'Calibri', color: '888888' })],
+      spacing: { after: 600 },
+      children: [new TextRun({ text: (d.totalWeeks || '') + '-Week SmartRecruiters Implementation', size: 26, font: 'Calibri', color: '666666' })],
     }));
 
-    const now = new Date();
-    const months2 = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    children.push(new Paragraph({
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 2880 },
-      children: [new TextRun({ text: 'Generated: ' + now.getDate() + ' ' + months2[now.getMonth()] + ' ' + now.getFullYear(), size: 18, font: 'Calibri', color: 'aaaaaa' })],
+    // Summary table
+    const summaryRows = [
+      ['Client', d.client || ''],
+      ['Go-Live Date', d.golive || ''],
+      ['Project Duration', (d.totalWeeks || '') + ' weeks'],
+      ['Total Processes', String(totalProcs)],
+      ['Generated', dateStr],
+    ];
+    children.push(new Table({
+      width: { size: 70, type: WidthType.PERCENTAGE },
+      margins: { left: 0 },
+      rows: summaryRows.map(row => new TableRow({
+        children: [
+          new TableCell({
+            width: { size: 35, type: WidthType.PERCENTAGE },
+            borders: { top: thinBorder, bottom: thinBorder, left: noBorder, right: thinBorder },
+            shading: { fill: 'f5f4f1' },
+            children: [new Paragraph({ spacing: { before: 80, after: 80 }, children: [new TextRun({ text: row[0], size: 18, font: 'Calibri', bold: true, color: '555555' })] })],
+          }),
+          new TableCell({
+            width: { size: 65, type: WidthType.PERCENTAGE },
+            borders: { top: thinBorder, bottom: thinBorder, left: thinBorder, right: noBorder },
+            children: [new Paragraph({ spacing: { before: 80, after: 80 }, children: [new TextRun({ text: row[1], size: 18, font: 'Calibri', color: '0f0f0e' })] })],
+          }),
+        ],
+      })),
     }));
 
-    // Weeks
+    children.push(new Paragraph({ pageBreakBefore: true, children: [new TextRun({ text: '' })] }));
+
+    // ── WEEKS ──────────────────────────────────────────────────
     (d.weeks || []).forEach((week) => {
       children.push(new Paragraph({
-        spacing: { before: 560, after: 120 },
-        border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: '0f0f0e' } },
+        spacing: { before: 400, after: 100 },
+        border: { bottom: { style: BorderStyle.SINGLE, size: 10, color: '0f0f0e' } },
         children: [
-          new TextRun({ text: 'WEEK ' + week.num + '  —  ' + (week.theme || '').toUpperCase(), size: 22, font: 'Calibri', bold: true, color: '0f0f0e' }),
+          new TextRun({ text: 'WEEK ' + week.num, size: 18, font: 'Calibri', bold: true, color: '888888', allCaps: true }),
+          new TextRun({ text: '   ' + (week.theme || '').toUpperCase(), size: 22, font: 'Calibri', bold: true, color: '0f0f0e', allCaps: true }),
         ],
       }));
 
       if (week.focus) {
         children.push(new Paragraph({
-          spacing: { before: 100, after: 280 },
+          spacing: { before: 100, after: 60 },
           children: [new TextRun({ text: week.focus, size: 20, font: 'Calibri', color: '666666', italics: true })],
+        }));
+      }
+      if (week.milestone) {
+        children.push(new Paragraph({
+          spacing: { before: 0, after: 240 },
+          children: [
+            new TextRun({ text: 'Milestone: ', size: 18, font: 'Calibri', bold: true, color: '16a34a' }),
+            new TextRun({ text: week.milestone, size: 18, font: 'Calibri', color: '16a34a' }),
+          ],
         }));
       }
 
       (week.processes || []).forEach((proc) => {
+        // Process header: area + title + owner + duration
+        const ownerStr = proc.owner ? '  [' + proc.owner + ']' : '';
+        const durStr = proc.duration ? '  ' + proc.duration : '';
         children.push(new Paragraph({
-          spacing: { before: 320, after: 60 },
+          spacing: { before: 280, after: 60 },
           children: [
-            new TextRun({ text: (proc.area || '').toUpperCase() + '   ', size: 16, font: 'Calibri', bold: true, color: '888888' }),
-            new TextRun({ text: proc.title || '', size: 24, font: 'Calibri', bold: true, color: '0f0f0e' }),
+            new TextRun({ text: (proc.area || '').toUpperCase(), size: 14, font: 'Calibri', bold: true, color: '888888' }),
+            new TextRun({ text: '   ' + (proc.title || ''), size: 22, font: 'Calibri', bold: true, color: '0f0f0e' }),
+            new TextRun({ text: ownerStr + durStr, size: 16, font: 'Calibri', color: '888888' }),
           ],
         }));
 
         if (proc.navPath) {
           children.push(new Paragraph({
-            spacing: { before: 0, after: 140 },
+            spacing: { before: 0, after: 100 },
             children: [
               new TextRun({ text: 'Navigation: ', size: 18, font: 'Calibri', bold: true, color: '555555' }),
-              new TextRun({ text: proc.navPath, size: 18, font: 'Calibri', color: '444444' }),
+              new TextRun({ text: proc.navPath, size: 18, font: 'Calibri', color: '333333' }),
+            ],
+          }));
+        }
+
+        if (proc.depends && proc.depends !== 'null') {
+          children.push(new Paragraph({
+            spacing: { before: 0, after: 100 },
+            children: [
+              new TextRun({ text: 'Depends on: ', size: 18, font: 'Calibri', bold: true, color: '888888' }),
+              new TextRun({ text: String(proc.depends), size: 18, font: 'Calibri', color: '555555', italics: true }),
             ],
           }));
         }
@@ -3763,7 +4060,7 @@ app.post('/consultant/implementation-hq/export-workbook', async (req, res) => {
             spacing: { before: 60, after: 60 },
             indent: { left: 360 },
             children: [
-              new TextRun({ text: String(si + 1) + '.  ', size: 19, font: 'Calibri', bold: true, color: '0f0f0e' }),
+              new TextRun({ text: '☐  ' + String(si + 1) + '.  ', size: 19, font: 'Calibri', bold: true, color: '0f0f0e' }),
               new TextRun({ text: step, size: 19, font: 'Calibri', color: '333333' }),
             ],
           }));
@@ -3771,20 +4068,19 @@ app.post('/consultant/implementation-hq/export-workbook', async (req, res) => {
 
         if (proc.output) {
           children.push(new Paragraph({
-            spacing: { before: 120, after: 80 },
+            spacing: { before: 100, after: 60 },
             children: [
-              new TextRun({ text: 'OUTPUT: ', size: 18, font: 'Calibri', bold: true, color: '16a34a' }),
-              new TextRun({ text: proc.output, size: 18, font: 'Calibri', color: '333333' }),
+              new TextRun({ text: 'OUTPUT: ', size: 17, font: 'Calibri', bold: true, color: '16a34a' }),
+              new TextRun({ text: proc.output, size: 17, font: 'Calibri', color: '166534' }),
             ],
           }));
         }
-
         if (proc.gotcha && proc.gotcha !== 'null') {
           children.push(new Paragraph({
-            spacing: { before: 80, after: 120 },
+            spacing: { before: 60, after: 120 },
             children: [
-              new TextRun({ text: 'WATCH OUT: ', size: 18, font: 'Calibri', bold: true, color: '92400e' }),
-              new TextRun({ text: String(proc.gotcha), size: 18, font: 'Calibri', color: '92400e' }),
+              new TextRun({ text: 'WATCH OUT: ', size: 17, font: 'Calibri', bold: true, color: '92400e' }),
+              new TextRun({ text: String(proc.gotcha), size: 17, font: 'Calibri', color: '92400e' }),
             ],
           }));
         }
