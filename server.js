@@ -1736,6 +1736,68 @@ table.hq tr:last-child td{border-bottom:none}
 .mc-qa-table tr:nth-child(even) td{background:#fafaf9}
 .mc-qa-q{font-weight:600;color:#0f0f0e}
 @media(max-width:800px){.mc-two-col{grid-template-columns:1fr}.mc-hero{padding:36px 24px 32px}.mc-form-row{grid-template-columns:1fr}.mc-body{padding:20px}.mc-brief-topbar{padding:20px 24px}}
+/* Project Workbook Builder */
+.pw-hero{background:#0f0f0e;padding:56px 48px 52px;margin:-32px -32px 0}
+.pw-hero-inner{max-width:720px}
+.pw-hero-label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#666;margin-bottom:16px}
+.pw-hero-title{font-size:40px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.1;margin:0 0 16px}
+.pw-hero-sub{font-size:14px;color:#888;line-height:1.7;margin:0;max-width:600px}
+.pw-form-wrap{padding:32px 0 0}
+.pw-form-card{background:#fff;border:1px solid #e4e2dc;border-radius:10px;padding:28px 32px}
+.pw-form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:28px}
+.pw-label{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px}
+.pw-input,.pw-select{width:100%;padding:11px 14px;border:1px solid #e4e2dc;border-radius:8px;font-size:14px;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e;background:#fafaf9;outline:none;transition:border-color .2s;box-sizing:border-box;appearance:none;-webkit-appearance:none}
+.pw-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23555' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.pw-input:focus,.pw-select:focus{border-color:#0f0f0e;background:#fff}
+.pw-areas-label{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:14px}
+.pw-areas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 20px}
+.pw-area-check{display:flex;align-items:center;gap:9px;cursor:pointer;font-size:13px;color:#333;line-height:1.4}
+.pw-area-check input{width:15px;height:15px;accent-color:#0f0f0e;cursor:pointer;flex-shrink:0}
+.pw-run-btn{display:inline-flex;align-items:center;gap:9px;padding:13px 28px;background:#0f0f0e;border:none;border-radius:8px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;letter-spacing:-.01em}
+.pw-run-btn:hover{background:#2a2a2a}
+.pw-run-btn:disabled{opacity:.4;cursor:not-allowed}
+.pw-hint{font-size:13px;color:#888}
+.pw-loading{align-items:flex-start;gap:20px;padding:48px 0;max-width:600px}
+.pw-spinner{width:22px;height:22px;border:2px solid #e4e2dc;border-top-color:#0f0f0e;border-radius:50%;animation:gen-spin .7s linear infinite;flex-shrink:0;margin-top:2px}
+.pw-loading-title{font-size:15px;font-weight:700;color:#0f0f0e;margin-bottom:6px}
+.pw-loading-sub{font-size:13px;color:#888;line-height:1.6}
+.pw-result-topbar{background:#0f0f0e;padding:24px 32px;display:flex;align-items:center;justify-content:space-between;border-radius:10px 10px 0 0;margin-top:32px}
+.pw-result-label{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#555;margin-bottom:6px}
+.pw-result-title{font-size:20px;font-weight:700;color:#fff;letter-spacing:-.02em}
+.pw-export-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:transparent;border:1px solid #333;border-radius:7px;color:#aaa;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.pw-export-btn:hover{border-color:#fff;color:#fff}
+.pw-export-btn:disabled{opacity:.4;cursor:not-allowed}
+.pw-weeks-container{border:1px solid #e4e2dc;border-top:none;border-radius:0 0 10px 10px;overflow:hidden}
+.pw-week{border-bottom:1px solid #e4e2dc}
+.pw-week:last-child{border-bottom:none}
+.pw-week-header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;cursor:pointer;user-select:none;background:#fff;transition:background .15s}
+.pw-week-header:hover{background:#fafaf9}
+.pw-week-header.open{background:#f5f4f1}
+.pw-week-left{display:flex;align-items:center;gap:16px}
+.pw-week-num{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#888;min-width:52px}
+.pw-week-theme{font-size:15px;font-weight:700;color:#0f0f0e;letter-spacing:-.01em}
+.pw-week-focus{font-size:12px;color:#888;margin-top:3px;line-height:1.4}
+.pw-week-count{font-size:11px;color:#888;font-weight:600;background:#f0ede8;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.pw-week-chevron{width:16px;height:16px;color:#aaa;transition:transform .2s;flex-shrink:0}
+.pw-week-header.open .pw-week-chevron{transform:rotate(180deg)}
+.pw-week-body{display:none;border-top:1px solid #e4e2dc}
+.pw-week-body.open{display:block}
+.pw-process{padding:24px 28px;border-bottom:1px solid #f0ede8}
+.pw-process:last-child{border-bottom:none}
+.pw-process-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+.pw-process-area-badge{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#0f0f0e;background:#f5f4f1;padding:4px 10px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.pw-process-title{font-size:14px;font-weight:700;color:#0f0f0e;margin-bottom:4px}
+.pw-process-nav{font-size:12px;color:#888}
+.pw-process-nav strong{color:#555;font-weight:600}
+.pw-steps{margin:0 0 14px;padding:0;list-style:none;counter-reset:pw-step}
+.pw-steps li{counter-increment:pw-step;display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #f5f4f1;font-size:13px;color:#333;line-height:1.6}
+.pw-steps li:last-child{border-bottom:none}
+.pw-steps li::before{content:counter(pw-step);display:flex;align-items:center;justify-content:center;min-width:24px;height:24px;background:#0f0f0e;color:#fff;border-radius:5px;font-size:10px;font-weight:800;margin-top:1px;flex-shrink:0}
+.pw-output{font-size:12px;color:#16a34a;font-weight:600;display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+.pw-output-badge{font-size:9px;font-weight:800;letter-spacing:.08em;background:#dcfce7;color:#16a34a;padding:2px 6px;border-radius:3px;flex-shrink:0;margin-top:1px}
+.pw-gotcha{font-size:12px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start;margin-top:4px}
+.pw-gotcha-icon{display:flex;align-items:center;justify-content:center;min-width:18px;height:18px;background:#f59e0b;color:#fff;border-radius:3px;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px}
+@media(max-width:800px){.pw-hero{padding:36px 24px 32px}.pw-form-row{grid-template-columns:1fr}.pw-areas-grid{grid-template-columns:1fr 1fr}.pw-result-topbar{flex-direction:column;gap:16px;align-items:flex-start}.pw-week-header{padding:14px 18px}.pw-process{padding:16px 18px}}
 </style>
 </head>
 <body>
@@ -1763,6 +1825,7 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="sb-section">Generate</div>
   <div class="sb-item" onclick="showPage('generator')">Kickoff Generator</div>
   <div class="sb-item" onclick="showPage('meetingcoach')">Meeting Coach</div>
+  <div class="sb-item" onclick="showPage('workbook')">Project Workbook</div>
 </nav>
 
 <!-- Main -->
@@ -2103,6 +2166,84 @@ table.hq tr:last-child td{border-bottom:none}
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- PROJECT WORKBOOK BUILDER -->
+<div class="page" id="page-workbook">
+  <div class="pw-hero">
+    <div class="pw-hero-inner">
+      <div class="pw-hero-label">Project Workbook Builder</div>
+      <h1 class="pw-hero-title">Your entire project.<br>Step by step.</h1>
+      <p class="pw-hero-sub">Generate a complete week-by-week workbook with exact click-level instructions for every SmartRecruiters configuration process. Export as a Word document.</p>
+    </div>
+  </div>
+
+  <div class="pw-form-wrap">
+    <div class="pw-form-card">
+      <div class="pw-form-row">
+        <div>
+          <label class="pw-label">Client Name</label>
+          <input class="pw-input" id="pw-client" type="text" placeholder="e.g. Acme Corporation">
+        </div>
+        <div>
+          <label class="pw-label">Go-Live Date</label>
+          <input class="pw-input" id="pw-golive" type="date">
+        </div>
+        <div>
+          <label class="pw-label">Project Length</label>
+          <select class="pw-select" id="pw-weeks">
+            <option value="8">8 Weeks</option>
+            <option value="10">10 Weeks</option>
+            <option value="12" selected>12 Weeks</option>
+            <option value="16">16 Weeks</option>
+          </select>
+        </div>
+      </div>
+      <div class="pw-areas-label">Process Areas</div>
+      <div class="pw-areas-grid">
+        <label class="pw-area-check"><input type="checkbox" value="System Controls &amp; User Permissions" checked><span>System Controls &amp; User Permissions</span></label>
+        <label class="pw-area-check"><input type="checkbox" value="Job Creation &amp; Management" checked><span>Job Creation &amp; Management</span></label>
+        <label class="pw-area-check"><input type="checkbox" value="Functional Integrations" checked><span>Functional Integrations</span></label>
+        <label class="pw-area-check"><input type="checkbox" value="Career Site &amp; Candidate Application" checked><span>Career Site &amp; Candidate Application</span></label>
+        <label class="pw-area-check"><input type="checkbox" value="Candidate Management" checked><span>Candidate Management</span></label>
+        <label class="pw-area-check"><input type="checkbox" value="Offer Management &amp; Hiring" checked><span>Offer Management &amp; Hiring</span></label>
+        <label class="pw-area-check"><input type="checkbox" value="Analytics &amp; Reporting" checked><span>Analytics &amp; Reporting</span></label>
+        <label class="pw-area-check"><input type="checkbox" value="Training &amp; Enablement" checked><span>Training &amp; Enablement</span></label>
+        <label class="pw-area-check"><input type="checkbox" value="UAT &amp; Testing" checked><span>UAT &amp; Testing</span></label>
+        <label class="pw-area-check"><input type="checkbox" value="Go-Live &amp; Cutover" checked><span>Go-Live &amp; Cutover</span></label>
+        <label class="pw-area-check"><input type="checkbox" value="Hypercare &amp; Handover" checked><span>Hypercare &amp; Handover</span></label>
+      </div>
+      <div style="margin-top:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <button class="pw-run-btn" id="pw-run-btn" onclick="runWorkbook()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Build Workbook
+        </button>
+        <span class="pw-hint" id="pw-hint" style="display:none">This may take 30&ndash;60 seconds&hellip;</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pw-loading" id="pw-loading" style="display:none">
+    <div class="pw-spinner"></div>
+    <div>
+      <div class="pw-loading-title">Building your workbook&hellip;</div>
+      <div class="pw-loading-sub">Mapping every process across all weeks and generating click-level instructions from 60 documents. Hang tight.</div>
+    </div>
+  </div>
+
+  <div id="pw-result" style="display:none">
+    <div class="pw-result-topbar">
+      <div>
+        <div class="pw-result-label" id="pw-result-label"></div>
+        <div class="pw-result-title" id="pw-result-title"></div>
+      </div>
+      <button class="pw-export-btn" id="pw-export-btn" onclick="exportWorkbook()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Workbook
+      </button>
+    </div>
+    <div id="pw-weeks-container" class="pw-weeks-container"></div>
   </div>
 </div>
 
@@ -2839,6 +2980,140 @@ function exportBrief(){
   .catch(function(){ alert('Export failed. Please try again.'); })
   .finally(function(){ document.getElementById('gen-export-btn').disabled = false; });
 }
+
+// ── Project Workbook Builder ────────────────────────────────────
+var pwWorkbookData = null;
+
+function runWorkbook() {
+  var client = document.getElementById('pw-client').value.trim();
+  var golive = document.getElementById('pw-golive').value;
+  var weeks = document.getElementById('pw-weeks').value;
+  if(!client){ alert('Please enter a client name.'); return; }
+  if(!golive){ alert('Please select a go-live date.'); return; }
+
+  var checkboxes = document.querySelectorAll('#page-workbook .pw-area-check input:checked');
+  var areas = [];
+  checkboxes.forEach(function(cb){ areas.push(cb.value); });
+  if(!areas.length){ alert('Select at least one process area.'); return; }
+
+  document.getElementById('pw-result').style.display = 'none';
+  var loadEl = document.getElementById('pw-loading');
+  loadEl.style.display = 'flex';
+  document.getElementById('pw-run-btn').disabled = true;
+  document.getElementById('pw-hint').style.display = 'inline';
+
+  fetch('/consultant/implementation-hq/generate-workbook', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ client: client, golive: golive, weeks: weeks, areas: areas })
+  })
+  .then(function(r){ if(!r.ok) throw new Error('failed'); return r.json(); })
+  .then(function(data){
+    pwWorkbookData = data;
+    loadEl.style.display = 'none';
+    document.getElementById('pw-hint').style.display = 'none';
+    renderWorkbook(data);
+    document.getElementById('pw-result').style.display = 'block';
+    document.getElementById('pw-result').scrollIntoView({ behavior:'smooth', block:'start' });
+  })
+  .catch(function(){ loadEl.style.display = 'none'; document.getElementById('pw-hint').style.display = 'none'; alert('Failed to build workbook. Please try again.'); })
+  .finally(function(){ document.getElementById('pw-run-btn').disabled = false; });
+}
+
+function renderWorkbook(d) {
+  document.getElementById('pw-result-label').textContent = 'Project Workbook';
+  document.getElementById('pw-result-title').textContent = (d.client || '') + '  —  ' + (d.totalWeeks || '') + '-Week Implementation';
+
+  var container = document.getElementById('pw-weeks-container');
+  container.innerHTML = '';
+
+  (d.weeks || []).forEach(function(week, wi) {
+    var totalProcs = (week.processes || []).length;
+    var weekDiv = document.createElement('div');
+    weekDiv.className = 'pw-week';
+
+    var headerHtml = '<div class="pw-week-header" id="pw-wh-' + wi + '" onclick="pwToggleWeek(' + wi + ')">' +
+      '<div class="pw-week-left">' +
+      '<div class="pw-week-num">Week ' + week.num + '</div>' +
+      '<div><div class="pw-week-theme">' + esc(week.theme || '') + '</div>' +
+      (week.focus ? '<div class="pw-week-focus">' + esc(week.focus) + '</div>' : '') +
+      '</div></div>' +
+      '<div style="display:flex;align-items:center;gap:12px">' +
+      '<span class="pw-week-count">' + totalProcs + ' process' + (totalProcs !== 1 ? 'es' : '') + '</span>' +
+      '<svg class="pw-week-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>' +
+      '</div></div>';
+
+    var bodyHtml = '<div class="pw-week-body" id="pw-wb-' + wi + '">';
+    (week.processes || []).forEach(function(proc) {
+      bodyHtml += '<div class="pw-process">' +
+        '<div class="pw-process-header">' +
+        '<span class="pw-process-area-badge">' + esc(proc.area || '') + '</span>' +
+        '<div><div class="pw-process-title">' + esc(proc.title || '') + '</div>' +
+        (proc.navPath ? '<div class="pw-process-nav"><strong>Nav:</strong> ' + esc(proc.navPath) + '</div>' : '') +
+        '</div></div>';
+
+      if((proc.steps || []).length) {
+        bodyHtml += '<ol class="pw-steps">';
+        proc.steps.forEach(function(step){ bodyHtml += '<li>' + esc(step) + '</li>'; });
+        bodyHtml += '</ol>';
+      }
+
+      if(proc.output) {
+        bodyHtml += '<div class="pw-output"><span class="pw-output-badge">OUTPUT</span>' + esc(proc.output) + '</div>';
+      }
+      if(proc.gotcha && proc.gotcha !== 'null' && proc.gotcha !== null) {
+        bodyHtml += '<div class="pw-gotcha"><span class="pw-gotcha-icon">!</span>' + esc(proc.gotcha) + '</div>';
+      }
+      bodyHtml += '</div>';
+    });
+    bodyHtml += '</div>';
+
+    weekDiv.innerHTML = headerHtml + bodyHtml;
+    container.appendChild(weekDiv);
+
+    if(wi === 0) {
+      var fh = weekDiv.querySelector('.pw-week-header');
+      var fb = weekDiv.querySelector('.pw-week-body');
+      if(fh) fh.classList.add('open');
+      if(fb) fb.classList.add('open');
+    }
+  });
+}
+
+function pwToggleWeek(wi) {
+  var header = document.getElementById('pw-wh-' + wi);
+  var body = document.getElementById('pw-wb-' + wi);
+  if(!header || !body) return;
+  if(header.classList.contains('open')) {
+    header.classList.remove('open');
+    body.classList.remove('open');
+  } else {
+    header.classList.add('open');
+    body.classList.add('open');
+  }
+}
+
+function exportWorkbook() {
+  if(!pwWorkbookData){ alert('Generate a workbook first.'); return; }
+  var btn = document.getElementById('pw-export-btn');
+  btn.disabled = true;
+  fetch('/consultant/implementation-hq/export-workbook', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(pwWorkbookData)
+  })
+  .then(function(r){ if(!r.ok) throw new Error('failed'); return r.blob(); })
+  .then(function(blob){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = (pwWorkbookData.client || 'Client').replace(/[^a-z0-9]/gi,'_') + '_Project_Workbook.docx';
+    a.click();
+    URL.revokeObjectURL(url);
+  })
+  .catch(function(){ alert('Export failed. Please try again.'); })
+  .finally(function(){ btn.disabled = false; });
+}
 </script>
 </body></html>`);
 });
@@ -3304,6 +3579,234 @@ app.post('/consultant/implementation-hq/export-meeting-brief', async (req, res) 
     res.send(buffer);
   } catch(err) {
     console.error('Meeting export error:', err.message);
+    res.status(500).json({ error: 'Export failed: ' + err.message });
+  }
+});
+
+// Project Workbook Builder — generation
+app.post('/consultant/implementation-hq/generate-workbook', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+
+  const { client, golive, weeks, areas } = req.body;
+  if (!client || !golive || !weeks || !areas || !areas.length) return res.status(400).json({ error: 'Missing fields' });
+
+  const areasList = Array.isArray(areas) ? areas.join(', ') : areas;
+  const weeksNum = parseInt(weeks, 10) || 12;
+
+  const prompt = `You are an expert SmartRecruiters implementation consultant with deep knowledge of every platform configuration step. Generate a complete week-by-week project workbook for this engagement.
+
+Client: ${client}
+Go-Live Date: ${golive}
+Total Weeks: ${weeksNum}
+Process Areas in Scope: ${areasList}
+
+Return ONLY a valid JSON object (no markdown, no code fences, no preamble):
+{
+  "client": "${client}",
+  "golive": "${golive}",
+  "totalWeeks": ${weeksNum},
+  "weeks": [
+    {
+      "num": 1,
+      "theme": "Examine & Discovery",
+      "focus": "One sentence describing this week's main focus",
+      "processes": [
+        {
+          "area": "System Controls & User Permissions",
+          "title": "Short descriptive process title",
+          "navPath": "Exact SmartRecruiters navigation path e.g. Main Menu -> Settings -> Configuration -> Company Settings",
+          "steps": [
+            "Step 1: Exactly what to click, name every button, field, and menu option",
+            "Step 2: ..."
+          ],
+          "output": "Specific deliverable completed at the end of this task e.g. Hiring process configured with 5 stages",
+          "gotcha": "Most important SmartRecruiters-specific warning or common mistake, or null"
+        }
+      ]
+    }
+  ]
+}
+
+Strict rules:
+- Generate exactly ${weeksNum} weeks
+- Weeks 1-2: Examine and discovery — kickoff, discovery workshops, tenant access, initial system setup
+- Weeks 3-${Math.round(weeksNum * 0.6)}: Core configuration — work through the process areas in logical order (system controls first, then jobs, integrations, career site, candidate flows, offer management, analytics)
+- Weeks ${Math.round(weeksNum * 0.6) + 1}-${weeksNum - 2}: UAT prep, UAT execution, training sessions
+- Week ${weeksNum - 1}: Go-live and cutover activities
+- Week ${weeksNum}: Hypercare support and handover
+- Each week: 3-5 processes maximum — be specific, not generic
+- navPath: use the exact SmartRecruiters UI path — real menu names like "Main Menu -> Settings -> Hiring -> Hiring Stages" or "Admin Panel -> Job Ad Library -> Templates"
+- steps: 5-8 steps per process — name real SmartRecruiters fields, buttons, toggle names. Be click-level precise.
+- output: concrete thing delivered e.g. "6-stage hiring process built and saved with approval chain on final stage"
+- gotcha: real platform-specific trap e.g. "Hiring process changes do not apply to jobs already posted — create new process and test on a draft job first"
+- Only include process areas from the scope list provided — do not add areas not listed
+- Reference real SmartRecruiters features: Hiring Process Builder, SmartMessage templates, Assessment steps, Offer Approval Chain, Career Site Builder, RBP roles, Job Ad Library, SuccessFactors connector, SmartConnect, Candidate Portal settings, Data Retention rules, Analytics dashboards`;
+
+  try {
+    const thread = await openai.beta.threads.create();
+    await openai.beta.threads.messages.create(thread.id, { role: 'user', content: prompt });
+
+    await openai.beta.threads.runs.createAndPoll(thread.id, {
+      assistant_id: process.env.ASSISTANT_ID,
+    });
+
+    const messages = await openai.beta.threads.messages.list(thread.id);
+    const last = messages.data.find(m => m.role === 'assistant');
+    if (!last) return res.status(500).json({ error: 'No response from AI' });
+
+    let raw = (last.content[0]?.text?.value || '').replace(/【[^】]*】/g, '').trim();
+    raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch(e) {
+      const match = raw.match(/\{[\s\S]*\}/);
+      if (match) {
+        try { data = JSON.parse(match[0]); }
+        catch(e2) { return res.status(500).json({ error: 'AI returned invalid JSON' }); }
+      } else {
+        return res.status(500).json({ error: 'AI returned invalid JSON' });
+      }
+    }
+
+    return res.json(data);
+  } catch(err) {
+    console.error('Workbook generator error:', err.message);
+    return res.status(500).json({ error: 'Generation failed: ' + err.message });
+  }
+});
+
+// Project Workbook Builder — Word export
+app.post('/consultant/implementation-hq/export-workbook', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+
+  const d = req.body;
+  if (!d || !d.weeks || !d.weeks.length) return res.status(400).json({ error: 'No workbook data' });
+
+  try {
+    const { Document, Packer, Paragraph, TextRun, AlignmentType, BorderStyle } = require('docx');
+
+    const children = [];
+    const spacer = () => new Paragraph({ children: [new TextRun({ text: '' })] });
+
+    // Cover page
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 2880, after: 200 },
+      children: [new TextRun({ text: 'PROJECT WORKBOOK', size: 16, font: 'Calibri', color: 'aaaaaa', bold: true, allCaps: true })],
+    }));
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 200 },
+      children: [new TextRun({ text: d.client || 'Client', size: 64, font: 'Calibri', bold: true, color: '0f0f0e' })],
+    }));
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 160 },
+      children: [new TextRun({ text: (d.totalWeeks || '') + '-Week SmartRecruiters Implementation', size: 28, font: 'Calibri', color: '555555' })],
+    }));
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 80 },
+      children: [new TextRun({ text: 'Go-Live: ' + (d.golive || ''), size: 22, font: 'Calibri', color: '888888' })],
+    }));
+
+    const now = new Date();
+    const months2 = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 2880 },
+      children: [new TextRun({ text: 'Generated: ' + now.getDate() + ' ' + months2[now.getMonth()] + ' ' + now.getFullYear(), size: 18, font: 'Calibri', color: 'aaaaaa' })],
+    }));
+
+    // Weeks
+    (d.weeks || []).forEach((week) => {
+      children.push(new Paragraph({
+        spacing: { before: 560, after: 120 },
+        border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: '0f0f0e' } },
+        children: [
+          new TextRun({ text: 'WEEK ' + week.num + '  —  ' + (week.theme || '').toUpperCase(), size: 22, font: 'Calibri', bold: true, color: '0f0f0e' }),
+        ],
+      }));
+
+      if (week.focus) {
+        children.push(new Paragraph({
+          spacing: { before: 100, after: 280 },
+          children: [new TextRun({ text: week.focus, size: 20, font: 'Calibri', color: '666666', italics: true })],
+        }));
+      }
+
+      (week.processes || []).forEach((proc) => {
+        children.push(new Paragraph({
+          spacing: { before: 320, after: 60 },
+          children: [
+            new TextRun({ text: (proc.area || '').toUpperCase() + '   ', size: 16, font: 'Calibri', bold: true, color: '888888' }),
+            new TextRun({ text: proc.title || '', size: 24, font: 'Calibri', bold: true, color: '0f0f0e' }),
+          ],
+        }));
+
+        if (proc.navPath) {
+          children.push(new Paragraph({
+            spacing: { before: 0, after: 140 },
+            children: [
+              new TextRun({ text: 'Navigation: ', size: 18, font: 'Calibri', bold: true, color: '555555' }),
+              new TextRun({ text: proc.navPath, size: 18, font: 'Calibri', color: '444444' }),
+            ],
+          }));
+        }
+
+        (proc.steps || []).forEach((step, si) => {
+          children.push(new Paragraph({
+            spacing: { before: 60, after: 60 },
+            indent: { left: 360 },
+            children: [
+              new TextRun({ text: String(si + 1) + '.  ', size: 19, font: 'Calibri', bold: true, color: '0f0f0e' }),
+              new TextRun({ text: step, size: 19, font: 'Calibri', color: '333333' }),
+            ],
+          }));
+        });
+
+        if (proc.output) {
+          children.push(new Paragraph({
+            spacing: { before: 120, after: 80 },
+            children: [
+              new TextRun({ text: 'OUTPUT: ', size: 18, font: 'Calibri', bold: true, color: '16a34a' }),
+              new TextRun({ text: proc.output, size: 18, font: 'Calibri', color: '333333' }),
+            ],
+          }));
+        }
+
+        if (proc.gotcha && proc.gotcha !== 'null') {
+          children.push(new Paragraph({
+            spacing: { before: 80, after: 120 },
+            children: [
+              new TextRun({ text: 'WATCH OUT: ', size: 18, font: 'Calibri', bold: true, color: '92400e' }),
+              new TextRun({ text: String(proc.gotcha), size: 18, font: 'Calibri', color: '92400e' }),
+            ],
+          }));
+        }
+      });
+
+      children.push(spacer());
+    });
+
+    children.push(new Paragraph({
+      spacing: { before: 640 },
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: (d.client || '') + '  |  EX3 Confidential  |  Generated by EX3 Implementation HQ', size: 16, font: 'Calibri', color: 'aaaaaa', italics: true })],
+    }));
+
+    const doc = new Document({ sections: [{ children }] });
+    const buffer = await Packer.toBuffer(doc);
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', 'attachment; filename="Project_Workbook.docx"');
+    res.send(buffer);
+  } catch(err) {
+    console.error('Workbook export error:', err.message);
     res.status(500).json({ error: 'Export failed: ' + err.message });
   }
 });
