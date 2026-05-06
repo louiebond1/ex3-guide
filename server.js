@@ -1649,6 +1649,47 @@ table.hq tr:last-child td{border-bottom:none}
 .q-result p{font-size:13px;color:#333;margin-bottom:12px;line-height:1.6}
 .q-result .nav-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:#0f0f0f;border:none;border-radius:8px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;margin-right:8px;margin-top:4px}
 .q-result .nav-btn:hover{background:#333}
+/* Kickoff Generator */
+.gen-card{background:#fff;border:1px solid #e4e2dc;border-radius:12px;padding:32px;margin-bottom:24px}
+.gen-section-title{font-size:18px;font-weight:700;color:#0f0f0e;margin-bottom:24px;letter-spacing:-.01em}
+.gen-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+.gen-field{display:flex;flex-direction:column;gap:6px}
+.gen-field-full{margin-bottom:20px}
+.gen-label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#555}
+.gen-req{color:#dc2626}
+.gen-input{padding:10px 14px;border:1px solid #e4e2dc;border-radius:8px;font-size:14px;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e;outline:none;transition:border-color .2s;background:#fafaf9}
+.gen-input:focus{border-color:#0f0f0f;background:#fff}
+.gen-checks{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:4px}
+.gen-check{display:flex;align-items:center;gap:8px;font-size:13px;color:#333;cursor:pointer;padding:8px 14px;border:1px solid #e4e2dc;border-radius:8px;background:#fafaf9;transition:all .15s;user-select:none}
+.gen-check:hover{border-color:#0f0f0f}
+.gen-check input{accent-color:#0f0f0f;cursor:pointer}
+.gen-radio-group{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.gen-radio{display:flex;align-items:center;gap:8px;font-size:13px;color:#333;cursor:pointer;padding:8px 16px;border:1px solid #e4e2dc;border-radius:8px;background:#fafaf9;transition:all .15s;user-select:none}
+.gen-radio:hover{border-color:#0f0f0f}
+.gen-radio input{accent-color:#0f0f0f;cursor:pointer}
+.gen-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#0f0f0f;border:none;border-radius:8px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;margin-top:8px}
+.gen-btn:hover{background:#333}
+.gen-btn:disabled{opacity:.4;cursor:not-allowed}
+.gen-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:48px;text-align:center}
+.gen-loading p{font-size:14px;color:#555}
+.gen-spinner{width:32px;height:32px;border:3px solid #e4e2dc;border-top-color:#0f0f0f;border-radius:50%;animation:gen-spin .7s linear infinite}
+@keyframes gen-spin{to{transform:rotate(360deg)}}
+.gen-result{background:#fff;border:1px solid #e4e2dc;border-radius:12px;padding:32px;margin-bottom:24px}
+.gen-result-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #e4e2dc}
+.gen-result-header h2{font-size:20px;font-weight:700;color:#0f0f0e;letter-spacing:-.01em;margin:0}
+.gen-export-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#0f0f0f;border:none;border-radius:8px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s}
+.gen-export-btn:hover{background:#333}
+.gen-section{margin-bottom:28px}
+.gen-section-h{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#0f0f0e;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #0f0f0e}
+.gen-table{width:100%;border-collapse:collapse;font-size:13px}
+.gen-table th{background:#f5f4f1;padding:10px 14px;text-align:left;font-weight:700;color:#0f0f0e;border:1px solid #e4e2dc}
+.gen-table td{padding:10px 14px;border:1px solid #e4e2dc;color:#333;line-height:1.5;vertical-align:top}
+.gen-table tr:nth-child(even) td{background:#fafaf9}
+.risk-high{color:#dc2626;font-weight:700}
+.risk-med{color:#d97706;font-weight:700}
+.risk-low{color:#16a34a;font-weight:700}
+.gen-ol{padding-left:20px;margin:0;line-height:2;font-size:13px;color:#333}
+@media(max-width:700px){.gen-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1673,6 +1714,8 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="sb-section">Reference</div>
   <div class="sb-item" onclick="showPage('gotchas')">Gotcha Library</div>
   <div class="sb-item" onclick="showPage('integrations')">Integration Wizard</div>
+  <div class="sb-section">Generate</div>
+  <div class="sb-item" onclick="showPage('generator')">Kickoff Generator</div>
 </nav>
 
 <!-- Main -->
@@ -1826,6 +1869,78 @@ table.hq tr:last-child td{border-bottom:none}
   </div>
   <div class="int-tabs" id="int-tabs"></div>
   <div id="int-contents"></div>
+</div>
+
+<!-- KICKOFF GENERATOR -->
+<div class="page" id="page-generator">
+  <div class="hero">
+    <span class="hq-badge badge-violet">Generate</span>
+    <h1>Project Kickoff Generator</h1>
+    <p>Enter your client details and let the AI build a personalised implementation brief — timeline, risk register, reading list, questionnaire, and week-one actions — ready to export as a Word document.</p>
+  </div>
+
+  <div class="gen-card">
+    <h2 class="gen-section-title">Client Details</h2>
+    <div class="gen-grid">
+      <div class="gen-field">
+        <label class="gen-label">Client Name <span class="gen-req">*</span></label>
+        <input class="gen-input" id="gen-client" type="text" placeholder="e.g. Acme Corporation">
+      </div>
+      <div class="gen-field">
+        <label class="gen-label">Go-Live Date <span class="gen-req">*</span></label>
+        <input class="gen-input" id="gen-golive" type="date">
+      </div>
+      <div class="gen-field">
+        <label class="gen-label">Number of Hiring Processes</label>
+        <input class="gen-input" id="gen-processes" type="number" min="1" placeholder="e.g. 8">
+      </div>
+      <div class="gen-field">
+        <label class="gen-label">Countries in Scope</label>
+        <input class="gen-input" id="gen-countries" type="text" placeholder="e.g. UK, Germany, France">
+      </div>
+    </div>
+    <div class="gen-field gen-field-full">
+      <label class="gen-label">Integrations Required</label>
+      <div class="gen-checks">
+        <label class="gen-check"><input type="checkbox" value="SAP SuccessFactors"> SAP SuccessFactors</label>
+        <label class="gen-check"><input type="checkbox" value="Workday"> Workday</label>
+        <label class="gen-check"><input type="checkbox" value="LinkedIn"> LinkedIn</label>
+        <label class="gen-check"><input type="checkbox" value="Indeed"> Indeed</label>
+        <label class="gen-check"><input type="checkbox" value="DocuSign"> DocuSign</label>
+        <label class="gen-check"><input type="checkbox" value="Greenhouse"> Greenhouse</label>
+        <label class="gen-check"><input type="checkbox" value="SSO / SAML"> SSO / SAML</label>
+        <label class="gen-check"><input type="checkbox" value="Custom API"> Custom API</label>
+      </div>
+    </div>
+    <div class="gen-field gen-field-full">
+      <label class="gen-label">Your Experience Level</label>
+      <div class="gen-radio-group">
+        <label class="gen-radio"><input type="radio" name="gen-exp" value="junior"> Junior (0–1 implementations)</label>
+        <label class="gen-radio"><input type="radio" name="gen-exp" value="mid" checked> Mid (2–5 implementations)</label>
+        <label class="gen-radio"><input type="radio" name="gen-exp" value="senior"> Senior (6+ implementations)</label>
+      </div>
+    </div>
+    <button class="gen-btn" id="gen-run-btn" onclick="runGenerator()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Generate Brief
+    </button>
+  </div>
+
+  <div class="gen-result" id="gen-result" style="display:none">
+    <div class="gen-result-header">
+      <h2 id="gen-result-title">Implementation Brief</h2>
+      <button class="gen-export-btn" id="gen-export-btn" onclick="exportBrief()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export as Word
+      </button>
+    </div>
+    <div id="gen-preview"></div>
+  </div>
+
+  <div class="gen-loading" id="gen-loading" style="display:none">
+    <div class="gen-spinner"></div>
+    <p>Generating your personalised brief — searching 60 SAP documents...</p>
+  </div>
 </div>
 
 </main>
@@ -2339,6 +2454,121 @@ function appendAIMsg(role, text) {
 function formatAIMsg(text) {
   return text.replace(/\\*\\*(.*?)\\*\\*/g,'<strong>$1</strong>').replace(/\\n/g,'<br>');
 }
+
+// ── Kickoff Generator ──────────────────────────────────────────────
+var genBriefData = null;
+function runGenerator() {
+  var client = document.getElementById('gen-client').value.trim();
+  var golive = document.getElementById('gen-golive').value;
+  if(!client || !golive){
+    alert('Please enter a client name and go-live date.');
+    return;
+  }
+  var processes = document.getElementById('gen-processes').value || 'not specified';
+  var countries = document.getElementById('gen-countries').value.trim() || 'not specified';
+  var integrations = [];
+  document.querySelectorAll('.gen-checks input:checked').forEach(function(el){ integrations.push(el.value); });
+  var expEl = document.querySelector('input[name="gen-exp"]:checked');
+  var experience = expEl ? expEl.value : 'mid';
+
+  document.getElementById('gen-result').style.display = 'none';
+  document.getElementById('gen-loading').style.display = 'flex';
+  document.getElementById('gen-run-btn').disabled = true;
+
+  fetch('/consultant/implementation-hq/generate-brief', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ client, golive, processes, countries, integrations, experience })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    genBriefData = data;
+    document.getElementById('gen-loading').style.display = 'none';
+    document.getElementById('gen-result').style.display = 'block';
+    document.getElementById('gen-result-title').textContent = client + ' — Implementation Brief';
+    renderBrief(data);
+    document.getElementById('gen-result').scrollIntoView({ behavior:'smooth', block:'start' });
+  })
+  .catch(function(){
+    document.getElementById('gen-loading').style.display = 'none';
+    alert('Failed to generate brief. Please try again.');
+  })
+  .finally(function(){
+    document.getElementById('gen-run-btn').disabled = false;
+  });
+}
+
+function renderBrief(d){
+  var html = '';
+
+  html += '<div class="gen-section"><div class="gen-section-h">Project Overview</div>';
+  html += '<table class="gen-table"><tbody>';
+  html += '<tr><td width="200"><strong>Client</strong></td><td>' + esc(d.overview.client) + '</td></tr>';
+  html += '<tr><td><strong>Go-Live Date</strong></td><td>' + esc(d.overview.golive) + '</td></tr>';
+  html += '<tr><td><strong>Countries in Scope</strong></td><td>' + esc(d.overview.countries) + '</td></tr>';
+  html += '<tr><td><strong>Hiring Processes</strong></td><td>' + esc(d.overview.processes) + '</td></tr>';
+  html += '<tr><td><strong>Integrations</strong></td><td>' + esc(d.overview.integrations) + '</td></tr>';
+  html += '<tr><td><strong>Consultant Level</strong></td><td>' + esc(d.overview.experience) + '</td></tr>';
+  html += '</tbody></table></div>';
+
+  html += '<div class="gen-section"><div class="gen-section-h">Implementation Timeline</div>';
+  html += '<table class="gen-table"><thead><tr><th>Milestone</th><th>Target Date</th><th>Notes</th></tr></thead><tbody>';
+  d.timeline.forEach(function(row){
+    html += '<tr><td>' + esc(row.milestone) + '</td><td>' + esc(row.date) + '</td><td>' + esc(row.notes) + '</td></tr>';
+  });
+  html += '</tbody></table></div>';
+
+  html += '<div class="gen-section"><div class="gen-section-h">Risk Register</div>';
+  html += '<table class="gen-table"><thead><tr><th>Risk</th><th>Severity</th><th>Mitigation</th></tr></thead><tbody>';
+  d.risks.forEach(function(row){
+    var cls = row.severity === 'High' ? 'risk-high' : row.severity === 'Medium' ? 'risk-med' : 'risk-low';
+    html += '<tr><td>' + esc(row.risk) + '</td><td class="' + cls + '">' + esc(row.severity) + '</td><td>' + esc(row.mitigation) + '</td></tr>';
+  });
+  html += '</tbody></table></div>';
+
+  html += '<div class="gen-section"><div class="gen-section-h">Recommended Reading List</div>';
+  html += '<ol class="gen-ol">';
+  d.reading.forEach(function(item){ html += '<li>' + esc(item) + '</li>'; });
+  html += '</ol></div>';
+
+  html += '<div class="gen-section"><div class="gen-section-h">Client Discovery Questionnaire</div>';
+  html += '<ol class="gen-ol">';
+  d.questionnaire.forEach(function(item){ html += '<li>' + esc(item) + '</li>'; });
+  html += '</ol></div>';
+
+  html += '<div class="gen-section"><div class="gen-section-h">Week 1 Consultant Actions</div>';
+  html += '<ol class="gen-ol">';
+  d.actions.forEach(function(item){ html += '<li>' + esc(item) + '</li>'; });
+  html += '</ol></div>';
+
+  document.getElementById('gen-preview').innerHTML = html;
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function exportBrief(){
+  if(!genBriefData){ alert('Generate a brief first.'); return; }
+  document.getElementById('gen-export-btn').disabled = true;
+  fetch('/consultant/implementation-hq/export-brief', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(genBriefData)
+  })
+  .then(function(r){
+    if(!r.ok) throw new Error('export failed');
+    return r.blob();
+  })
+  .then(function(blob){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = (genBriefData.overview.client || 'client').replace(/[^a-z0-9]/gi,'_') + '_Kickoff_Brief.docx';
+    a.click();
+    URL.revokeObjectURL(url);
+  })
+  .catch(function(){ alert('Export failed. Please try again.'); })
+  .finally(function(){ document.getElementById('gen-export-btn').disabled = false; });
+}
 </script>
 </body></html>`);
 });
@@ -2381,6 +2611,245 @@ app.post('/consultant/implementation-hq/chat', async (req, res) => {
     console.error('AI coach error:', err.message);
     if (!res.headersSent) res.status(500).end('Error generating response');
     else res.end();
+  }
+});
+
+// Kickoff Generator — AI brief generation
+app.post('/consultant/implementation-hq/generate-brief', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+
+  const { client, golive, processes, countries, integrations, experience } = req.body;
+  if (!client || !golive) return res.status(400).json({ error: 'Missing fields' });
+
+  const intList = Array.isArray(integrations) && integrations.length ? integrations.join(', ') : 'None';
+
+  const prompt = `You are an expert SmartRecruiters implementation consultant. Using the knowledge from the implementation documents provided, generate a detailed project kickoff brief for the following engagement:
+
+Client: ${client}
+Go-Live Date: ${golive}
+Countries in Scope: ${countries}
+Number of Hiring Processes: ${processes}
+Integrations Required: ${intList}
+Consultant Experience Level: ${experience}
+
+Return ONLY a valid JSON object with this exact structure (no markdown, no preamble):
+{
+  "overview": {
+    "client": "${client}",
+    "golive": "${golive}",
+    "countries": "${countries}",
+    "processes": "${processes}",
+    "integrations": "${intList}",
+    "experience": "${experience}"
+  },
+  "timeline": [
+    { "milestone": "...", "date": "YYYY-MM-DD", "notes": "..." }
+  ],
+  "risks": [
+    { "risk": "...", "severity": "High|Medium|Low", "mitigation": "..." }
+  ],
+  "reading": ["Doc name — reason to read"],
+  "questionnaire": ["Question text"],
+  "actions": ["Action item"]
+}
+
+Rules:
+- timeline: 8-12 milestones from kickoff to go-live, with realistic dates working backwards from ${golive}
+- risks: 6-10 risks relevant to this specific engagement (integrations, countries, processes) with severity High/Medium/Low
+- reading: 6-8 specific document recommendations drawn from the knowledge base, each with a brief reason
+- questionnaire: 8-10 discovery questions the consultant should ask the client in week 1
+- actions: 8-10 concrete things the consultant must do in week 1
+Be specific to this client's profile. Reference real SmartRecruiters configuration concepts, limits, and integration requirements where relevant.`;
+
+  try {
+    const thread = await openai.beta.threads.create();
+    await openai.beta.threads.messages.create(thread.id, { role: 'user', content: prompt });
+
+    const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
+      assistant_id: process.env.ASSISTANT_ID,
+    });
+
+    const messages = await openai.beta.threads.messages.list(thread.id);
+    const last = messages.data.find(m => m.role === 'assistant');
+    if (!last) return res.status(500).json({ error: 'No response from AI' });
+
+    let raw = last.content[0]?.text?.value || '';
+    raw = raw.replace(/【[^】]*】/g, '').trim();
+
+    // Strip any markdown code fences
+    raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch(e) {
+      // Try to extract JSON from the response
+      const match = raw.match(/\{[\s\S]*\}/);
+      if (match) data = JSON.parse(match[0]);
+      else return res.status(500).json({ error: 'AI returned invalid JSON' });
+    }
+
+    return res.json(data);
+  } catch(err) {
+    console.error('Kickoff generator error:', err.message);
+    return res.status(500).json({ error: 'Generation failed: ' + err.message });
+  }
+});
+
+// Kickoff Generator — Word export
+app.post('/consultant/implementation-hq/export-brief', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+
+  const d = req.body;
+  if (!d || !d.overview) return res.status(400).json({ error: 'No brief data' });
+
+  try {
+    const { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun, HeadingLevel,
+            AlignmentType, BorderStyle, WidthType, ShadingType, convertInchesToTwip } = require('docx');
+
+    const NAVY  = '0f0f0e';
+    const GREY  = 'f5f4f1';
+    const BORDER = { style: BorderStyle.SINGLE, size: 1, color: 'e4e2dc' };
+    const cellBorder = { top: BORDER, bottom: BORDER, left: BORDER, right: BORDER };
+
+    const headerCell = (text, width) => new TableCell({
+      width: width ? { size: width, type: WidthType.DXA } : undefined,
+      shading: { type: ShadingType.SOLID, color: GREY, fill: GREY },
+      borders: cellBorder,
+      children: [new Paragraph({
+        children: [new TextRun({ text, bold: true, size: 22, color: NAVY, font: 'Calibri' })],
+      })],
+    });
+
+    const bodyCell = (text) => new TableCell({
+      borders: cellBorder,
+      children: [new Paragraph({
+        children: [new TextRun({ text: String(text || ''), size: 20, font: 'Calibri', color: '333333' })],
+      })],
+    });
+
+    const riskCell = (text, severity) => {
+      const color = severity === 'High' ? 'dc2626' : severity === 'Medium' ? 'd97706' : '16a34a';
+      return new TableCell({
+        borders: cellBorder,
+        children: [new Paragraph({
+          children: [new TextRun({ text: String(text || ''), bold: true, size: 20, font: 'Calibri', color })],
+        })],
+      });
+    };
+
+    const sectionHeading = (text) => new Paragraph({
+      text,
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 320, after: 160 },
+      border: { bottom: { style: BorderStyle.SINGLE, size: 2, color: NAVY } },
+      children: [new TextRun({ text, bold: true, size: 26, allCaps: true, font: 'Calibri', color: NAVY })],
+    });
+
+    const children = [];
+
+    // Title block
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 0, after: 80 },
+      children: [new TextRun({ text: 'EX3', bold: true, size: 64, font: 'Calibri', color: NAVY })],
+    }));
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 0, after: 80 },
+      children: [new TextRun({ text: 'Implementation Kickoff Brief', size: 36, font: 'Calibri', color: '555555' })],
+    }));
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 0, after: 80 },
+      children: [new TextRun({ text: d.overview.client, bold: true, size: 44, font: 'Calibri', color: NAVY })],
+    }));
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 0, after: 480 },
+      children: [new TextRun({ text: 'Go-Live: ' + d.overview.golive + '  |  EX3 Confidential', size: 20, font: 'Calibri', color: '888888', italics: true })],
+    }));
+
+    // Project Overview table
+    children.push(sectionHeading('Project Overview'));
+    const ovRows = [
+      ['Client', d.overview.client],
+      ['Go-Live Date', d.overview.golive],
+      ['Countries in Scope', d.overview.countries],
+      ['Hiring Processes', d.overview.processes],
+      ['Integrations', d.overview.integrations],
+      ['Consultant Level', d.overview.experience],
+    ];
+    children.push(new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: ovRows.map(([k, v]) => new TableRow({ children: [headerCell(k, 2520), bodyCell(v)] })),
+    }));
+
+    // Timeline
+    children.push(sectionHeading('Implementation Timeline'));
+    children.push(new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: [
+        new TableRow({ children: [headerCell('Milestone'), headerCell('Target Date', 1800), headerCell('Notes')] }),
+        ...(d.timeline || []).map(r => new TableRow({ children: [bodyCell(r.milestone), bodyCell(r.date), bodyCell(r.notes)] })),
+      ],
+    }));
+
+    // Risk Register
+    children.push(sectionHeading('Risk Register'));
+    children.push(new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: [
+        new TableRow({ children: [headerCell('Risk'), headerCell('Severity', 1440), headerCell('Mitigation')] }),
+        ...(d.risks || []).map(r => new TableRow({ children: [bodyCell(r.risk), riskCell(r.severity, r.severity), bodyCell(r.mitigation)] })),
+      ],
+    }));
+
+    // Reading List
+    children.push(sectionHeading('Recommended Reading List'));
+    (d.reading || []).forEach((item, i) => {
+      children.push(new Paragraph({
+        spacing: { after: 80 },
+        children: [new TextRun({ text: (i + 1) + '.  ' + item, size: 20, font: 'Calibri', color: '333333' })],
+      }));
+    });
+
+    // Questionnaire
+    children.push(sectionHeading('Client Discovery Questionnaire'));
+    (d.questionnaire || []).forEach((item, i) => {
+      children.push(new Paragraph({
+        spacing: { after: 80 },
+        children: [new TextRun({ text: (i + 1) + '.  ' + item, size: 20, font: 'Calibri', color: '333333' })],
+      }));
+    });
+
+    // Week 1 Actions
+    children.push(sectionHeading('Week 1 Consultant Actions'));
+    (d.actions || []).forEach((item, i) => {
+      children.push(new Paragraph({
+        spacing: { after: 80 },
+        children: [new TextRun({ text: (i + 1) + '.  ' + item, size: 20, font: 'Calibri', color: '333333' })],
+      }));
+    });
+
+    // Footer note
+    children.push(new Paragraph({
+      spacing: { before: 640 },
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: d.overview.client + '  |  EX3 Confidential  |  Generated by EX3 Implementation HQ', size: 18, font: 'Calibri', color: 'aaaaaa', italics: true })],
+    }));
+
+    const doc = new Document({ sections: [{ children }] });
+    const buffer = await Packer.toBuffer(doc);
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', 'attachment; filename="Kickoff_Brief.docx"');
+    res.send(buffer);
+  } catch(err) {
+    console.error('Export error:', err.message);
+    res.status(500).json({ error: 'Export failed: ' + err.message });
   }
 });
 
