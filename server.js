@@ -602,7 +602,7 @@ app.get('/consultant', (req, res) => {
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Sora',sans-serif;background:#f8f7f4;color:#0f0f0e;line-height:1.65;font-size:14px}
+    body{font-family:'Inter',system-ui,sans-serif;background:#f8f7f4;color:#0f0f0e;line-height:1.65;font-size:14px}
     a{color:inherit;text-decoration:none}
     .layout{display:flex;min-height:100vh}
     /* Sidebar */
@@ -1224,10 +1224,10 @@ app.get('/consultant', (req, res) => {
 
 <!-- Demo Panel -->
 <style>
-  .demo-fab { position:fixed; bottom:28px; right:28px; z-index:9000; background:#22c55e; color:#000; border:none; border-radius:50px; padding:12px 22px; font-family:'Sora',sans-serif; font-size:13px; font-weight:700; cursor:pointer; box-shadow:0 4px 20px rgba(34,197,94,.35); transition:all .2s; }
+  .demo-fab { position:fixed; bottom:28px; right:28px; z-index:9000; background:#22c55e; color:#000; border:none; border-radius:50px; padding:12px 22px; font-family:'Inter',system-ui,sans-serif; font-size:13px; font-weight:700; cursor:pointer; box-shadow:0 4px 20px rgba(34,197,94,.35); transition:all .2s; }
   .demo-fab:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(34,197,94,.45); }
   .demo-fab.open { background:#1a1a1a; color:#fff; box-shadow:none; }
-  .demo-panel { position:fixed; top:0; right:0; width:340px; height:100vh; background:#0f0f0f; color:#fff; z-index:8999; display:flex; flex-direction:column; transform:translateX(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); box-shadow:-8px 0 40px rgba(0,0,0,.3); font-family:'Sora',sans-serif; }
+  .demo-panel { position:fixed; top:0; right:0; width:340px; height:100vh; background:#0f0f0f; color:#fff; z-index:8999; display:flex; flex-direction:column; transform:translateX(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); box-shadow:-8px 0 40px rgba(0,0,0,.3); font-family:'Inter',system-ui,sans-serif; }
   .demo-panel.open { transform:translateX(0); }
   .dp-header { padding:18px 20px 14px; border-bottom:1px solid #1e1e1e; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
   .dp-logo { font-size:13px; font-weight:700; color:#22c55e; }
@@ -1441,20 +1441,20 @@ function requireImplPassword(req, res, next) {
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Implementation HQ — EX3</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Sora',sans-serif;background:#1B1040;min-height:100vh;display:flex;align-items:center;justify-content:center;color:#fff}
+body{font-family:'Inter',system-ui,sans-serif;background:#1B1040;min-height:100vh;display:flex;align-items:center;justify-content:center;color:#fff}
 .gate{text-align:center;max-width:360px;padding:24px}
 .logo{font-size:52px;font-weight:900;letter-spacing:-.15em;line-height:1;margin-bottom:4px;background:linear-gradient(135deg,#c4b5fd,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .portal-tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#6d5a9c;margin-bottom:44px}
 .lock{font-size:36px;margin-bottom:20px}
 .gate-title{font-size:24px;font-weight:700;margin-bottom:8px;letter-spacing:-.02em}
 .gate-sub{font-size:13px;color:#7c6fac;margin-bottom:32px;line-height:1.6}
-input[type=password]{width:100%;padding:14px 20px;background:#2d1f5e;border:1px solid #412288;border-radius:10px;color:#fff;font-family:'Sora',sans-serif;font-size:22px;letter-spacing:.5em;text-align:center;outline:none;transition:border-color .2s;margin-bottom:14px}
+input[type=password]{width:100%;padding:14px 20px;background:#2d1f5e;border:1px solid #412288;border-radius:10px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:22px;letter-spacing:.5em;text-align:center;outline:none;transition:border-color .2s;margin-bottom:14px}
 input[type=password]::placeholder{letter-spacing:0;font-size:13px;color:#5a4a8a}
 input[type=password]:focus{border-color:#7c3aed;background:#3a2870}
-button{width:100%;padding:14px;background:#412288;border:none;border-radius:10px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;letter-spacing:.03em}
+button{width:100%;padding:14px;background:#412288;border:none;border-radius:10px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;letter-spacing:.03em}
 button:hover{background:#5b21b6}
 .err{color:#FF2E00;font-size:12px;margin-bottom:10px}
 .back-link{display:block;margin-top:24px;font-size:12px;color:#5a4a8a;text-decoration:none;transition:color .2s}
@@ -1465,7 +1465,6 @@ button:hover{background:#5b21b6}
 <div class="gate">
   <div class="logo">ex3</div>
   <div class="portal-tag">Consultant Portal</div>
-  <div class="lock">🔒</div>
   <div class="gate-title">Implementation HQ</div>
   <div class="gate-sub">Restricted to EX3 implementation consultants.</div>
   <form method="post" action="/consultant/implementation-hq">
@@ -1486,10 +1485,10 @@ app.get('/consultant/implementation-hq', (req, res) => {
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Implementation HQ — EX3</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Sora',sans-serif;background:#f8f7f4;color:#0f0f0e;line-height:1.65;font-size:14px}
+body{font-family:'Inter',system-ui,sans-serif;background:#f8f7f4;color:#0f0f0e;line-height:1.65;font-size:14px}
 a{color:inherit;text-decoration:none}
 .layout{display:flex;min-height:100vh}
 /* Sidebar — matches consultant portal exactly */
@@ -1588,7 +1587,7 @@ table.hq tr:last-child td{border-bottom:none}
 .doc-link{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:11px;color:#412288;font-weight:600;transition:color .15s}
 .doc-link:hover{color:#5b21b6}
 /* Gotcha library */
-.gotcha-search{width:100%;padding:12px 16px;background:#fff;border:1px solid #e4e2dc;border-radius:10px;color:#0f0f0e;font-family:'Sora',sans-serif;font-size:13px;margin-bottom:16px;outline:none;transition:border-color .2s}
+.gotcha-search{width:100%;padding:12px 16px;background:#fff;border:1px solid #e4e2dc;border-radius:10px;color:#0f0f0e;font-family:'Inter',system-ui,sans-serif;font-size:13px;margin-bottom:16px;outline:none;transition:border-color .2s}
 .gotcha-search:focus{border-color:#0f0f0f}
 .gotcha-search::placeholder{color:#aaa}
 .gotcha-item{background:#fff;border:1px solid #e4e2dc;border-radius:10px;padding:14px 16px;margin-bottom:8px;transition:box-shadow .15s}
@@ -1599,7 +1598,7 @@ table.hq tr:last-child td{border-bottom:none}
 .gotcha-item .g-detail{font-size:13px;color:#555;line-height:1.6}
 /* Integration wizard */
 .int-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.int-tab{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #e4e2dc;background:#fff;color:#555;transition:all .15s;font-family:'Sora',sans-serif}
+.int-tab{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #e4e2dc;background:#fff;color:#555;transition:all .15s;font-family:'Inter',system-ui,sans-serif}
 .int-tab:hover{border-color:#0f0f0f;color:#0f0f0e}
 .int-tab.active{background:#0f0f0f;color:#fff;border-color:#0f0f0f}
 .int-content{display:none}.int-content.active{display:block}
@@ -1614,7 +1613,7 @@ table.hq tr:last-child td{border-bottom:none}
 .checklist-hq li:last-child{border-bottom:none}
 .checklist-hq li::before{content:'☐';font-size:14px;flex-shrink:0;color:#aaa}
 /* AI Coach */
-.ai-fab{position:fixed;bottom:28px;right:28px;z-index:9000;background:#0f0f0f;color:#fff;border:none;border-radius:50px;padding:13px 22px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.25);transition:all .2s;display:flex;align-items:center;gap:8px}
+.ai-fab{position:fixed;bottom:28px;right:28px;z-index:9000;background:#0f0f0f;color:#fff;border:none;border-radius:50px;padding:13px 22px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.25);transition:all .2s;display:flex;align-items:center;gap:8px}
 .ai-fab:hover{background:#333;transform:translateY(-2px)}
 .ai-panel{position:fixed;bottom:0;right:0;width:400px;height:100vh;background:#0f0f0f;border-left:1px solid #2a2a2a;z-index:8999;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
 .ai-panel.open{transform:translateX(0)}
@@ -1628,12 +1627,12 @@ table.hq tr:last-child td{border-bottom:none}
 .ai-msg.assistant{background:#1a1a1a;color:#ccc;border:1px solid #2a2a2a;align-self:flex-start;border-bottom-left-radius:3px}
 .ai-msg.assistant strong{color:#fff}
 .ai-quick{padding:12px 16px;border-top:1px solid #2a2a2a;display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
-.ai-quick-btn{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid #2a2a2a;background:#1a1a1a;color:#aaa;cursor:pointer;transition:all .15s;font-family:'Sora',sans-serif}
+.ai-quick-btn{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid #2a2a2a;background:#1a1a1a;color:#aaa;cursor:pointer;transition:all .15s;font-family:'Inter',system-ui,sans-serif}
 .ai-quick-btn:hover{border-color:#fff;color:#fff}
 .ai-input-row{padding:12px 16px;border-top:1px solid #2a2a2a;display:flex;gap:8px;flex-shrink:0}
-.ai-input{flex:1;padding:10px 14px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;color:#fff;font-family:'Sora',sans-serif;font-size:13px;outline:none;transition:border-color .2s;resize:none}
+.ai-input{flex:1;padding:10px 14px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;outline:none;transition:border-color .2s;resize:none}
 .ai-input:focus{border-color:#555}
-.ai-send{padding:10px 16px;background:#fff;border:none;border-radius:8px;color:#0f0f0f;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;flex-shrink:0}
+.ai-send{padding:10px 16px;background:#fff;border:none;border-radius:8px;color:#0f0f0f;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;flex-shrink:0}
 .ai-send:hover{background:#e5e5e5}
 .ai-send:disabled{opacity:.4;cursor:not-allowed}
 /* Questionnaire */
@@ -1648,7 +1647,7 @@ table.hq tr:last-child td{border-bottom:none}
 .q-result.visible{display:block}
 .q-result h2{font-size:20px;font-weight:700;color:#0f0f0e;margin-bottom:8px}
 .q-result p{font-size:13px;color:#333;margin-bottom:12px;line-height:1.6}
-.q-result .nav-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:#0f0f0f;border:none;border-radius:8px;color:#fff;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;margin-right:8px;margin-top:4px}
+.q-result .nav-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:#0f0f0f;border:none;border-radius:8px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;margin-right:8px;margin-top:4px}
 .q-result .nav-btn:hover{background:#333}
 </style>
 </head>
@@ -1682,7 +1681,6 @@ table.hq tr:last-child td{border-bottom:none}
 <!-- DASHBOARD -->
 <div class="page active" id="page-dashboard">
   <div id="beginner-banner" class="beginner-banner" style="display:none">
-    <div class="icon">🎓</div>
     <div><h3>Beginner Mode Active</h3><p>Extra guidance and warnings are shown throughout based on your answers.</p></div>
   </div>
   <div class="hero">
@@ -1744,7 +1742,7 @@ table.hq tr:last-child td{border-bottom:none}
     </div>
   </div>
 
-  <button onclick="submitQuestionnaire()" style="padding:13px 28px;background:#0f0f0f;border:none;border-radius:10px;color:#fff;font-family:'Sora',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;margin-top:8px">
+  <button onclick="submitQuestionnaire()" style="padding:13px 28px;background:#0f0f0f;border:none;border-radius:10px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;margin-top:8px">
     Set my profile →
   </button>
 
@@ -1841,7 +1839,7 @@ table.hq tr:last-child td{border-bottom:none}
 
 <div class="ai-panel" id="ai-panel">
   <div class="ai-header">
-    <div class="ai-title">🤖 EX3 Implementation Coach</div>
+    <div class="ai-title">EX3 Implementation Coach</div>
     <button class="ai-close" onclick="toggleAI()">×</button>
   </div>
   <div class="ai-messages" id="ai-messages">
@@ -2060,7 +2058,7 @@ function buildPlaybooks() {
     const el = document.createElement('div');
     el.className = 'phase';
     el.innerHTML = '<div class="phase-header" onclick="togglePhase(this)"><div class="phase-dot" style="background:' + phase.color + '"></div><div class="phase-title">' + phase.num + '. ' + phase.title + '</div><div class="phase-meta">' + phase.weeks + '</div><svg class="phase-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div><div class="phase-body">' +
-      phase.steps.map(function(s,i){ return '<div class="step-block"><div class="step-header"><div class="step-num">' + (i+1) + '</div><div class="step-title">' + s.title + '</div></div><div class="step-body"><div class="step-section"><div class="label">Exactly what to do</div><p>' + s.what + '</p></div>' + (s.say ? '<div class="say">&#128172; <strong>What to say:</strong> &ldquo;' + s.say + '&rdquo;</div>' : '') + (s.ask && s.ask.length ? '<div class="step-section"><div class="label">Key questions to ask</div><ul>' + s.ask.map(function(q){return '<li>'+q+'</li>';}).join('') + '</ul></div>' : '') + (s.prepare && s.prepare.length ? '<div class="step-section"><div class="label">Prepare / have open</div><ul>' + s.prepare.map(function(p){return '<li>'+p+'</li>';}).join('') + '</ul></div>' : '') + (s.output ? '<div class="tip-hq">&#10003; <strong>Output:</strong> ' + s.output + '</div>' : '') + (s.warn ? '<div class="warn">&#9888;&#65039; <strong>Watch out:</strong> ' + s.warn + '</div>' : '') + '</div></div>'; }).join('') + '</div>';
+      phase.steps.map(function(s,i){ return '<div class="step-block"><div class="step-header"><div class="step-num">' + (i+1) + '</div><div class="step-title">' + s.title + '</div></div><div class="step-body"><div class="step-section"><div class="label">Exactly what to do</div><p>' + s.what + '</p></div>' + (s.say ? '<div class="say"><strong>What to say:</strong> &ldquo;' + s.say + '&rdquo;</div>' : '') + (s.ask && s.ask.length ? '<div class="step-section"><div class="label">Key questions to ask</div><ul>' + s.ask.map(function(q){return '<li>'+q+'</li>';}).join('') + '</ul></div>' : '') + (s.prepare && s.prepare.length ? '<div class="step-section"><div class="label">Prepare / have open</div><ul>' + s.prepare.map(function(p){return '<li>'+p+'</li>';}).join('') + '</ul></div>' : '') + (s.output ? '<div class="tip-hq"><strong>Output:</strong> ' + s.output + '</div>' : '') + (s.warn ? '<div class="warn"><strong>Watch out:</strong> ' + s.warn + '</div>' : '') + '</div></div>'; }).join('') + '</div>';
     container.appendChild(el);
   });
 }
@@ -2068,37 +2066,37 @@ buildPlaybooks();
 
 // ── Document Vault data ───────────────────────────────────────────
 var vaultDocs = [
-  { cat:'Configuration Workbooks', icon:'&#128203;', items:[
+  { cat:'Configuration Workbooks', icon:'', items:[
     { name:'SFMASTER EXTERNAL Configuration Workbook v2', desc:'Main configuration workbook — the bible of your implementation', id:'13v74fSxV0MgSUoDUUU2AXHhgpIJbVwWb' },
     { name:'SFMASTER EXTERNAL SmartSuccess Configuration Workbook', desc:'SmartSuccess tier configuration workbook', id:'1Bxy_UoPaFWglYcepYOfsRL53ZXFlrZDR' },
     { name:'SFMASTER EXTERNAL Essentials Lite Configuration Workbook', desc:'Essentials Lite tier configuration workbook', id:'1LITLEOygS7ef6XriFCfDqzCQjXUOGmp3' },
     { name:'SF Winston Chat MASTER Configuration Workbook', desc:'Winston AI Chat feature configuration workbook', id:'1bLGB7JaBBT7AfS2fsZRXCl7VXd6yHTFr' },
     { name:'SFMASTER EXTERNAL Integrations Workbook', desc:'Capture all integration requirements — use in WS3', id:'1DrJ5WueJ2PlhkdiJuors3m1a2viT5vrB' },
   ]},
-  { cat:'UAT Scripts', icon:'&#129514;', items:[
+  { cat:'UAT Scripts', icon:'', items:[
     { name:'SFMASTER EXTERNAL General UAT Scripts', desc:'Standard UAT test scripts for all user roles', id:'1-W5PbI4aniXhYyKoSKYhL1keGagC6y4N' },
     { name:'SFMASTER EXTERNAL Example Custom UAT Scripts', desc:'Examples of customised test scripts', id:'1ia47AiaCm13-BalBO8LJnMU3OB9ZzpI1' },
     { name:'SFMASTER EXTERNAL CRM UAT Scripts', desc:'UAT scripts for CRM / candidate sourcing features', id:'1ydypqARgFiissgTD4PIUKIANTDPLTXVH' },
     { name:'SFMASTER EXTERNAL Mobile UAT Scripts', desc:'UAT scripts for mobile experience testing', id:'12sEbvW5k9dDPL2q8BLjr5C-S6Odo_sco' },
   ]},
-  { cat:'Go-Live & Cutover', icon:'&#128640;', items:[
+  { cat:'Go-Live & Cutover', icon:'', items:[
     { name:'SFMASTER EXTERNAL Go Live Checklist and Hypercare Tracker', desc:'Master go-live checklist and hypercare issue tracker', id:'1SqGFbwN98RxmoqjVH5oZnM7jW95dDLVZ' },
     { name:'SF MASTER EXTERNAL Cutover Plan Options', desc:'Cutover strategy options — review with client pre go-live', id:'12ekVpMSePPHPGbSNmt0W0BTH2V3Oknj1' },
     { name:'SF MASTER EXTERNAL Cutover Strategy', desc:'Detailed cutover strategy and execution guide', id:'1aB22z5sfBT7WwAZMXwskHUIvImOtU8aD' },
     { name:'SFMASTER INTERNAL SR Cutover Overview', desc:'Internal EX3 reference for SR cutover approach', id:'1-t95m1DK-4t4YzkqtlBPwamHhD_SNfFa' },
   ]},
-  { cat:'Training Materials', icon:'&#127891;', items:[
+  { cat:'Training Materials', icon:'', items:[
     { name:'MASTER HR Recruiter Training Guide', desc:'Full recruiter training guide', id:'1P8w6f_BmvOFGKHD5nZAIHG-C3nZQr3Hm' },
     { name:'MASTER Admin Training Guide', desc:'Full admin training guide', id:'1jF54u1NdGTNTFx2dX-jzHZF4EBUYQnsp' },
     { name:'SF MASTER EXTERNAL Hiring Manager Training Guide', desc:'Hiring manager training guide', id:'1yxAO4jnzl7jQmtToDfsSA008-4i20abz' },
     { name:'SF MASTER EXTERNAL Hiring Manager Quick Reference Card', desc:'One-page quick reference for hiring managers', id:'1uLY_lBVPYlGBJA00VIE2OvYwEAd5ESs6' },
     { name:'SF MASTER INTERNAL ONLY Training Overview', desc:'Internal overview of training approach and session plans', id:'1CULMb8d0ZGqFJ6zsbepuJxnEpDtC50m-' },
   ]},
-  { cat:'Closing & Go-Live Alignment', icon:'&#127937;', items:[
+  { cat:'Closing & Go-Live Alignment', icon:'', items:[
     { name:'SF MASTER Closing Meeting BAU', desc:'Closing meeting agenda and BAU handover template', id:'18msXnrpANj2Vowm3bXDcK-DeUgbN3wOY' },
     { name:'SF MASTER INTERNAL ONLY Go Live Alignment Call Overview', desc:'Internal guide for the go-live alignment call', id:'1gU8WIOUTnH93vJ95XU2rX5hiToX2MSg3' },
   ]},
-  { cat:'Reference & Best Practices', icon:'&#128218;', items:[
+  { cat:'Reference & Best Practices', icon:'', items:[
     { name:'SFMASTER EXTERNAL Configuration Best Practices HRIS Integrations', desc:'Best practices for HRIS integration configuration', id:'1J7zaTeoD_Fiy1ta6kX5fwpxqPBrp4iSS' },
     { name:'SFMASTER EXTERNAL SmartRecruiters Standard Values', desc:'Standard platform values — departments, locations, job types', id:'13mBUWjmXqsZ8i1kjnr9U4yFQmoY1LHjp' },
     { name:'SF MASTER EXTERNAL Multilingualism Best Practices', desc:'Best practices for multi-language implementations', id:'1aNxs1udLvbbdfoAXKfb76XbaThGx93zg' },
@@ -2108,7 +2106,7 @@ var vaultDocs = [
     { name:'SF MASTER Lessons Learned Log', desc:'Accumulated lessons from past implementations', id:'1RkTvfKFgyL2y9P3MUyOVRvCE8Lzx_w6w' },
     { name:'SF Email Template Merge Fields List', desc:'Full list of available merge fields for email templates', id:'1kpSlEV68B8q1aiC1BTWSHCA4HUyX9LWo' },
   ]},
-  { cat:'Discovery Workshop Decks', icon:'&#128193;', items:[
+  { cat:'Discovery Workshop Decks', icon:'', items:[
     { name:'Session 1 — System Controls & User Permissions', desc:'Workshop deck for Session 1', id:'1tOoFMiSkRmrZIzT2qiHq7qe0bzTeJzMx' },
     { name:'Session 2 — Job Creation & Management', desc:'Workshop deck for Session 2', id:'1QSovZ5Ny0lTk9-4INRe51Zi-c3v6xHFZ' },
     { name:'Session 3 — Functional Integrations & Ecosystem', desc:'Workshop deck for Session 3', id:'1xHv778Ssn_5sL2deUaarftdzE-FpusqG' },
@@ -2118,12 +2116,12 @@ var vaultDocs = [
     { name:'Session 7 — Offer Management & Hiring', desc:'Workshop deck for Session 7', id:'1pW17ZjkUfk4x48VV3vGHz_hqN4gUJ8F-' },
     { name:'Session 8 — Analytics', desc:'Workshop deck for Session 8', id:'1tWWqDY-YdMHjPcfmeNroHGHIwplCd-Vh' },
   ]},
-  { cat:'Project Management & Governance', icon:'&#128202;', items:[
+  { cat:'Project Management & Governance', icon:'', items:[
     { name:'SF Project Management Plan PMO', desc:'Project management plan template', id:'1vcCTx-RNb5FoRn8QidS-jN4HEhSGQjGB' },
     { name:'SF Iteration Signoff PMO', desc:'Phase gate sign-off document', id:'1e-efaWRmN1e2-6z5TeWL8iMtlWjyuONo' },
     { name:'SF MASTER TEMPLATE RACI', desc:'RACI matrix template', id:'1vqRwmTr8bDraxfYC3wr422kuN3rokohd' },
   ]},
-  { cat:'Kickoff & Workshop Planning', icon:'&#128197;', items:[
+  { cat:'Kickoff & Workshop Planning', icon:'', items:[
     { name:'SF MASTER Welcome Implementation Kickoff', desc:'Welcome kickoff presentation deck', id:'16hHsRIbsYRx2CLapBKxBr8mVrs4YnFmP' },
     { name:'SF MASTER Implementation Planning Meeting Agenda', desc:'Planning meeting agenda template', id:'1SZOxq4jyEDnCE7oubnj9KlA6jL3BkClS' },
     { name:'SF MASTER INTERNAL Implementation Planning Meeting Overview', desc:'Internal guide for running the planning meeting', id:'1yzuAk7a7gnAC8jDNPc6JhNLG-x5f-qhM' },
@@ -2135,17 +2133,17 @@ var vaultDocs = [
     { name:'SF MASTER EXTERNAL Discovery Workshops ONSITE 3 days', desc:'3-day on-site workshop agenda', id:'1I00-GOntP9iSph8WSNsEoIkB2bwTTq6E' },
     { name:'SF MASTER INTERNAL Understanding the SOW', desc:'Internal guide to reading and understanding the SOW', id:'1yZqHV-nb5jORtuuSqCbHnW8vDruouoIV' },
   ]},
-  { cat:'Internal Reference', icon:'&#128272;', items:[
+  { cat:'Internal Reference', icon:'', items:[
     { name:'SFMASTER INTERNAL SR Limits and FYIs', desc:'Platform limits and important FYIs — read before every project', id:'1smJo8hzn4RQA_CA2Y7xH2d05zabmRN5j' },
   ]},
-  { cat:'Process Flows & Partner Readiness', icon:'&#128260;', items:[
+  { cat:'Process Flows & Partner Readiness', icon:'', items:[
     { name:'MHR65 Recruiting for SmartRecruiters DRAFT', desc:'MHR65 recruitment process flow for SR', id:'1xQgto943oLaton9Lm46JZ5SEC74aAsAa' },
     { name:'SAP Partner Readiness Guide SmartRecruiters', desc:'SAP partner readiness and integration guide', id:'1oCzpc8ABb7NE3GisgyvpfDBOjLbHWrCI' },
   ]},
-  { cat:'UAT Preparation', icon:'&#9989;', items:[
+  { cat:'UAT Preparation', icon:'', items:[
     { name:'SF MASTER EXTERNAL UAT Preparation', desc:'Full UAT preparation guide — share 2 weeks before UAT starts', id:'1p-upRtH1Sev1gIUT93ER-A9VXtO79h-y' },
   ]},
-  { cat:'Advertising & Analytics', icon:'&#128200;', items:[
+  { cat:'Advertising & Analytics', icon:'', items:[
     { name:'A&A Recruiting Marketing Workbook 2024', desc:'Advertising and analytics recruiting marketing workbook', id:'1ZJDRF4d0VyTY3A45ZJGqiPZt4Yc-Ba_V' },
   ]},
 ];
@@ -2155,7 +2153,7 @@ function buildVault() {
   vaultDocs.forEach(function(cat) {
     var section = document.createElement('div');
     section.className = 'doc-category';
-    section.innerHTML = '<h3>' + cat.icon + ' ' + cat.cat + '</h3><div class="doc-grid">' + cat.items.map(function(d){ return '<div class="doc-item"><div class="doc-icon">' + cat.icon + '</div><div class="doc-info"><h4>' + d.name + '</h4><p>' + d.desc + '</p><a href="https://drive.google.com/file/d/' + d.id + '/view" target="_blank" class="doc-link">Open in Drive &#8594;</a></div></div>'; }).join('') + '</div>';
+    section.innerHTML = '<h3>' + cat.cat + '</h3><div class="doc-grid">' + cat.items.map(function(d){ return '<div class="doc-item"><div class="doc-info"><h4>' + d.name + '</h4><p>' + d.desc + '</p><a href="https://drive.google.com/file/d/' + d.id + '/view" target="_blank" class="doc-link">Open in Drive &#8594;</a></div></div>'; }).join('') + '</div>';
     container.appendChild(section);
   });
 }
@@ -3011,7 +3009,7 @@ app.get('/consultant/sow-builder', (_req, res) => {
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Sora',sans-serif;background:#f8f7f4;color:#0f0f0e;min-height:100vh;display:flex;flex-direction:column}
+    body{font-family:'Inter',system-ui,sans-serif;background:#f8f7f4;color:#0f0f0e;min-height:100vh;display:flex;flex-direction:column}
     .topbar{background:#0f0f0f;color:#fff;padding:14px 32px;display:flex;align-items:center;justify-content:space-between}
     .topbar .logo{font-size:24px;font-weight:900;letter-spacing:-.1em}
     .topbar a{color:#aaa;font-size:13px;text-decoration:none;transition:color .15s}
@@ -3047,7 +3045,7 @@ app.get('/consultant/sow-builder', (_req, res) => {
     /* SOW Output */
     .sow-output{display:none}
     .sow-output.show{display:block}
-    .sow-doc{background:#fff;border:1px solid #e4e2dc;border-radius:10px;padding:40px;line-height:1.8;font-size:14px;white-space:pre-wrap;font-family:'Sora',sans-serif;color:#0f0f0e}
+    .sow-doc{background:#fff;border:1px solid #e4e2dc;border-radius:10px;padding:40px;line-height:1.8;font-size:14px;white-space:pre-wrap;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e}
     .sow-actions{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
     .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;background:#f0fdf6;color:#0d7c4c;margin-bottom:16px}
     .wizard-wrap{max-width:700px;width:100%}
@@ -4390,7 +4388,7 @@ app.get('/demo', (_req, res) => {
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
-body{font-family:'Sora',sans-serif;background:#060606;color:#fff}
+body{font-family:'Inter',system-ui,sans-serif;background:#060606;color:#fff}
 
 /* ────── START SCREEN ────── */
 #start-screen{
@@ -5579,7 +5577,7 @@ app.get('/conversations', (req, res) => {
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Sora',sans-serif; background:#f8f7f4; color:#0f0f0e; height:100vh; display:flex; flex-direction:column; }
+  body { font-family:'Inter',system-ui,sans-serif; background:#f8f7f4; color:#0f0f0e; height:100vh; display:flex; flex-direction:column; }
   .topbar { display:flex; align-items:center; justify-content:space-between; padding:14px 24px; background:#fff; border-bottom:1px solid #e4e2dc; flex-shrink:0; }
   .topbar-title { font-size:16px; font-weight:700; }
   .topbar-nav { display:flex; gap:16px; font-size:13px; }
@@ -5754,7 +5752,7 @@ app.get('/demo2', (_req, res) => {
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden;background:#060606;color:#fff;font-family:'Sora',sans-serif;cursor:none}
+html,body{height:100%;overflow:hidden;background:#060606;color:#fff;font-family:'Inter',system-ui,sans-serif;cursor:none}
 *{cursor:none!important}
 
 /* Custom cursor */
