@@ -1548,10 +1548,10 @@ a{color:inherit;text-decoration:none}
 .step-section p,.step-section li{font-size:13px;color:#333;line-height:1.65}
 .step-section ul{padding-left:16px}
 .step-section li{margin-bottom:3px}
-.warn{background:#fff5f5;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:13px;color:#7f1d1d;margin-top:8px}
+.warn{border-left:3px solid #dc2626;background:#fff;padding:10px 14px;font-size:13px;color:#333;margin-top:8px}
 .warn strong{color:#dc2626}
-.say{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:13px;color:#1e3a5f;font-style:italic;margin-top:8px}
-.tip-hq{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:13px;color:#14532d;margin-top:8px}
+.say{border-left:3px solid #2563eb;background:#fff;padding:10px 14px;font-size:13px;color:#333;font-style:italic;margin-top:8px}
+.tip-hq{border-left:3px solid #16a34a;background:#fff;padding:10px 14px;font-size:13px;color:#333;margin-top:8px}
 /* Section titles */
 h2.sec{font-size:22px;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
 p.sec-sub{font-size:14px;color:#555;margin-bottom:24px}
@@ -1974,20 +1974,20 @@ function buildTimeline() {
     const label = document.createElement('div');
     label.className = 'tl-phase-label';
     label.textContent = phase.label;
-    label.style.background = phase.bg;
-    label.style.color = '#e2dff7';
-    label.style.border = '1px solid ' + phase.color;
+    label.style.background = phase.color;
+    label.style.color = '#fff';
     group.appendChild(label);
     const stepsRow = document.createElement('div');
     stepsRow.className = 'tl-steps';
-    stepsRow.style.background = phase.bg + '44';
-    stepsRow.style.borderColor = phase.color + '44';
+    stepsRow.style.background = '#f8f7f4';
+    stepsRow.style.borderColor = '#e4e2dc';
     phase.steps.forEach(step => {
       const el = document.createElement('div');
       el.className = 'tl-step';
-      el.style.background = phase.bg;
-      el.style.borderColor = phase.color;
-      el.innerHTML = '<div class="tl-step-title">' + step.title + '</div>';
+      el.style.background = '#fff';
+      el.style.borderColor = '#e4e2dc';
+      el.style.borderTop = '3px solid ' + phase.color;
+      el.innerHTML = '<div class="tl-step-title" style="color:#0f0f0e">' + step.title + '</div>';
       el.onclick = () => showTlDetail(step, phase.label, phase.color, el);
       stepsRow.appendChild(el);
     });
