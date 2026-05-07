@@ -1854,7 +1854,7 @@ table.hq tr:last-child td{border-bottom:none}
 .rg-hero-label::after{content:'';flex:0 0 24px;height:1px;background:#2a2a28}
 .rg-hero-title{font-size:38px;font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1.08;margin:0 0 18px}
 .rg-hero-sub{font-size:14px;color:#5a5a58;line-height:1.8;margin:0;max-width:540px}
-.rg-form-wrap{padding:36px 0 0}
+.rg-form-wrap{padding:36px 0 0;position:relative;z-index:1}
 .rg-form-card{background:#fff;border:1px solid #ebe7e1;border-radius:14px;padding:32px 36px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .rg-label{display:block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa8a4;margin-bottom:10px}
 .rg-textarea{width:100%;padding:14px 16px;border:1.5px solid #ebe7e1;border-radius:9px;font-size:14px;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e;background:#fff;outline:none;transition:border-color .18s,box-shadow .18s;box-sizing:border-box;resize:vertical;min-height:120px;line-height:1.7}
