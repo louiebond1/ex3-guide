@@ -1846,6 +1846,62 @@ table.hq tr:last-child td{border-bottom:none}
 .pw-area-proc-item:last-child{border-bottom:none}
 .pw-area-week-badge{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:3px;display:inline-block;margin-bottom:8px;margin-top:14px}
 @media(max-width:900px){.pw-hero{padding:36px 24px 32px}.pw-form-row,.pw-form-row2{grid-template-columns:1fr}.pw-areas-grid,.pw-int-grid{grid-template-columns:1fr 1fr}.pw-result-topbar{flex-direction:column;gap:16px;align-items:flex-start}.pw-week-header{padding:14px 18px}.pw-process{padding:16px 18px}.pw-stats-bar{gap:20px;flex-wrap:wrap}.pw-view-tabs{padding:0 18px}.pw-process-header{flex-direction:column;gap:10px}.pw-process-badges{justify-content:flex-start}}
+/* Request a Guide */
+.rg-hero{background:linear-gradient(160deg,#0f0f0e 0%,#181816 100%);padding:64px 48px 56px;margin:-32px -32px 0;position:relative;overflow:hidden}
+.rg-hero::before{content:'';position:absolute;top:-60px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,.06) 0%,transparent 65%);pointer-events:none}
+.rg-hero-inner{max-width:680px;position:relative;z-index:1}
+.rg-hero-label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#3a3a38;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.rg-hero-label::after{content:'';flex:0 0 24px;height:1px;background:#2a2a28}
+.rg-hero-title{font-size:38px;font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1.08;margin:0 0 18px}
+.rg-hero-sub{font-size:14px;color:#5a5a58;line-height:1.8;margin:0;max-width:540px}
+.rg-form-wrap{padding:36px 0 0}
+.rg-form-card{background:#fff;border:1px solid #ebe7e1;border-radius:14px;padding:32px 36px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.rg-label{display:block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa8a4;margin-bottom:10px}
+.rg-textarea{width:100%;padding:14px 16px;border:1.5px solid #ebe7e1;border-radius:9px;font-size:14px;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e;background:#fff;outline:none;transition:border-color .18s,box-shadow .18s;box-sizing:border-box;resize:vertical;min-height:120px;line-height:1.7}
+.rg-textarea:focus{border-color:#0f0f0e;box-shadow:0 0 0 3px rgba(15,15,14,.06)}
+.rg-examples{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.rg-example{font-size:11.5px;color:#888;background:#f5f4f1;border:1.5px solid #ebe7e1;border-radius:20px;padding:5px 13px;cursor:pointer;transition:all .18s;font-family:'Inter',system-ui,sans-serif;line-height:1.5}
+.rg-example:hover{background:#ebe7e1;color:#333;border-color:#d6d1c9}
+.rg-run-btn{display:inline-flex;align-items:center;gap:10px;padding:13px 28px;background:#0f0f0e;border:none;border-radius:9px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s;letter-spacing:-.01em}
+.rg-run-btn:hover{background:#1c1c1a;transform:translateY(-1px);box-shadow:0 6px 20px rgba(15,15,14,.18)}
+.rg-run-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.rg-hint{font-size:12px;color:#bbb}
+.rg-loading{align-items:flex-start;gap:20px;padding:48px 0;max-width:600px}
+.rg-spinner{width:20px;height:20px;border:2px solid #eae6e0;border-top-color:#0f0f0e;border-radius:50%;animation:gen-spin .8s linear infinite;flex-shrink:0;margin-top:3px}
+.rg-loading-title{font-size:15px;font-weight:700;color:#0f0f0e;margin-bottom:6px}
+.rg-loading-sub{font-size:13px;color:#aaa;line-height:1.7}
+.rg-result-wrap{margin-top:36px;border-radius:14px;overflow:hidden;border:1px solid #ebe7e1}
+.rg-result-topbar{background:#0f0f0e;padding:22px 32px;display:flex;align-items:center;justify-content:space-between}
+.rg-result-label{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#3a3a38;margin-bottom:5px}
+.rg-result-title{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.025em}
+.rg-export-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.5);font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.rg-export-btn:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.9)}
+.rg-export-btn:disabled{opacity:.3;cursor:not-allowed}
+.rg-summary{padding:28px 32px;background:#fafaf8;border-bottom:1px solid #ebe7e1;font-size:14px;color:#555;line-height:1.85}
+.rg-body{background:#fff}
+.rg-section{padding:26px 32px;border-bottom:1px solid #f5f2ed}
+.rg-section:last-child{border-bottom:none}
+.rg-section-heading{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#0f0f0e;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.rg-section-heading::after{content:'';flex:1;height:1px;background:#ebe7e1}
+.rg-section-body{font-size:13.5px;color:#444;line-height:1.8}
+.rg-steps-list{margin:0;padding:0;list-style:none;counter-reset:rg-step}
+.rg-steps-list li{counter-increment:rg-step;display:flex;gap:13px;padding:9px 0;border-bottom:1px solid #f5f2ed;font-size:13px;color:#444;line-height:1.7}
+.rg-steps-list li:last-child{border-bottom:none;padding-bottom:2px}
+.rg-steps-list li::before{content:counter(rg-step);display:flex;align-items:center;justify-content:center;min-width:22px;height:22px;background:#f2efe9;color:#999;border-radius:50%;font-size:10px;font-weight:800;margin-top:3px;flex-shrink:0}
+.rg-watch-item{display:flex;gap:12px;padding:8px 12px;border-left:2px solid #fbbf24;margin-bottom:8px;font-size:13px;color:#92400e;line-height:1.65}
+.rg-watch-item:last-child{margin-bottom:0}
+.rg-watch-icon{color:#f59e0b;font-size:12px;font-weight:800;flex-shrink:0;padding-top:1px}
+.rg-raci-row{display:flex;align-items:flex-start;gap:0;border-bottom:1px solid #f5f2ed;padding:10px 0}
+.rg-raci-row:last-child{border-bottom:none}
+.rg-raci-role{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 11px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-right:16px;margin-top:1px}
+.rg-role-ex3{background:#0f0f0e;color:#fff}
+.rg-role-client{background:#f0f5ff;color:#2563eb;border:1px solid #bfdbfe}
+.rg-role-both{background:#f7f3ff;color:#7c3aed;border:1px solid #ddd6fe}
+.rg-raci-task{font-size:13px;color:#444;line-height:1.65}
+.rg-docs-list{display:flex;flex-direction:column;gap:0}
+.rg-doc-item{font-size:13px;color:#555;display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f5f2ed}
+.rg-doc-item:last-child{border-bottom:none}
+.rg-doc-item::before{content:'';width:5px;height:5px;border-radius:50%;background:#c8c4be;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -1874,6 +1930,7 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="sb-item" onclick="showPage('generator')">Kickoff Generator</div>
   <div class="sb-item" onclick="showPage('meetingcoach')">Meeting Coach</div>
   <div class="sb-item" onclick="showPage('workbook')">Project Workbook</div>
+  <div class="sb-item" onclick="showPage('guide')">Request a Guide</div>
 </nav>
 
 <!-- Main -->
@@ -2350,6 +2407,64 @@ table.hq tr:last-child td{border-bottom:none}
     </div>
     <div id="pw-weeks-container" class="pw-weeks-container"></div>
     <div id="pw-area-container" class="pw-by-area" style="display:none"></div>
+  </div>
+</div>
+
+<!-- REQUEST A GUIDE -->
+<div class="page" id="page-guide">
+  <div class="rg-hero">
+    <div class="rg-hero-inner">
+      <div class="rg-hero-label">Knowledge Guide</div>
+      <h1 class="rg-hero-title">Tell me where you are.<br>Get exactly what you need.</h1>
+      <p class="rg-hero-sub">Describe your situation in plain English &mdash; whether you&rsquo;re about to run a kickoff, stuck on an integration, or need to understand a SmartRecruiters feature. We search all 57 source documents and build you a focused, professional guide.</p>
+    </div>
+  </div>
+
+  <div class="rg-form-wrap">
+    <div class="rg-form-card">
+      <label class="rg-label">What do you need to know?</label>
+      <div class="rg-examples">
+        <span class="rg-example" onclick="rgSetExample(this)">Going into a kickoff tomorrow and have no idea what to expect</span>
+        <span class="rg-example" onclick="rgSetExample(this)">Need to connect SmartRecruiters to an onboarding system</span>
+        <span class="rg-example" onclick="rgSetExample(this)">At the UAT stage &mdash; what do I need to prepare?</span>
+        <span class="rg-example" onclick="rgSetExample(this)">How do I set up a multi-language career site?</span>
+        <span class="rg-example" onclick="rgSetExample(this)">My client is asking about GDPR &mdash; what do I configure?</span>
+        <span class="rg-example" onclick="rgSetExample(this)">What is a hiring process and how do I build one?</span>
+      </div>
+      <textarea class="rg-textarea" id="rg-query" placeholder="e.g. I'm going into a kickoff meeting tomorrow and have no idea what to expect or prepare..."></textarea>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:20px">
+        <button class="rg-run-btn" id="rg-run-btn" onclick="runGuide()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Request Guide
+        </button>
+        <span class="rg-hint" id="rg-hint" style="display:none">Searching 57 documents&hellip;</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rg-loading" id="rg-loading" style="display:none">
+    <div class="rg-spinner"></div>
+    <div>
+      <div class="rg-loading-title">Building your guide&hellip;</div>
+      <div class="rg-loading-sub">Searching all 57 source documents and compiling everything relevant to your situation.</div>
+    </div>
+  </div>
+
+  <div id="rg-result" style="display:none">
+    <div class="rg-result-wrap">
+      <div class="rg-result-topbar">
+        <div>
+          <div class="rg-result-label">Knowledge Guide</div>
+          <div class="rg-result-title" id="rg-result-title"></div>
+        </div>
+        <button class="rg-export-btn" id="rg-export-btn" onclick="exportGuide()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export as Word
+        </button>
+      </div>
+      <div class="rg-summary" id="rg-summary"></div>
+      <div class="rg-body" id="rg-body"></div>
+    </div>
   </div>
 </div>
 
@@ -3358,6 +3473,127 @@ function exportWorkbook() {
   .catch(function(){ alert('Export failed. Please try again.'); })
   .finally(function(){ btn.disabled = false; });
 }
+
+// ── Request a Guide ──────────────────────────────────────────────
+var rgGuideData = null;
+
+function rgSetExample(el) {
+  document.getElementById('rg-query').value = el.textContent.trim();
+  document.getElementById('rg-query').focus();
+}
+
+function runGuide() {
+  var query = document.getElementById('rg-query').value.trim();
+  if(!query){ alert('Please describe your situation or what you need to know.'); return; }
+
+  document.getElementById('rg-result').style.display = 'none';
+  var loadEl = document.getElementById('rg-loading');
+  loadEl.style.display = 'flex';
+  document.getElementById('rg-run-btn').disabled = true;
+  document.getElementById('rg-hint').style.display = 'inline';
+
+  fetch('/consultant/implementation-hq/request-guide', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ query: query })
+  })
+  .then(function(r){ if(!r.ok) throw new Error('failed'); return r.json(); })
+  .then(function(data){
+    rgGuideData = data;
+    loadEl.style.display = 'none';
+    document.getElementById('rg-hint').style.display = 'none';
+    renderGuide(data);
+    document.getElementById('rg-result').style.display = 'block';
+    document.getElementById('rg-result').scrollIntoView({ behavior:'smooth', block:'start' });
+  })
+  .catch(function(){
+    loadEl.style.display = 'none';
+    document.getElementById('rg-hint').style.display = 'none';
+    alert('Failed to generate guide. Please try again.');
+  })
+  .finally(function(){ document.getElementById('rg-run-btn').disabled = false; });
+}
+
+function renderGuide(d) {
+  document.getElementById('rg-result-title').textContent = d.title || 'Knowledge Guide';
+  document.getElementById('rg-summary').textContent = d.summary || '';
+
+  var body = document.getElementById('rg-body');
+  body.innerHTML = '';
+
+  (d.sections || []).forEach(function(sec) {
+    var div = document.createElement('div');
+    div.className = 'rg-section';
+    div.innerHTML = '<div class="rg-section-heading">' + esc(sec.heading) + '</div>' +
+      '<div class="rg-section-body">' + esc(sec.content) + '</div>';
+    body.appendChild(div);
+  });
+
+  if((d.steps || []).length) {
+    var div = document.createElement('div');
+    div.className = 'rg-section';
+    var html = '<div class="rg-section-heading">Key Steps</div><ol class="rg-steps-list">';
+    d.steps.forEach(function(s){ html += '<li>' + esc(s) + '</li>'; });
+    html += '</ol>';
+    div.innerHTML = html;
+    body.appendChild(div);
+  }
+
+  if((d.watchOut || []).length) {
+    var div = document.createElement('div');
+    div.className = 'rg-section';
+    var html = '<div class="rg-section-heading">Watch Out For</div>';
+    d.watchOut.forEach(function(w){
+      html += '<div class="rg-watch-item"><span class="rg-watch-icon">&#9888;</span>' + esc(w) + '</div>';
+    });
+    div.innerHTML = html;
+    body.appendChild(div);
+  }
+
+  if((d.whoDoesWhat || []).length) {
+    var div = document.createElement('div');
+    div.className = 'rg-section';
+    var html = '<div class="rg-section-heading">Who Does What</div>';
+    d.whoDoesWhat.forEach(function(r){
+      var rc = r.role === 'Client' ? 'rg-role-client' : r.role === 'Both' ? 'rg-role-both' : 'rg-role-ex3';
+      html += '<div class="rg-raci-row"><span class="rg-raci-role ' + rc + '">' + esc(r.role) + '</span><span class="rg-raci-task">' + esc(r.task) + '</span></div>';
+    });
+    div.innerHTML = html;
+    body.appendChild(div);
+  }
+
+  if((d.keyDocs || []).length) {
+    var div = document.createElement('div');
+    div.className = 'rg-section';
+    var html = '<div class="rg-section-heading">Key Documents</div><div class="rg-docs-list">';
+    d.keyDocs.forEach(function(doc){ html += '<div class="rg-doc-item">' + esc(doc) + '</div>'; });
+    html += '</div>';
+    div.innerHTML = html;
+    body.appendChild(div);
+  }
+}
+
+function exportGuide() {
+  if(!rgGuideData){ alert('Generate a guide first.'); return; }
+  var btn = document.getElementById('rg-export-btn');
+  btn.disabled = true;
+  fetch('/consultant/implementation-hq/export-guide', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(rgGuideData)
+  })
+  .then(function(r){ if(!r.ok) throw new Error('failed'); return r.blob(); })
+  .then(function(blob){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = (rgGuideData.title || 'Knowledge_Guide').replace(/[^a-z0-9]/gi,'_') + '.docx';
+    a.click();
+    URL.revokeObjectURL(url);
+  })
+  .catch(function(){ alert('Export failed. Please try again.'); })
+  .finally(function(){ btn.disabled = false; });
+}
 </script>
 </body></html>`);
 });
@@ -4118,6 +4354,208 @@ app.post('/consultant/implementation-hq/export-workbook', async (req, res) => {
     res.send(buffer);
   } catch(err) {
     console.error('Workbook export error:', err.message);
+    res.status(500).json({ error: 'Export failed: ' + err.message });
+  }
+});
+
+// Request a Guide — generation
+app.post('/consultant/implementation-hq/request-guide', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+
+  const { query } = req.body;
+  if (!query) return res.status(400).json({ error: 'Missing query' });
+
+  const prompt = `You are a senior SmartRecruiters implementation consultant creating a professional knowledge guide. A colleague has described their situation below. Search the implementation documents thoroughly and produce a focused, practical guide.
+
+Situation: ${query}
+
+RULES — follow these exactly:
+- Every piece of advice must come directly from the implementation documents — no generic project management advice
+- Be specific: name exact SmartRecruiters features, settings, menu paths, field names, and button labels
+- Be concise: every sentence must earn its place — no filler, no repetition, no waffle
+- Explain what things ARE before telling the person what to DO — write for someone doing this for the first time
+- Tone: confident, direct, professional — like advice from a trusted senior colleague, not an AI
+
+Return ONLY a valid JSON object (no markdown, no code fences, no preamble):
+{
+  "title": "Specific descriptive guide title e.g. 'Running Your First Kickoff Call' or 'Connecting SmartRecruiters to an Onboarding System'",
+  "summary": "2-3 sentence plain-English explanation of the topic and why it matters — for someone who has never done this before",
+  "sections": [
+    {
+      "heading": "Section heading e.g. 'What This Is', 'Before You Start', 'How It Works in SmartRecruiters'",
+      "content": "3-6 sentences of specific practical guidance drawn from the documents. Name real SmartRecruiters features, settings pages, and terminology. Professional flowing prose — no bullet points inside content."
+    }
+  ],
+  "steps": [
+    "Step 1: Specific action with exact SmartRecruiters navigation or context e.g. Go to Main Menu > Settings > Hiring > Hiring Processes and click Create New Process",
+    "Step 2: ..."
+  ],
+  "watchOut": [
+    "Specific gotcha or common mistake drawn from the documents — practical, precise, and direct"
+  ],
+  "whoDoesWhat": [
+    { "role": "EX3", "task": "What the consultant owns and delivers in this area" },
+    { "role": "Client", "task": "What the client must own, decide, or deliver" }
+  ],
+  "keyDocs": [
+    "Name of a relevant document from the knowledge base this person should read"
+  ]
+}
+
+Generate 3-4 sections, 5-8 steps, 2-4 watch-outs, 2-4 who-does-what rows, 2-5 key documents.`;
+
+  try {
+    const thread = await openai.beta.threads.create();
+    await openai.beta.threads.messages.create(thread.id, { role: 'user', content: prompt });
+    await openai.beta.threads.runs.createAndPoll(thread.id, { assistant_id: process.env.ASSISTANT_ID });
+
+    const messages = await openai.beta.threads.messages.list(thread.id);
+    const last = messages.data.find(m => m.role === 'assistant');
+    if (!last) return res.status(500).json({ error: 'No response from AI' });
+
+    let raw = (last.content[0]?.text?.value || '').replace(/【[^】]*】/g, '').trim();
+    raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+
+    let data;
+    try { data = JSON.parse(raw); }
+    catch(e) {
+      const match = raw.match(/\{[\s\S]*\}/);
+      if (match) { try { data = JSON.parse(match[0]); } catch(e2) { return res.status(500).json({ error: 'AI returned invalid JSON' }); } }
+      else return res.status(500).json({ error: 'AI returned invalid JSON' });
+    }
+
+    return res.json(data);
+  } catch(err) {
+    console.error('Guide generator error:', err.message);
+    return res.status(500).json({ error: 'Generation failed: ' + err.message });
+  }
+});
+
+// Request a Guide — Word export
+app.post('/consultant/implementation-hq/export-guide', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+
+  const d = req.body;
+  if (!d || !d.title) return res.status(400).json({ error: 'No guide data' });
+
+  try {
+    const { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun,
+            AlignmentType, BorderStyle, WidthType, ShadingType } = require('docx');
+
+    const NAVY = '0f0f0e';
+    const LIGHT = 'f8f7f4';
+    const BORDER = { style: BorderStyle.SINGLE, size: 1, color: 'e4e2dc' };
+    const CB = { top: BORDER, bottom: BORDER, left: BORDER, right: BORDER };
+
+    const secHead = (text) => new Paragraph({
+      spacing: { before: 400, after: 160 },
+      border: { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'e4e2dc' } },
+      children: [new TextRun({ text: text.toUpperCase(), bold: true, size: 18, font: 'Calibri', color: NAVY, characterSpacing: 80 })],
+    });
+
+    const body = (text) => new Paragraph({
+      spacing: { after: 100 },
+      children: [new TextRun({ text: String(text || ''), size: 20, font: 'Calibri', color: '333333' })],
+    });
+
+    const children = [];
+    const now = new Date();
+    const months3 = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const dateStr = now.getDate() + ' ' + months3[now.getMonth()] + ' ' + now.getFullYear();
+
+    // Cover
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 2000, after: 120 }, children: [new TextRun({ text: 'EX3', bold: true, size: 64, font: 'Calibri', color: NAVY })] }));
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 80 }, children: [new TextRun({ text: 'Knowledge Guide', size: 28, font: 'Calibri', color: '888888' })] }));
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 600 }, children: [new TextRun({ text: d.title || '', bold: true, size: 48, font: 'Calibri', color: NAVY })] }));
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [new TextRun({ text: 'Generated ' + dateStr + '  |  EX3 Implementation HQ', size: 18, font: 'Calibri', color: 'aaaaaa', italics: true })] }));
+    children.push(new Paragraph({ pageBreakBefore: true, children: [new TextRun({ text: '' })] }));
+
+    // Summary
+    children.push(secHead('Summary'));
+    children.push(body(d.summary || ''));
+
+    // Sections
+    (d.sections || []).forEach(sec => {
+      children.push(secHead(sec.heading || ''));
+      children.push(body(sec.content || ''));
+    });
+
+    // Steps
+    if ((d.steps || []).length) {
+      children.push(secHead('Key Steps'));
+      d.steps.forEach((step, i) => {
+        children.push(new Paragraph({
+          spacing: { after: 80 },
+          children: [
+            new TextRun({ text: String(i + 1) + '.  ', bold: true, size: 20, font: 'Calibri', color: NAVY }),
+            new TextRun({ text: String(step || ''), size: 20, font: 'Calibri', color: '333333' }),
+          ],
+        }));
+      });
+    }
+
+    // Watch out
+    if ((d.watchOut || []).length) {
+      children.push(secHead('Watch Out For'));
+      d.watchOut.forEach(w => {
+        children.push(new Paragraph({
+          spacing: { after: 80 },
+          children: [
+            new TextRun({ text: 'WARNING: ', bold: true, size: 20, font: 'Calibri', color: '92400e' }),
+            new TextRun({ text: String(w || ''), size: 20, font: 'Calibri', color: '92400e' }),
+          ],
+        }));
+      });
+    }
+
+    // Who does what
+    if ((d.whoDoesWhat || []).length) {
+      children.push(secHead('Who Does What'));
+      children.push(new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        rows: [
+          new TableRow({ children: [
+            new TableCell({ width: { size: 20, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'Role', bold: true, size: 20, font: 'Calibri', color: NAVY })] })] }),
+            new TableCell({ width: { size: 80, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'Responsibility', bold: true, size: 20, font: 'Calibri', color: NAVY })] })] }),
+          ]}),
+          ...(d.whoDoesWhat || []).map(r => new TableRow({ children: [
+            new TableCell({ width: { size: 20, type: WidthType.PERCENTAGE }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: String(r.role || ''), bold: true, size: 20, font: 'Calibri', color: NAVY })] })] }),
+            new TableCell({ width: { size: 80, type: WidthType.PERCENTAGE }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: String(r.task || ''), size: 20, font: 'Calibri', color: '333333' })] })] }),
+          ]})),
+        ],
+      }));
+    }
+
+    // Key docs
+    if ((d.keyDocs || []).length) {
+      children.push(secHead('Key Documents'));
+      d.keyDocs.forEach((doc, i) => {
+        children.push(new Paragraph({
+          spacing: { after: 80 },
+          children: [
+            new TextRun({ text: String(i + 1) + '.  ', bold: true, size: 20, font: 'Calibri', color: '888888' }),
+            new TextRun({ text: String(doc || ''), size: 20, font: 'Calibri', color: '333333' }),
+          ],
+        }));
+      });
+    }
+
+    // Footer
+    children.push(new Paragraph({
+      spacing: { before: 640 },
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: 'EX3 Confidential  |  Generated by EX3 Implementation HQ', size: 16, font: 'Calibri', color: 'aaaaaa', italics: true })],
+    }));
+
+    const doc = new Document({ sections: [{ children }] });
+    const buffer = await Packer.toBuffer(doc);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', 'attachment; filename="Knowledge_Guide.docx"');
+    res.send(buffer);
+  } catch(err) {
+    console.error('Guide export error:', err.message);
     res.status(500).json({ error: 'Export failed: ' + err.message });
   }
 });
