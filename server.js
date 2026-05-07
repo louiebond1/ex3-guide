@@ -1902,6 +1902,86 @@ table.hq tr:last-child td{border-bottom:none}
 .rg-doc-item{font-size:13px;color:#555;display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f5f2ed}
 .rg-doc-item:last-child{border-bottom:none}
 .rg-doc-item::before{content:'';width:5px;height:5px;border-radius:50%;background:#c8c4be;flex-shrink:0}
+.est-hero{background:linear-gradient(160deg,#0f0f0e 0%,#181816 100%);padding:64px 48px 56px;margin:-32px -32px 0;position:relative;overflow:hidden}
+.est-hero::before{content:'';position:absolute;top:-60px;left:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(99,102,241,.05) 0%,transparent 65%);pointer-events:none}
+.est-hero-inner{max-width:680px;position:relative;z-index:1}
+.est-hero-label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#3a3a38;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.est-hero-label::after{content:'';flex:0 0 24px;height:1px;background:#2a2a28}
+.est-hero-title{font-size:38px;font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1.08;margin:0 0 18px}
+.est-hero-sub{font-size:14px;color:#5a5a58;line-height:1.8;margin:0;max-width:540px}
+.est-wrap{padding:36px 0 0;position:relative;z-index:1}
+.est-progress-bar{height:3px;background:#ebe7e1;border-radius:2px;margin-bottom:10px;overflow:hidden}
+.est-progress-fill{height:100%;background:#0f0f0e;border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.est-step-count{font-size:11px;font-weight:600;color:#bbb;letter-spacing:.06em;margin-bottom:24px;text-transform:uppercase}
+.est-card{background:#fff;border:1px solid #ebe7e1;border-radius:14px;padding:36px 40px;box-shadow:0 2px 8px rgba(0,0,0,.04);margin-bottom:24px}
+.est-section-title{font-size:17px;font-weight:800;color:#0f0f0e;letter-spacing:-.03em;margin:0 0 4px}
+.est-section-sub{font-size:13px;color:#aaa;margin:0 0 32px;line-height:1.5}
+.est-q{margin-bottom:30px}
+.est-q:last-child{margin-bottom:0}
+.est-q-label{font-size:12px;font-weight:700;color:#0f0f0e;letter-spacing:.01em;margin-bottom:10px;display:block}
+.est-q-sub{font-size:11px;color:#bbb;margin-bottom:10px;display:block;margin-top:-6px}
+.est-pills{display:flex;flex-wrap:wrap;gap:8px}
+.est-pill{position:relative}
+.est-pill input{position:absolute;opacity:0;width:0;height:0}
+.est-pill label{display:inline-flex;align-items:center;padding:9px 18px;border:1.5px solid #ebe7e1;border-radius:8px;font-size:13px;color:#666;cursor:pointer;transition:all .18s;background:#fafaf8;font-family:'Inter',system-ui,sans-serif;font-weight:500;line-height:1.3;user-select:none}
+.est-pill label:hover{border-color:#bbb;color:#111;background:#f5f4f1}
+.est-pill input:checked + label{border-color:#0f0f0e;background:#0f0f0e;color:#fff}
+.est-checkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.est-check{position:relative}
+.est-check input{position:absolute;opacity:0;width:0;height:0}
+.est-check label{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid #ebe7e1;border-radius:8px;font-size:13px;color:#666;cursor:pointer;transition:all .18s;background:#fafaf8;font-family:'Inter',system-ui,sans-serif;font-weight:500;user-select:none}
+.est-check label::before{content:'';width:14px;height:14px;border:1.5px solid #d6d2cc;border-radius:4px;flex-shrink:0;transition:all .15s;background:#fff}
+.est-check input:checked + label{border-color:#0f0f0e;background:#f8f8f6;color:#111}
+.est-check input:checked + label::before{background:#0f0f0e;border-color:#0f0f0e;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 5l2.5 2.5L8 3' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
+.est-divider{height:1px;background:#f0ede8;margin:28px 0}
+.est-btn-row{display:flex;gap:12px;align-items:center;margin-top:8px}
+.est-btn-next{display:inline-flex;align-items:center;gap:10px;padding:13px 28px;background:#0f0f0e;border:none;border-radius:9px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s;letter-spacing:-.01em}
+.est-btn-next:hover{background:#1c1c1a;transform:translateY(-1px);box-shadow:0 6px 20px rgba(15,15,14,.18)}
+.est-btn-back{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;background:transparent;border:1.5px solid #ebe7e1;border-radius:9px;color:#888;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s}
+.est-btn-back:hover{border-color:#bbb;color:#333}
+.est-loading{display:none;align-items:flex-start;gap:20px;padding:48px 0;max-width:600px}
+.est-spinner{width:20px;height:20px;border:2px solid #eae6e0;border-top-color:#0f0f0e;border-radius:50%;animation:gen-spin .8s linear infinite;flex-shrink:0;margin-top:3px}
+.est-loading-title{font-size:15px;font-weight:700;color:#0f0f0e;margin-bottom:6px}
+.est-loading-sub{font-size:13px;color:#aaa;line-height:1.7}
+.est-result{display:none;margin-top:0}
+.est-result-wrap{border-radius:14px;overflow:hidden;border:1px solid #ebe7e1}
+.est-result-topbar{background:#0f0f0e;padding:28px 36px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+.est-result-label{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#3a3a38;margin-bottom:10px}
+.est-result-headline{font-size:34px;font-weight:800;color:#fff;letter-spacing:-.045em;line-height:1;margin-bottom:6px}
+.est-result-sub{font-size:13px;color:#555}
+.est-result-export{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.5);font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;margin-top:6px}
+.est-result-export:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.9)}
+.est-result-export:disabled{opacity:.3;cursor:not-allowed}
+.est-stats-row{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid #ebe7e1}
+.est-stat{padding:22px 28px;border-right:1px solid #ebe7e1;background:#fafaf8}
+.est-stat:last-child{border-right:none}
+.est-stat-label{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#bbb;margin-bottom:8px}
+.est-stat-value{font-size:24px;font-weight:800;color:#0f0f0e;letter-spacing:-.04em;line-height:1}
+.est-stat-unit{font-size:11px;font-weight:500;color:#aaa;margin-top:4px}
+.est-timeline-section{padding:28px 32px;border-bottom:1px solid #ebe7e1;background:#fff}
+.est-sec-label{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#0f0f0e;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.est-sec-label::after{content:'';flex:1;height:1px;background:#ebe7e1}
+.est-phases{display:flex;gap:0;border:1px solid #ebe7e1;border-radius:10px;overflow:hidden}
+.est-phase{flex:1;padding:16px 14px;border-right:1px solid #ebe7e1;background:#fff}
+.est-phase:last-child{border-right:none}
+.est-phase-name{font-size:9px;font-weight:700;color:#aaa;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;line-height:1.4}
+.est-phase-weeks{font-size:20px;font-weight:800;color:#0f0f0e;letter-spacing:-.035em;line-height:1}
+.est-phase-wlabel{font-size:10px;color:#bbb;margin-top:3px}
+.est-body-section{padding:26px 32px;border-bottom:1px solid #f5f2ed;background:#fff}
+.est-body-section:last-child{border-bottom:none}
+.est-body-text{font-size:13.5px;color:#444;line-height:1.85}
+.est-risk-item{display:flex;gap:12px;padding:9px 12px;border-left:2px solid #fbbf24;margin-bottom:8px;font-size:13px;color:#92400e;line-height:1.65;border-radius:0 6px 6px 0}
+.est-risk-item:last-child{margin-bottom:0}
+.est-risk-icon{color:#f59e0b;font-size:11px;flex-shrink:0;padding-top:2px}
+.est-assume-item{font-size:13px;color:#555;padding:8px 0;border-bottom:1px solid #f5f2ed;display:flex;gap:10px;align-items:flex-start;line-height:1.65}
+.est-assume-item:last-child{border-bottom:none}
+.est-assume-item::before{content:'';width:5px;height:5px;border-radius:50%;background:#c8c4be;flex-shrink:0;margin-top:8px}
+.est-confidence{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase}
+.est-conf-high{background:#dcfce7;color:#166534}
+.est-conf-med{background:#fef3c7;color:#92400e}
+.est-conf-low{background:#fee2e2;color:#991b1b}
+.est-reset-btn{display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:10px 20px;background:transparent;border:1.5px solid #ebe7e1;border-radius:9px;color:#888;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s}
+.est-reset-btn:hover{border-color:#bbb;color:#333}
 </style>
 </head>
 <body>
@@ -1931,6 +2011,7 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="sb-item" onclick="showPage('meetingcoach')">Meeting Coach</div>
   <div class="sb-item" onclick="showPage('workbook')">Project Workbook</div>
   <div class="sb-item" onclick="showPage('guide')">Request a Guide</div>
+  <div class="sb-item" onclick="showPage('estimator')">Project Estimator</div>
 </nav>
 
 <!-- Main -->
@@ -2464,6 +2545,306 @@ table.hq tr:last-child td{border-bottom:none}
       </div>
       <div class="rg-summary" id="rg-summary"></div>
       <div class="rg-body" id="rg-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECT ESTIMATOR -->
+<div class="page" id="page-estimator">
+  <div class="est-hero">
+    <div class="est-hero-inner">
+      <div class="est-hero-label">Project Estimator</div>
+      <h1 class="est-hero-title">How long will this<br>implementation take?</h1>
+      <p class="est-hero-sub">Answer a short set of questions about your engagement. We&rsquo;ll build you a detailed timeline estimate, phase-by-phase breakdown, and risk summary &mdash; based on your actual project inputs and real implementation data.</p>
+    </div>
+  </div>
+
+  <div class="est-wrap">
+    <div class="est-progress-bar"><div class="est-progress-fill" id="est-progress" style="width:25%"></div></div>
+    <div class="est-step-count" id="est-step-count">Step 1 of 4</div>
+
+    <!-- STEP 1: The Engagement -->
+    <div class="est-step" id="est-s1">
+      <div class="est-card">
+        <div class="est-section-title">The Engagement</div>
+        <div class="est-section-sub">Tell us about the type of implementation and what&rsquo;s included.</div>
+
+        <div class="est-q">
+          <span class="est-q-label">What implementation package applies?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="package" id="pkg-standard" value="Standard"><label for="pkg-standard">Standard</label></div>
+            <div class="est-pill"><input type="radio" name="package" id="pkg-essentials" value="Essentials Lite"><label for="pkg-essentials">Essentials Lite</label></div>
+            <div class="est-pill"><input type="radio" name="package" id="pkg-enterprise" value="Enterprise"><label for="pkg-enterprise">Enterprise</label></div>
+            <div class="est-pill"><input type="radio" name="package" id="pkg-unknown" value="Not sure yet"><label for="pkg-unknown">Not sure yet</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">What&rsquo;s in scope?</span>
+          <span class="est-q-sub">Select everything that applies</span>
+          <div class="est-checkgrid">
+            <div class="est-check"><input type="checkbox" id="sc-core" value="Core Recruiting"><label for="sc-core">Core Recruiting</label></div>
+            <div class="est-check"><input type="checkbox" id="sc-career" value="Career Site"><label for="sc-career">Career Site</label></div>
+            <div class="est-check"><input type="checkbox" id="sc-analytics" value="Analytics"><label for="sc-analytics">Analytics</label></div>
+            <div class="est-check"><input type="checkbox" id="sc-crm" value="CRM / Talent Pools"><label for="sc-crm">CRM / Talent Pools</label></div>
+            <div class="est-check"><input type="checkbox" id="sc-offer" value="Offer Management"><label for="sc-offer">Offer Management</label></div>
+            <div class="est-check"><input type="checkbox" id="sc-multi" value="Multilingual Support"><label for="sc-multi">Multilingual Support</label></div>
+            <div class="est-check"><input type="checkbox" id="sc-sso" value="SSO / SCIM"><label for="sc-sso">SSO / SCIM</label></div>
+            <div class="est-check"><input type="checkbox" id="sc-mobile" value="Mobile"><label for="sc-mobile">Mobile</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="est-btn-row">
+        <button class="est-btn-next" onclick="estNext(1)">Continue <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button>
+      </div>
+    </div>
+
+    <!-- STEP 2: The Client -->
+    <div class="est-step" id="est-s2" style="display:none">
+      <div class="est-card">
+        <div class="est-section-title">The Client</div>
+        <div class="est-section-sub">Understanding the client profile helps set an accurate baseline.</div>
+
+        <div class="est-q">
+          <span class="est-q-label">How many employees does the client have?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="empsize" id="emp-tiny" value="Under 100"><label for="emp-tiny">Under 100</label></div>
+            <div class="est-pill"><input type="radio" name="empsize" id="emp-small" value="100&ndash;500"><label for="emp-small">100&ndash;500</label></div>
+            <div class="est-pill"><input type="radio" name="empsize" id="emp-mid" value="500&ndash;2,000"><label for="emp-mid">500&ndash;2,000</label></div>
+            <div class="est-pill"><input type="radio" name="empsize" id="emp-large" value="2,000&ndash;10,000"><label for="emp-large">2,000&ndash;10,000</label></div>
+            <div class="est-pill"><input type="radio" name="empsize" id="emp-xlarge" value="10,000+"><label for="emp-xlarge">10,000+</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">How many countries or regions are in scope?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="countries" id="c1" value="1 country"><label for="c1">1</label></div>
+            <div class="est-pill"><input type="radio" name="countries" id="c2" value="2&ndash;5 countries"><label for="c2">2&ndash;5</label></div>
+            <div class="est-pill"><input type="radio" name="countries" id="c3" value="6&ndash;20 countries"><label for="c3">6&ndash;20</label></div>
+            <div class="est-pill"><input type="radio" name="countries" id="c4" value="20+ countries"><label for="c4">20+</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">How many languages need to be supported in SmartRecruiters?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="langs" id="l1" value="1 language (English only)"><label for="l1">1 (English only)</label></div>
+            <div class="est-pill"><input type="radio" name="langs" id="l2" value="2&ndash;3 languages"><label for="l2">2&ndash;3</label></div>
+            <div class="est-pill"><input type="radio" name="langs" id="l3" value="4+ languages"><label for="l3">4+</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">Is the client replacing an existing ATS?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="replacing" id="rep-yes" value="Yes, replacing an existing ATS"><label for="rep-yes">Yes, replacing an existing system</label></div>
+            <div class="est-pill"><input type="radio" name="replacing" id="rep-no" value="No, greenfield implementation"><label for="rep-no">No, greenfield</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="est-btn-row">
+        <button class="est-btn-back" onclick="estBack(2)"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5m7 7-7-7 7-7"/></svg> Back</button>
+        <button class="est-btn-next" onclick="estNext(2)">Continue <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Integrations & Complexity -->
+    <div class="est-step" id="est-s3" style="display:none">
+      <div class="est-card">
+        <div class="est-section-title">Integrations &amp; Complexity</div>
+        <div class="est-section-sub">Integrations are one of the biggest drivers of timeline. Be honest here.</div>
+
+        <div class="est-q">
+          <span class="est-q-label">Is there a HRIS integration required?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="hris" id="hris-none" value="No HRIS integration"><label for="hris-none">None</label></div>
+            <div class="est-pill"><input type="radio" name="hris" id="hris-workday" value="Workday"><label for="hris-workday">Workday</label></div>
+            <div class="est-pill"><input type="radio" name="hris" id="hris-sap" value="SAP SuccessFactors"><label for="hris-sap">SAP SuccessFactors</label></div>
+            <div class="est-pill"><input type="radio" name="hris" id="hris-oracle" value="Oracle HCM"><label for="hris-oracle">Oracle HCM</label></div>
+            <div class="est-pill"><input type="radio" name="hris" id="hris-other" value="Other HRIS"><label for="hris-other">Other HRIS</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">What other integrations are in scope?</span>
+          <span class="est-q-sub">Select all that apply</span>
+          <div class="est-checkgrid">
+            <div class="est-check"><input type="checkbox" id="int-jb" value="Job board integrations"><label for="int-jb">Job Boards</label></div>
+            <div class="est-check"><input type="checkbox" id="int-li" value="LinkedIn integration"><label for="int-li">LinkedIn</label></div>
+            <div class="est-check"><input type="checkbox" id="int-onboard" value="Onboarding system integration"><label for="int-onboard">Onboarding System</label></div>
+            <div class="est-check"><input type="checkbox" id="int-bg" value="Background check integration"><label for="int-bg">Background Check</label></div>
+            <div class="est-check"><input type="checkbox" id="int-assess" value="Assessment / testing integration"><label for="int-assess">Assessments</label></div>
+            <div class="est-check"><input type="checkbox" id="int-gdpr" value="GDPR / consent management tool"><label for="int-gdpr">GDPR Tool</label></div>
+            <div class="est-check"><input type="checkbox" id="int-custom" value="Custom / bespoke integration"><label for="int-custom">Custom Integration</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">How complex is the career site build?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="csite" id="cs-std" value="Standard template, minimal changes"><label for="cs-std">Standard template</label></div>
+            <div class="est-pill"><input type="radio" name="csite" id="cs-light" value="Light customisation required"><label for="cs-light">Light customisation</label></div>
+            <div class="est-pill"><input type="radio" name="csite" id="cs-full" value="Full custom build required"><label for="cs-full">Full custom build</label></div>
+            <div class="est-pill"><input type="radio" name="csite" id="cs-na" value="Career site not in scope"><label for="cs-na">Not in scope</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">How much custom configuration is expected?</span>
+          <span class="est-q-sub">Custom fields, hiring process complexity, approval chains, email templates etc.</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="config" id="cfg-min" value="Minimal — mostly out-of-the-box"><label for="cfg-min">Minimal</label></div>
+            <div class="est-pill"><input type="radio" name="config" id="cfg-mod" value="Moderate — some custom fields and workflows"><label for="cfg-mod">Moderate</label></div>
+            <div class="est-pill"><input type="radio" name="config" id="cfg-heavy" value="Heavy — extensive custom setup"><label for="cfg-heavy">Heavy</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="est-btn-row">
+        <button class="est-btn-back" onclick="estBack(3)"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5m7 7-7-7 7-7"/></svg> Back</button>
+        <button class="est-btn-next" onclick="estNext(3)">Continue <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Delivery & Readiness -->
+    <div class="est-step" id="est-s4" style="display:none">
+      <div class="est-card">
+        <div class="est-section-title">Delivery &amp; Readiness</div>
+        <div class="est-section-sub">The client&rsquo;s own availability and constraints often matter more than the technical scope.</div>
+
+        <div class="est-q">
+          <span class="est-q-label">What&rsquo;s the go-live approach?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="golive" id="gl-bang" value="Big bang — all at once"><label for="gl-bang">Big bang &mdash; all at once</label></div>
+            <div class="est-pill"><input type="radio" name="golive" id="gl-phase" value="Phased — by region or country"><label for="gl-phase">Phased by region / country</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">How available is the client&rsquo;s project team?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="avail" id="av-low" value="Limited — client team is part-time on this project"><label for="av-low">Limited (part-time)</label></div>
+            <div class="est-pill"><input type="radio" name="avail" id="av-mod" value="Moderate — mostly available when needed"><label for="av-mod">Moderate</label></div>
+            <div class="est-pill"><input type="radio" name="avail" id="av-high" value="Dedicated — full-time project team on the client side"><label for="av-high">Dedicated team</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">Is there a data migration from an existing system?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="migration" id="mg-yes" value="Yes, data migration required"><label for="mg-yes">Yes</label></div>
+            <div class="est-pill"><input type="radio" name="migration" id="mg-no" value="No data migration"><label for="mg-no">No</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">Is there a hard go-live date constraint?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="deadline" id="dl-yes" value="Yes, fixed go-live date"><label for="dl-yes">Yes, fixed date</label></div>
+            <div class="est-pill"><input type="radio" name="deadline" id="dl-no" value="Flexible timeline"><label for="dl-no">Flexible</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">What is your team&rsquo;s experience with SmartRecruiters implementations?</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="experience" id="exp-none" value="No prior SmartRecruiters experience"><label for="exp-none">First time</label></div>
+            <div class="est-pill"><input type="radio" name="experience" id="exp-some" value="Some exposure to SmartRecruiters"><label for="exp-some">Some exposure</label></div>
+            <div class="est-pill"><input type="radio" name="experience" id="exp-exp" value="Experienced with SmartRecruiters implementations"><label for="exp-exp">Experienced</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="est-btn-row">
+        <button class="est-btn-back" onclick="estBack(4)"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5m7 7-7-7 7-7"/></svg> Back</button>
+        <button class="est-btn-next" id="est-submit-btn" onclick="estSubmit()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Generate Estimate
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="est-loading" id="est-loading">
+      <div class="est-spinner"></div>
+      <div>
+        <div class="est-loading-title">Building your estimate&hellip;</div>
+        <div class="est-loading-sub">Analysing your inputs against real implementation data from 52 source documents.</div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="est-result" id="est-result">
+      <div class="est-result-wrap">
+        <div class="est-result-topbar">
+          <div>
+            <div class="est-result-label">Project Estimate</div>
+            <div class="est-result-headline" id="est-headline"></div>
+            <div class="est-result-sub" id="est-sub"></div>
+          </div>
+          <button class="est-result-export" id="est-export-btn" onclick="exportEstimate()">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export as Word
+          </button>
+        </div>
+        <div class="est-stats-row">
+          <div class="est-stat">
+            <div class="est-stat-label">Total Timeline</div>
+            <div class="est-stat-value" id="est-stat-weeks"></div>
+            <div class="est-stat-unit">weeks</div>
+          </div>
+          <div class="est-stat">
+            <div class="est-stat-label">Consultant Days</div>
+            <div class="est-stat-value" id="est-stat-cdays"></div>
+            <div class="est-stat-unit">estimated effort</div>
+          </div>
+          <div class="est-stat">
+            <div class="est-stat-label">Estimate Confidence</div>
+            <div class="est-stat-value" style="font-size:15px;margin-top:6px" id="est-stat-conf"></div>
+          </div>
+        </div>
+        <div class="est-timeline-section">
+          <div class="est-sec-label">Phase Breakdown</div>
+          <div class="est-phases" id="est-phases"></div>
+        </div>
+        <div class="est-body-section" id="est-narrative-wrap">
+          <div class="est-sec-label">Assessment</div>
+          <div class="est-body-text" id="est-narrative"></div>
+        </div>
+        <div class="est-body-section" id="est-risks-wrap">
+          <div class="est-sec-label">Key Risks</div>
+          <div id="est-risks"></div>
+        </div>
+        <div class="est-body-section" id="est-assume-wrap">
+          <div class="est-sec-label">Assumptions</div>
+          <div id="est-assumptions"></div>
+        </div>
+      </div>
+      <button class="est-reset-btn" onclick="estReset()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Start New Estimate
+      </button>
     </div>
   </div>
 </div>
@@ -3594,6 +3975,183 @@ function exportGuide() {
   .catch(function(){ alert('Export failed. Please try again.'); })
   .finally(function(){ btn.disabled = false; });
 }
+
+// ── Project Estimator ───────────────────────────────────────────
+var estCurrentStep = 1;
+var estData = null;
+
+function estGetVal(name) {
+  var el = document.querySelector('input[name="' + name + '"]:checked');
+  return el ? el.value : '';
+}
+function estGetChecks(selector) {
+  var vals = [];
+  document.querySelectorAll(selector + ':checked').forEach(function(el){ vals.push(el.value); });
+  return vals;
+}
+function estSetProgress(step) {
+  document.getElementById('est-progress').style.width = (step / 4 * 100) + '%';
+  document.getElementById('est-step-count').textContent = 'Step ' + step + ' of 4';
+}
+function estShowStep(n) {
+  for(var i = 1; i <= 4; i++) {
+    var el = document.getElementById('est-s' + i);
+    if(el) el.style.display = (i === n) ? '' : 'none';
+  }
+  estCurrentStep = n;
+  estSetProgress(n);
+  window.scrollTo(0, 0);
+}
+function estNext(from) {
+  if(from === 1) {
+    if(!estGetVal('package')){ alert('Please select an implementation package.'); return; }
+    estShowStep(2);
+  } else if(from === 2) {
+    if(!estGetVal('empsize')){ alert('Please select an employee count.'); return; }
+    if(!estGetVal('countries')){ alert('Please select the number of countries.'); return; }
+    if(!estGetVal('langs')){ alert('Please select the number of languages.'); return; }
+    if(!estGetVal('replacing')){ alert('Please indicate if this is a replacement.'); return; }
+    estShowStep(3);
+  } else if(from === 3) {
+    if(!estGetVal('hris')){ alert('Please select the HRIS integration.'); return; }
+    if(!estGetVal('csite')){ alert('Please select career site complexity.'); return; }
+    if(!estGetVal('config')){ alert('Please select configuration complexity.'); return; }
+    estShowStep(4);
+  }
+}
+function estBack(from) {
+  estShowStep(from - 1);
+}
+function estSubmit() {
+  if(!estGetVal('golive')){ alert('Please select a go-live approach.'); return; }
+  if(!estGetVal('avail')){ alert('Please select client availability.'); return; }
+  if(!estGetVal('migration')){ alert('Please indicate if there is data migration.'); return; }
+  if(!estGetVal('deadline')){ alert('Please indicate if there is a fixed deadline.'); return; }
+  if(!estGetVal('experience')){ alert('Please select your team experience level.'); return; }
+
+  var answers = {
+    package: estGetVal('package'),
+    scope: estGetChecks('#est-s1 input[type=checkbox]'),
+    empsize: estGetVal('empsize'),
+    countries: estGetVal('countries'),
+    langs: estGetVal('langs'),
+    replacing: estGetVal('replacing'),
+    hris: estGetVal('hris'),
+    integrations: estGetChecks('#est-s3 input[type=checkbox]'),
+    careerSite: estGetVal('csite'),
+    config: estGetVal('config'),
+    goLiveApproach: estGetVal('golive'),
+    clientAvailability: estGetVal('avail'),
+    migration: estGetVal('migration'),
+    deadline: estGetVal('deadline'),
+    experience: estGetVal('experience')
+  };
+
+  for(var i = 1; i <= 4; i++){
+    var el = document.getElementById('est-s' + i);
+    if(el) el.style.display = 'none';
+  }
+  document.getElementById('est-step-count').style.display = 'none';
+  document.getElementById('est-progress').parentElement.style.display = 'none';
+  var loadEl = document.getElementById('est-loading');
+  loadEl.style.display = 'flex';
+  document.getElementById('est-result').style.display = 'none';
+  document.getElementById('est-submit-btn').disabled = true;
+
+  fetch('/consultant/implementation-hq/project-estimate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(answers)
+  })
+  .then(function(r){ if(!r.ok) return r.json().then(function(e){ throw new Error(e.error || 'failed'); }); return r.json(); })
+  .then(function(d){
+    loadEl.style.display = 'none';
+    estData = d;
+    estData._answers = answers;
+    renderEstimate(d);
+    document.getElementById('est-result').style.display = 'block';
+    document.getElementById('est-result').scrollIntoView({ behavior:'smooth', block:'start' });
+  })
+  .catch(function(e){
+    loadEl.style.display = 'none';
+    alert('Could not generate estimate: ' + e.message);
+    estShowStep(4);
+    document.getElementById('est-step-count').style.display = '';
+    document.getElementById('est-progress').parentElement.style.display = '';
+  })
+  .finally(function(){ document.getElementById('est-submit-btn').disabled = false; });
+}
+
+function renderEstimate(d) {
+  document.getElementById('est-headline').textContent = (d.totalWeeks || '?') + ' weeks';
+  var confCls = d.confidence === 'High' ? 'est-conf-high' : d.confidence === 'Low' ? 'est-conf-low' : 'est-conf-med';
+  document.getElementById('est-sub').textContent = d.package + '  ·  ' + (d.scope && d.scope.length ? d.scope.join(', ') : '');
+  document.getElementById('est-stat-weeks').textContent = d.totalWeeks || '?';
+  document.getElementById('est-stat-cdays').textContent = d.consultantDays || '?';
+  document.getElementById('est-stat-conf').innerHTML = '<span class="est-confidence ' + confCls + '">' + esc(d.confidence || 'Medium') + '</span>';
+
+  var ph = document.getElementById('est-phases');
+  ph.innerHTML = '';
+  (d.phases || []).forEach(function(p){
+    var div = document.createElement('div');
+    div.className = 'est-phase';
+    div.innerHTML = '<div class="est-phase-name">' + esc(p.name) + '</div>' +
+      '<div class="est-phase-weeks">' + esc(p.weeks) + '</div>' +
+      '<div class="est-phase-wlabel">weeks</div>';
+    ph.appendChild(div);
+  });
+
+  document.getElementById('est-narrative').textContent = d.narrative || '';
+
+  var risksEl = document.getElementById('est-risks');
+  risksEl.innerHTML = '';
+  (d.risks || []).forEach(function(r){
+    var div = document.createElement('div');
+    div.className = 'est-risk-item';
+    div.innerHTML = '<span class="est-risk-icon">&#9888;</span>' + esc(r);
+    risksEl.appendChild(div);
+  });
+
+  var assumeEl = document.getElementById('est-assumptions');
+  assumeEl.innerHTML = '';
+  (d.assumptions || []).forEach(function(a){
+    var div = document.createElement('div');
+    div.className = 'est-assume-item';
+    div.textContent = a;
+    assumeEl.appendChild(div);
+  });
+}
+
+function exportEstimate() {
+  if(!estData){ alert('Generate an estimate first.'); return; }
+  var btn = document.getElementById('est-export-btn');
+  btn.disabled = true;
+  fetch('/consultant/implementation-hq/export-estimate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(estData)
+  })
+  .then(function(r){ if(!r.ok) throw new Error('failed'); return r.blob(); })
+  .then(function(blob){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'Project_Estimate.docx';
+    a.click();
+    URL.revokeObjectURL(url);
+  })
+  .catch(function(){ alert('Export failed. Please try again.'); })
+  .finally(function(){ btn.disabled = false; });
+}
+
+function estReset() {
+  estData = null;
+  document.getElementById('est-result').style.display = 'none';
+  document.getElementById('est-step-count').style.display = '';
+  document.getElementById('est-progress').parentElement.style.display = '';
+  document.querySelectorAll('#page-estimator input').forEach(function(el){ el.checked = false; });
+  estShowStep(1);
+}
 </script>
 </body></html>`);
 });
@@ -4556,6 +5114,212 @@ app.post('/consultant/implementation-hq/export-guide', async (req, res) => {
     res.send(buffer);
   } catch(err) {
     console.error('Guide export error:', err.message);
+    res.status(500).json({ error: 'Export failed: ' + err.message });
+  }
+});
+
+// Project Estimator — generate
+app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+
+  const a = req.body;
+  if (!a || !a.package) return res.status(400).json({ error: 'No answers provided' });
+
+  const scopeList = Array.isArray(a.scope) && a.scope.length ? a.scope.join(', ') : 'Not specified';
+  const intList = Array.isArray(a.integrations) && a.integrations.length ? a.integrations.join(', ') : 'None';
+
+  const prompt = `You are a senior SmartRecruiters implementation consultant building a project timeline estimate. Using your knowledge of SmartRecruiters implementations, provide a detailed, realistic estimate for the following project:
+
+ENGAGEMENT INPUTS:
+- Package: ${a.package}
+- Scope: ${scopeList}
+- Employee size: ${a.empsize}
+- Countries/regions: ${a.countries}
+- Languages: ${a.langs}
+- Replacing existing ATS: ${a.replacing}
+- HRIS integration: ${a.hris}
+- Other integrations: ${intList}
+- Career site complexity: ${a.careerSite}
+- Configuration complexity: ${a.config}
+- Go-live approach: ${a.goLiveApproach}
+- Client team availability: ${a.clientAvailability}
+- Data migration: ${a.migration}
+- Fixed deadline: ${a.deadline}
+- Consultant team experience: ${a.experience}
+
+Based on these inputs, provide a realistic project timeline estimate. Be specific and honest — if something will add weeks, say so. Do not be optimistic to please, be accurate.
+
+Return ONLY a JSON object with this exact structure:
+{
+  "package": "${a.package}",
+  "scope": ${JSON.stringify(a.scope || [])},
+  "totalWeeks": "X–Y",
+  "consultantDays": "X–Y",
+  "confidence": "High" or "Medium" or "Low",
+  "phases": [
+    {"name": "Sales Handover & Planning", "weeks": "X–Y"},
+    {"name": "Discovery & Workshops", "weeks": "X–Y"},
+    {"name": "Configuration", "weeks": "X–Y"},
+    {"name": "UAT", "weeks": "X–Y"},
+    {"name": "Go-Live & Hypercare", "weeks": "X–Y"}
+  ],
+  "narrative": "3–4 sentences explaining the key drivers of this estimate and what will determine whether it lands at the shorter or longer end of the range.",
+  "risks": ["risk 1", "risk 2", "risk 3", "risk 4", "risk 5"],
+  "assumptions": ["assumption 1", "assumption 2", "assumption 3", "assumption 4"]
+}
+
+Return only the JSON, no markdown, no extra text.`;
+
+  try {
+    if (!process.env.ASSISTANT_ID) return res.status(500).json({ error: 'Assistant not configured' });
+
+    const thread = await openai.beta.threads.create();
+    await openai.beta.threads.messages.create(thread.id, { role: 'user', content: prompt });
+    const run = await openai.beta.threads.runs.createAndPoll(thread.id, { assistant_id: process.env.ASSISTANT_ID });
+
+    if (run.status !== 'completed') return res.status(500).json({ error: 'Assistant run failed: ' + run.status });
+
+    const msgs = await openai.beta.threads.messages.list(thread.id, { order: 'desc', limit: 1 });
+    const raw = msgs.data[0]?.content?.[0]?.text?.value || '';
+    const clean = raw.replace(/【[^】]*】/g, '').replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
+
+    let parsed;
+    try { parsed = JSON.parse(clean); }
+    catch(e) {
+      const m = clean.match(/\{[\s\S]*\}/);
+      if (m) parsed = JSON.parse(m[0]);
+      else return res.status(500).json({ error: 'Could not parse response' });
+    }
+
+    return res.json(parsed);
+  } catch(err) {
+    console.error('Estimator error:', err.message);
+    return res.status(500).json({ error: 'Generation failed: ' + err.message });
+  }
+});
+
+// Project Estimator — Word export
+app.post('/consultant/implementation-hq/export-estimate', async (req, res) => {
+  const token = req.cookies?.impl_hq_auth;
+  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
+
+  const d = req.body;
+  if (!d || !d.totalWeeks) return res.status(400).json({ error: 'No estimate data' });
+
+  try {
+    const { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun,
+            AlignmentType, BorderStyle, WidthType, ShadingType } = require('docx');
+
+    const NAVY = '0f0f0e';
+    const BORDER = { style: BorderStyle.SINGLE, size: 1, color: 'e4e2dc' };
+    const CB = { top: BORDER, bottom: BORDER, left: BORDER, right: BORDER };
+
+    const secHead = (text) => new Paragraph({
+      spacing: { before: 400, after: 160 },
+      border: { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'e4e2dc' } },
+      children: [new TextRun({ text: text.toUpperCase(), bold: true, size: 18, font: 'Calibri', color: NAVY, characterSpacing: 80 })],
+    });
+    const body = (text) => new Paragraph({
+      spacing: { after: 100 },
+      children: [new TextRun({ text: String(text || ''), size: 20, font: 'Calibri', color: '333333' })],
+    });
+
+    const children = [];
+    const now = new Date();
+    const months4 = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const dateStr = now.getDate() + ' ' + months4[now.getMonth()] + ' ' + now.getFullYear();
+
+    // Cover
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 2000, after: 120 }, children: [new TextRun({ text: 'EX3', bold: true, size: 64, font: 'Calibri', color: NAVY })] }));
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 80 }, children: [new TextRun({ text: 'Project Estimator', size: 28, font: 'Calibri', color: '888888' })] }));
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 600 }, children: [new TextRun({ text: (d.totalWeeks || '?') + ' Weeks  —  ' + (d.package || ''), bold: true, size: 40, font: 'Calibri', color: NAVY })] }));
+    children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [new TextRun({ text: 'Generated ' + dateStr + '  |  EX3 Implementation HQ', size: 18, font: 'Calibri', color: 'aaaaaa', italics: true })] }));
+    children.push(new Paragraph({ pageBreakBefore: true, children: [new TextRun({ text: '' })] }));
+
+    // Summary stats
+    children.push(secHead('Estimate Summary'));
+    children.push(new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: [
+        new TableRow({ children: [
+          new TableCell({ width: { size: 33, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'TOTAL TIMELINE', bold: true, size: 16, font: 'Calibri', color: '999999', characterSpacing: 60 })] })] }),
+          new TableCell({ width: { size: 33, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'CONSULTANT DAYS', bold: true, size: 16, font: 'Calibri', color: '999999', characterSpacing: 60 })] })] }),
+          new TableCell({ width: { size: 34, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'CONFIDENCE', bold: true, size: 16, font: 'Calibri', color: '999999', characterSpacing: 60 })] })] }),
+        ]}),
+        new TableRow({ children: [
+          new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: (d.totalWeeks || '?') + ' weeks', bold: true, size: 28, font: 'Calibri', color: NAVY })] })] }),
+          new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: (d.consultantDays || '?') + ' days', bold: true, size: 28, font: 'Calibri', color: NAVY })] })] }),
+          new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: d.confidence || 'Medium', bold: true, size: 28, font: 'Calibri', color: NAVY })] })] }),
+        ]}),
+      ],
+    }));
+
+    // Phase breakdown
+    if ((d.phases || []).length) {
+      children.push(secHead('Phase Breakdown'));
+      children.push(new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        rows: [
+          new TableRow({ children: [
+            new TableCell({ width: { size: 60, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'Phase', bold: true, size: 20, font: 'Calibri', color: NAVY })] })] }),
+            new TableCell({ width: { size: 40, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'Duration', bold: true, size: 20, font: 'Calibri', color: NAVY })] })] }),
+          ]}),
+          ...(d.phases || []).map(p => new TableRow({ children: [
+            new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: String(p.name || ''), size: 20, font: 'Calibri', color: '333333' })] })] }),
+            new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: String(p.weeks || '') + ' weeks', bold: true, size: 20, font: 'Calibri', color: NAVY })] })] }),
+          ]})),
+        ],
+      }));
+    }
+
+    // Narrative
+    if (d.narrative) {
+      children.push(secHead('Assessment'));
+      children.push(body(d.narrative));
+    }
+
+    // Risks
+    if ((d.risks || []).length) {
+      children.push(secHead('Key Risks'));
+      d.risks.forEach(r => {
+        children.push(new Paragraph({
+          spacing: { after: 80 },
+          children: [
+            new TextRun({ text: 'RISK: ', bold: true, size: 20, font: 'Calibri', color: '92400e' }),
+            new TextRun({ text: String(r || ''), size: 20, font: 'Calibri', color: '92400e' }),
+          ],
+        }));
+      });
+    }
+
+    // Assumptions
+    if ((d.assumptions || []).length) {
+      children.push(secHead('Assumptions'));
+      d.assumptions.forEach((a, i) => {
+        children.push(new Paragraph({
+          spacing: { after: 80 },
+          children: [
+            new TextRun({ text: String(i + 1) + '.  ', bold: true, size: 20, font: 'Calibri', color: '888888' }),
+            new TextRun({ text: String(a || ''), size: 20, font: 'Calibri', color: '333333' }),
+          ],
+        }));
+      });
+    }
+
+    children.push(new Paragraph({
+      spacing: { before: 640 },
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: 'EX3 Confidential  |  Generated by EX3 Implementation HQ', size: 16, font: 'Calibri', color: 'aaaaaa', italics: true })],
+    }));
+
+    const doc = new Document({ sections: [{ children }] });
+    const buffer = await Packer.toBuffer(doc);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', 'attachment; filename="Project_Estimate.docx"');
+    res.send(buffer);
+  } catch(err) {
+    console.error('Estimate export error:', err.message);
     res.status(500).json({ error: 'Export failed: ' + err.message });
   }
 });
