@@ -3762,7 +3762,7 @@ app.post('/consultant/implementation-hq/export-sow', async (req, res) => {
     const doc = new Document({ sections: [{ children }] });
     const buffer = await Packer.toBuffer(doc);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-    res.setHeader('Content-Disposition', \`attachment; filename="SOW - \${client} - SmartRecruiters.docx"\`);
+    res.setHeader('Content-Disposition', `attachment; filename="SOW - ${client} - SmartRecruiters.docx"`);
     res.send(buffer);
   } catch(err) {
     console.error('SOW export error:', err.message);
