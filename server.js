@@ -1149,6 +1149,46 @@ table.hq tr:last-child td{border-bottom:none}
 .est-conf-low{background:#fee2e2;color:#991b1b}
 .est-reset-btn{display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:10px 20px;background:transparent;border:1.5px solid #ebe7e1;border-radius:9px;color:#888;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s}
 .est-reset-btn:hover{border-color:#bbb;color:#333}
+/* SOW Builder */
+.sowb-hero{background:linear-gradient(160deg,#0f0f0e 0%,#181816 100%);padding:64px 48px 56px;margin:-32px -32px 0;position:relative;overflow:hidden}
+.sowb-hero::before{content:'';position:absolute;top:-60px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,.07) 0%,transparent 65%);pointer-events:none}
+.sowb-hero-inner{max-width:680px;position:relative;z-index:1}
+.sowb-hero-label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#3a3a38;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.sowb-hero-label::after{content:'';flex:0 0 24px;height:1px;background:#2a2a28}
+.sowb-hero-title{font-size:38px;font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1.08;margin:0 0 18px}
+.sowb-hero-sub{font-size:14px;color:#5a5a58;line-height:1.8;margin:0;max-width:540px}
+.sowb-form-wrap{padding:36px 0 0}
+.sowb-form-card{background:#fff;border:1px solid #ebe7e1;border-radius:14px;padding:32px 36px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.sowb-section-title{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#0f0f0e;margin:24px 0 14px;display:flex;align-items:center;gap:10px}
+.sowb-section-title::after{content:'';flex:1;height:1px;background:#ebe7e1}
+.sowb-section-title:first-child{margin-top:0}
+.sowb-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:4px}
+.sowb-grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:4px}
+.sowb-label{display:block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa8a4;margin-bottom:8px}
+.sowb-input,.sowb-select{width:100%;padding:11px 14px;border:1.5px solid #ebe7e1;border-radius:9px;font-size:14px;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e;background:#fff;outline:none;transition:border-color .18s,box-shadow .18s;box-sizing:border-box;appearance:none;-webkit-appearance:none}
+.sowb-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23aaa' stroke-width='2.5' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.sowb-input:focus,.sowb-select:focus{border-color:#0f0f0e;box-shadow:0 0 0 3px rgba(15,15,14,.06)}
+.sowb-textarea{width:100%;padding:12px 14px;border:1.5px solid #ebe7e1;border-radius:9px;font-size:13.5px;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e;background:#fff;outline:none;resize:vertical;min-height:80px;transition:border-color .18s;box-sizing:border-box;line-height:1.7}
+.sowb-textarea:focus{border-color:#0f0f0e;box-shadow:0 0 0 3px rgba(15,15,14,.06)}
+.sowb-checks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.sowb-check{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border:1.5px solid #ebe7e1;border-radius:8px;font-size:13px;color:#555;cursor:pointer;transition:all .18s;font-family:'Inter',system-ui,sans-serif;background:#fafaf8;user-select:none}
+.sowb-check:hover{border-color:#bbb;color:#111}
+.sowb-check input{width:14px;height:14px;accent-color:#7c3aed;cursor:pointer}
+.sowb-check:has(input:checked){background:#f5f3ff;border-color:#7c3aed;color:#5b21b6;font-weight:600}
+.sowb-run-btn{display:inline-flex;align-items:center;gap:10px;padding:13px 28px;background:#7c3aed;border:none;border-radius:9px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s;letter-spacing:-.01em}
+.sowb-run-btn:hover{background:#6d28d9;transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,.28)}
+.sowb-run-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.sowb-hint{font-size:12px;color:#bbb;margin-left:14px}
+.sowb-result-wrap{margin-top:36px;border-radius:14px;overflow:hidden;border:1px solid #ebe7e1}
+.sowb-result-topbar{background:#0f0f0e;padding:22px 32px;display:flex;align-items:center;justify-content:space-between}
+.sowb-result-label{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#3a3a38;margin-bottom:5px}
+.sowb-result-title{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.025em}
+.sowb-topbar-right{display:flex;gap:8px}
+.sowb-export-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.5);font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.sowb-export-btn:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.9)}
+.sowb-export-btn:disabled{opacity:.3;cursor:not-allowed}
+.sowb-output{padding:32px 36px;background:#fff;font-size:13.5px;color:#333;line-height:1.9;white-space:pre-wrap;font-family:'Inter',system-ui,sans-serif;max-height:75vh;overflow-y:auto}
+@media(max-width:900px){.sowb-hero{padding:36px 24px 32px}.sowb-grid,.sowb-grid2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1179,6 +1219,7 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="sb-item" onclick="showPage('workbook')">Project Workbook</div>
   <div class="sb-item" onclick="showPage('guide')">Request a Guide</div>
   <div class="sb-item" onclick="showPage('estimator')">Project Estimator</div>
+  <div class="sb-item" onclick="showPage('sowbuilder')">SOW Builder</div>
 </nav>
 
 <!-- Main -->
@@ -3319,8 +3360,414 @@ function estReset() {
   document.querySelectorAll('#page-estimator input').forEach(function(el){ el.checked = false; });
   estShowStep(1);
 }
+
+/* ── SOW Builder ── */
+var _sowText = '';
+
+function _sowChecked(id) {
+  return Array.from(document.querySelectorAll('#' + id + ' input:checked')).map(function(c){ return c.value; });
+}
+
+async function generateSOW() {
+  var clientName = document.getElementById('sowb-client').value.trim();
+  if (!clientName) { document.getElementById('sowb-client').focus(); return; }
+  var answers = {
+    clientName: clientName,
+    orgSize:       document.getElementById('sowb-orgsize').value,
+    numUsers:      document.getElementById('sowb-users').value || 'not specified',
+    numProcesses:  document.getElementById('sowb-processes').value || 'not specified',
+    numTemplates:  document.getElementById('sowb-templates').value || 'not specified',
+    timeline:      document.getElementById('sowb-timeline').value || 'to be agreed',
+    hypercare:     document.getElementById('sowb-hypercare').value || '4 weeks',
+    careerPage:    document.getElementById('sowb-career').value,
+    dataMigration: document.getElementById('sowb-datamigration').value,
+    integrations:  _sowChecked('sowb-integrations'),
+    jobBoards:     _sowChecked('sowb-jobboards'),
+    training:      _sowChecked('sowb-training'),
+    notes:         document.getElementById('sowb-notes').value.trim(),
+  };
+  var btn = document.getElementById('sowb-run-btn');
+  var resultWrap = document.getElementById('sowb-result-wrap');
+  var outputEl = document.getElementById('sowb-output');
+  btn.disabled = true;
+  btn.textContent = 'Generating…';
+  resultWrap.style.display = 'none';
+  _sowText = '';
+  try {
+    var res = await fetch('/consultant/implementation-hq/generate-sow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers: answers }),
+    });
+    if (!res.ok) throw new Error('Server error');
+    resultWrap.style.display = 'block';
+    outputEl.textContent = '';
+    var reader = res.body.getReader();
+    var decoder = new TextDecoder();
+    while (true) {
+      var _r = await reader.read();
+      if (_r.done) break;
+      var chunk = decoder.decode(_r.value, { stream: true });
+      _sowText += chunk;
+      outputEl.textContent = _sowText;
+      outputEl.scrollTop = outputEl.scrollHeight;
+    }
+    resultWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch(e) {
+    alert('Generation failed — please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Generate SOW';
+  }
+}
+
+function copySOW() {
+  if (!_sowText) return;
+  navigator.clipboard.writeText(_sowText).then(function(){
+    var btn = document.getElementById('sowb-copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(function(){ btn.textContent = 'Copy text'; }, 2000);
+  });
+}
+
+async function exportSOW() {
+  if (!_sowText) return;
+  var clientName = document.getElementById('sowb-client').value.trim() || 'Client';
+  var btn = document.getElementById('sowb-export-btn');
+  btn.disabled = true;
+  btn.textContent = 'Exporting…';
+  try {
+    var res = await fetch('/consultant/implementation-hq/export-sow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientName: clientName, sowText: _sowText }),
+    });
+    if (!res.ok) throw new Error('failed');
+    var blob = await res.blob();
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'SOW - ' + clientName + ' - SmartRecruiters.docx';
+    a.click();
+    URL.revokeObjectURL(url);
+  } catch(e) {
+    alert('Export failed. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Download .docx';
+  }
+}
 </script>
+
+<!-- SOW BUILDER PAGE -->
+<div id="page-sowbuilder" class="page">
+  <div class="sowb-hero">
+    <div class="sowb-hero-inner">
+      <div class="sowb-hero-label">Generate</div>
+      <h1 class="sowb-hero-title">SOW Builder</h1>
+      <p class="sowb-hero-sub">Generate a professional, client-ready Statement of Work for a SmartRecruiters implementation — based on the full EX3 knowledge base and 60 source documents.</p>
+    </div>
+  </div>
+  <div class="sowb-form-wrap">
+    <div class="sowb-form-card">
+      <div class="sowb-section-title">Client & Project</div>
+      <div class="sowb-grid">
+        <div>
+          <label class="sowb-label">Client Name</label>
+          <input id="sowb-client" class="sowb-input" placeholder="e.g. Acme Corp" />
+        </div>
+        <div>
+          <label class="sowb-label">Organisation Size</label>
+          <select id="sowb-orgsize" class="sowb-select">
+            <option>SME (under 250 employees)</option>
+            <option>Mid-market (250–2,000)</option>
+            <option selected>Enterprise (2,000–10,000)</option>
+            <option>Large enterprise (10,000+)</option>
+          </select>
+        </div>
+        <div>
+          <label class="sowb-label">System Users</label>
+          <input id="sowb-users" class="sowb-input" placeholder="e.g. 150" />
+        </div>
+      </div>
+      <div class="sowb-grid" style="margin-top:16px">
+        <div>
+          <label class="sowb-label">Hiring Workflows</label>
+          <input id="sowb-processes" class="sowb-input" placeholder="e.g. 3 (standard, exec, grad)" />
+        </div>
+        <div>
+          <label class="sowb-label">Job Templates</label>
+          <input id="sowb-templates" class="sowb-input" placeholder="e.g. 2" />
+        </div>
+        <div>
+          <label class="sowb-label">Project Timeline</label>
+          <input id="sowb-timeline" class="sowb-input" placeholder="e.g. 12 weeks" />
+        </div>
+      </div>
+      <div class="sowb-grid2" style="margin-top:16px">
+        <div>
+          <label class="sowb-label">Hypercare Period</label>
+          <input id="sowb-hypercare" class="sowb-input" placeholder="e.g. 4 weeks post go-live" />
+        </div>
+        <div>
+          <label class="sowb-label">Career Site</label>
+          <select id="sowb-career" class="sowb-select">
+            <option>Career Site Builder (SmartRecruiters hosted)</option>
+            <option>Job widget embedded in existing site</option>
+            <option>SmartRecruiters hosted page only</option>
+            <option>Custom career site via API (client-built)</option>
+            <option>No career site in scope</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="sowb-section-title" style="margin-top:28px">Integrations</div>
+      <div class="sowb-checks" id="sowb-integrations">
+        <label class="sowb-check"><input type="checkbox" value="SAP SuccessFactors Employee Central (EC) — bidirectional HRIS sync"> HRIS / EC</label>
+        <label class="sowb-check"><input type="checkbox" value="Payroll — new hire export on hire"> Payroll</label>
+        <label class="sowb-check"><input type="checkbox" value="Background screening (e.g. Sterling, Verifile)"> Background screening</label>
+        <label class="sowb-check"><input type="checkbox" value="Assessment / testing tools"> Assessments</label>
+        <label class="sowb-check"><input type="checkbox" value="SSO / identity provider (e.g. Azure AD, Okta)"> SSO</label>
+        <label class="sowb-check"><input type="checkbox" value="DocuSign e-signature"> DocuSign</label>
+        <label class="sowb-check"><input type="checkbox" value="Calendar integration (MS365 / Google) for self-scheduling"> Calendar</label>
+        <label class="sowb-check"><input type="checkbox" value="LinkedIn Recruiter"> LinkedIn Recruiter</label>
+        <label class="sowb-check"><input type="checkbox" value="Data migration from previous ATS"> Data migration</label>
+        <label class="sowb-check"><input type="checkbox" value="None"> None</label>
+      </div>
+
+      <div class="sowb-section-title" style="margin-top:24px">Job Boards</div>
+      <div class="sowb-checks" id="sowb-jobboards">
+        <label class="sowb-check"><input type="checkbox" value="Indeed"> Indeed</label>
+        <label class="sowb-check"><input type="checkbox" value="LinkedIn"> LinkedIn</label>
+        <label class="sowb-check"><input type="checkbox" value="Glassdoor"> Glassdoor</label>
+        <label class="sowb-check"><input type="checkbox" value="Reed"> Reed</label>
+        <label class="sowb-check"><input type="checkbox" value="Totaljobs"> Totaljobs</label>
+        <label class="sowb-check"><input type="checkbox" value="CV-Library"> CV-Library</label>
+        <label class="sowb-check"><input type="checkbox" value="Internal job board only"> Internal only</label>
+      </div>
+
+      <div class="sowb-section-title" style="margin-top:24px">Training</div>
+      <div class="sowb-checks" id="sowb-training">
+        <label class="sowb-check"><input type="checkbox" value="Train the Trainer (TTT)" checked> Train the Trainer</label>
+        <label class="sowb-check"><input type="checkbox" value="Recruiter live training sessions (2–3 x 90 min virtual)"> Recruiter sessions</label>
+        <label class="sowb-check"><input type="checkbox" value="Admin / HRIS team training"> Admin training</label>
+        <label class="sowb-check"><input type="checkbox" value="Hiring Manager training (1 x 60 min virtual)"> Hiring Manager</label>
+        <label class="sowb-check"><input type="checkbox" value="E-learning / recorded sessions"> E-learning</label>
+      </div>
+
+      <div class="sowb-section-title" style="margin-top:24px">Data Migration</div>
+      <div>
+        <select id="sowb-datamigration" class="sowb-select" style="max-width:400px">
+          <option>No data migration required</option>
+          <option>Active candidates / open requisitions only</option>
+          <option>Historical data (last 12 months)</option>
+          <option>Historical data (last 24 months)</option>
+          <option>Full historical data</option>
+        </select>
+      </div>
+
+      <div class="sowb-section-title" style="margin-top:24px">Additional Notes</div>
+      <textarea id="sowb-notes" class="sowb-textarea" placeholder="Any specific requirements, constraints, out-of-scope items, or context the AI should factor in…"></textarea>
+
+      <div style="display:flex;align-items:center;margin-top:28px">
+        <button id="sowb-run-btn" class="sowb-run-btn" onclick="generateSOW()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Generate SOW
+        </button>
+        <span class="sowb-hint">Takes ~20 seconds — uses all 60 documents</span>
+      </div>
+    </div>
+
+    <div id="sowb-result-wrap" class="sowb-result-wrap" style="display:none">
+      <div class="sowb-result-topbar">
+        <div>
+          <div class="sowb-result-label">Generated SOW</div>
+          <div class="sowb-result-title">Statement of Work</div>
+        </div>
+        <div class="sowb-topbar-right">
+          <button id="sowb-copy-btn" class="sowb-export-btn" onclick="copySOW()">Copy text</button>
+          <button id="sowb-export-btn" class="sowb-export-btn" onclick="exportSOW()">Download .docx</button>
+        </div>
+      </div>
+      <div id="sowb-output" class="sowb-output"></div>
+    </div>
+  </div>
+</div>
+
 </body></html>`);
+});
+
+// SOW Builder — Generate
+app.post('/consultant/implementation-hq/generate-sow', async (req, res) => {
+  const { answers } = req.body;
+  if (!answers) return res.status(400).json({ error: 'No answers' });
+
+  const integrations = Array.isArray(answers.integrations) ? answers.integrations.join(', ') : answers.integrations || 'None';
+  const jobBoards = Array.isArray(answers.jobBoards) ? answers.jobBoards.join(', ') : answers.jobBoards || 'None';
+  const training = Array.isArray(answers.training) ? answers.training.join('; ') : answers.training || 'None';
+  const notes = answers.notes ? `\nAdditional notes / constraints: ${answers.notes}` : '';
+
+  const systemPrompt = `You are a senior SmartRecruiters / SAP SuccessFactors implementation consultant at EX3 — a SAP Gold Partner. You write formal, client-ready Statements of Work that are commercially tight, technically accurate, and ready to send without editing.
+
+KNOWLEDGE BASE (sourced from SAP Partner Readiness Guide, SmartRecruiters Implementation Playbook, Advance Planning Considerations, Go-Live Checklist, EX3 internal guides, and 60 source documents):
+
+THE SIX IMPLEMENTATION PHASES (SmartRecruiters standard methodology):
+Phase 1 — PRE-DESIGN: Validate playbook, establish governance, define 80/20 rule, identify project team.
+Phase 2 — DESIGN: 101 training, 8 structured design workshops (System Controls & Permissions; Job Creation & Management; Functional Integrations & Ecosystem; Career Site & Candidate Application; Candidate Management 1; Candidate Management 2; Offer Management & Hiring; Analytics).
+Phase 3 — BUILD & TEST: System built in Sandbox. Integration and functional build run in parallel. Unit testing iteratively validates configuration.
+Phase 4 — UAT & PRODUCTION: End-to-end UAT in Sandbox, sign-off, migrate to Production, UAT in Production, final sign-off.
+Phase 5 — TRAINING: Delivered after UAT in Production so users train on the final live system.
+Phase 6 — GO-LIVE, HYPERCARE & OPTIMISE: Cutover, hypercare support, CSM handover, project close.
+
+CONFIGURATION DELIVERABLES:
+System Controls & Permissions: system roles (Administrator/Extended/Standard/Basic/Employee; up to 10 custom roles); hiring team roles (up to 5 custom); Access Groups by org field; GDPR/data retention per country; privacy policy; user provisioning process; IP whitelisting; email domain authentication.
+Job Creation & Management: job templates (1 per agreed template count); job and org fields; dependencies; approval chains; job board contract setup; auto-distribute rules.
+Career Site: Career Site Builder (SR hosted); pages — Home, Job Search, Job Detail, Application; branding (logo, colours, fonts — assets provided by client); mobile responsive; GDPR consent; SEO; staging to production cutover; DNS changes (client IT).
+Candidate Application & Screening: application form; custom candidate fields; EEO/OFCCP; screening question sets (5–7 questions; knockout logic); auto-replies; agency portal.
+Candidate Management: hiring processes (default + custom; up to 120 processes, 8 steps per status); workflow automations; rejection/withdrawal reasons; email templates.
+Interview Management: interview types; calendar integration (Google/MS365/Exchange — client IT provides admin access); self-scheduling; interview scorecards.
+Offer Management: offer letter templates with merge fields; offer approval chains; DocuSign if in scope; new hire form.
+Analytics: standard dashboards (pipeline, time-to-hire, source effectiveness, recruiter activity); custom candidate sources; report builder permissions; KPI benchmarks.
+
+INTEGRATIONS SCOPE:
+SSO: SR paired with SF instance; users log in via SF credentials (SAML 2.0); EX3 configures SR side; client IT configures IdP (Azure AD/Okta/ADFS).
+Calendar: Required for self-scheduling; supported — Google, MS365, Exchange; client IT provides admin access.
+EC/HRIS: Bidirectional sync; foundation data feed; new hire record on offer accept; EX3 configures integration; client HRIS confirms mapping.
+Background Screening: Marketplace integration; candidate consent in SR; client must hold active vendor contract.
+Assessments: Marketplace or redirect integration; client holds vendor contract.
+Payroll: New hire export; client payroll team confirms field mapping.
+DocuSign: Business or Enterprise licence required; user email must match SR email exactly (case-sensitive).
+Data Migration: EX3 provides import template; client extracts and cleans data; max 2 rounds of cleansing; client must unpost old ATS jobs before go-live.
+
+TRAINING:
+TTT: EX3 trains 2–4 super-users; includes trainer guide and recordings.
+Recruiter live: 2–3 x 90-min virtual sessions; recordings provided.
+Admin training: dedicated session on system administration, RBP, user management.
+HM training: 1 x 60-min virtual; includes quick reference card.
+E-learning: workflow recordings; hosted on client intranet.
+All training delivered after UAT in Production.
+
+CLIENT RESPONSIBILITIES:
+- Appoint Executive Sponsor (5–10% capacity) and Project Manager (50–75% capacity, named decision-maker)
+- Nominate 1–2 System Administrators who attend all workshops
+- Complete workshop homework; provide design decisions within 3 business days
+- Sign off deliverables within 5 business days (deemed accepted thereafter)
+- Provide career site assets (logo, images, brand guidelines) within 5 business days of request
+- Provide offer letter templates in Word format with merge fields highlighted
+- Provide job board contract credentials
+- Provide Legal sign-off on GDPR/data retention settings and consent model
+- Provide IT resource for SSO, calendar, email domain auth, DNS — EX3 cannot complete these
+- Provide data migration extract in agreed template format
+- Execute UAT in agreed window; raise defects via defect log
+- Ensure all users created in system before training
+- Prepare and send go-live communications
+
+STANDARD ASSUMPTIONS:
+- Valid SmartRecruiters/SF licence in place or being procured directly with SAP
+- EX3 has full admin access from Week 1
+- Single company instance (multi-instance out of scope)
+- English language only
+- No custom API development or platform extensions
+- All third-party vendor contracts (screening, assessments, DocuSign, job boards) are client's responsibility
+- Changes after design sign-off handled via formal Change Request
+
+GOVERNANCE:
+RACI: EX3 Responsible for configuration and technical delivery; Client Accountable for decisions, sign-off, data, UAT. Change Tolerance: minor changes absorbed within fixed fee; anything beyond requires Change Request (assessed in 3 business days). Deemed Acceptance: deliverables not rejected within 5 business days are deemed accepted.
+
+STANDARD OUT OF SCOPE:
+EC configuration beyond RCM integration; Onboarding module; LMS; Performance & Goals; Succession; custom API development; multi-language beyond English; additional instances; post-hypercare support; third-party system configuration; any integration not listed.`;
+
+  const userPrompt = `Write a complete, formal Statement of Work for the following SmartRecruiters implementation. Do NOT use placeholder text — write it exactly as it would be sent to the client.
+
+CLIENT: ${answers.clientName}
+Organisation size: ${answers.orgSize}
+System users: ${answers.numUsers}
+Hiring process workflows: ${answers.numProcesses}
+Job templates: ${answers.numTemplates}
+Integrations: ${integrations}
+Job boards: ${jobBoards}
+Career site: ${answers.careerPage}
+Data migration: ${answers.dataMigration}
+Training: ${training}
+Hypercare: ${answers.hypercare}
+Timeline: ${answers.timeline}${notes}
+
+Write sections:
+1. Project Overview (2–3 paragraphs — client context, platform, objectives)
+2. In Scope (detailed bullets grouped by: System Configuration & Permissions, Job Creation & Management, Hiring Process & Candidate Management, Offer Management, Career Site, Integrations, Analytics & Reporting, UAT Support, Training, Go-Live & Hypercare — reference exact numbers above)
+3. Out of Scope (clear exclusion list)
+4. Client Responsibilities (specific tasks with timelines)
+5. Assumptions (full list)
+6. Governance & Change Request Process (RACI summary, Change Tolerance, Deemed Acceptance, change procedure)
+7. Project Timeline (phase-by-phase using SmartRecruiters 6-phase methodology adapted to the agreed timeline)
+
+Use formal commercial language. Be specific throughout — name exact counts, integration types, training sessions. Write as a senior SmartRecruiters implementation consultant.`;
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
+      stream: true,
+      max_tokens: 4000,
+    });
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Transfer-Encoding', 'chunked');
+    for await (const chunk of completion) {
+      const text = chunk.choices[0]?.delta?.content || '';
+      if (text) res.write(text);
+    }
+    res.end();
+  } catch(err) {
+    console.error('SOW generate error:', err.message);
+    res.status(500).json({ error: 'Generation failed' });
+  }
+});
+
+// SOW Builder — Export .docx
+app.post('/consultant/implementation-hq/export-sow', async (req, res) => {
+  const { clientName, sowText } = req.body;
+  if (!sowText) return res.status(400).json({ error: 'No SOW text' });
+
+  try {
+    const { Document, Packer, Paragraph, TextRun, HeadingLevel } = require('docx');
+    const client = clientName || 'Client';
+
+    const lines = sowText.split('\n');
+    const children = [];
+
+    children.push(new Paragraph({
+      children: [new TextRun({ text: `Statement of Work`, bold: true, size: 36 })],
+      heading: HeadingLevel.TITLE,
+      spacing: { after: 200 },
+    }));
+    children.push(new Paragraph({
+      children: [new TextRun({ text: `${client} — SmartRecruiters Implementation`, size: 24, color: '666666' })],
+      spacing: { after: 400 },
+    }));
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) { children.push(new Paragraph({ text: '', spacing: { after: 80 } })); continue; }
+      if (/^\d+\.\s/.test(trimmed) && trimmed.length < 80) {
+        children.push(new Paragraph({ text: trimmed, heading: HeadingLevel.HEADING_1, spacing: { before: 320, after: 120 } }));
+      } else if (/^[A-Z][A-Z &]+:/.test(trimmed) && trimmed.length < 100) {
+        children.push(new Paragraph({ text: trimmed, heading: HeadingLevel.HEADING_2, spacing: { before: 200, after: 80 } }));
+      } else if (trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+        children.push(new Paragraph({ text: trimmed.replace(/^[-•]\s/, ''), bullet: { level: 0 }, spacing: { after: 80 } }));
+      } else {
+        children.push(new Paragraph({ children: [new TextRun({ text: trimmed, size: 22 })], spacing: { after: 120 } }));
+      }
+    }
+
+    const doc = new Document({ sections: [{ children }] });
+    const buffer = await Packer.toBuffer(doc);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', \`attachment; filename="SOW - \${client} - SmartRecruiters.docx"\`);
+    res.send(buffer);
+  } catch(err) {
+    console.error('SOW export error:', err.message);
+    res.status(500).json({ error: 'Export failed' });
+  }
 });
 
 // Implementation HQ — AI Chat endpoint
