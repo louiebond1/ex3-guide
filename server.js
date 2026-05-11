@@ -2264,7 +2264,7 @@ table.hq tr:last-child td{border-bottom:none}
               <option>Hybrid (mix of MS and Google)</option>
               <option>Other</option>
             </select>
-            <div id="d-calendar-warn" class="disc-warn" style="display:none">⚠️ Exchange Online / On-Premise / Hybrid is NOT supported by SmartRecruiters for calendar integration. If self-scheduling is required this is a hard blocker — the client must use Google Workspace or a fully cloud MS365 setup.</div>
+            <div id="d-calendar-warn" class="disc-warn" style="display:none">Warning: Exchange Online / On-Premise / Hybrid is NOT supported by SmartRecruiters for calendar integration. If self-scheduling is required this is a hard blocker — the client must use Google Workspace or a fully cloud MS365 setup.</div>
             <input id="d-calendar-other" class="disc-input disc-other-input" placeholder="Specify calendar / email system..." style="display:none" />
           </div>
         </div>
@@ -2383,7 +2383,7 @@ table.hq tr:last-child td{border-bottom:none}
               <option>No — recruiter books on behalf of candidate</option>
               <option>Both — depends on stage</option>
             </select>
-            <div id="d-selfschedule-warn" class="disc-warn is-error" style="display:none">🚫 Conflict: Self-scheduling is required but the calendar system selected (Exchange / Hybrid) is NOT supported by SmartRecruiters. Self-scheduling will not work — the client must switch to Google Workspace or fully cloud MS365.</div>
+            <div id="d-selfschedule-warn" class="disc-warn is-error" style="display:none">BLOCKER: Self-scheduling is required but the calendar system selected (Exchange / Hybrid) is NOT supported by SmartRecruiters. Self-scheduling will not work — the client must switch to Google Workspace or fully cloud MS365.</div>
           </div>
           <div class="disc-q">
             <label class="disc-q-label">Interview Scorecards / Structured Feedback?</label>
@@ -2479,7 +2479,7 @@ table.hq tr:last-child td{border-bottom:none}
             <label class="disc-radio"><input type="radio" name="workscouncil" value="No works council"> No</label>
             <label class="disc-radio"><input type="radio" name="workscouncil" value="Informal consultation only"> Informal only</label>
           </div>
-          <div id="d-workscouncil-warn" class="disc-warn is-error" style="display:none">⚠️ Formal works council approval can add 8–12 weeks before the project even starts. Factor this into the timeline and flag it immediately to the client.</div>
+          <div id="d-workscouncil-warn" class="disc-warn is-error" style="display:none">Warning: Formal works council approval can add 8-12 weeks before the project even starts. Factor this into the timeline and flag it immediately to the client.</div>
         </div>
       </div>
     </div>
@@ -4519,16 +4519,47 @@ function discWatch() {
   }
   onRadios('changeplan', updateChangePlan);
 
-  // Run all on init
-  updateHRIS(); updateCalendar(); updateSelfScheduleWarn();
-  updateEsign(); updateIdP(); updateSSOSuggest();
-  updateInternal(); updateWorksCouncil();
-  updateIntegrations(); updateMigration();
-  updateTrainingGroups(); updateChangePlan();
+  // Run on init — hide/show sections but don't fire warnings until user changes something
+  var _discReady = false;
+  var _origUpdateCalendar = updateCalendar;
+  var _origUpdateSelfScheduleWarn = updateSelfScheduleWarn;
+  var _origUpdateEsign = updateEsign;
+  var _origUpdateSSOSuggest = updateSSOSuggest;
+  var _origUpdateWorksCouncil = updateWorksCouncil;
+  var _origUpdateChangePlan = updateChangePlan;
+
+  // Override warning functions to be silent until user interacts
+  updateCalendar = function() { if (_discReady) _origUpdateCalendar(); };
+  updateSelfScheduleWarn = function() { if (_discReady) _origUpdateSelfScheduleWarn(); };
+  updateEsign = function() { if (_discReady) _origUpdateEsign(); };
+  updateSSOSuggest = function() { if (_discReady) _origUpdateSSOSuggest(); };
+  updateWorksCouncil = function() { if (_discReady) _origUpdateWorksCouncil(); };
+  updateChangePlan = function() { if (_discReady) _origUpdateChangePlan(); };
+
+  // Init: only apply structural show/hide (no warnings)
+  updateIntegrations();
+  updateMigration();
+  updateTrainingGroups();
+  updateHRIS();
+  updateIdP();
+  updateInternal();
   updateProgress();
+
+  // After first interaction, enable all warnings
+  document.getElementById('page-discovery').addEventListener('change', function() {
+    if (!_discReady) {
+      _discReady = true;
+      updateCalendar = _origUpdateCalendar;
+      updateSelfScheduleWarn = _origUpdateSelfScheduleWarn;
+      updateEsign = _origUpdateEsign;
+      updateSSOSuggest = _origUpdateSSOSuggest;
+      updateWorksCouncil = _origUpdateWorksCouncil;
+      updateChangePlan = _origUpdateChangePlan;
+    }
+  }, true);
 }
 
-document.addEventListener('DOMContentLoaded', discWatch);
+try { document.addEventListener('DOMContentLoaded', discWatch); } catch(e) {}
 
 async function exportAnswers() {
   if (!_discAnswers) { alert('Fill in the form first, then click Generate before exporting answers.'); return; }
