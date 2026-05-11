@@ -1150,6 +1150,7 @@ table.hq tr:last-child td{border-bottom:none}
 .est-reset-btn{display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:10px 20px;background:transparent;border:1.5px solid #ebe7e1;border-radius:9px;color:#888;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s}
 .est-reset-btn:hover{border-color:#bbb;color:#333}
 /* SOW Builder */
+#page-sowbuilder{margin-left:260px;padding:40px 48px;max-width:960px;box-sizing:border-box}
 .sowb-hero{background:linear-gradient(160deg,#0f0f0e 0%,#181816 100%);padding:64px 48px 56px;margin:-32px -32px 0;position:relative;overflow:hidden}
 .sowb-hero::before{content:'';position:absolute;top:-60px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,.07) 0%,transparent 65%);pointer-events:none}
 .sowb-hero-inner{max-width:680px;position:relative;z-index:1}
