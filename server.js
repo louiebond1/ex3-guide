@@ -4397,19 +4397,44 @@ function discWatch() {
   function g(id) { return document.getElementById(id); }
   function show(id, v) { var el = g(id); if (el) el.style.display = v ? '' : 'none'; }
   function selVal(id) { var el = g(id); return el ? el.value : ''; }
-  function isChecked(groupId, substr) {
+  function hasStr(str, sub) { return str.toLowerCase().indexOf(sub.toLowerCase()) !== -1; }
+  function isChecked(groupId, sub) {
     var cbs = document.querySelectorAll('#' + groupId + ' input[type=checkbox]');
     for (var i = 0; i < cbs.length; i++) {
-      if (cbs[i].checked && cbs[i].value.toLowerCase().includes(substr.toLowerCase())) return true;
+      if (cbs[i].checked && hasStr(cbs[i].value, sub)) return true;
     }
     return false;
   }
   function radioVal(name) { var el = document.querySelector('input[name="' + name + '"]:checked'); return el ? el.value : ''; }
-  function onCbs(groupId, fn) { document.querySelectorAll('#' + groupId + ' input[type=checkbox]').forEach(function(c){ c.addEventListener('change', fn); }); }
-  function onRadios(name, fn) { document.querySelectorAll('input[name="' + name + '"]').forEach(function(r){ r.addEventListener('change', fn); }); }
 
-  var isExchange = function() { return selVal('d-calendar').includes('Exchange') || selVal('d-calendar').includes('Hybrid'); };
-  var selfSchedYes = function() { return !selVal('d-selfschedule').toLowerCase().includes('no — recruiter'); };
+  // Structural: hide/show empty sections
+  function updateStructure() {
+    show('d-hrisint-wrap', isChecked('d-integrations', 'HRIS'));
+    show('d-jobboards-wrap', isChecked('d-integrations', 'Job board'));
+    show('d-migration-detail', !hasStr(selVal('d-migration'), 'no migration'));
+    show('d-trainrecruiters-wrap', isChecked('d-traininggroups', 'Recruiter'));
+    show('d-trainhms-wrap', isChecked('d-traininggroups', 'Hiring Manager'));
+  }
+
+  // Warnings + tips: only shown after user changes something
+  function updateWarnings() {
+    var cal = selVal('d-calendar');
+    var exchg = hasStr(cal, 'Exchange') || hasStr(cal, 'Hybrid');
+    var selfSched = !hasStr(selVal('d-selfschedule'), 'No ');
+    show('d-calendar-warn', exchg);
+    show('d-calendar-other', cal === 'Other');
+    show('d-selfschedule-warn', exchg && selfSched);
+    show('d-hris-other', selVal('d-hris') === 'Other');
+    show('d-suggest-hrisint', !hasStr(selVal('d-hris'), 'No HRIS') && !isChecked('d-integrations', 'HRIS'));
+    show('d-esign-other', hasStr(selVal('d-esign'), 'Other'));
+    show('d-suggest-docusign', hasStr(selVal('d-esign'), 'DocuSign') && !isChecked('d-integrations', 'DocuSign'));
+    show('d-idp-other', hasStr(selVal('d-idp'), 'Other'));
+    show('d-sso-suggest', hasStr(radioVal('sso'), 'Yes') && !isChecked('d-integrations', 'SSO'));
+    show('d-internal-sepsite-info', hasStr(radioVal('internal'), 'separate'));
+    show('d-workscouncil-warn', hasStr(radioVal('workscouncil'), 'Yes'));
+    show('d-changeplan-warn', hasStr(radioVal('changeplan'), 'No'));
+    updateStructure();
+  }
 
   // Progress bar
   function updateProgress() {
@@ -4417,149 +4442,32 @@ function discWatch() {
       var sec = g('disc-s' + i);
       var seg = g('dp' + i);
       if (!sec || !seg) continue;
-      var inputs = sec.querySelectorAll('input:not([type=radio]):not([type=checkbox]), textarea, select');
-      var radios = sec.querySelectorAll('input[type=radio]:checked');
-      var cbs = sec.querySelectorAll('input[type=checkbox]:checked');
-      var filled = 0;
-      inputs.forEach(function(el) { if (el.value && el.value.trim() && el.style.display !== 'none') filled++; });
-      seg.classList.toggle('done', filled > 0 || radios.length > 0 || cbs.length > 0);
+      var filled = sec.querySelectorAll('input[type=radio]:checked, input[type=checkbox]:checked').length > 0;
+      if (!filled) {
+        var ins = sec.querySelectorAll('input:not([type=radio]):not([type=checkbox]), textarea');
+        for (var j = 0; j < ins.length; j++) { if (ins[j].value && ins[j].value.trim()) { filled = true; break; } }
+      }
+      seg.classList.toggle('done', filled);
     }
   }
-  document.querySelectorAll('#page-discovery input, #page-discovery textarea, #page-discovery select').forEach(function(el){
-    el.addEventListener('change', updateProgress);
-    el.addEventListener('input', updateProgress);
-  });
 
-  // HRIS
-  function updateHRIS() {
-    var hrisVal = selVal('d-hris');
-    show('d-hris-other', hrisVal === 'Other');
-    var hasHRIS = hrisVal !== 'No HRIS — spreadsheets';
-    show('d-suggest-hrisint', hasHRIS && !isChecked('d-integrations', 'HRIS'));
+  var discPage = g('page-discovery');
+  if (discPage) {
+    discPage.addEventListener('change', function() { updateWarnings(); updateProgress(); });
+    discPage.addEventListener('input', updateProgress);
   }
-  g('d-hris') && g('d-hris').addEventListener('change', updateHRIS);
 
-  // Calendar + Exchange warning
-  function updateCalendar() {
-    var cal = selVal('d-calendar');
-    show('d-calendar-other', cal === 'Other');
-    show('d-calendar-warn', isExchange());
-    updateSelfScheduleWarn();
-  }
-  g('d-calendar') && g('d-calendar').addEventListener('change', updateCalendar);
-
-  // Self-scheduling conflict
-  function updateSelfScheduleWarn() {
-    show('d-selfschedule-warn', selfSchedYes() && isExchange());
-  }
-  g('d-selfschedule') && g('d-selfschedule').addEventListener('change', updateSelfScheduleWarn);
-
-  // E-sign
-  function updateEsign() {
-    var esign = selVal('d-esign');
-    show('d-esign-other', esign.includes('Other e-sign'));
-    var hasDS = esign.includes('DocuSign');
-    show('d-suggest-docusign', hasDS && !isChecked('d-integrations', 'DocuSign'));
-  }
-  g('d-esign') && g('d-esign').addEventListener('change', updateEsign);
-
-  // IdP
-  function updateIdP() {
-    show('d-idp-other', selVal('d-idp').includes('Other'));
-  }
-  g('d-idp') && g('d-idp').addEventListener('change', updateIdP);
-
-  // SSO radio suggest
-  function updateSSOSuggest() {
-    var ssoReq = radioVal('sso');
-    var ssoWanted = ssoReq && ssoReq.includes('Yes');
-    show('d-sso-suggest', ssoWanted && !isChecked('d-integrations', 'SSO'));
-  }
-  onRadios('sso', updateSSOSuggest);
-
-  // Internal mobility — separate site
-  function updateInternal() {
-    show('d-internal-sepsite-info', radioVal('internal').includes('separate'));
-  }
-  onRadios('internal', updateInternal);
-
-  // Works council
-  function updateWorksCouncil() {
-    show('d-workscouncil-warn', radioVal('workscouncil').includes('Yes'));
-  }
-  onRadios('workscouncil', updateWorksCouncil);
-
-  // Integrations — show/hide conditional sub-sections + re-run suggestions
-  function updateIntegrations() {
-    show('d-hrisint-wrap', isChecked('d-integrations', 'HRIS'));
-    show('d-jobboards-wrap', isChecked('d-integrations', 'Job board'));
-    updateHRIS();
-    updateEsign();
-    updateSSOSuggest();
-  }
-  onCbs('d-integrations', updateIntegrations);
-
-  // Migration detail — hide all sub-fields if no migration
-  function updateMigration() {
-    var hasMig = !selVal('d-migration').toLowerCase().includes('no migration');
-    show('d-migration-detail', hasMig);
-  }
-  g('d-migration') && g('d-migration').addEventListener('change', updateMigration);
-
-  // Training counts — hide if group not selected
-  function updateTrainingGroups() {
-    show('d-trainrecruiters-wrap', isChecked('d-traininggroups', 'Recruiter'));
-    show('d-trainhms-wrap', isChecked('d-traininggroups', 'Hiring Manager'));
-  }
-  onCbs('d-traininggroups', updateTrainingGroups);
-
-  // Change plan warning
-  function updateChangePlan() {
-    show('d-changeplan-warn', radioVal('changeplan').includes('No'));
-  }
-  onRadios('changeplan', updateChangePlan);
-
-  // Run on init — hide/show sections but don't fire warnings until user changes something
-  var _discReady = false;
-  var _origUpdateCalendar = updateCalendar;
-  var _origUpdateSelfScheduleWarn = updateSelfScheduleWarn;
-  var _origUpdateEsign = updateEsign;
-  var _origUpdateSSOSuggest = updateSSOSuggest;
-  var _origUpdateWorksCouncil = updateWorksCouncil;
-  var _origUpdateChangePlan = updateChangePlan;
-
-  // Override warning functions to be silent until user interacts
-  updateCalendar = function() { if (_discReady) _origUpdateCalendar(); };
-  updateSelfScheduleWarn = function() { if (_discReady) _origUpdateSelfScheduleWarn(); };
-  updateEsign = function() { if (_discReady) _origUpdateEsign(); };
-  updateSSOSuggest = function() { if (_discReady) _origUpdateSSOSuggest(); };
-  updateWorksCouncil = function() { if (_discReady) _origUpdateWorksCouncil(); };
-  updateChangePlan = function() { if (_discReady) _origUpdateChangePlan(); };
-
-  // Init: only apply structural show/hide (no warnings)
-  updateIntegrations();
-  updateMigration();
-  updateTrainingGroups();
-  updateHRIS();
-  updateIdP();
-  updateInternal();
+  updateStructure();
   updateProgress();
-
-  // After first interaction, enable all warnings
-  document.getElementById('page-discovery').addEventListener('change', function() {
-    if (!_discReady) {
-      _discReady = true;
-      updateCalendar = _origUpdateCalendar;
-      updateSelfScheduleWarn = _origUpdateSelfScheduleWarn;
-      updateEsign = _origUpdateEsign;
-      updateSSOSuggest = _origUpdateSSOSuggest;
-      updateWorksCouncil = _origUpdateWorksCouncil;
-      updateChangePlan = _origUpdateChangePlan;
-    }
-  }, true);
 }
 
-try { document.addEventListener('DOMContentLoaded', discWatch); } catch(e) {}
+try {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', discWatch);
+  } else {
+    discWatch();
+  }
+} catch(e) {}
 
 async function exportAnswers() {
   if (!_discAnswers) { alert('Fill in the form first, then click Generate before exporting answers.'); return; }
