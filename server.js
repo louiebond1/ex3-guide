@@ -2387,6 +2387,11 @@ table.hq tr:last-child td{border-bottom:none}
           <label class="disc-q-label">Any non-standard or complex process requirements?</label>
           <textarea id="d-complexprocess" class="disc-textarea" placeholder="e.g. Multi-country simultaneous postings, compliance-driven screening (FCA, DBS, BPSS), dual approval matrices, skills-based hiring model..."></textarea>
         </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Country-Specific Compensation &amp; Legal Requirements</label>
+          <div class="disc-q-hint">Per-country offer must-haves, allowances, visa sponsorship, right to work checks, local labour law requirements</div>
+          <textarea id="d-countryrequirements" class="disc-textarea" placeholder="e.g. UAE — car allowance + housing allowance mandatory in offer letters. Saudi — Saudisation % tracking required. UK — right to work check pre-offer. Germany — works council sign-off on job templates..."></textarea>
+        </div>
       </div>
     </div>
 
@@ -2851,6 +2856,7 @@ table.hq tr:last-child td{border-bottom:none}
         </div>
         <div class="disc-topbar-right">
           <button id="disc-copy-btn" class="disc-export-btn" onclick="copyDiscovery()">Copy text</button>
+          <button id="disc-answers-btn" class="disc-export-btn" onclick="exportAnswers()">Export Answers</button>
           <button id="disc-export-btn" class="disc-export-btn" onclick="exportDiscovery()">Download .docx</button>
         </div>
       </div>
@@ -4166,6 +4172,7 @@ function estReset() {
 
 /* ── Discovery Builder ── */
 var _discText = '';
+var _discAnswers = null;
 
 function discToggle(id) {
   document.getElementById('disc-' + id).classList.toggle('open');
@@ -4224,6 +4231,7 @@ async function generateDiscovery() {
     scorecards: _discVal('d-scorecards'),
     agencyportal: _discRadio('agencyportal'),
     complexprocess: _discVal('d-complexprocess'),
+    countryrequirements: _discVal('d-countryrequirements'),
     recruiters: _discVal('d-recruiters'),
     hms: _discVal('d-hms'),
     admins: _discVal('d-admins'),
@@ -4280,6 +4288,8 @@ async function generateDiscovery() {
     risks: _discVal('d-risks'),
     outofscope: _discVal('d-outofscope'),
   };
+
+  _discAnswers = answers;
 
   var btn = document.getElementById('disc-run-btn');
   var resultWrap = document.getElementById('disc-result-wrap');
@@ -4350,6 +4360,143 @@ async function exportDiscovery() {
     btn.disabled = false;
     btn.textContent = 'Download .docx';
   }
+}
+
+async function exportAnswers() {
+  if (!_discAnswers) { alert('Fill in the form first, then click Generate before exporting answers.'); return; }
+  var a = _discAnswers;
+  var company = a.company || 'Client';
+  var lines = [
+    'DISCOVERY ANSWERS — ' + company,
+    'SmartRecruiters Implementation | EX3',
+    new Array(50).join('═'),
+    '',
+    '1. COMPANY & ORGANISATION',
+    '  Company: ' + a.company,
+    '  Industry: ' + a.industry,
+    '  HQ Country: ' + a.hq,
+    '  Countries Hiring In: ' + a.countries,
+    '  Total Headcount: ' + a.headcount,
+    '  Annual Hiring Volume: ' + a.volume,
+    '  Legal / Hiring Entities: ' + a.entities,
+    '  Peak Hiring Periods: ' + a.peaks,
+    '  Rollout Scope: ' + a.rollout,
+    '  Languages Required: ' + a.languages,
+    '  Business Driver: ' + a.driver,
+    '',
+    '2. CURRENT TECH STACK',
+    '  Current ATS: ' + a.currentATS,
+    '  HRIS / HCM: ' + a.hris,
+    '  Pain Points: ' + a.painpoints,
+    '  Payroll System: ' + a.payroll,
+    '  Calendar / Email: ' + a.calendar,
+    '  Background Screening: ' + a.bgcheck,
+    '  Assessment Provider: ' + a.assess,
+    '  E-Signature: ' + a.esign,
+    '  Identity Provider (SSO): ' + a.idp,
+    '  Other Systems: ' + a.othersystems,
+    '',
+    '3. RECRUITMENT PROCESSES & CONFIGURATION',
+    '  Process Types: ' + a.processTypes,
+    '  Process Descriptions: ' + a.processdesc,
+    '  No. of Workflows: ' + a.numprocesses,
+    '  Job Templates: ' + a.jobtemplates,
+    '  Offer Letter Templates: ' + a.offertemplates,
+    '  Job Approval Chain: ' + a.jobapproval,
+    '  Offer Approval Chain: ' + a.offerapproval,
+    '  Interview Types: ' + a.interviewtypes,
+    '  Self-Scheduling: ' + a.selfschedule,
+    '  Scorecards: ' + a.scorecards,
+    '  Agency Portal: ' + a.agencyportal,
+    '  Complex / Non-Standard Requirements: ' + a.complexprocess,
+    '  Country-Specific Requirements: ' + a.countryrequirements,
+    '',
+    '4. SYSTEM PERMISSIONS & ACCESS CONTROL',
+    '  No. of Recruiters: ' + a.recruiters,
+    '  No. of Hiring Managers: ' + a.hms,
+    '  No. of Admins: ' + a.admins,
+    '  SSO Required: ' + a.sso,
+    '  Internal Applications: ' + a.internal,
+    '  Access Restrictions: ' + a.access,
+    '  Data Privacy / Retention Rules: ' + a.privacy,
+    '  Custom Roles: ' + a.roles,
+    '  Works Council: ' + a.workscouncil,
+    '',
+    '5. INTEGRATIONS',
+    '  Integrations In Scope: ' + a.integrations,
+    '  HRIS Integration Detail: ' + a.hrisint,
+    '  Job Boards: ' + a.jobboards,
+    '  Board Contracts in Place: ' + a.boardcontracts,
+    '  IT Lead for Integrations: ' + a.itlead,
+    '  Integration Blockers: ' + a.intblockers,
+    '  Planned System Changes: ' + a.systemchanges,
+    '',
+    '6. CAREER SITE & APPLICATION',
+    '  Career Site Type: ' + a.careersite,
+    '  No. of Career Sites: ' + a.numsites,
+    '  Current Career Site URL: ' + a.currentsite,
+    '  Branding Assets: ' + a.branding,
+    '  Site Languages: ' + a.sitelangs,
+    '  Application Form Requirements: ' + a.appform,
+    '  Screening Questions: ' + a.screening,
+    '  EEO / OFCCP: ' + a.eeo,
+    '  SEO Requirements: ' + a.seo,
+    '  DNS / IT Access: ' + a.dns,
+    '',
+    '7. DATA MIGRATION',
+    '  Migration Scope: ' + a.migration,
+    '  Data Types: ' + a.migrationtypes,
+    '  Record Volume: ' + a.migrationvol,
+    '  Migrating From: ' + a.migrationfrom,
+    '  Data Quality: ' + a.dataquality,
+    '  Data / Tech Contact: ' + a.datacontact,
+    '',
+    '8. TRAINING & CHANGE MANAGEMENT',
+    '  User Groups: ' + a.traininggroups,
+    '  No. of Recruiters to Train: ' + a.trainrecruiters,
+    '  No. of HMs to Train: ' + a.trainhms,
+    '  Locations / Timezones: ' + a.trainloc,
+    '  Training Format: ' + a.trainingformat,
+    '  Change Management Plan: ' + a.changeplan,
+    '  L&D Team Available: ' + a.ld,
+    '  Training Notes: ' + a.trainingnotes,
+    '',
+    '9. REPORTING & ANALYTICS',
+    '  Key Metrics: ' + a.metrics,
+    '  Report Depth: ' + a.reportdepth,
+    '  External BI Tool: ' + a.bi,
+    '  Report Access: ' + a.reportaccess,
+    '  Compliance Reporting: ' + a.compliancereport,
+    '  SLAs / KPI Targets: ' + a.slas,
+    '',
+    '10. TIMELINE, GOVERNANCE & COMMERCIAL',
+    '  Target Go-Live: ' + a.golive,
+    '  Hard Deadline: ' + a.deadline,
+    '  Executive Sponsor: ' + a.sponsor,
+    '  Client PM: ' + a.clientpm,
+    '  Project Team: ' + a.team,
+    '  UAT Sign-Off: ' + a.uat,
+    '  Licence Status: ' + a.licence,
+    '  Known Risks: ' + a.risks,
+    '  Out of Scope: ' + a.outofscope,
+  ].join('\n');
+
+  var btn = document.getElementById('disc-answers-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Exporting...'; }
+  try {
+    var resp = await fetch('/consultant/implementation-hq/export-discovery', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientName: company + ' — Discovery Answers', discoveryText: lines })
+    });
+    if (!resp.ok) throw new Error('Export failed');
+    var blob = await resp.blob();
+    var url = URL.createObjectURL(blob);
+    var el = document.createElement('a');
+    el.href = url; el.download = 'Discovery Answers — ' + company + '.docx'; el.click();
+    URL.revokeObjectURL(url);
+  } catch(e) { alert('Export failed. Please try again.'); }
+  finally { if (btn) { btn.disabled = false; btn.textContent = 'Export Answers'; } }
 }
 
 /* ── SOW Builder ── */
@@ -4770,6 +4917,18 @@ app.post('/consultant/implementation-hq/generate-discovery', async (req, res) =>
 
 Your job is to analyse the discovery answers provided and produce a structured, detailed Discovery Summary document that the EX3 team can share internally and with the client. Be precise, commercially sharp, and flag risks early.
 
+CRITICAL RULES — YOU MUST FOLLOW THESE WITHOUT EXCEPTION:
+1. Every single answer field provided must be referenced and addressed in the output. Do not skip, summarise away, or omit any answer. If a field has a value, it must appear somewhere in the report.
+2. Training numbers (recruiter count, HM count, admin count) must be stated explicitly in Section 7.
+3. AUTOMATIC CONFLICT FLAGS — if any of the following combinations appear in the answers, they MUST be called out as HIGH severity risks in Section 8:
+   - Exchange Online / Exchange On-Premise as calendar system + self-scheduling selected → "Exchange Online is NOT supported by SmartRecruiters for calendar integration. Self-scheduling will NOT be possible without switching to Google Workspace or a supported MS365 configuration. This is a blocker."
+   - DocuSign selected + any mention of multiple email domains → "DocuSign email must EXACTLY match SR email — case-sensitive. Confirm all user emails match across both systems."
+   - Job boards only partially or not contracted → "Job board contracts take up to 3 weeks to activate in Production. These must be initiated immediately."
+   - No SSO but SSO preferred + no IT lead confirmed → "SSO setup requires confirmed IT resource. Without a named IT lead, this will delay go-live."
+   - SF onboarding not possible / blocked → "SAP SuccessFactors onboarding integration has a known blocker. This must be resolved before Build phase begins."
+4. Country-specific requirements (compensation, legal, allowances, right to work) must appear in their own section (Section 12).
+5. The approval chain must be evaluated — if it has 3+ approvers, flag as complexity risk.
+
 KNOWLEDGE BASE — sourced directly from: SF_MASTER Discovery Workshop Agendas (2-day, 3-day, 6-session online), SmartSuccess Configuration Workbook, Integrations Workbook, Advance Planning Considerations, Sales Handover Form, SOW Consultant Guide, SR Limits & FYIs, Sessions 1-8 training decks, HRIS Integration Best Practices, Change Management Overview, Career Site Builder Implementation Guide, Languages in the Platform, Field Type Decision Guide, SAP Partner Readiness Guide, and 60 source documents:
 
 ═══════════════════════════════════════
@@ -5070,7 +5229,10 @@ What the client must commit to make this work. Be specific about who, what, and 
 List any answers that were vague, missing, or need following up before scoping can be finalised.
 
 11. RECOMMENDED NEXT STEPS
-3–5 concrete next actions with owner (EX3 or Client) and suggested timeframe.`;
+3–5 concrete next actions with owner (EX3 or Client) and suggested timeframe.
+
+12. COUNTRY-SPECIFIC REQUIREMENTS
+For each country in scope, list: mandatory offer terms (allowances, visa, relocation), right to work checks, local labour law constraints, data privacy regime, any compliance obligations (Saudisation, Emiratisation, works council, EEO etc.).`;
 
   const userMsg = `Discovery answers for ${answers.company}:
 
@@ -5112,6 +5274,7 @@ RECRUITMENT PROCESSES:
 - Scorecards: ${answers.scorecards}
 - Agency portal: ${answers.agencyportal}
 - Complex requirements: ${answers.complexprocess}
+- Country-specific compensation & legal requirements: ${answers.countryrequirements}
 
 PERMISSIONS & ACCESS:
 - Recruiters: ${answers.recruiters}
