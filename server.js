@@ -659,7 +659,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:#f8f7f4;color:#0f0f0e;l
 a{color:inherit;text-decoration:none}
 .layout{display:flex;min-height:100vh}
 /* Sidebar — matches consultant portal exactly */
-.sidebar{width:260px;flex-shrink:0;background:#0f0f0f;color:#fff;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;display:flex;flex-direction:column}
+.sidebar{width:260px;flex-shrink:0;background:#0f0f0f;color:#fff;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;display:flex;flex-direction:column;z-index:50}
 .sb-brand{padding:24px 20px;border-bottom:1px solid #2a2a2a}
 .sb-logo{font-size:36px;font-weight:900;letter-spacing:-.12em;line-height:1;color:#fff}
 .sb-tag{font-size:11px;color:#888;letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
@@ -3083,7 +3083,7 @@ function showTlDetail(step, phaseLabel, color, el) {
   panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-buildTimeline();
+try { buildTimeline(); } catch(e) {}
 
 // ── Playbooks data ────────────────────────────────────────────────
 const playbooks = [
@@ -3131,7 +3131,7 @@ function buildPlaybooks() {
     container.appendChild(el);
   });
 }
-buildPlaybooks();
+try { buildPlaybooks(); } catch(e) {}
 
 // ── Document Vault data ───────────────────────────────────────────
 var vaultDocs = [
@@ -3226,7 +3226,7 @@ function buildVault() {
     container.appendChild(section);
   });
 }
-buildVault();
+try { buildVault(); } catch(e) {}
 
 // ── Gotcha Library data ───────────────────────────────────────────
 var gotchas = [
@@ -3283,7 +3283,7 @@ function renderGotchas(list) {
   if(!list.length){ container.innerHTML='<p style="color:#5a4a8a;font-size:13px">No matching gotchas.</p>'; return; }
   container.innerHTML = list.map(function(g){ return '<div class="gotcha-item"><div class="g-header"><span class="g-phase" style="background:'+g.color+'22;color:'+g.color+';border:1px solid '+g.color+'44">'+g.phase+'</span><span class="g-title">'+g.title+'</span></div><div class="g-detail">'+g.detail+'</div></div>'; }).join('');
 }
-buildGotchas();
+try { buildGotchas(); } catch(e) {}
 
 // ── Integration Wizard data ───────────────────────────────────────
 var integrationWizard = [
@@ -3340,7 +3340,7 @@ function buildIntegrations() {
     contents.appendChild(div);
   });
 }
-buildIntegrations();
+try { buildIntegrations(); } catch(e) {}
 
 // ── Phase accordion ───────────────────────────────────────────────
 function togglePhase(header) {
