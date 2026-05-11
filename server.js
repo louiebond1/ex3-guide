@@ -4770,10 +4770,25 @@ app.post('/consultant/implementation-hq/generate-discovery', async (req, res) =>
 
 Your job is to analyse the discovery answers provided and produce a structured, detailed Discovery Summary document that the EX3 team can share internally and with the client. Be precise, commercially sharp, and flag risks early.
 
-KNOWLEDGE BASE (from SAP Partner Readiness Guide, SmartRecruiters Implementation Playbook, EX3 internal guides, and 60 source documents):
+KNOWLEDGE BASE (from official SmartRecruiters Discovery Workshop Agendas — 2-day onsite, 3-day onsite, 6-session online formats — Configuration Workbook, Integrations Workbook, SAP Partner Readiness Guide, EX3 internal guides, and 60 source documents):
+
+OFFICIAL DISCOVERY WORKSHOP STRUCTURE:
+Online format: 6 workshops. Onsite: 2 or 3 days.
+Workshop 1 — Jobs (2-3h): Job templates, job fields, interview scorecards, job approvals, publishing, agencies.
+Workshop 2 — Candidates (3-4h): Application experience, screening questions, SmartAssistant, candidate profile, GDPR, interview booking, hiring process/workflow, scorecards, email templates, rejection reasons, referrals.
+Workshop 3 — Offer & Hire (2h): Offer process, candidate fields, custom forms, offer letters, offer clauses, DocuSign.
+Workshop 4 — User Configuration/Access (1-2h): System roles, hiring team roles, access groups, delegated admin.
+Workshop 5 — Analytics/Report Builder (1h): Analytics dashboards, Report Builder, access permissions.
+Workshop 6 — Career Site (1h): Career site/career site integration, brands, employee portal.
+
+OFFICIAL HOUR BUDGETS (from internal workshop planning guide):
+- Small project (ATS only, single country): ~50 total hours. Split: 10h pre-workshop activities + 30h workshops + 10h UAT.
+- Larger project (global ATS): ~100 total hours. Split: 10h pre-workshop + 45h workshops + 25h UAT + 20h buffer.
+- Deep-dive sessions added for complex areas: screening questions, scorecards, integrations, multi-country access groups.
+- Pre-workshop activities breakdown: Sales Handover (2h) + Kick-off Prep (2.5h) + Kick Off (2h) + Planning Meeting (3.5h) = 10h.
 
 SIX IMPLEMENTATION PHASES:
-Phase 1 — PRE-DESIGN (2–3 wks): Validate playbook, establish governance, define 80/20 rule, identify project team, confirm integration owners.
+Phase 1— PRE-DESIGN (2–3 wks): Validate playbook, establish governance, define 80/20 rule, identify project team, confirm integration owners.
 Phase 2 — DESIGN (3–4 wks): 101 training, 8 structured design workshops: (1) System Controls & Permissions; (2) Job Creation & Management; (3) Functional Integrations & Ecosystem; (4) Career Site & Candidate Application; (5) Candidate Management 1; (6) Candidate Management 2; (7) Offer Management & Hiring; (8) Analytics.
 Phase 3 — BUILD & TEST (4–6 wks): System built in Sandbox. Integration and functional build run in parallel. Unit testing iteratively validates configuration. Integration testing with client IT.
 Phase 4 — UAT & PRODUCTION (2–3 wks): End-to-end UAT in Sandbox → sign-off → migrate to Production → UAT in Production → final sign-off. Deemed Acceptance clause applies after 10 business days.
@@ -4781,37 +4796,69 @@ Phase 5 — TRAINING (1–2 wks): Delivered after UAT in Production. TTT model s
 Phase 6 — GO-LIVE, HYPERCARE & OPTIMISE (4–8 wks): Cutover plan, hypercare support, CSM handover, project close, lessons learned.
 
 COMPLEXITY DRIVERS (what makes a project harder):
-- Multi-country rollout with multiple languages
-- Multiple legal entities with different hiring processes
-- Complex HRIS integration (bidirectional, multi-entity)
-- SSO with on-premise ADFS or legacy IdP
-- Calendar integration with Exchange on-premise
-- Background screening / assessments not on SR marketplace
-- Large data migration (>50k records, poor quality data)
-- Works council or union consultation required
-- Tight timeline with hard deadline
+- Multi-country rollout with multiple languages (adds workshops, field setup, GDPR per country)
+- Multiple legal entities with different processes (multiplies config effort)
+- Complex HRIS integration — especially bidirectional multi-entity with Job Sync + Hire Sync + Config Sync
+- SSO with on-premise ADFS or legacy IdP (client IT often the bottleneck — budget 2-4 weeks)
+- Calendar integration with Exchange on-premise (admin access dependency — often project's slowest item)
+- Background screening / assessments not on SR marketplace (custom integration = scope risk)
+- Large data migration (>50k records, poor quality = significant cleansing effort)
+- Works council or union consultation required (can add 8-12 weeks before project even starts)
+- Tight/hard deadline with current ATS contract expiring
 - No dedicated client PM or IT resource confirmed
-- External BI tool integration (Power BI, Tableau)
-- Multiple career sites in multiple languages
-- High volume of custom roles and access groups
-- DocuSign with complex merge field requirements
-- Offer approval chains with 3+ approvers
+- External BI tool integration (Power BI, Tableau — custom data feed required)
+- Multiple career sites in multiple languages (each site is separate CSB build)
+- High volume of custom roles and access groups (10 role limit — challenge client assumptions early)
+- DocuSign with complex merge field offer letters (email case-sensitivity is a common gotcha)
+- Offer approval chains with 3+ approvers across multiple entities
 
-SYSTEM LIMITS TO FLAG:
-- Up to 120 hiring processes (but build and maintain each one — keep it lean)
-- Up to 8 workflow steps per status (not per process)
-- Up to 10 custom system roles
-- Up to 5 custom hiring team roles
-- Screening questions: 5–7 per job recommended (more = lower completion)
-- DocuSign: Business/Enterprise licence required; user email must match SR exactly (case-sensitive)
-- SSO: EX3 configures SR side; client IT must configure IdP — allow 2–4 weeks for IT
-- Calendar: Self-scheduling requires admin access to client calendar system — often the longest dependency
-- Data migration: EX3 imports using SR API; client must provide clean, structured export
+CONFIGURATION WORKBOOK — KEY DECISIONS AND BEST PRACTICES:
+Workshop 1 — Permissions:
+  - System roles: Admin (full), Extended (all jobs/candidates), Standard (recruiter: creates jobs + analytics), Basic (HM: hiring team only), Employee (internal portal). Max 10 custom, max 5 custom hiring team roles.
+  - Job vs Org Field rule: if the field drives an approval chain, screening question set, hiring process, email template, offer template, or access group — it MUST be an Org Field (not a Job Field).
+  - Standard Department field CANNOT be maintained by Config Sync — recommend custom job field instead.
+  - Fields that cannot be modified (locked by SR): Function, Industry, Type of Employment, Experience Level, Country, EEO Category.
+Workshop 2 — Job Creation:
+  - Approval chains: push client to simplify; parallel chains are faster. Challenge 3+ approver chains.
+  - Brand field cannot be Config Synced — auto-populated from Branding settings.
+Workshop 3 — Career Site & Application:
+  - Screening: 5-7 questions per job (knockout logic supported); more questions = lower completion rate.
+  - DNS change required for custom career site domain — client IT must action; typical lead time 2 weeks.
+  - EEO/OFCCP pre-built in SR for US federal contractors.
+  - Create separate internal employee screening question set to reduce friction.
+Workshop 4 — Candidate Management:
+  - Keep hiring process lean — each sub-step must be maintained; too many = adoption failure.
+  - Calendar self-scheduling: requires ADMIN-level calendar access from client IT (Google Workspace, MS365, or Exchange). This is frequently the longest dependency on a project.
+  - Marketplace vendors: client must hold the vendor contract; EX3 handles SR-side integration.
+  - Rejection reasons: shortlist — don't create more than needed; quality over quantity.
+Workshop 5 — Offers:
+  - Offer letter prep: client must highlight all variable data before templating (job-driven = green; candidate-driven = yellow).
+  - DocuSign: Business or Enterprise licence required. Email in DocuSign must EXACTLY match SR email — case-sensitive. Wrong email = integration breaks per user. This is a frequent gotcha.
+  - Custom forms: use for additional data at offer stage (bank details, right to work, equipment).
 
-RACI (for estimating client effort):
-- EX3 owns: SR configuration, integration (SR side), career site build, training delivery, UAT facilitation
-- Client owns: business decisions (process design, approval chains, field names), IdP configuration (SSO), calendar admin access, HRIS integration (HRIS side), data export, DNS change for career site, UAT execution and sign-off
-- Shared: workshop participation, test script execution, change management
+INTEGRATIONS — 7 STANDARD FEEDS (Integrations Workbook):
+1. User Sync (HRIS→SR): name, email, system role, access group, employee ID, SSO identifier. SSO identifier must be case-sensitive match. Employee ID = unique key.
+2. Config Sync (HRIS→SR): org field values (cost centres, departments, custom values). Cannot sync standard Dept field or Brand field.
+3. Dependency Sync (HRIS→SR): parent/child field dependencies. Job fields must exist in Config Sync first. Do NOT use for Job Sync fields (causes errors).
+4. Job Sync (HRIS→SR): requisition data (title, description, org fields, hiring team, positions). Required: refNumber, country code, city, industry, function, experience level, type of employment.
+5. Employee Profile Sync (HRIS→SR): matches returning employees by email. If candidate uses unknown email, match fails — add screening question "Have you worked here before?"
+6. Hire Sync (SR→HRIS): triggered by setting Onboarding Status = "Ready to Onboard". Runs every 15 mins. Supports: New Hire, Re-Hire, Transfer, Contingent Worker, Convert Contingent.
+7. Onboarding Sync (SR→HRIS): additional onboarding data post-hire (fields TBD per client).
+Each integration requires: HRIS system name/version, transfer method/URL, data format, API keys for DEV and PROD, technical and functional email contacts.
+
+SYSTEM LIMITS:
+- Up to 120 hiring processes (build and maintain each — keep lean)
+- Up to 8 workflow steps per status stage
+- Up to 10 custom system roles; up to 5 custom hiring team roles
+- Screening questions: 5-7 per job (knockout supported; more = drop-off)
+- DocuSign: Business/Enterprise licence required; case-sensitive email match
+- DNS change for custom career site domain: client IT action (2-week average lead time)
+- Data migration: EX3 imports via SR API; client exports from old system in structured format
+
+RACI:
+- EX3 owns: all SR configuration (all 6 workshops), integration SR-side setup, career site build, training delivery, UAT facilitation, issue log
+- Client owns: all business decisions (process design, field names, approval chains, rejection reasons, role permissions), IdP configuration (SSO), calendar admin access, HRIS integration HRIS-side, data export from old system, DNS change for career site, UAT execution and sign-off, change management and internal comms
+- Shared: workshop attendance and active decision-making, test script execution, project governance meetings
 
 TYPICAL TIMELINES BY COMPLEXITY:
 - Simple (1 country, 1 entity, <3 integrations, no data migration): 10–14 weeks
