@@ -1245,6 +1245,13 @@ table.hq tr:last-child td{border-bottom:none}
 .disc-export-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.5);font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
 .disc-export-btn:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.9)}
 .disc-export-btn:disabled{opacity:.3;cursor:not-allowed}
+.disc-warn{background:#fef9ec;border:1px solid #f59e0b;border-radius:8px;padding:10px 14px;font-size:12.5px;color:#92400e;margin-top:10px;line-height:1.6}
+.disc-warn.is-error{background:#fef2f2;border-color:#f87171;color:#991b1b}
+.disc-info{background:#ecfdf5;border:1px solid #6ee7b7;border-radius:8px;padding:10px 14px;font-size:12.5px;color:#065f46;margin-top:10px;line-height:1.6}
+.disc-other-input{margin-top:8px!important}
+.disc-progress{display:flex;gap:4px;margin-bottom:28px}
+.disc-progress-seg{flex:1;height:4px;border-radius:2px;background:#ebe7e1;transition:background .3s}
+.disc-progress-seg.done{background:#10b981}
 .disc-output{padding:32px 36px;background:#fff;font-size:13.5px;color:#333;line-height:1.9;white-space:pre-wrap;font-family:'Inter',system-ui,sans-serif;max-height:80vh;overflow-y:auto}
 @media(max-width:900px){.disc-hero{padding:36px 24px 32px}.disc-grid,.disc-grid3{grid-template-columns:1fr}.disc-section-body{padding:6px 16px 20px}}
 </style>
@@ -2131,6 +2138,10 @@ table.hq tr:last-child td{border-bottom:none}
     </div>
   </div>
 
+  <div class="disc-progress" id="disc-progress">
+    <div class="disc-progress-seg" id="dp1"></div><div class="disc-progress-seg" id="dp2"></div><div class="disc-progress-seg" id="dp3"></div><div class="disc-progress-seg" id="dp4"></div><div class="disc-progress-seg" id="dp5"></div><div class="disc-progress-seg" id="dp6"></div><div class="disc-progress-seg" id="dp7"></div><div class="disc-progress-seg" id="dp8"></div><div class="disc-progress-seg" id="dp9"></div><div class="disc-progress-seg" id="dp10"></div>
+  </div>
+
   <div class="disc-body">
 
     <!-- Section 1: Company & Organisation -->
@@ -2231,6 +2242,8 @@ table.hq tr:last-child td{border-bottom:none}
               <option>No HRIS — spreadsheets</option>
               <option>Other</option>
             </select>
+            <input id="d-hris-other" class="disc-input disc-other-input" placeholder="Specify HRIS / HCM system..." style="display:none" />
+            <div id="d-suggest-hrisint" class="disc-info" style="display:none">Tip: You have an HRIS — add HRIS / HCM to integrations in scope (Section 5) so foundation data flows into SmartRecruiters automatically.</div>
           </div>
         </div>
         <div class="disc-q">
@@ -2251,6 +2264,8 @@ table.hq tr:last-child td{border-bottom:none}
               <option>Hybrid (mix of MS and Google)</option>
               <option>Other</option>
             </select>
+            <div id="d-calendar-warn" class="disc-warn" style="display:none">⚠️ Exchange Online / On-Premise / Hybrid is NOT supported by SmartRecruiters for calendar integration. If self-scheduling is required this is a hard blocker — the client must use Google Workspace or a fully cloud MS365 setup.</div>
+            <input id="d-calendar-other" class="disc-input disc-other-input" placeholder="Specify calendar / email system..." style="display:none" />
           </div>
         </div>
         <div class="disc-grid">
@@ -2272,6 +2287,8 @@ table.hq tr:last-child td{border-bottom:none}
               <option>Other e-sign tool</option>
               <option>No e-signature — wet signature only</option>
             </select>
+            <input id="d-esign-other" class="disc-input disc-other-input" placeholder="Specify e-signature tool..." style="display:none" />
+            <div id="d-suggest-docusign" class="disc-info" style="display:none">Tip: DocuSign is selected as your e-sign tool — add DocuSign to integrations in scope (Section 5) so offer letters are sent automatically.</div>
           </div>
           <div class="disc-q">
             <label class="disc-q-label">Identity Provider (SSO)</label>
@@ -2284,6 +2301,8 @@ table.hq tr:last-child td{border-bottom:none}
               <option>No SSO — username/password login</option>
               <option>Other / not decided</option>
             </select>
+            <input id="d-idp-other" class="disc-input disc-other-input" placeholder="Specify identity provider..." style="display:none" />
+            <div id="d-suggest-sso" class="disc-info" style="display:none">Tip: SSO is required/preferred — add SSO to integrations in scope (Section 5).</div>
           </div>
         </div>
         <div class="disc-q">
@@ -2364,6 +2383,7 @@ table.hq tr:last-child td{border-bottom:none}
               <option>No — recruiter books on behalf of candidate</option>
               <option>Both — depends on stage</option>
             </select>
+            <div id="d-selfschedule-warn" class="disc-warn is-error" style="display:none">🚫 Conflict: Self-scheduling is required but the calendar system selected (Exchange / Hybrid) is NOT supported by SmartRecruiters. Self-scheduling will not work — the client must switch to Google Workspace or fully cloud MS365.</div>
           </div>
           <div class="disc-q">
             <label class="disc-q-label">Interview Scorecards / Structured Feedback?</label>
@@ -2426,6 +2446,7 @@ table.hq tr:last-child td{border-bottom:none}
             <label class="disc-radio"><input type="radio" name="sso" value="No — username/password login"> No</label>
             <label class="disc-radio"><input type="radio" name="sso" value="To be decided"> TBD</label>
           </div>
+          <div id="d-sso-suggest" class="disc-info" style="display:none">Tip: SSO is required — add SSO to integrations in scope (Section 5). Budget 2–4 weeks for client IT to configure the IdP side.</div>
         </div>
         <div class="disc-q">
           <label class="disc-q-label">Will Employees Apply for Internal Roles via SmartRecruiters?</label>
@@ -2434,6 +2455,7 @@ table.hq tr:last-child td{border-bottom:none}
             <label class="disc-radio"><input type="radio" name="internal" value="No — external applications only"> No</label>
             <label class="disc-radio"><input type="radio" name="internal" value="Yes — separate internal career site"> Yes — separate site</label>
           </div>
+          <div id="d-internal-sepsite-info" class="disc-info" style="display:none">Note: Separate internal career site = additional CSB build. This adds time and budget — flag as additional scope item.</div>
         </div>
         <div class="disc-q">
           <label class="disc-q-label">Access Restriction / Org Field Structure</label>
@@ -2457,6 +2479,7 @@ table.hq tr:last-child td{border-bottom:none}
             <label class="disc-radio"><input type="radio" name="workscouncil" value="No works council"> No</label>
             <label class="disc-radio"><input type="radio" name="workscouncil" value="Informal consultation only"> Informal only</label>
           </div>
+          <div id="d-workscouncil-warn" class="disc-warn is-error" style="display:none">⚠️ Formal works council approval can add 8–12 weeks before the project even starts. Factor this into the timeline and flag it immediately to the client.</div>
         </div>
       </div>
     </div>
@@ -2485,32 +2508,37 @@ table.hq tr:last-child td{border-bottom:none}
             <label class="disc-check"><input type="checkbox" value="Internal / custom API integration"> Custom API</label>
           </div>
         </div>
-        <div class="disc-q">
-          <label class="disc-q-label">HRIS Integration Detail</label>
-          <div class="disc-q-hint">Foundation data (org, cost centre, location) must feed into SR. New hire record created in HRIS on offer accept. Who owns the HRIS side?</div>
-          <textarea id="d-hrisint" class="disc-textarea" placeholder="e.g. SAP SuccessFactors EC — foundation data sync, new hire triggers employee record creation. Client's SF admin will configure the SF side. EX3 configures the SR side."></textarea>
-        </div>
-        <div class="disc-q">
-          <label class="disc-q-label">Job Boards to Post to (Direct / Via SR)</label>
-          <div class="disc-checks" id="d-jobboards">
-            <label class="disc-check"><input type="checkbox" value="Indeed"> Indeed</label>
-            <label class="disc-check"><input type="checkbox" value="LinkedIn Jobs"> LinkedIn</label>
-            <label class="disc-check"><input type="checkbox" value="Glassdoor"> Glassdoor</label>
-            <label class="disc-check"><input type="checkbox" value="Reed"> Reed</label>
-            <label class="disc-check"><input type="checkbox" value="Totaljobs"> Totaljobs</label>
-            <label class="disc-check"><input type="checkbox" value="CV-Library"> CV-Library</label>
-            <label class="disc-check"><input type="checkbox" value="Jobsite"> Jobsite</label>
-            <label class="disc-check"><input type="checkbox" value="CWJobs"> CWJobs</label>
-            <label class="disc-check"><input type="checkbox" value="Guardian Jobs"> Guardian Jobs</label>
-            <label class="disc-check"><input type="checkbox" value="Internal intranet only"> Internal only</label>
+        <div id="d-hrisint-wrap">
+          <div class="disc-q">
+            <label class="disc-q-label">HRIS Integration Detail</label>
+            <div class="disc-q-hint">Foundation data (org, cost centre, location) must feed into SR. New hire record created in HRIS on offer accept. Who owns the HRIS side?</div>
+            <textarea id="d-hrisint" class="disc-textarea" placeholder="e.g. SAP SuccessFactors EC — foundation data sync, new hire triggers employee record creation. Client's SF admin will configure the SF side. EX3 configures the SR side."></textarea>
           </div>
         </div>
-        <div class="disc-q">
-          <label class="disc-q-label">Has the client signed contracts with their job board vendors?</label>
-          <div class="disc-radio-group" id="d-boardcontracts">
-            <label class="disc-radio"><input type="radio" name="boardcontracts" value="Yes — all board contracts in place"> Yes — all in place</label>
-            <label class="disc-radio"><input type="radio" name="boardcontracts" value="Partially — some contracts in place"> Partially</label>
-            <label class="disc-radio"><input type="radio" name="boardcontracts" value="No — EX3 to advise on board selection"> No — needs advice</label>
+        <div id="d-jobboards-wrap">
+          <div class="disc-q">
+            <label class="disc-q-label">Job Boards to Post to (Direct / Via SR)</label>
+            <div class="disc-checks" id="d-jobboards">
+              <label class="disc-check"><input type="checkbox" value="Indeed"> Indeed</label>
+              <label class="disc-check"><input type="checkbox" value="LinkedIn Jobs"> LinkedIn</label>
+              <label class="disc-check"><input type="checkbox" value="Glassdoor"> Glassdoor</label>
+              <label class="disc-check"><input type="checkbox" value="Reed"> Reed</label>
+              <label class="disc-check"><input type="checkbox" value="Totaljobs"> Totaljobs</label>
+              <label class="disc-check"><input type="checkbox" value="CV-Library"> CV-Library</label>
+              <label class="disc-check"><input type="checkbox" value="Jobsite"> Jobsite</label>
+              <label class="disc-check"><input type="checkbox" value="CWJobs"> CWJobs</label>
+              <label class="disc-check"><input type="checkbox" value="Guardian Jobs"> Guardian Jobs</label>
+              <label class="disc-check"><input type="checkbox" value="Internal intranet only"> Internal only</label>
+            </div>
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Has the client signed contracts with their job board vendors?</label>
+            <div class="disc-q-hint">Job board contracts take up to 3 weeks to activate in Production. These must be started immediately.</div>
+            <div class="disc-radio-group" id="d-boardcontracts">
+              <label class="disc-radio"><input type="radio" name="boardcontracts" value="Yes — all board contracts in place"> Yes — all in place</label>
+              <label class="disc-radio"><input type="radio" name="boardcontracts" value="Partially — some contracts in place"> Partially</label>
+              <label class="disc-radio"><input type="radio" name="boardcontracts" value="No — EX3 to advise on board selection"> No — needs advice</label>
+            </div>
           </div>
         </div>
         <div class="disc-q">
@@ -2625,6 +2653,7 @@ table.hq tr:last-child td{border-bottom:none}
             <option>TBD — needs scoping conversation</option>
           </select>
         </div>
+        <div id="d-migration-detail">
         <div class="disc-q">
           <label class="disc-q-label">Migration Data Types</label>
           <div class="disc-checks" id="d-migrationtypes">
@@ -2660,6 +2689,7 @@ table.hq tr:last-child td{border-bottom:none}
           <div class="disc-q-hint">Client must own the export from the old system. EX3 imports into SR. Is a tech contact confirmed?</div>
           <textarea id="d-datacontact" class="disc-textarea" placeholder="e.g. IT team will export Taleo data. Format: CSV. Contact is James (IT analyst). Timeline: available from week 6."></textarea>
         </div>
+        </div><!-- /d-migration-detail -->
       </div>
     </div>
 
@@ -2684,11 +2714,11 @@ table.hq tr:last-child td{border-bottom:none}
           </div>
         </div>
         <div class="disc-grid3">
-          <div class="disc-q">
+          <div id="d-trainrecruiters-wrap" class="disc-q">
             <label class="disc-q-label">No. of Recruiter Users to Train</label>
             <input id="d-trainrecruiters" class="disc-input" placeholder="e.g. 25" />
           </div>
-          <div class="disc-q">
+          <div id="d-trainhms-wrap" class="disc-q">
             <label class="disc-q-label">No. of HM Users to Train</label>
             <input id="d-trainhms" class="disc-input" placeholder="e.g. 300" />
           </div>
@@ -2714,6 +2744,7 @@ table.hq tr:last-child td{border-bottom:none}
             <label class="disc-radio"><input type="radio" name="changeplan" value="Partial — some comms planned but no formal programme"> Partial</label>
             <label class="disc-radio"><input type="radio" name="changeplan" value="No — EX3 to advise on communications approach"> No</label>
           </div>
+          <div id="d-changeplan-warn" class="disc-warn" style="display:none">No change management plan in place. With a large hiring manager population, poor adoption is a real risk. EX3 will need to advise on a comms strategy — factor this into the project scope.</div>
         </div>
         <div class="disc-q">
           <label class="disc-q-label">Is there an internal Learning &amp; Development (L&amp;D) team to support ongoing training post go-live?</label>
@@ -4361,6 +4392,143 @@ async function exportDiscovery() {
     btn.textContent = 'Download .docx';
   }
 }
+
+function discWatch() {
+  function g(id) { return document.getElementById(id); }
+  function show(id, v) { var el = g(id); if (el) el.style.display = v ? '' : 'none'; }
+  function selVal(id) { var el = g(id); return el ? el.value : ''; }
+  function isChecked(groupId, substr) {
+    var cbs = document.querySelectorAll('#' + groupId + ' input[type=checkbox]');
+    for (var i = 0; i < cbs.length; i++) {
+      if (cbs[i].checked && cbs[i].value.toLowerCase().includes(substr.toLowerCase())) return true;
+    }
+    return false;
+  }
+  function radioVal(name) { var el = document.querySelector('input[name="' + name + '"]:checked'); return el ? el.value : ''; }
+  function onCbs(groupId, fn) { document.querySelectorAll('#' + groupId + ' input[type=checkbox]').forEach(function(c){ c.addEventListener('change', fn); }); }
+  function onRadios(name, fn) { document.querySelectorAll('input[name="' + name + '"]').forEach(function(r){ r.addEventListener('change', fn); }); }
+
+  var isExchange = function() { return selVal('d-calendar').includes('Exchange') || selVal('d-calendar').includes('Hybrid'); };
+  var selfSchedYes = function() { return !selVal('d-selfschedule').toLowerCase().includes('no — recruiter'); };
+
+  // Progress bar
+  function updateProgress() {
+    for (var i = 1; i <= 10; i++) {
+      var sec = g('disc-s' + i);
+      var seg = g('dp' + i);
+      if (!sec || !seg) continue;
+      var inputs = sec.querySelectorAll('input:not([type=radio]):not([type=checkbox]), textarea, select');
+      var radios = sec.querySelectorAll('input[type=radio]:checked');
+      var cbs = sec.querySelectorAll('input[type=checkbox]:checked');
+      var filled = 0;
+      inputs.forEach(function(el) { if (el.value && el.value.trim() && el.style.display !== 'none') filled++; });
+      seg.classList.toggle('done', filled > 0 || radios.length > 0 || cbs.length > 0);
+    }
+  }
+  document.querySelectorAll('#page-discovery input, #page-discovery textarea, #page-discovery select').forEach(function(el){
+    el.addEventListener('change', updateProgress);
+    el.addEventListener('input', updateProgress);
+  });
+
+  // HRIS
+  function updateHRIS() {
+    var hrisVal = selVal('d-hris');
+    show('d-hris-other', hrisVal === 'Other');
+    var hasHRIS = hrisVal !== 'No HRIS — spreadsheets';
+    show('d-suggest-hrisint', hasHRIS && !isChecked('d-integrations', 'HRIS'));
+  }
+  g('d-hris') && g('d-hris').addEventListener('change', updateHRIS);
+
+  // Calendar + Exchange warning
+  function updateCalendar() {
+    var cal = selVal('d-calendar');
+    show('d-calendar-other', cal === 'Other');
+    show('d-calendar-warn', isExchange());
+    updateSelfScheduleWarn();
+  }
+  g('d-calendar') && g('d-calendar').addEventListener('change', updateCalendar);
+
+  // Self-scheduling conflict
+  function updateSelfScheduleWarn() {
+    show('d-selfschedule-warn', selfSchedYes() && isExchange());
+  }
+  g('d-selfschedule') && g('d-selfschedule').addEventListener('change', updateSelfScheduleWarn);
+
+  // E-sign
+  function updateEsign() {
+    var esign = selVal('d-esign');
+    show('d-esign-other', esign.includes('Other e-sign'));
+    var hasDS = esign.includes('DocuSign');
+    show('d-suggest-docusign', hasDS && !isChecked('d-integrations', 'DocuSign'));
+  }
+  g('d-esign') && g('d-esign').addEventListener('change', updateEsign);
+
+  // IdP
+  function updateIdP() {
+    show('d-idp-other', selVal('d-idp').includes('Other'));
+  }
+  g('d-idp') && g('d-idp').addEventListener('change', updateIdP);
+
+  // SSO radio suggest
+  function updateSSOSuggest() {
+    var ssoReq = radioVal('sso');
+    var ssoWanted = ssoReq && ssoReq.includes('Yes');
+    show('d-sso-suggest', ssoWanted && !isChecked('d-integrations', 'SSO'));
+  }
+  onRadios('sso', updateSSOSuggest);
+
+  // Internal mobility — separate site
+  function updateInternal() {
+    show('d-internal-sepsite-info', radioVal('internal').includes('separate'));
+  }
+  onRadios('internal', updateInternal);
+
+  // Works council
+  function updateWorksCouncil() {
+    show('d-workscouncil-warn', radioVal('workscouncil').includes('Yes'));
+  }
+  onRadios('workscouncil', updateWorksCouncil);
+
+  // Integrations — show/hide conditional sub-sections + re-run suggestions
+  function updateIntegrations() {
+    show('d-hrisint-wrap', isChecked('d-integrations', 'HRIS'));
+    show('d-jobboards-wrap', isChecked('d-integrations', 'Job board'));
+    updateHRIS();
+    updateEsign();
+    updateSSOSuggest();
+  }
+  onCbs('d-integrations', updateIntegrations);
+
+  // Migration detail — hide all sub-fields if no migration
+  function updateMigration() {
+    var hasMig = !selVal('d-migration').toLowerCase().includes('no migration');
+    show('d-migration-detail', hasMig);
+  }
+  g('d-migration') && g('d-migration').addEventListener('change', updateMigration);
+
+  // Training counts — hide if group not selected
+  function updateTrainingGroups() {
+    show('d-trainrecruiters-wrap', isChecked('d-traininggroups', 'Recruiter'));
+    show('d-trainhms-wrap', isChecked('d-traininggroups', 'Hiring Manager'));
+  }
+  onCbs('d-traininggroups', updateTrainingGroups);
+
+  // Change plan warning
+  function updateChangePlan() {
+    show('d-changeplan-warn', radioVal('changeplan').includes('No'));
+  }
+  onRadios('changeplan', updateChangePlan);
+
+  // Run all on init
+  updateHRIS(); updateCalendar(); updateSelfScheduleWarn();
+  updateEsign(); updateIdP(); updateSSOSuggest();
+  updateInternal(); updateWorksCouncil();
+  updateIntegrations(); updateMigration();
+  updateTrainingGroups(); updateChangePlan();
+  updateProgress();
+}
+
+document.addEventListener('DOMContentLoaded', discWatch);
 
 async function exportAnswers() {
   if (!_discAnswers) { alert('Fill in the form first, then click Generate before exporting answers.'); return; }
