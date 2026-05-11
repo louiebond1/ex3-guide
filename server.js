@@ -1190,6 +1190,63 @@ table.hq tr:last-child td{border-bottom:none}
 .sowb-export-btn:disabled{opacity:.3;cursor:not-allowed}
 .sowb-output{padding:32px 36px;background:#fff;font-size:13.5px;color:#333;line-height:1.9;white-space:pre-wrap;font-family:'Inter',system-ui,sans-serif;max-height:75vh;overflow-y:auto}
 @media(max-width:900px){.sowb-hero{padding:36px 24px 32px}.sowb-grid,.sowb-grid2{grid-template-columns:1fr}}
+/* Discovery */
+.disc-hero{background:linear-gradient(160deg,#0f0f0e 0%,#181816 100%);padding:64px 48px 56px;margin:-32px -32px 0;position:relative;overflow:hidden}
+.disc-hero::before{content:'';position:absolute;top:-60px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,.07) 0%,transparent 65%);pointer-events:none}
+.disc-hero-inner{max-width:720px;position:relative;z-index:1}
+.disc-hero-label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#3a3a38;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.disc-hero-label::after{content:'';flex:0 0 24px;height:1px;background:#2a2a28}
+.disc-hero-title{font-size:38px;font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1.08;margin:0 0 16px}
+.disc-hero-sub{font-size:14px;color:#5a5a58;line-height:1.8;margin:0 0 32px;max-width:560px}
+.disc-stats{display:flex;gap:32px}
+.disc-stat-num{font-size:26px;font-weight:800;color:#10b981;letter-spacing:-.04em;line-height:1}
+.disc-stat-label{font-size:10px;color:#3a3a38;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+.disc-body{padding:36px 0 48px}
+.disc-section{border:1.5px solid #ebe7e1;border-radius:12px;margin-bottom:10px;overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.disc-section-hdr{display:flex;align-items:center;gap:14px;padding:16px 22px;cursor:pointer;user-select:none;transition:background .15s}
+.disc-section-hdr:hover{background:#fafaf8}
+.disc-section-num{width:26px;height:26px;border-radius:50%;background:#f0fdf4;color:#10b981;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.disc-section-title{font-size:13.5px;font-weight:700;color:#0f0f0e;flex:1;letter-spacing:-.01em}
+.disc-section-count{font-size:11px;color:#c0bbb4;font-weight:500;margin-right:8px}
+.disc-section-arrow{transition:transform .22s;color:#c0bbb4;flex-shrink:0}
+.disc-section.open .disc-section-arrow{transform:rotate(180deg)}
+.disc-section-body{display:none;padding:6px 24px 26px;border-top:1.5px solid #f0f0ec}
+.disc-section.open .disc-section-body{display:block}
+.disc-q{margin-top:18px}
+.disc-q-label{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b6b68;margin-bottom:5px;display:block}
+.disc-q-hint{font-size:11px;color:#bbb;margin-top:-2px;margin-bottom:7px;font-style:italic;line-height:1.5}
+.disc-input,.disc-select{width:100%;padding:10px 13px;border:1.5px solid #ebe7e1;border-radius:8px;font-size:13.5px;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e;background:#fff;outline:none;transition:border-color .18s,box-shadow .18s;box-sizing:border-box;appearance:none;-webkit-appearance:none}
+.disc-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23aaa' stroke-width='2.5' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+.disc-input:focus,.disc-select:focus{border-color:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,.08)}
+.disc-textarea{width:100%;padding:10px 13px;border:1.5px solid #ebe7e1;border-radius:8px;font-size:13px;font-family:'Inter',system-ui,sans-serif;color:#0f0f0e;background:#fff;outline:none;resize:vertical;min-height:68px;transition:border-color .18s;box-sizing:border-box;line-height:1.7}
+.disc-textarea:focus{border-color:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,.08)}
+.disc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.disc-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.disc-checks{display:flex;flex-wrap:wrap;gap:7px}
+.disc-check{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border:1.5px solid #ebe7e1;border-radius:7px;font-size:12.5px;color:#555;cursor:pointer;transition:all .16s;font-family:'Inter',system-ui,sans-serif;background:#fafaf8;user-select:none}
+.disc-check:hover{border-color:#bbb;color:#111}
+.disc-check input{width:13px;height:13px;accent-color:#10b981;cursor:pointer;flex-shrink:0}
+.disc-check:has(input:checked){background:#ecfdf5;border-color:#10b981;color:#065f46;font-weight:600}
+.disc-radio-group{display:flex;flex-wrap:wrap;gap:7px}
+.disc-radio{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border:1.5px solid #ebe7e1;border-radius:7px;font-size:12.5px;color:#555;cursor:pointer;transition:all .16s;font-family:'Inter',system-ui,sans-serif;background:#fafaf8;user-select:none}
+.disc-radio:hover{border-color:#bbb;color:#111}
+.disc-radio input{width:13px;height:13px;accent-color:#10b981;cursor:pointer;flex-shrink:0}
+.disc-radio:has(input:checked){background:#ecfdf5;border-color:#10b981;color:#065f46;font-weight:600}
+.disc-run-bar{margin-top:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.disc-run-btn{display:inline-flex;align-items:center;gap:10px;padding:13px 30px;background:#10b981;border:none;border-radius:9px;color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s;letter-spacing:-.01em}
+.disc-run-btn:hover{background:#059669;transform:translateY(-1px);box-shadow:0 6px 20px rgba(16,185,129,.3)}
+.disc-run-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.disc-run-hint{font-size:12px;color:#bbb}
+.disc-result-wrap{margin-top:32px;border-radius:14px;overflow:hidden;border:1px solid #ebe7e1;display:none}
+.disc-result-topbar{background:#0f0f0e;padding:22px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.disc-result-label{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#3a3a38;margin-bottom:5px}
+.disc-result-title{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.025em}
+.disc-topbar-right{display:flex;gap:8px}
+.disc-export-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.5);font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.disc-export-btn:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.9)}
+.disc-export-btn:disabled{opacity:.3;cursor:not-allowed}
+.disc-output{padding:32px 36px;background:#fff;font-size:13.5px;color:#333;line-height:1.9;white-space:pre-wrap;font-family:'Inter',system-ui,sans-serif;max-height:80vh;overflow-y:auto}
+@media(max-width:900px){.disc-hero{padding:36px 24px 32px}.disc-grid,.disc-grid3{grid-template-columns:1fr}.disc-section-body{padding:6px 16px 20px}}
 </style>
 </head>
 <body>
@@ -1221,6 +1278,7 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="sb-item" onclick="showPage('guide')">Request a Guide</div>
   <div class="sb-item" onclick="showPage('estimator')">Project Estimator</div>
   <div class="sb-item" onclick="showPage('sowbuilder')">SOW Builder</div>
+  <div class="sb-item" onclick="showPage('discovery')">Discovery Builder</div>
 </nav>
 
 <!-- Main -->
@@ -2055,6 +2113,750 @@ table.hq tr:last-child td{border-bottom:none}
         Start New Estimate
       </button>
     </div>
+  </div>
+</div>
+
+<!-- DISCOVERY BUILDER -->
+<div id="page-discovery" class="page">
+  <div class="disc-hero">
+    <div class="disc-hero-inner">
+      <div class="disc-hero-label">Discover</div>
+      <h1 class="disc-hero-title">Discovery Builder</h1>
+      <p class="disc-hero-sub">Complete the full discovery questionnaire with your client. Every answer feeds the AI — which then produces a structured discovery summary, complexity score, timeline estimate, risk register, and recommended configuration scope.</p>
+      <div class="disc-stats">
+        <div><div class="disc-stat-num">10</div><div class="disc-stat-label">Sections</div></div>
+        <div><div class="disc-stat-num">75+</div><div class="disc-stat-label">Questions</div></div>
+        <div><div class="disc-stat-num">60</div><div class="disc-stat-label">Source docs</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disc-body">
+
+    <!-- Section 1: Company & Organisation -->
+    <div class="disc-section open" id="disc-s1">
+      <div class="disc-section-hdr" onclick="discToggle('s1')">
+        <div class="disc-section-num">1</div>
+        <div class="disc-section-title">Company &amp; Organisation</div>
+        <div class="disc-section-count">10 questions</div>
+        <svg class="disc-section-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="disc-section-body">
+        <div class="disc-grid3">
+          <div class="disc-q">
+            <label class="disc-q-label">Client / Company Name</label>
+            <input id="d-company" class="disc-input" placeholder="e.g. Acme Corporation" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Industry / Sector</label>
+            <input id="d-industry" class="disc-input" placeholder="e.g. Retail, Financial Services, Healthcare" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">HQ Country</label>
+            <input id="d-hq" class="disc-input" placeholder="e.g. United Kingdom" />
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Countries Hiring In</label>
+          <div class="disc-q-hint">All countries where requisitions will be raised and SmartRecruiters will be live</div>
+          <textarea id="d-countries" class="disc-textarea" placeholder="e.g. UK, Germany, France, Netherlands, USA"></textarea>
+        </div>
+        <div class="disc-grid3">
+          <div class="disc-q">
+            <label class="disc-q-label">Total Global Headcount</label>
+            <input id="d-headcount" class="disc-input" placeholder="e.g. 5,000" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Annual Hiring Volume (Approx.)</label>
+            <input id="d-volume" class="disc-input" placeholder="e.g. 800 hires/year" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">No. of Legal / Hiring Entities</label>
+            <input id="d-entities" class="disc-input" placeholder="e.g. 3" />
+          </div>
+        </div>
+        <div class="disc-grid">
+          <div class="disc-q">
+            <label class="disc-q-label">Peak Hiring Periods</label>
+            <input id="d-peaks" class="disc-input" placeholder="e.g. Jan–Mar graduate intake, Q3 volume hire" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Rollout Scope</label>
+            <select id="d-rollout" class="disc-select">
+              <option>Global — all entities, all regions in one go</option>
+              <option>Phased — global over multiple releases</option>
+              <option>Regional — one geography only</option>
+              <option>Pilot — one business unit first</option>
+            </select>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Languages Required in System</label>
+          <div class="disc-q-hint">UI language, job posting language, candidate-facing emails</div>
+          <textarea id="d-langs" class="disc-textarea" placeholder="e.g. English (primary), German, French — job postings and emails in local language per country"></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">What is the business driver for this project?</label>
+          <div class="disc-q-hint">E.g. contract renewal, M&amp;A, replacing legacy ATS, HR transformation, compliance</div>
+          <textarea id="d-driver" class="disc-textarea" placeholder="Describe the core reason for implementing SmartRecruiters now..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Current Tech Stack -->
+    <div class="disc-section" id="disc-s2">
+      <div class="disc-section-hdr" onclick="discToggle('s2')">
+        <div class="disc-section-num">2</div>
+        <div class="disc-section-title">Current Tech Stack</div>
+        <div class="disc-section-count">9 questions</div>
+        <svg class="disc-section-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="disc-section-body">
+        <div class="disc-grid">
+          <div class="disc-q">
+            <label class="disc-q-label">Current ATS / Recruitment System</label>
+            <input id="d-currentats" class="disc-input" placeholder="e.g. Taleo, iCIMS, Workday Recruit, Greenhouse, manual/spreadsheets" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">HRIS / HCM System</label>
+            <select id="d-hris" class="disc-select">
+              <option>SAP SuccessFactors</option>
+              <option>Workday</option>
+              <option>Oracle HCM</option>
+              <option>ADP</option>
+              <option>Sage HR</option>
+              <option>BambooHR</option>
+              <option>Ceridian Dayforce</option>
+              <option>Custom / bespoke HRIS</option>
+              <option>No HRIS — spreadsheets</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">What are the main pain points with the current system?</label>
+          <textarea id="d-painpoints" class="disc-textarea" placeholder="e.g. Poor candidate experience, no automation, manual job posting, no analytics, high admin burden, doesn't support multi-country..."></textarea>
+        </div>
+        <div class="disc-grid">
+          <div class="disc-q">
+            <label class="disc-q-label">Payroll System</label>
+            <input id="d-payroll" class="disc-input" placeholder="e.g. ADP, SAP Payroll, Sage Payroll, Ceridian" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Calendar / Email System</label>
+            <select id="d-calendar" class="disc-select">
+              <option>Microsoft 365 / Exchange Online</option>
+              <option>Exchange On-Premise</option>
+              <option>Google Workspace</option>
+              <option>Hybrid (mix of MS and Google)</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="disc-grid">
+          <div class="disc-q">
+            <label class="disc-q-label">Background Screening Vendor</label>
+            <input id="d-bgcheck" class="disc-input" placeholder="e.g. Sterling, Checkr, Experian, none" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Assessment Provider</label>
+            <input id="d-assess" class="disc-input" placeholder="e.g. Korn Ferry, SHL, cut-e, HireVue, none" />
+          </div>
+        </div>
+        <div class="disc-grid">
+          <div class="disc-q">
+            <label class="disc-q-label">E-Signature / DocuSign</label>
+            <select id="d-esign" class="disc-select">
+              <option>DocuSign — Business or Enterprise licence in place</option>
+              <option>DocuSign — no licence yet (will need to procure)</option>
+              <option>Other e-sign tool</option>
+              <option>No e-signature — wet signature only</option>
+            </select>
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Identity Provider (SSO)</label>
+            <select id="d-idp" class="disc-select">
+              <option>Azure AD / Entra ID</option>
+              <option>Okta</option>
+              <option>ADFS (on-premise)</option>
+              <option>Google Identity</option>
+              <option>Ping Identity</option>
+              <option>No SSO — username/password login</option>
+              <option>Other / not decided</option>
+            </select>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Any other tools / systems that may need to connect to SmartRecruiters?</label>
+          <textarea id="d-othersystems" class="disc-textarea" placeholder="e.g. internal job boards, SharePoint, Power BI, ServiceNow, Workato, custom APIs..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Recruitment Processes -->
+    <div class="disc-section" id="disc-s3">
+      <div class="disc-section-hdr" onclick="discToggle('s3')">
+        <div class="disc-section-num">3</div>
+        <div class="disc-section-title">Recruitment Processes &amp; Configuration</div>
+        <div class="disc-section-count">11 questions</div>
+        <svg class="disc-section-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="disc-section-body">
+        <div class="disc-q">
+          <label class="disc-q-label">Hiring Process Types Needed</label>
+          <div class="disc-q-hint">SmartRecruiters supports up to 120 processes; each can have up to 8 workflow steps per status</div>
+          <div class="disc-checks" id="d-processtypes">
+            <label class="disc-check"><input type="checkbox" value="Standard (permanent, general)" checked> Standard</label>
+            <label class="disc-check"><input type="checkbox" value="Executive / senior hire"> Executive</label>
+            <label class="disc-check"><input type="checkbox" value="Graduate / early careers scheme"> Graduate scheme</label>
+            <label class="disc-check"><input type="checkbox" value="Volume / high-volume hiring"> Volume hire</label>
+            <label class="disc-check"><input type="checkbox" value="Temporary / fixed-term contract"> Temp / FTC</label>
+            <label class="disc-check"><input type="checkbox" value="Internal mobility / promotion"> Internal mobility</label>
+            <label class="disc-check"><input type="checkbox" value="Contractor / freelance"> Contractor</label>
+            <label class="disc-check"><input type="checkbox" value="Agency-sourced only"> Agency only</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Describe each hiring process (stages and who does what)</label>
+          <textarea id="d-processdesc" class="disc-textarea" style="min-height:90px" placeholder="e.g. Standard: Applied → Screening Call (recruiter) → First Interview (HM) → Second Interview (panel) → Offer → Hired&#10;Graduate: Applied → Online Test → AC → Offer → Hired"></textarea>
+        </div>
+        <div class="disc-grid3">
+          <div class="disc-q">
+            <label class="disc-q-label">Approx. No. of Hiring Workflows</label>
+            <input id="d-numprocesses" class="disc-input" placeholder="e.g. 5" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">No. of Job Templates Needed</label>
+            <div class="disc-q-hint">One template per distinct job posting format</div>
+            <input id="d-jobtemplates" class="disc-input" placeholder="e.g. 3" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Offer Letter Templates Needed</label>
+            <input id="d-offertemplates" class="disc-input" placeholder="e.g. 2 (perm + FTC)" />
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Job Approval Chain</label>
+          <div class="disc-q-hint">Who must approve a job posting before it goes live?</div>
+          <textarea id="d-jobapproval" class="disc-textarea" placeholder="e.g. Recruiter submits → Line Manager approves → HR Director approves → auto-posts&#10;Or: No approval required — recruiter posts directly"></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Offer Approval Chain</label>
+          <div class="disc-q-hint">Who must approve an offer before it is sent to the candidate?</div>
+          <textarea id="d-offerapproval" class="disc-textarea" placeholder="e.g. Recruiter creates → HM approves → Comp &amp; Ben approves → Legal sign-off for exec roles"></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Interview Types Used</label>
+          <div class="disc-checks" id="d-interviewtypes">
+            <label class="disc-check"><input type="checkbox" value="Phone / telephone screening" checked> Phone screen</label>
+            <label class="disc-check"><input type="checkbox" value="Video interview (MS Teams / Zoom / Google Meet)" checked> Video interview</label>
+            <label class="disc-check"><input type="checkbox" value="In-person / on-site interview"> In-person</label>
+            <label class="disc-check"><input type="checkbox" value="Panel interview (multiple interviewers)"> Panel</label>
+            <label class="disc-check"><input type="checkbox" value="Assessment centre (group exercises, case studies)"> Assessment centre</label>
+            <label class="disc-check"><input type="checkbox" value="One-way video (pre-recorded candidate)"> One-way video</label>
+          </div>
+        </div>
+        <div class="disc-grid">
+          <div class="disc-q">
+            <label class="disc-q-label">Interview Self-Scheduling Required?</label>
+            <select id="d-selfschedule" class="disc-select">
+              <option>Yes — candidates book their own slot</option>
+              <option>No — recruiter books on behalf of candidate</option>
+              <option>Both — depends on stage</option>
+            </select>
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Interview Scorecards / Structured Feedback?</label>
+            <select id="d-scorecards" class="disc-select">
+              <option>Yes — structured scorecard per role type</option>
+              <option>Yes — one generic scorecard for all</option>
+              <option>No — freeform feedback only</option>
+            </select>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Agency / Staffing Agency Portal Required?</label>
+          <div class="disc-q-hint">Agencies submitting candidates directly into SmartRecruiters via portal</div>
+          <div class="disc-radio-group" id="d-agencyportal">
+            <label class="disc-radio"><input type="radio" name="agencyportal" value="Yes — significant agency usage"> Yes</label>
+            <label class="disc-radio"><input type="radio" name="agencyportal" value="No — all direct sourcing"> No</label>
+            <label class="disc-radio"><input type="radio" name="agencyportal" value="Yes but low volume"> Yes but low volume</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Any non-standard or complex process requirements?</label>
+          <textarea id="d-complexprocess" class="disc-textarea" placeholder="e.g. Multi-country simultaneous postings, compliance-driven screening (FCA, DBS, BPSS), dual approval matrices, skills-based hiring model..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Permissions & Access -->
+    <div class="disc-section" id="disc-s4">
+      <div class="disc-section-hdr" onclick="discToggle('s4')">
+        <div class="disc-section-num">4</div>
+        <div class="disc-section-title">System Permissions &amp; Access Control</div>
+        <div class="disc-section-count">8 questions</div>
+        <svg class="disc-section-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="disc-section-body">
+        <div class="disc-grid3">
+          <div class="disc-q">
+            <label class="disc-q-label">No. of Recruiters / TA Team</label>
+            <input id="d-recruiters" class="disc-input" placeholder="e.g. 25" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">No. of Hiring Managers</label>
+            <input id="d-hms" class="disc-input" placeholder="e.g. 300" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">No. of Admins / HRIS Users</label>
+            <input id="d-admins" class="disc-input" placeholder="e.g. 5" />
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">SSO Required?</label>
+          <div class="disc-radio-group" id="d-sso">
+            <label class="disc-radio"><input type="radio" name="sso" value="Yes — mandatory SSO via IdP"> Yes — mandatory</label>
+            <label class="disc-radio"><input type="radio" name="sso" value="Yes — preferred but not mandatory"> Yes — preferred</label>
+            <label class="disc-radio"><input type="radio" name="sso" value="No — username/password login"> No</label>
+            <label class="disc-radio"><input type="radio" name="sso" value="To be decided"> TBD</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Will Employees Apply for Internal Roles via SmartRecruiters?</label>
+          <div class="disc-radio-group" id="d-internal">
+            <label class="disc-radio"><input type="radio" name="internal" value="Yes — full internal mobility portal"> Yes</label>
+            <label class="disc-radio"><input type="radio" name="internal" value="No — external applications only"> No</label>
+            <label class="disc-radio"><input type="radio" name="internal" value="Yes — separate internal career site"> Yes — separate site</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Access Restriction / Org Field Structure</label>
+          <div class="disc-q-hint">Do recruiters/HMs need to be restricted to specific departments, locations or cost centres?</div>
+          <textarea id="d-access" class="disc-textarea" placeholder="e.g. Recruiters see only their business unit jobs. HMs see only their own team requisitions. Regional leads see all within their geography."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Countries with Specific Data Privacy / Retention Rules</label>
+          <div class="disc-q-hint">GDPR (EU/UK), CCPA (California), POPIA (South Africa), PDPA (Thailand/Singapore) etc.</div>
+          <textarea id="d-privacy" class="disc-textarea" placeholder="e.g. UK/EU — 12 month candidate retention, German works council consent required, US — EEO fields mandatory..."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Custom System Roles Needed?</label>
+          <div class="disc-q-hint">Beyond standard: Administrator, Extended, Standard (recruiter), Basic (HM), Employee — up to 10 custom roles total</div>
+          <textarea id="d-roles" class="disc-textarea" placeholder="e.g. Senior Recruiter (can approve jobs), Exec Recruiter (access to exec process only), TA Manager (full analytics access), Works Council Reviewer (view only, no candidate data)..."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Works Council or Union Consultation Required?</label>
+          <div class="disc-radio-group" id="d-workscouncil">
+            <label class="disc-radio"><input type="radio" name="workscouncil" value="Yes — formal works council approval needed"> Yes</label>
+            <label class="disc-radio"><input type="radio" name="workscouncil" value="No works council"> No</label>
+            <label class="disc-radio"><input type="radio" name="workscouncil" value="Informal consultation only"> Informal only</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Integrations -->
+    <div class="disc-section" id="disc-s5">
+      <div class="disc-section-hdr" onclick="discToggle('s5')">
+        <div class="disc-section-num">5</div>
+        <div class="disc-section-title">Integrations Required</div>
+        <div class="disc-section-count">8 questions</div>
+        <svg class="disc-section-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="disc-section-body">
+        <div class="disc-q">
+          <label class="disc-q-label">Integrations In Scope</label>
+          <div class="disc-checks" id="d-integrations">
+            <label class="disc-check"><input type="checkbox" value="SSO (SAML 2.0 via IdP)"> SSO</label>
+            <label class="disc-check"><input type="checkbox" value="HRIS / HCM bidirectional sync (foundation data in, new hire record out)"> HRIS / HCM</label>
+            <label class="disc-check"><input type="checkbox" value="Calendar integration (self-scheduling — Google / MS365 / Exchange)"> Calendar</label>
+            <label class="disc-check"><input type="checkbox" value="Background screening (marketplace or custom)"> Background screening</label>
+            <label class="disc-check"><input type="checkbox" value="Assessments (marketplace or redirect)"> Assessments</label>
+            <label class="disc-check"><input type="checkbox" value="DocuSign e-signature"> DocuSign</label>
+            <label class="disc-check"><input type="checkbox" value="LinkedIn Recruiter (RSC)"> LinkedIn Recruiter</label>
+            <label class="disc-check"><input type="checkbox" value="Payroll system new hire export"> Payroll</label>
+            <label class="disc-check"><input type="checkbox" value="Job board direct posting (Indeed, Glassdoor, Reed, Totaljobs etc.)"> Job boards</label>
+            <label class="disc-check"><input type="checkbox" value="Internal / custom API integration"> Custom API</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">HRIS Integration Detail</label>
+          <div class="disc-q-hint">Foundation data (org, cost centre, location) must feed into SR. New hire record created in HRIS on offer accept. Who owns the HRIS side?</div>
+          <textarea id="d-hrisint" class="disc-textarea" placeholder="e.g. SAP SuccessFactors EC — foundation data sync, new hire triggers employee record creation. Client's SF admin will configure the SF side. EX3 configures the SR side."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Job Boards to Post to (Direct / Via SR)</label>
+          <div class="disc-checks" id="d-jobboards">
+            <label class="disc-check"><input type="checkbox" value="Indeed"> Indeed</label>
+            <label class="disc-check"><input type="checkbox" value="LinkedIn Jobs"> LinkedIn</label>
+            <label class="disc-check"><input type="checkbox" value="Glassdoor"> Glassdoor</label>
+            <label class="disc-check"><input type="checkbox" value="Reed"> Reed</label>
+            <label class="disc-check"><input type="checkbox" value="Totaljobs"> Totaljobs</label>
+            <label class="disc-check"><input type="checkbox" value="CV-Library"> CV-Library</label>
+            <label class="disc-check"><input type="checkbox" value="Jobsite"> Jobsite</label>
+            <label class="disc-check"><input type="checkbox" value="CWJobs"> CWJobs</label>
+            <label class="disc-check"><input type="checkbox" value="Guardian Jobs"> Guardian Jobs</label>
+            <label class="disc-check"><input type="checkbox" value="Internal intranet only"> Internal only</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Has the client signed contracts with their job board vendors?</label>
+          <div class="disc-radio-group" id="d-boardcontracts">
+            <label class="disc-radio"><input type="radio" name="boardcontracts" value="Yes — all board contracts in place"> Yes — all in place</label>
+            <label class="disc-radio"><input type="radio" name="boardcontracts" value="Partially — some contracts in place"> Partially</label>
+            <label class="disc-radio"><input type="radio" name="boardcontracts" value="No — EX3 to advise on board selection"> No — needs advice</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Who is the client IT lead for integrations?</label>
+          <div class="disc-q-hint">Calendar, SSO, and HRIS integrations all require client IT action (admin access, IdP config, API keys). Is a named contact confirmed?</div>
+          <textarea id="d-itlead" class="disc-textarea" placeholder="e.g. Sarah Jones (IT Manager) — confirmed and available from week 4. Azure AD admin, SF integration owner TBC."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Any known integration blockers or concerns?</label>
+          <textarea id="d-intblockers" class="disc-textarea" placeholder="e.g. Legacy Exchange on-premise — may need connector. SF instance is shared with another project team. HRIS owned by a third-party managed service provider."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Are there any planned system changes during the project? (upgrades, migrations, other projects)</label>
+          <textarea id="d-systemchanges" class="disc-textarea" placeholder="e.g. MS365 migration planned for Q3. SF upgrade in October. Payroll system change next year."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6: Career Site & Application -->
+    <div class="disc-section" id="disc-s6">
+      <div class="disc-section-hdr" onclick="discToggle('s6')">
+        <div class="disc-section-num">6</div>
+        <div class="disc-section-title">Career Site &amp; Candidate Application</div>
+        <div class="disc-section-count">9 questions</div>
+        <svg class="disc-section-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="disc-section-body">
+        <div class="disc-q">
+          <label class="disc-q-label">Career Site Type</label>
+          <select id="d-careersite" class="disc-select">
+            <option>Career Site Builder (SmartRecruiters hosted) — full CSB pages</option>
+            <option>Job widget embedded in existing careers page</option>
+            <option>SmartRecruiters default hosted URL only (no CSB)</option>
+            <option>Custom career site built by client via SR API</option>
+            <option>No career site — internal only</option>
+          </select>
+        </div>
+        <div class="disc-grid">
+          <div class="disc-q">
+            <label class="disc-q-label">Number of Career Sites Needed</label>
+            <div class="disc-q-hint">One per distinct employer brand / entity</div>
+            <input id="d-numsites" class="disc-input" placeholder="e.g. 1 (single brand) or 3 (UK, DE, US)" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Current Career Site URL</label>
+            <input id="d-currentsite" class="disc-input" placeholder="e.g. careers.acmecorp.com" />
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Branding Assets Status</label>
+          <div class="disc-radio-group" id="d-branding">
+            <label class="disc-radio"><input type="radio" name="branding" value="Ready — logo, brand colours, fonts, imagery available"> Ready</label>
+            <label class="disc-radio"><input type="radio" name="branding" value="In progress — employer brand refresh underway"> In progress</label>
+            <label class="disc-radio"><input type="radio" name="branding" value="Not started — will be provided during project"> Not started</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Languages on Career Site</label>
+          <input id="d-sitelangs" class="disc-input" placeholder="e.g. English only / EN + DE + FR" />
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Application Form Requirements</label>
+          <div class="disc-q-hint">Standard SR application form includes name, contact, CV, cover letter, LinkedIn URL, source. List any additions.</div>
+          <textarea id="d-appform" class="disc-textarea" placeholder="e.g. Right to work question (UK), EEO fields (US only), diversity monitoring, salary expectation, notice period, custom candidate consent per country..."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Screening Questions Needed?</label>
+          <div class="disc-q-hint">SR supports knockout questions per job (5–7 recommended; more reduces completion rates). EX3 configures question bank and knockout logic.</div>
+          <div class="disc-radio-group" id="d-screening">
+            <label class="disc-radio"><input type="radio" name="screening" value="Yes — with knockout / disqualification logic"> Yes with knockout</label>
+            <label class="disc-radio"><input type="radio" name="screening" value="Yes — but advisory only, no knockout"> Yes advisory only</label>
+            <label class="disc-radio"><input type="radio" name="screening" value="No screening questions"> No</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">EEO / OFCCP Compliance Required?</label>
+          <div class="disc-q-hint">Mandatory for US federal contractors. Adds diversity/race/gender fields to application.</div>
+          <div class="disc-radio-group" id="d-eeo">
+            <label class="disc-radio"><input type="radio" name="eeo" value="Yes — US operations, federal contractor"> Yes</label>
+            <label class="disc-radio"><input type="radio" name="eeo" value="No — not applicable"> No</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Any SEO or specific URL structure requirements for job postings?</label>
+          <textarea id="d-seo" class="disc-textarea" placeholder="e.g. Job URLs must use client domain (careers.acme.com/jobs/[id]). Need canonical tags for SEO. Job schema markup required."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">DNS / IT Access for Career Site Go-Live</label>
+          <div class="disc-q-hint">Client IT must update DNS CNAME for custom domain. Who manages DNS and what is the typical change request lead time?</div>
+          <textarea id="d-dns" class="disc-textarea" placeholder="e.g. IT infrastructure team manages DNS. 2-week change request process. DNS admin is Alex from infrastructure team."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 7: Data Migration -->
+    <div class="disc-section" id="disc-s7">
+      <div class="disc-section-hdr" onclick="discToggle('s7')">
+        <div class="disc-section-num">7</div>
+        <div class="disc-section-title">Data Migration</div>
+        <div class="disc-section-count">6 questions</div>
+        <svg class="disc-section-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="disc-section-body">
+        <div class="disc-q">
+          <label class="disc-q-label">Data Migration in Scope?</label>
+          <select id="d-migration" class="disc-select">
+            <option>No migration — clean start in SmartRecruiters</option>
+            <option>Active candidates and open requisitions only</option>
+            <option>Historical data — last 12 months</option>
+            <option>Historical data — last 24 months</option>
+            <option>Full historical data (all records)</option>
+            <option>TBD — needs scoping conversation</option>
+          </select>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Migration Data Types</label>
+          <div class="disc-checks" id="d-migrationtypes">
+            <label class="disc-check"><input type="checkbox" value="Active candidates (in-process)"> Active candidates</label>
+            <label class="disc-check"><input type="checkbox" value="Open requisitions"> Open reqs</label>
+            <label class="disc-check"><input type="checkbox" value="Historical applications and candidate records"> Historical applications</label>
+            <label class="disc-check"><input type="checkbox" value="Offer letters and contracts (documents)"> Offer docs</label>
+            <label class="disc-check"><input type="checkbox" value="Interview notes and scorecard data"> Interview notes</label>
+            <label class="disc-check"><input type="checkbox" value="Employee profiles (hired candidates)"> Employee profiles</label>
+          </div>
+        </div>
+        <div class="disc-grid">
+          <div class="disc-q">
+            <label class="disc-q-label">Approx. Record Count to Migrate</label>
+            <input id="d-migrationvol" class="disc-input" placeholder="e.g. 50,000 candidate records, 200 open reqs" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Migrating From</label>
+            <input id="d-migrationfrom" class="disc-input" placeholder="e.g. Taleo, Greenhouse, Excel spreadsheets" />
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Data Quality Assessment</label>
+          <div class="disc-radio-group" id="d-dataquality">
+            <label class="disc-radio"><input type="radio" name="dataquality" value="Clean — structured data, easy to export"> Clean</label>
+            <label class="disc-radio"><input type="radio" name="dataquality" value="Mixed — some gaps and inconsistencies"> Mixed quality</label>
+            <label class="disc-radio"><input type="radio" name="dataquality" value="Poor — lots of manual data, duplicates, gaps"> Poor quality</label>
+            <label class="disc-radio"><input type="radio" name="dataquality" value="Unknown — no assessment done yet"> Unknown</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Client IT / Tech Resource Available for Data Export?</label>
+          <div class="disc-q-hint">Client must own the export from the old system. EX3 imports into SR. Is a tech contact confirmed?</div>
+          <textarea id="d-datacontact" class="disc-textarea" placeholder="e.g. IT team will export Taleo data. Format: CSV. Contact is James (IT analyst). Timeline: available from week 6."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 8: Training & Change Management -->
+    <div class="disc-section" id="disc-s8">
+      <div class="disc-section-hdr" onclick="discToggle('s8')">
+        <div class="disc-section-num">8</div>
+        <div class="disc-section-title">Training &amp; Change Management</div>
+        <div class="disc-section-count">7 questions</div>
+        <svg class="disc-section-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="disc-section-body">
+        <div class="disc-q">
+          <label class="disc-q-label">User Groups Requiring Training</label>
+          <div class="disc-checks" id="d-traininggroups">
+            <label class="disc-check"><input type="checkbox" value="Recruiters / TA team (full system)" checked> Recruiters</label>
+            <label class="disc-check"><input type="checkbox" value="Hiring Managers (job approval, interview feedback, offer sign-off)"> Hiring Managers</label>
+            <label class="disc-check"><input type="checkbox" value="Administrators / HRIS team (system config and maintenance)"> Admins</label>
+            <label class="disc-check"><input type="checkbox" value="HR Business Partners"> HRBPs</label>
+            <label class="disc-check"><input type="checkbox" value="Senior leaders / executives (dashboard and analytics view)"> Executives</label>
+            <label class="disc-check"><input type="checkbox" value="Agencies (agency portal usage)"> Agencies</label>
+          </div>
+        </div>
+        <div class="disc-grid3">
+          <div class="disc-q">
+            <label class="disc-q-label">No. of Recruiter Users to Train</label>
+            <input id="d-trainrecruiters" class="disc-input" placeholder="e.g. 25" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">No. of HM Users to Train</label>
+            <input id="d-trainhms" class="disc-input" placeholder="e.g. 300" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Training Locations / Timezones</label>
+            <input id="d-trainloc" class="disc-input" placeholder="e.g. UK + Germany + US ET" />
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Training Format Preference</label>
+          <div class="disc-checks" id="d-trainingformat">
+            <label class="disc-check"><input type="checkbox" value="Train the Trainer (TTT) — EX3 trains internal super-users" checked> Train the Trainer</label>
+            <label class="disc-check"><input type="checkbox" value="Live virtual sessions (EX3-led, 90 min per group)"> Live virtual</label>
+            <label class="disc-check"><input type="checkbox" value="Recorded / on-demand sessions"> Recorded sessions</label>
+            <label class="disc-check"><input type="checkbox" value="E-learning modules"> E-learning</label>
+            <label class="disc-check"><input type="checkbox" value="In-person workshop (on-site)"> In-person</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Is there a dedicated Change Management / Comms plan in place?</label>
+          <div class="disc-radio-group" id="d-changeplan">
+            <label class="disc-radio"><input type="radio" name="changeplan" value="Yes — formal change management programme running"> Yes</label>
+            <label class="disc-radio"><input type="radio" name="changeplan" value="Partial — some comms planned but no formal programme"> Partial</label>
+            <label class="disc-radio"><input type="radio" name="changeplan" value="No — EX3 to advise on communications approach"> No</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Is there an internal Learning &amp; Development (L&amp;D) team to support ongoing training post go-live?</label>
+          <div class="disc-radio-group" id="d-ld">
+            <label class="disc-radio"><input type="radio" name="ld" value="Yes — L&D team will own training after go-live"> Yes</label>
+            <label class="disc-radio"><input type="radio" name="ld" value="No — ongoing training will fall to HR/TA team"> No</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Additional training requirements / constraints</label>
+          <textarea id="d-trainingnotes" class="disc-textarea" placeholder="e.g. HMs are shift workers — training must be self-service. Multi-language training materials needed. Must be completed before specific go-live date due to onboarding cycle."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 9: Reporting & Analytics -->
+    <div class="disc-section" id="disc-s9">
+      <div class="disc-section-hdr" onclick="discToggle('s9')">
+        <div class="disc-section-num">9</div>
+        <div class="disc-section-title">Reporting &amp; Analytics</div>
+        <div class="disc-section-count">6 questions</div>
+        <svg class="disc-section-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="disc-section-body">
+        <div class="disc-q">
+          <label class="disc-q-label">Key Metrics the Client Wants to Track</label>
+          <div class="disc-checks" id="d-metrics">
+            <label class="disc-check"><input type="checkbox" value="Time to hire" checked> Time to hire</label>
+            <label class="disc-check"><input type="checkbox" value="Time to fill" checked> Time to fill</label>
+            <label class="disc-check"><input type="checkbox" value="Source effectiveness / channel ROI" checked> Source effectiveness</label>
+            <label class="disc-check"><input type="checkbox" value="Pipeline conversion rates"> Pipeline conversion</label>
+            <label class="disc-check"><input type="checkbox" value="Recruiter activity and productivity"> Recruiter activity</label>
+            <label class="disc-check"><input type="checkbox" value="Offer acceptance rate"> Offer acceptance</label>
+            <label class="disc-check"><input type="checkbox" value="Diversity and inclusion metrics"> D&amp;I metrics</label>
+            <label class="disc-check"><input type="checkbox" value="Cost per hire"> Cost per hire</label>
+            <label class="disc-check"><input type="checkbox" value="Compliance / audit reporting"> Compliance / audit</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Standard Dashboards Sufficient or Custom Reports Needed?</label>
+          <div class="disc-radio-group" id="d-reportdepth">
+            <label class="disc-radio"><input type="radio" name="reportdepth" value="Standard SR dashboards are sufficient"> Standard only</label>
+            <label class="disc-radio"><input type="radio" name="reportdepth" value="Some custom reports needed — within SR report builder"> Custom SR reports</label>
+            <label class="disc-radio"><input type="radio" name="reportdepth" value="Advanced — data must feed into external BI tool"> External BI tool</label>
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">External BI / Reporting Tool</label>
+          <input id="d-bi" class="disc-input" placeholder="e.g. Power BI, Tableau, Looker — or N/A" />
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Who Needs Reporting Access?</label>
+          <textarea id="d-reportaccess" class="disc-textarea" placeholder="e.g. TA Managers: full analytics. HRBPs: their business unit only. CEO/Board: exec dashboard (offer acceptance, headcount plan vs actuals). Finance: cost data only."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Any Regulatory / Compliance Reporting Requirements?</label>
+          <textarea id="d-compliancereport" class="disc-textarea" placeholder="e.g. UK gender pay gap reporting, US OFCCP disposition codes, Works Council reporting (Germany/Netherlands), FCA fit &amp; proper process audit trail..."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">SLAs or KPI Targets Already Defined?</label>
+          <textarea id="d-slas" class="disc-textarea" placeholder="e.g. Time to offer &lt;30 days. Recruiter response to applications within 5 days. HM feedback on CV within 48hrs. These need to be configurable as alerts in SR."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 10: Timeline, Governance & Commercial -->
+    <div class="disc-section" id="disc-s10">
+      <div class="disc-section-hdr" onclick="discToggle('s10')">
+        <div class="disc-section-num">10</div>
+        <div class="disc-section-title">Timeline, Governance &amp; Commercial</div>
+        <div class="disc-section-count">9 questions</div>
+        <svg class="disc-section-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="disc-section-body">
+        <div class="disc-grid">
+          <div class="disc-q">
+            <label class="disc-q-label">Target Go-Live Date</label>
+            <input id="d-golive" class="disc-input" placeholder="e.g. 1 March 2026 / Q1 2026" />
+          </div>
+          <div class="disc-q">
+            <label class="disc-q-label">Is There a Hard Deadline?</label>
+            <div class="disc-q-hint">Contract renewal, peak hiring season, regulatory date, parent company mandate</div>
+            <input id="d-deadline" class="disc-input" placeholder="e.g. Yes — current ATS contract expires 28 Feb. Hard stop." />
+          </div>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Executive Sponsor / Project Champion</label>
+          <div class="disc-q-hint">Senior stakeholder who owns the project, can make decisions, and will drive change internally</div>
+          <input id="d-sponsor" class="disc-input" placeholder="e.g. Sarah Smith, CHRO — confirmed and engaged" />
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Client Project Manager</label>
+          <div class="disc-q-hint">Day-to-day counterpart for EX3. Dedicated or split responsibility?</div>
+          <input id="d-clientpm" class="disc-input" placeholder="e.g. John Baker (TA Operations Manager) — 50% dedicated to this project" />
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Key Project Team Members Identified?</label>
+          <div class="disc-q-hint">Typically: TA lead, HRIS/SF admin, IT lead for integrations, Legal/Compliance, L&D lead</div>
+          <textarea id="d-team" class="disc-textarea" placeholder="e.g. TA Lead: Rebecca Jones | HRIS: David Lee (SF admin) | IT: Paul Singh | Legal: TBC | L&D: Emma White"></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">UAT Sign-Off Process</label>
+          <div class="disc-q-hint">Who has authority to approve UAT and confirm the system is ready for go-live?</div>
+          <textarea id="d-uat" class="disc-textarea" placeholder="e.g. TA Lead signs off UAT scripts. CHRO provides final go/no-go approval. Formal sign-off document required."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">SmartRecruiters Licence Status</label>
+          <select id="d-licence" class="disc-select">
+            <option>Signed — contract in place, named CSM assigned</option>
+            <option>In negotiation — likely to sign within 2 weeks</option>
+            <option>Pre-sales — still evaluating SR vs competitors</option>
+            <option>Renewal / upgrade of existing SR instance</option>
+          </select>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Any Known Risks or Blockers the Client Has Flagged?</label>
+          <textarea id="d-risks" class="disc-textarea" placeholder="e.g. IT resource constrained until Q2. Works council approval could take 8 weeks. Branding assets delayed. Budget approval pending board sign-off."></textarea>
+        </div>
+        <div class="disc-q">
+          <label class="disc-q-label">Any Out-of-Scope Items Already Agreed?</label>
+          <textarea id="d-outofscope" class="disc-textarea" placeholder="e.g. Onboarding module — phase 2 only. Background screening — client to manage direct with vendor. US rollout — phase 2 after UK go-live."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generate bar -->
+    <div class="disc-run-bar">
+      <button id="disc-run-btn" class="disc-run-btn" onclick="generateDiscovery()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Generate Discovery Summary
+      </button>
+      <span class="disc-run-hint">AI analyses all answers using 60 source documents — takes ~25 seconds</span>
+    </div>
+
+    <div id="disc-result-wrap" class="disc-result-wrap">
+      <div class="disc-result-topbar">
+        <div>
+          <div class="disc-result-label">AI Output</div>
+          <div class="disc-result-title">Discovery Summary &amp; Scope Assessment</div>
+        </div>
+        <div class="disc-topbar-right">
+          <button id="disc-copy-btn" class="disc-export-btn" onclick="copyDiscovery()">Copy text</button>
+          <button id="disc-export-btn" class="disc-export-btn" onclick="exportDiscovery()">Download .docx</button>
+        </div>
+      </div>
+      <div id="disc-output" class="disc-output"></div>
+    </div>
+
   </div>
 </div>
 
@@ -3362,6 +4164,194 @@ function estReset() {
   estShowStep(1);
 }
 
+/* ── Discovery Builder ── */
+var _discText = '';
+
+function discToggle(id) {
+  document.getElementById('disc-' + id).classList.toggle('open');
+}
+
+function _discChecked(groupId) {
+  var checks = document.querySelectorAll('#' + groupId + ' input[type=checkbox]:checked');
+  return Array.from(checks).map(function(c){ return c.value; }).join(', ') || 'None selected';
+}
+
+function _discRadio(name) {
+  var el = document.querySelector('input[name="' + name + '"]:checked');
+  return el ? el.value : 'Not specified';
+}
+
+function _discVal(id) {
+  var el = document.getElementById(id);
+  return el ? (el.value.trim() || 'Not specified') : 'Not specified';
+}
+
+async function generateDiscovery() {
+  var company = document.getElementById('d-company').value.trim();
+  if (!company) { document.getElementById('d-company').focus(); return; }
+
+  var answers = {
+    company: company,
+    industry: _discVal('d-industry'),
+    hq: _discVal('d-hq'),
+    countries: _discVal('d-countries'),
+    headcount: _discVal('d-headcount'),
+    volume: _discVal('d-volume'),
+    entities: _discVal('d-entities'),
+    peaks: _discVal('d-peaks'),
+    rollout: _discVal('d-rollout'),
+    languages: _discVal('d-langs'),
+    driver: _discVal('d-driver'),
+    currentATS: _discVal('d-currentats'),
+    hris: _discVal('d-hris'),
+    painpoints: _discVal('d-painpoints'),
+    payroll: _discVal('d-payroll'),
+    calendar: _discVal('d-calendar'),
+    bgcheck: _discVal('d-bgcheck'),
+    assess: _discVal('d-assess'),
+    esign: _discVal('d-esign'),
+    idp: _discVal('d-idp'),
+    othersystems: _discVal('d-othersystems'),
+    processTypes: _discChecked('d-processtypes'),
+    processdesc: _discVal('d-processdesc'),
+    numprocesses: _discVal('d-numprocesses'),
+    jobtemplates: _discVal('d-jobtemplates'),
+    offertemplates: _discVal('d-offertemplates'),
+    jobapproval: _discVal('d-jobapproval'),
+    offerapproval: _discVal('d-offerapproval'),
+    interviewtypes: _discChecked('d-interviewtypes'),
+    selfschedule: _discVal('d-selfschedule'),
+    scorecards: _discVal('d-scorecards'),
+    agencyportal: _discRadio('agencyportal'),
+    complexprocess: _discVal('d-complexprocess'),
+    recruiters: _discVal('d-recruiters'),
+    hms: _discVal('d-hms'),
+    admins: _discVal('d-admins'),
+    sso: _discRadio('sso'),
+    internal: _discRadio('internal'),
+    access: _discVal('d-access'),
+    privacy: _discVal('d-privacy'),
+    roles: _discVal('d-roles'),
+    workscouncil: _discRadio('workscouncil'),
+    integrations: _discChecked('d-integrations'),
+    hrisint: _discVal('d-hrisint'),
+    jobboards: _discChecked('d-jobboards'),
+    boardcontracts: _discRadio('boardcontracts'),
+    itlead: _discVal('d-itlead'),
+    intblockers: _discVal('d-intblockers'),
+    systemchanges: _discVal('d-systemchanges'),
+    careersite: _discVal('d-careersite'),
+    numsites: _discVal('d-numsites'),
+    currentsite: _discVal('d-currentsite'),
+    branding: _discRadio('branding'),
+    sitelangs: _discVal('d-sitelangs'),
+    appform: _discVal('d-appform'),
+    screening: _discRadio('screening'),
+    eeo: _discRadio('eeo'),
+    seo: _discVal('d-seo'),
+    dns: _discVal('d-dns'),
+    migration: _discVal('d-migration'),
+    migrationtypes: _discChecked('d-migrationtypes'),
+    migrationvol: _discVal('d-migrationvol'),
+    migrationfrom: _discVal('d-migrationfrom'),
+    dataquality: _discRadio('dataquality'),
+    datacontact: _discVal('d-datacontact'),
+    traininggroups: _discChecked('d-traininggroups'),
+    trainrecruiters: _discVal('d-trainrecruiters'),
+    trainhms: _discVal('d-trainhms'),
+    trainloc: _discVal('d-trainloc'),
+    trainingformat: _discChecked('d-trainingformat'),
+    changeplan: _discRadio('changeplan'),
+    ld: _discRadio('ld'),
+    trainingnotes: _discVal('d-trainingnotes'),
+    metrics: _discChecked('d-metrics'),
+    reportdepth: _discRadio('reportdepth'),
+    bi: _discVal('d-bi'),
+    reportaccess: _discVal('d-reportaccess'),
+    compliancereport: _discVal('d-compliancereport'),
+    slas: _discVal('d-slas'),
+    golive: _discVal('d-golive'),
+    deadline: _discVal('d-deadline'),
+    sponsor: _discVal('d-sponsor'),
+    clientpm: _discVal('d-clientpm'),
+    team: _discVal('d-team'),
+    uat: _discVal('d-uat'),
+    licence: _discVal('d-licence'),
+    risks: _discVal('d-risks'),
+    outofscope: _discVal('d-outofscope'),
+  };
+
+  var btn = document.getElementById('disc-run-btn');
+  var resultWrap = document.getElementById('disc-result-wrap');
+  var outputEl = document.getElementById('disc-output');
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Generating...';
+  resultWrap.style.display = 'block';
+  outputEl.textContent = '';
+  _discText = '';
+
+  try {
+    var resp = await fetch('/consultant/implementation-hq/generate-discovery', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers: answers })
+    });
+    if (!resp.ok) throw new Error('Server error');
+    var reader = resp.body.getReader();
+    var decoder = new TextDecoder();
+    while (true) {
+      var chunk = await reader.read();
+      if (chunk.done) break;
+      var text = decoder.decode(chunk.value, { stream: true });
+      _discText += text;
+      outputEl.textContent = _discText;
+      outputEl.scrollTop = outputEl.scrollHeight;
+    }
+  } catch(e) {
+    outputEl.textContent = 'Error generating discovery summary. Please try again.';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Generate Discovery Summary';
+  }
+}
+
+function copyDiscovery() {
+  if (!_discText) return;
+  navigator.clipboard.writeText(_discText).then(function(){
+    var btn = document.getElementById('disc-copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(function(){ btn.textContent = 'Copy text'; }, 2000);
+  });
+}
+
+async function exportDiscovery() {
+  if (!_discText) return;
+  var company = document.getElementById('d-company').value.trim() || 'Client';
+  var btn = document.getElementById('disc-export-btn');
+  btn.disabled = true;
+  btn.textContent = 'Exporting...';
+  try {
+    var resp = await fetch('/consultant/implementation-hq/export-discovery', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientName: company, discoveryText: _discText })
+    });
+    if (!resp.ok) throw new Error('Export failed');
+    var blob = await resp.blob();
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'Discovery - ' + company + ' - SmartRecruiters.docx';
+    a.click();
+    URL.revokeObjectURL(url);
+  } catch(e) {
+    alert('Export failed. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Download .docx';
+  }
+}
+
 /* ── SOW Builder ── */
 var _sowText = '';
 
@@ -3767,6 +4757,304 @@ app.post('/consultant/implementation-hq/export-sow', async (req, res) => {
     res.send(buffer);
   } catch(err) {
     console.error('SOW export error:', err.message);
+    res.status(500).json({ error: 'Export failed' });
+  }
+});
+
+// Discovery Builder — Generate
+app.post('/consultant/implementation-hq/generate-discovery', async (req, res) => {
+  const { answers } = req.body;
+  if (!answers) return res.status(400).json({ error: 'No answers' });
+
+  const systemPrompt = `You are a senior SmartRecruiters implementation consultant at EX3 — a SAP Gold Partner. You have completed thousands of SmartRecruiters discovery sessions and know exactly what makes an implementation complex, risky, or straightforward.
+
+Your job is to analyse the discovery answers provided and produce a structured, detailed Discovery Summary document that the EX3 team can share internally and with the client. Be precise, commercially sharp, and flag risks early.
+
+KNOWLEDGE BASE (from SAP Partner Readiness Guide, SmartRecruiters Implementation Playbook, EX3 internal guides, and 60 source documents):
+
+SIX IMPLEMENTATION PHASES:
+Phase 1 — PRE-DESIGN (2–3 wks): Validate playbook, establish governance, define 80/20 rule, identify project team, confirm integration owners.
+Phase 2 — DESIGN (3–4 wks): 101 training, 8 structured design workshops: (1) System Controls & Permissions; (2) Job Creation & Management; (3) Functional Integrations & Ecosystem; (4) Career Site & Candidate Application; (5) Candidate Management 1; (6) Candidate Management 2; (7) Offer Management & Hiring; (8) Analytics.
+Phase 3 — BUILD & TEST (4–6 wks): System built in Sandbox. Integration and functional build run in parallel. Unit testing iteratively validates configuration. Integration testing with client IT.
+Phase 4 — UAT & PRODUCTION (2–3 wks): End-to-end UAT in Sandbox → sign-off → migrate to Production → UAT in Production → final sign-off. Deemed Acceptance clause applies after 10 business days.
+Phase 5 — TRAINING (1–2 wks): Delivered after UAT in Production. TTT model standard. Recruiter, HM, Admin training.
+Phase 6 — GO-LIVE, HYPERCARE & OPTIMISE (4–8 wks): Cutover plan, hypercare support, CSM handover, project close, lessons learned.
+
+COMPLEXITY DRIVERS (what makes a project harder):
+- Multi-country rollout with multiple languages
+- Multiple legal entities with different hiring processes
+- Complex HRIS integration (bidirectional, multi-entity)
+- SSO with on-premise ADFS or legacy IdP
+- Calendar integration with Exchange on-premise
+- Background screening / assessments not on SR marketplace
+- Large data migration (>50k records, poor quality data)
+- Works council or union consultation required
+- Tight timeline with hard deadline
+- No dedicated client PM or IT resource confirmed
+- External BI tool integration (Power BI, Tableau)
+- Multiple career sites in multiple languages
+- High volume of custom roles and access groups
+- DocuSign with complex merge field requirements
+- Offer approval chains with 3+ approvers
+
+SYSTEM LIMITS TO FLAG:
+- Up to 120 hiring processes (but build and maintain each one — keep it lean)
+- Up to 8 workflow steps per status (not per process)
+- Up to 10 custom system roles
+- Up to 5 custom hiring team roles
+- Screening questions: 5–7 per job recommended (more = lower completion)
+- DocuSign: Business/Enterprise licence required; user email must match SR exactly (case-sensitive)
+- SSO: EX3 configures SR side; client IT must configure IdP — allow 2–4 weeks for IT
+- Calendar: Self-scheduling requires admin access to client calendar system — often the longest dependency
+- Data migration: EX3 imports using SR API; client must provide clean, structured export
+
+RACI (for estimating client effort):
+- EX3 owns: SR configuration, integration (SR side), career site build, training delivery, UAT facilitation
+- Client owns: business decisions (process design, approval chains, field names), IdP configuration (SSO), calendar admin access, HRIS integration (HRIS side), data export, DNS change for career site, UAT execution and sign-off
+- Shared: workshop participation, test script execution, change management
+
+TYPICAL TIMELINES BY COMPLEXITY:
+- Simple (1 country, 1 entity, <3 integrations, no data migration): 10–14 weeks
+- Standard (1–2 countries, 1 entity, 3–5 integrations, active candidate migration): 14–18 weeks
+- Complex (multi-country, multi-entity, 5+ integrations, data migration, works council): 20–28 weeks
+- Enterprise (global phased, custom API, large data migration, multiple career sites): 28–40 weeks
+
+OUTPUT FORMAT — produce a structured discovery summary with these exact sections:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DISCOVERY SUMMARY: [CLIENT NAME]
+SmartRecruiters Implementation — EX3
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. PROJECT OVERVIEW
+Brief 2–3 sentence summary of who the client is, what they are implementing, and the core business driver.
+
+2. IMPLEMENTATION COMPLEXITY SCORE: X / 10
+[Low = 1–3 | Medium = 4–6 | High = 7–8 | Enterprise = 9–10]
+Rationale: List the 4–6 key factors that are driving this score up or down.
+
+3. RECOMMENDED TIMELINE: XX WEEKS
+Phase-by-phase breakdown:
+— Phase 1 Pre-Design: X weeks
+— Phase 2 Design: X weeks
+— Phase 3 Build & Test: X weeks
+— Phase 4 UAT & Production: X weeks
+— Phase 5 Training: X weeks
+— Phase 6 Go-Live & Hypercare: X weeks
+Note any assumptions about client resource availability.
+
+4. CONFIGURATION SCOPE SUMMARY
+For each area, state what will be built:
+— System Roles & Permissions
+— Job Creation & Workflows
+— Hiring Processes (list each named process)
+— Interview & Offer Configuration
+— Career Site
+— Candidate Application & Screening
+— Analytics & Reporting
+
+5. INTEGRATION ASSESSMENT
+For each integration in scope, state: complexity (Low/Medium/High), who owns what, and key dependency.
+
+6. DATA MIGRATION ASSESSMENT
+Scope, volume estimate, quality flag, client dependency, risk.
+
+7. TRAINING PLAN
+User groups, recommended format, volume estimate, delivery approach.
+
+8. RISK REGISTER
+List the top 5–8 risks in this format:
+[RISK] Description | Severity: High/Medium/Low | Mitigation: what EX3 / client should do
+
+9. CLIENT RESOURCE REQUIREMENTS
+What the client must commit to make this work. Be specific about who, what, and when.
+
+10. ASSUMPTIONS & INFORMATION GAPS
+List any answers that were vague, missing, or need following up before scoping can be finalised.
+
+11. RECOMMENDED NEXT STEPS
+3–5 concrete next actions with owner (EX3 or Client) and suggested timeframe.`;
+
+  const userMsg = `Discovery answers for ${answers.company}:
+
+COMPANY & ORGANISATION:
+- Company: ${answers.company}
+- Industry: ${answers.industry}
+- HQ: ${answers.hq}
+- Countries hiring in: ${answers.countries}
+- Headcount: ${answers.headcount}
+- Annual hiring volume: ${answers.volume}
+- Legal entities: ${answers.entities}
+- Peak hiring: ${answers.peaks}
+- Rollout scope: ${answers.rollout}
+- Languages needed: ${answers.languages}
+- Business driver: ${answers.driver}
+
+CURRENT TECH STACK:
+- Current ATS: ${answers.currentATS}
+- HRIS: ${answers.hris}
+- Pain points: ${answers.painpoints}
+- Payroll: ${answers.payroll}
+- Calendar/email system: ${answers.calendar}
+- Background screening vendor: ${answers.bgcheck}
+- Assessment provider: ${answers.assess}
+- E-signature: ${answers.esign}
+- Identity Provider (SSO): ${answers.idp}
+- Other systems: ${answers.othersystems}
+
+RECRUITMENT PROCESSES:
+- Process types needed: ${answers.processTypes}
+- Process descriptions: ${answers.processdesc}
+- Number of workflows: ${answers.numprocesses}
+- Job templates: ${answers.jobtemplates}
+- Offer letter templates: ${answers.offertemplates}
+- Job approval chain: ${answers.jobapproval}
+- Offer approval chain: ${answers.offerapproval}
+- Interview types: ${answers.interviewtypes}
+- Self-scheduling: ${answers.selfschedule}
+- Scorecards: ${answers.scorecards}
+- Agency portal: ${answers.agencyportal}
+- Complex requirements: ${answers.complexprocess}
+
+PERMISSIONS & ACCESS:
+- Recruiters: ${answers.recruiters}
+- Hiring managers: ${answers.hms}
+- Admins: ${answers.admins}
+- SSO requirement: ${answers.sso}
+- Internal applications: ${answers.internal}
+- Access restrictions: ${answers.access}
+- Data privacy countries: ${answers.privacy}
+- Custom roles: ${answers.roles}
+- Works council: ${answers.workscouncil}
+
+INTEGRATIONS:
+- In scope: ${answers.integrations}
+- HRIS detail: ${answers.hrisint}
+- Job boards: ${answers.jobboards}
+- Board contracts in place: ${answers.boardcontracts}
+- IT lead for integrations: ${answers.itlead}
+- Integration blockers: ${answers.intblockers}
+- Planned system changes: ${answers.systemchanges}
+
+CAREER SITE & APPLICATION:
+- Career site type: ${answers.careersite}
+- Number of sites: ${answers.numsites}
+- Current site: ${answers.currentsite}
+- Branding assets: ${answers.branding}
+- Site languages: ${answers.sitelangs}
+- Application form: ${answers.appform}
+- Screening questions: ${answers.screening}
+- EEO/OFCCP: ${answers.eeo}
+- SEO requirements: ${answers.seo}
+- DNS/IT for go-live: ${answers.dns}
+
+DATA MIGRATION:
+- Migration scope: ${answers.migration}
+- Data types: ${answers.migrationtypes}
+- Volume: ${answers.migrationvol}
+- Migrating from: ${answers.migrationfrom}
+- Data quality: ${answers.dataquality}
+- Data contact: ${answers.datacontact}
+
+TRAINING & CHANGE MANAGEMENT:
+- User groups: ${answers.traininggroups}
+- Recruiter count: ${answers.trainrecruiters}
+- HM count: ${answers.trainhms}
+- Locations/timezones: ${answers.trainloc}
+- Format: ${answers.trainingformat}
+- Change plan: ${answers.changeplan}
+- L&D team: ${answers.ld}
+- Notes: ${answers.trainingnotes}
+
+REPORTING & ANALYTICS:
+- Key metrics: ${answers.metrics}
+- Report depth: ${answers.reportdepth}
+- BI tool: ${answers.bi}
+- Report access: ${answers.reportaccess}
+- Compliance reporting: ${answers.compliancereport}
+- SLAs: ${answers.slas}
+
+TIMELINE & GOVERNANCE:
+- Target go-live: ${answers.golive}
+- Hard deadline: ${answers.deadline}
+- Executive sponsor: ${answers.sponsor}
+- Client PM: ${answers.clientpm}
+- Project team: ${answers.team}
+- UAT sign-off process: ${answers.uat}
+- Licence status: ${answers.licence}
+- Known risks: ${answers.risks}
+- Out of scope: ${answers.outofscope}
+
+Now produce the full Discovery Summary following the output format exactly.`;
+
+  try {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Transfer-Encoding', 'chunked');
+    res.setHeader('Cache-Control', 'no-cache');
+
+    const stream = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      stream: true,
+      max_tokens: 4000,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userMsg }
+      ]
+    });
+
+    for await (const chunk of stream) {
+      const text = chunk.choices[0]?.delta?.content || '';
+      if (text) res.write(text);
+    }
+    res.end();
+  } catch(err) {
+    console.error('Discovery generation error:', err.message);
+    res.status(500).json({ error: 'Generation failed' });
+  }
+});
+
+// Discovery Builder — Export .docx
+app.post('/consultant/implementation-hq/export-discovery', async (req, res) => {
+  const { clientName, discoveryText } = req.body;
+  if (!discoveryText) return res.status(400).json({ error: 'No content' });
+  const client = clientName || 'Client';
+
+  try {
+    const { Document, Packer, Paragraph, TextRun, HeadingLevel } = require('docx');
+    const lines = discoveryText.split('\n');
+    const children = [];
+
+    children.push(new Paragraph({
+      children: [new TextRun({ text: `Discovery Summary — ${client}`, bold: true, size: 32 })],
+      spacing: { after: 200 }
+    }));
+    children.push(new Paragraph({
+      children: [new TextRun({ text: 'SmartRecruiters Implementation | EX3', size: 22, color: '888888' })],
+      spacing: { after: 400 }
+    }));
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) { children.push(new Paragraph({ spacing: { after: 80 } })); continue; }
+      if (trimmed.startsWith('━')) { children.push(new Paragraph({ border: { bottom: { style: 'single', size: 6, color: 'DDDDDD' } }, spacing: { after: 120 } })); continue; }
+      if (/^\d+\.\s+[A-Z]/.test(trimmed)) {
+        children.push(new Paragraph({ children: [new TextRun({ text: trimmed, bold: true, size: 26, color: '10b981' })], spacing: { before: 300, after: 120 } }));
+      } else if (trimmed.startsWith('—') || trimmed.startsWith('-')) {
+        children.push(new Paragraph({ text: trimmed.replace(/^[—\-]\s*/, ''), bullet: { level: 0 }, spacing: { after: 80 } }));
+      } else if (trimmed.startsWith('[RISK]')) {
+        children.push(new Paragraph({ children: [new TextRun({ text: trimmed, bold: true, size: 22 })], spacing: { after: 100 } }));
+      } else {
+        children.push(new Paragraph({ children: [new TextRun({ text: trimmed, size: 22 })], spacing: { after: 100 } }));
+      }
+    }
+
+    const doc = new Document({ sections: [{ children }] });
+    const buffer = await Packer.toBuffer(doc);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', `attachment; filename="Discovery - ${client} - SmartRecruiters.docx"`);
+    res.send(buffer);
+  } catch(err) {
+    console.error('Discovery export error:', err.message);
     res.status(500).json({ error: 'Export failed' });
   }
 });
