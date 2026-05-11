@@ -644,8 +644,6 @@ button:hover{background:#5b21b6}
 </body></html>`);
 }
 
-app.all('/consultant/implementation-hq', requireImplPassword);
-
 app.get('/consultant/implementation-hq', (req, res) => {
   res.send(`<!DOCTYPE html>
 <html lang="en">
