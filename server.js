@@ -1257,6 +1257,7 @@ table.hq tr:last-child td{border-bottom:none}
 </style>
 </head>
 <body>
+<div id="_dbg" style="position:fixed;top:8px;right:8px;z-index:99999;background:red;color:#fff;padding:4px 10px;font-size:11px;font-weight:700;border-radius:4px;pointer-events:none">JS?</div>
 <div class="layout">
 
 <!-- Sidebar -->
@@ -2927,6 +2928,7 @@ table.hq tr:last-child td{border-bottom:none}
 </div>
 
 <script>
+(function(){ var d=document.getElementById('_dbg'); if(d) d.remove(); })();
 // ── Page navigation ──────────────────────────────────────────────
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
