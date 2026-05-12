@@ -4803,9 +4803,24 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
     : ncStr.startsWith('4') || ncStr.includes('more') ? -10
     : 0; // 2 = baseline
 
+  // Scope items — each module beyond Core Recruiting adds configuration work
+  const scopeDayMap = {
+    'Core Recruiting': 0,          // baseline, no addition
+    'Career Site': 0,              // already captured by career site complexity question
+    'CRM / Talent Pools': 10,
+    'Offer Management': 5,
+    'Analytics': 5,
+    'SSO / SCIM': 5,
+    'Multilingual Support': 3,
+    'Mobile': 2
+  };
+  const scopeDays = Array.isArray(a.scope)
+    ? a.scope.reduce((s, item) => s + (scopeDayMap[item] || 0), 0)
+    : 0;
+
   const totalDays = baseline + hrisDays + intDays + careerSiteDays + configDays
     + countriesDays + langsDays + migrationDays + empsizeDays + replacingDays
-    + goliveDays + availDays + experienceDays + consultantAdjDays;
+    + goliveDays + availDays + experienceDays + consultantAdjDays + scopeDays;
 
   const totalWeeks = Math.max(Math.round(totalDays / 5), 1);
   const totalWeeksStr = String(totalWeeks);
@@ -4835,11 +4850,18 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
   const isManyCountries = a.countries && a.countries.includes('20+');
   const totalIntegrations = (Array.isArray(a.integrations) ? a.integrations.length : 0) + (hrisDays > 0 ? 1 : 0);
 
-  const confidence = (activeAdjustments >= 5 || (isLimitedClient && isFirstTimer) || isManyCountries || totalIntegrations >= 4)
+  const hasFixedDeadline = a.deadline && a.deadline.includes('fixed');
+
+  const rawConfidence = (activeAdjustments >= 5 || (isLimitedClient && isFirstTimer) || isManyCountries || totalIntegrations >= 4)
     ? 'Low'
     : (activeAdjustments <= 2 && !isLimitedClient && !isManyCountries)
     ? 'High'
     : 'Medium';
+
+  // Fixed deadline drops confidence one level — a hard date always increases delivery risk
+  const confidence = hasFixedDeadline
+    ? (rawConfidence === 'High' ? 'Medium' : 'Low')
+    : rawConfidence;
 
   // ── AI ONLY for narrative, risks, assumptions ─────────────────
   const scopeList = Array.isArray(a.scope) && a.scope.length ? a.scope.join(', ') : 'Core Recruiting only';
@@ -4867,7 +4889,8 @@ KEY FACTORS THAT SHAPED THIS ESTIMATE:
 - Client availability: ${a.clientAvailability} (${availDays} days)
 - Consultant experience: ${a.experience} (+${experienceDays} days)
 - Number of consultants: ${a.numConsultants} (${consultantAdjDays} days)
-- Fixed deadline: ${a.deadline}
+- Scope modules: ${scopeList} (+${scopeDays} days)
+- Fixed deadline: ${a.deadline}${hasFixedDeadline ? ' (confidence dropped one level due to deadline risk)' : ''}
 
 Return ONLY this JSON, no markdown, no extra text:
 {
