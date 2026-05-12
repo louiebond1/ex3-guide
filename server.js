@@ -1091,6 +1091,16 @@ table.hq tr:last-child td{border-bottom:none}
 .est-pill label{display:inline-flex;align-items:center;padding:9px 18px;border:1.5px solid #ebe7e1;border-radius:8px;font-size:13px;color:#666;cursor:pointer;transition:all .18s;background:#fafaf8;font-family:'Inter',system-ui,sans-serif;font-weight:500;line-height:1.3;user-select:none}
 .est-pill label:hover{border-color:#bbb;color:#111;background:#f5f4f1}
 .est-pill input:checked + label{border-color:#0f0f0e;background:#0f0f0e;color:#fff}
+.est-pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.est-pkg-card{position:relative}
+.est-pkg-card input{position:absolute;opacity:0;width:0;height:0}
+.est-pkg-card label{display:block;padding:14px 18px;border:1.5px solid #ebe7e1;border-radius:10px;cursor:pointer;transition:all .18s;background:#fafaf8;user-select:none;height:100%;box-sizing:border-box}
+.est-pkg-card label:hover{border-color:#bbb;background:#f5f4f1}
+.est-pkg-card input:checked + label{border-color:#0f0f0e;background:#0f0f0e}
+.est-pkg-card input:checked + label .est-pkg-name{color:#fff}
+.est-pkg-card input:checked + label .est-pkg-desc{color:rgba(255,255,255,.6)}
+.est-pkg-name{font-size:13px;font-weight:700;color:#0f0f0e;display:block;margin-bottom:5px}
+.est-pkg-desc{font-size:11px;color:#888;line-height:1.5;display:block}
 .est-checkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
 .est-check{position:relative}
 .est-check input{position:absolute;opacity:0;width:0;height:0}
@@ -1844,11 +1854,35 @@ table.hq tr:last-child td{border-bottom:none}
 
         <div class="est-q">
           <span class="est-q-label">What implementation package applies?</span>
-          <div class="est-pills">
-            <div class="est-pill"><input type="radio" name="package" id="pkg-standard" value="Standard"><label for="pkg-standard">Standard</label></div>
-            <div class="est-pill"><input type="radio" name="package" id="pkg-essentials" value="Essentials Lite"><label for="pkg-essentials">Essentials Lite</label></div>
-            <div class="est-pill"><input type="radio" name="package" id="pkg-enterprise" value="Enterprise"><label for="pkg-enterprise">Enterprise</label></div>
-            <div class="est-pill"><input type="radio" name="package" id="pkg-unknown" value="Not sure yet"><label for="pkg-unknown">Not sure yet</label></div>
+          <div class="est-pkg-grid">
+            <div class="est-pkg-card">
+              <input type="radio" name="package" id="pkg-standard" value="Standard">
+              <label for="pkg-standard">
+                <span class="est-pkg-name">Standard</span>
+                <span class="est-pkg-desc">Full implementation covering all core modules. Includes discovery workshops, configuration, integrations, UAT, and go-live support. The most common engagement type.</span>
+              </label>
+            </div>
+            <div class="est-pkg-card">
+              <input type="radio" name="package" id="pkg-essentials" value="Essentials Lite">
+              <label for="pkg-essentials">
+                <span class="est-pkg-name">Essentials Lite</span>
+                <span class="est-pkg-desc">Streamlined setup for smaller organisations. Core recruiting with limited customisation, fewer sessions, and a tighter scope.</span>
+              </label>
+            </div>
+            <div class="est-pkg-card">
+              <input type="radio" name="package" id="pkg-enterprise" value="Enterprise">
+              <label for="pkg-enterprise">
+                <span class="est-pkg-name">Enterprise</span>
+                <span class="est-pkg-desc">Complex, multi-country rollout with extended scope, multiple workstreams, deep customisation, and a longer delivery timeline.</span>
+              </label>
+            </div>
+            <div class="est-pkg-card">
+              <input type="radio" name="package" id="pkg-unknown" value="Not sure yet">
+              <label for="pkg-unknown">
+                <span class="est-pkg-name">Not sure yet</span>
+                <span class="est-pkg-desc">Estimated as Standard for now. Refine once your SOW is confirmed and package is agreed.</span>
+              </label>
+            </div>
           </div>
         </div>
 
@@ -4798,9 +4832,9 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
   }[a.experience] || 0;
 
   const ncStr = String(a.numConsultants || '');
-  const consultantAdjDays = ncStr.includes('solo') || ncStr.startsWith('1') ? 10
+  const consultantAdjDays = ncStr.includes('solo') || ncStr.startsWith('1') ? 20
     : ncStr.startsWith('3') ? -5
-    : ncStr.startsWith('4') || ncStr.includes('more') ? -10
+    : ncStr.startsWith('4') || ncStr.includes('more') ? -20
     : 0; // 2 = baseline
 
   // Scope items — each module beyond Core Recruiting adds configuration work
