@@ -4882,6 +4882,32 @@ Apply the scoring rubric exactly. Return ONLY this JSON, no markdown, no extra t
       else return res.status(500).json({ error: 'Could not parse response' });
     }
 
+    // Collapse identical ranges (e.g. "22–22" → "22")
+    const collapseRange = (str) => {
+      if (!str) return str;
+      const m = String(str).match(/^(\d+)\s*[–-]\s*(\d+)$/);
+      return (m && m[1] === m[2]) ? m[1] : String(str);
+    };
+
+    parsed.totalWeeks = collapseRange(parsed.totalWeeks);
+    if (Array.isArray(parsed.phases)) {
+      parsed.phases = parsed.phases.map(p => ({ ...p, weeks: collapseRange(p.weeks) }));
+    }
+
+    // Recalculate consultant days from actual weeks + consultant count
+    const numConsultants = parseInt((String(a.numConsultants || '1').match(/\d+/) || ['1'])[0]);
+    const parseWeekRange = (str) => {
+      const rm = String(str || '0').match(/(\d+)\s*[–-]\s*(\d+)/);
+      if (rm) return { lo: parseInt(rm[1]), hi: parseInt(rm[2]) };
+      const sm = String(str || '0').match(/(\d+)/);
+      const v = sm ? parseInt(sm[1]) : 0;
+      return { lo: v, hi: v };
+    };
+    const { lo, hi } = parseWeekRange(parsed.totalWeeks);
+    const daysLo = Math.round(lo * numConsultants * 3.5 / 5) * 5;
+    const daysHi = Math.round(hi * numConsultants * 3.5 / 5) * 5;
+    parsed.consultantDays = daysLo === daysHi ? String(daysLo) : `${daysLo}–${daysHi}`;
+
     return res.json(parsed);
   } catch(err) {
     console.error('Estimator error:', err.message);
