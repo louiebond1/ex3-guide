@@ -4713,12 +4713,118 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
   const a = req.body;
   if (!a || !a.package) return res.status(400).json({ error: 'No answers provided' });
 
-  const scopeList = Array.isArray(a.scope) && a.scope.length ? a.scope.join(', ') : 'Not specified';
+  const scopeList = Array.isArray(a.scope) && a.scope.length ? a.scope.join(', ') : 'Core Recruiting only';
   const intList = Array.isArray(a.integrations) && a.integrations.length ? a.integrations.join(', ') : 'None';
 
-  const prompt = `You are a senior SmartRecruiters implementation consultant building a project timeline estimate. Using your knowledge of SmartRecruiters implementations, provide a detailed, realistic estimate for the following project:
+  const systemPrompt = `You are a senior SmartRecruiters implementation consultant who produces structured project timeline estimates. You must follow a strict scoring rubric to ensure consistent, proportional results. The same inputs must always produce the same output. Small changes to inputs should produce small changes to the estimate — never large swings.
 
-ENGAGEMENT INPUTS:
+SCORING RUBRIC — apply each adjustment to the baseline below:
+
+BASELINE TOTAL WEEKS BY PACKAGE:
+- Essentials Lite: 6–8 weeks
+- Standard: 10–14 weeks
+- Enterprise: 16–22 weeks
+- Not sure yet: treat as Standard (10–14 weeks)
+
+PHASE SPLIT (% of total weeks, always add up to 100%):
+- Sales Handover & Planning: 10–15%
+- Discovery & Workshops: 20–25%
+- Configuration: 30–35%
+- UAT: 20–25%
+- Go-Live & Hypercare: 10–15%
+
+ADDITIVE ADJUSTMENTS (weeks added to total):
+HRIS Integration:
+  - No HRIS: +0
+  - Workday: +3
+  - SAP SuccessFactors: +3
+  - Oracle HCM: +4
+  - Other HRIS: +2
+
+Other integrations (cumulative):
+  - Custom / bespoke integration: +2 each
+  - Onboarding system: +1.5
+  - Background check: +0.5
+  - Assessments: +0.5
+  - LinkedIn: +0.5
+  - Job boards: +0.5
+  - GDPR tool: +0.5
+
+Career site:
+  - Not in scope: +0
+  - Standard template: +1
+  - Light customisation: +2
+  - Full custom build: +4
+
+Configuration complexity:
+  - Minimal: +0
+  - Moderate: +2
+  - Heavy: +4
+
+Countries:
+  - 1 country: +0
+  - 2–5 countries: +1
+  - 6–20 countries: +3
+  - 20+ countries: +6
+
+Languages:
+  - 1 (English only): +0
+  - 2–3 languages: +1
+  - 4+ languages: +2
+
+Data migration:
+  - No: +0
+  - Yes: +3
+
+Employee size:
+  - Under 100: +0
+  - 100–500: +0
+  - 500–2,000: +1
+  - 2,000–10,000: +2
+  - 10,000+: +4
+
+Replacing existing ATS:
+  - No (greenfield): +0
+  - Yes: +1
+
+Go-live approach:
+  - Big bang: +0
+  - Phased by region/country: +2
+
+SUBTRACTIVE / RISK ADJUSTMENTS:
+Client availability:
+  - Dedicated team: -1
+  - Moderate: +0
+  - Limited (part-time): +3
+
+Consultant experience:
+  - First time: +2
+  - Some exposure: +1
+  - Experienced: +0
+
+Number of consultants (parallelisation):
+  - 1 (solo): +2 (no parallelisation possible)
+  - 2 consultants: +0 (baseline)
+  - 3 consultants: -1 (some parallelisation)
+  - 4 or more: -2 (significant parallelisation, but note coordination overhead in narrative)
+
+CONSULTANT DAYS:
+Estimate total consultant days = (total weeks) × (number of consultants) × 3.5 days/week active effort. Round to nearest 5.
+
+CONFIDENCE LEVEL:
+- High: ≤2 adjustments applied, experienced team, dedicated client, 1 country, no data migration
+- Low: 5+ adjustments applied, OR limited client availability + first-time team, OR 20+ countries, OR 3+ integrations total
+- Medium: everything else
+
+IMPORTANT RULES:
+1. Apply every relevant adjustment. Do not skip any.
+2. Round totalWeeks to the nearest whole number range (e.g. "12–14", not "11.5–13.5").
+3. Phase weeks must add up to totalWeeks (use the lower bound for phase split, upper bound for upper).
+4. Never produce a range wider than 4 weeks (e.g. "10–14" is fine, "10–18" is not).
+5. Be consistent — the same inputs must always produce the same output.`;
+
+  const userPrompt = `Produce a project estimate for these inputs:
+
 - Package: ${a.package}
 - Scope: ${scopeList}
 - Employee size: ${a.empsize}
@@ -4734,11 +4840,9 @@ ENGAGEMENT INPUTS:
 - Data migration: ${a.migration}
 - Fixed deadline: ${a.deadline}
 - Consultant team experience: ${a.experience}
-- Number of consultants on this project: ${a.numConsultants}
+- Number of consultants: ${a.numConsultants}
 
-Based on these inputs, provide a realistic project timeline estimate. Be specific and honest — if something will add weeks, say so. Do not be optimistic to please, be accurate. Factor in the number of consultants: more consultants can parallelise workstreams and shorten the timeline, but also introduce coordination overhead. A solo consultant will take longer than a team of three splitting configuration, integrations, and project management.
-
-Return ONLY a JSON object with this exact structure:
+Apply the scoring rubric exactly. Return ONLY this JSON, no markdown, no extra text:
 {
   "package": "${a.package}",
   "scope": ${JSON.stringify(a.scope || [])},
@@ -4752,25 +4856,23 @@ Return ONLY a JSON object with this exact structure:
     {"name": "UAT", "weeks": "X–Y"},
     {"name": "Go-Live & Hypercare", "weeks": "X–Y"}
   ],
-  "narrative": "3–4 sentences explaining the key drivers of this estimate and what will determine whether it lands at the shorter or longer end of the range.",
+  "narrative": "3–4 sentences explaining which specific factors drove the estimate up or down from the baseline, and what will determine whether it lands at the shorter or longer end.",
   "risks": ["risk 1", "risk 2", "risk 3", "risk 4", "risk 5"],
   "assumptions": ["assumption 1", "assumption 2", "assumption 3", "assumption 4"]
-}
-
-Return only the JSON, no markdown, no extra text.`;
+}`;
 
   try {
-    if (!process.env.ASSISTANT_ID) return res.status(500).json({ error: 'Assistant not configured' });
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      temperature: 0,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ]
+    });
 
-    const thread = await openai.beta.threads.create();
-    await openai.beta.threads.messages.create(thread.id, { role: 'user', content: prompt });
-    const run = await openai.beta.threads.runs.createAndPoll(thread.id, { assistant_id: process.env.ASSISTANT_ID });
-
-    if (run.status !== 'completed') return res.status(500).json({ error: 'Assistant run failed: ' + run.status });
-
-    const msgs = await openai.beta.threads.messages.list(thread.id, { order: 'desc', limit: 1 });
-    const raw = msgs.data[0]?.content?.[0]?.text?.value || '';
-    const clean = raw.replace(/【[^】]*】/g, '').replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
+    const raw = completion.choices[0]?.message?.content || '';
+    const clean = raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
 
     let parsed;
     try { parsed = JSON.parse(clean); }
