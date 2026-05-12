@@ -1102,7 +1102,7 @@ var estData = null;
 
 // Scoring maps — mirror server.js exactly so live panel matches final result
 var _EST = {
-  baseline: { 'Essentials Lite': 50, 'Standard': 70, 'Enterprise': 90, 'Not sure yet': 70 },
+  baseline: { 'Essentials Lite': 35, 'Standard': 40, 'Enterprise': 55, 'Not sure yet': 40 },
   hris:     { 'No HRIS integration': 0, 'Workday': 5, 'SAP SuccessFactors': 5, 'Oracle HCM': 7, 'Other HRIS': 3 },
   ints:     { 'Custom / bespoke integration': 3, 'Onboarding system integration': 2, 'Background check integration': 1, 'Assessment / testing integration': 1, 'LinkedIn integration': 1, 'Job board integrations': 0, 'GDPR / consent management tool': 0 },
   careerSite: { 'Career site not in scope': 0, 'Standard template, minimal changes': 1, 'Light customisation required': 3, 'Full custom build required': 10 },

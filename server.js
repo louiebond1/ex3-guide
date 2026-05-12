@@ -4826,11 +4826,11 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
   // ── BASELINES (working days) ─────────────────────────────────────
   // Target range: 8 weeks min, ~16 weeks average, 32 weeks max
   const baseline = {
-    'Essentials Lite': 50,  // 10 weeks — matches SmartSuccess 10-week project plan template
-    'Standard': 70,          // 14 weeks
-    'Enterprise': 90,        // 18 weeks
-    'Not sure yet': 70
-  }[a.package] || 70;
+    'Essentials Lite': 35,  // 7 weeks — streamlined, minimal scope
+    'Standard': 40,          // 8 weeks — matches SR docs: "standard mid-size = 8-10 weeks"
+    'Enterprise': 55,        // 11 weeks — larger org, more complex baseline
+    'Not sure yet': 40
+  }[a.package] || 40;
 
   // ── ADJUSTMENTS (all values in working days) ─────────────────────
   // Values derived from SR/SAP official implementation documents:
