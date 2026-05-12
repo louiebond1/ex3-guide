@@ -1,12 +1,76 @@
 (function(){ var d=document.getElementById('_dbg'); if(d) d.remove(); })();
 // ── Page navigation ──────────────────────────────────────────────
+var _PIN_PAGES = ['estimator', 'sowbuilder', 'discovery'];
+var _pinTarget = null;
+var _pinBuffer = '';
+
 function showPage(id) {
+  if (_PIN_PAGES.indexOf(id) !== -1 && !sessionStorage.getItem('impl_hq_unlocked')) {
+    _pinTarget = id;
+    showPinModal();
+    return;
+  }
+  _doShowPage(id);
+}
+
+function _doShowPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   const items = document.querySelectorAll('.sb-item');
   items.forEach(i => { if (i.getAttribute('onclick') && i.getAttribute('onclick').includes("'" + id + "'")) i.classList.add('active'); });
   window.scrollTo(0,0);
+}
+
+function showPinModal() {
+  _pinBuffer = '';
+  updatePinDots();
+  document.getElementById('pin-error').textContent = '';
+  document.getElementById('pin-modal').classList.add('pin-active');
+}
+
+function hidePinModal() {
+  document.getElementById('pin-modal').classList.remove('pin-active');
+  _pinBuffer = '';
+  _pinTarget = null;
+}
+
+function pinOverlayClick(e) {
+  if (e.target === document.getElementById('pin-modal')) hidePinModal();
+}
+
+function updatePinDots() {
+  for (var i = 0; i < 4; i++) {
+    var dot = document.getElementById('pd' + i);
+    if (dot) dot.className = 'pin-dot' + (_pinBuffer.length > i ? ' filled' : '');
+  }
+}
+
+function pinKey(digit) {
+  if (_pinBuffer.length >= 4) return;
+  _pinBuffer += digit;
+  updatePinDots();
+  if (_pinBuffer.length === 4) {
+    setTimeout(checkPin, 120);
+  }
+}
+
+function pinDel() {
+  _pinBuffer = _pinBuffer.slice(0, -1);
+  updatePinDots();
+  document.getElementById('pin-error').textContent = '';
+}
+
+function checkPin() {
+  if (_pinBuffer === '1703') {
+    sessionStorage.setItem('impl_hq_unlocked', '1');
+    hidePinModal();
+    if (_pinTarget) _doShowPage(_pinTarget);
+  } else {
+    document.getElementById('pin-error').textContent = 'Incorrect PIN — try again';
+    _pinBuffer = '';
+    updatePinDots();
+  }
 }
 
 // ── Questionnaire ────────────────────────────────────────────────

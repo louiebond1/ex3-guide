@@ -1283,6 +1283,28 @@ table.hq tr:last-child td{border-bottom:none}
 .disc-progress-seg.done{background:#10b981}
 .disc-output{padding:32px 36px;background:#fff;font-size:13.5px;color:#333;line-height:1.9;white-space:pre-wrap;font-family:'Inter',system-ui,sans-serif;max-height:80vh;overflow-y:auto}
 @media(max-width:900px){.disc-hero{padding:36px 24px 32px}.disc-grid,.disc-grid3{grid-template-columns:1fr}.disc-section-body{padding:6px 16px 20px}}
+/* PIN gate */
+.pin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:9999;display:none;align-items:center;justify-content:center}
+.pin-overlay.pin-active{display:flex}
+.pin-box{background:#fff;border-radius:18px;padding:44px 40px 36px;width:320px;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,.28)}
+.pin-icon{font-size:28px;margin-bottom:14px}
+.pin-title{font-size:17px;font-weight:800;color:#0f0f0e;letter-spacing:-.02em;margin-bottom:6px}
+.pin-sub{font-size:13px;color:#999;margin-bottom:26px;line-height:1.5}
+.pin-dots{display:flex;justify-content:center;gap:12px;margin-bottom:22px}
+.pin-dot{width:14px;height:14px;border-radius:50%;background:#ebe7e1;transition:background .18s}
+.pin-dot.filled{background:#0f0f0e}
+.pin-input-hidden{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.pin-error{font-size:12px;color:#dc2626;margin-bottom:14px;min-height:18px;animation:pin-shake .3s ease}
+@keyframes pin-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pin-actions{display:flex;gap:10px;margin-top:4px}
+.pin-cancel{flex:1;padding:12px;border:1.5px solid #e4e2dc;border-radius:9px;background:transparent;color:#888;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;font-family:'Inter',system-ui,sans-serif}
+.pin-cancel:hover{border-color:#bbb;color:#333}
+.pin-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pin-key{padding:14px 0;border:1.5px solid #ebe7e1;border-radius:10px;background:#fafaf8;font-size:18px;font-weight:700;color:#0f0f0e;cursor:pointer;transition:all .12s;user-select:none;font-family:'Inter',system-ui,sans-serif}
+.pin-key:hover{background:#f0ede8;border-color:#ccc}
+.pin-key:active{transform:scale(.95)}
+.pin-key.pin-key-del{font-size:14px;color:#888}
+.pin-key-empty{visibility:hidden}
 </style>
 </head>
 <body>
@@ -1317,6 +1339,40 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="sb-item" onclick="showPage('sowbuilder')">SOW Builder</div>
   <div class="sb-item" onclick="showPage('discovery')">Discovery Builder</div>
 </nav>
+
+<!-- PIN gate modal -->
+<div class="pin-overlay" id="pin-modal" onclick="pinOverlayClick(event)">
+  <div class="pin-box">
+    <div class="pin-icon">🔒</div>
+    <div class="pin-title">Restricted Access</div>
+    <div class="pin-sub">Enter the PIN to unlock this tool</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="pd0"></div>
+      <div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div>
+      <div class="pin-dot" id="pd3"></div>
+    </div>
+    <input class="pin-input-hidden" id="pin-input" type="tel" maxlength="4" inputmode="numeric" autocomplete="off">
+    <div class="pin-numpad">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <div class="pin-key-empty"></div>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key pin-key-del" onclick="pinDel()">⌫</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+    <div class="pin-actions">
+      <button class="pin-cancel" onclick="hidePinModal()">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <!-- Main -->
 <main class="main">
