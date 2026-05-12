@@ -1114,6 +1114,27 @@ table.hq tr:last-child td{border-bottom:none}
 .est-btn-next:hover{background:#1c1c1a;transform:translateY(-1px);box-shadow:0 6px 20px rgba(15,15,14,.18)}
 .est-btn-back{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;background:transparent;border:1.5px solid #ebe7e1;border-radius:9px;color:#888;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s}
 .est-btn-back:hover{border-color:#bbb;color:#333}
+.est-live-panel{background:#fafaf9;border:1.5px solid #e8e4de;border-radius:12px;padding:16px 18px;margin:20px 0 4px;display:none}
+.est-live-panel.elp-active{display:block}
+.elp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.elp-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#999}
+.elp-weeks{font-size:20px;font-weight:800;color:#1B1040;letter-spacing:-.02em}
+.elp-weeks span{font-size:12px;font-weight:500;color:#888;margin-left:3px}
+.elp-rows{display:flex;flex-direction:column;gap:3px}
+.elp-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.elp-tag{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:4px;min-width:58px;text-align:center;flex-shrink:0}
+.elp-tag-base{background:#e0e7ff;color:#3730a3}
+.elp-tag-config{background:#d1fae5;color:#065f46}
+.elp-tag-integration{background:#fef3c7;color:#92400e}
+.elp-tag-goLive{background:#fce7f3;color:#9d174d}
+.elp-tag-pm{background:#ede9fe;color:#5b21b6}
+.elp-tag-complexity{background:#fee2e2;color:#991b1b}
+.elp-tag-team{background:#e0f2fe;color:#0369a1}
+.elp-lbl{flex:1;color:#444}
+.elp-val{font-weight:700;font-family:monospace;font-size:12px;color:#1B1040}
+.elp-val.neg{color:#16a34a}
+.elp-hint{font-size:12px;color:#bbb;font-style:italic}
+.elp-raw{font-size:11px;color:#bbb;margin-top:10px;padding-top:8px;border-top:1px solid #ede9e3}
 .est-loading{display:none;align-items:flex-start;gap:20px;padding:48px 0;max-width:600px}
 .est-spinner{width:20px;height:20px;border:2px solid #eae6e0;border-top-color:#0f0f0e;border-radius:50%;animation:gen-spin .8s linear infinite;flex-shrink:0;margin-top:3px}
 .est-loading-title{font-size:15px;font-weight:700;color:#0f0f0e;margin-bottom:6px}
@@ -2142,6 +2163,18 @@ table.hq tr:last-child td{border-bottom:none}
           Generate Estimate
         </button>
       </div>
+    </div>
+
+    <!-- Live score panel — always visible during form steps -->
+    <div class="est-live-panel" id="est-live-panel">
+      <div class="elp-header">
+        <span class="elp-title">Score Breakdown</span>
+        <div class="elp-weeks" id="elp-weeks">0 <span>weeks</span></div>
+      </div>
+      <div id="elp-rows" class="elp-rows">
+        <span class="elp-hint">Make a selection above to see how each answer affects the estimate.</span>
+      </div>
+      <div id="elp-raw" class="elp-raw" style="display:none"></div>
     </div>
 
     <!-- Loading -->

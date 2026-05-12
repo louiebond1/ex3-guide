@@ -1100,6 +1100,122 @@ function exportGuide() {
 var estCurrentStep = 1;
 var estData = null;
 
+// Scoring maps — mirror server.js exactly so live panel matches final result
+var _EST = {
+  baseline: { 'Essentials Lite': 50, 'Standard': 70, 'Enterprise': 90, 'Not sure yet': 70 },
+  hris:     { 'No HRIS integration': 0, 'Workday': 5, 'SAP SuccessFactors': 5, 'Oracle HCM': 7, 'Other HRIS': 3 },
+  ints:     { 'Custom / bespoke integration': 3, 'Onboarding system integration': 2, 'Background check integration': 1, 'Assessment / testing integration': 1, 'LinkedIn integration': 1, 'Job board integrations': 0, 'GDPR / consent management tool': 0 },
+  careerSite: { 'Career site not in scope': 0, 'Standard template, minimal changes': 1, 'Light customisation required': 3, 'Full custom build required': 10 },
+  config:   { 'Minimal — mostly out-of-the-box': 0, 'Moderate — some custom fields and workflows': 3, 'Heavy — extensive custom setup': 10 },
+  countries:{ '1 country': 0, '2–5 countries': 3, '6–20 countries': 7, '20+ countries': 12 },
+  langs:    { '1 language (English only)': 0, '2–3 languages': 1, '4+ languages': 5 },
+  empsize:  { 'Under 100': 0, '100–500': 0, '500–2,000': 1, '2,000–10,000': 3, '10,000+': 5 },
+  avail:    { 'Dedicated — full-time project team on the client side': -3, 'Moderate — mostly available when needed': 0, 'Limited — client team is part-time on this project': 12 },
+  exp:      { 'No prior SmartRecruiters experience': 5, 'Some exposure to SmartRecruiters': 2, 'Experienced with SmartRecruiters implementations': 0 },
+  scope:    { 'Core Recruiting': 0, 'Career Site': 0, 'CRM / Talent Pools': 3, 'Offer Management': 2, 'Analytics': 1, 'SSO / SCIM': 1, 'Multilingual Support': 1, 'Mobile': 0 }
+};
+
+function estCalcLive() {
+  var panel = document.getElementById('est-live-panel');
+  if (!panel) return;
+
+  var rows = [], raw = 0;
+
+  function add(tag, label, days) {
+    rows.push({ tag: tag, label: label, days: days });
+    raw += days;
+  }
+
+  // Package baseline
+  var pkg = estGetVal('package');
+  if (pkg && _EST.baseline[pkg]) add('base', 'Package: ' + pkg, _EST.baseline[pkg]);
+
+  // Scope extras
+  estGetChecks('#est-s1 input[type=checkbox]').forEach(function(s) {
+    var d = _EST.scope[s] || 0;
+    if (d) add('config', s, d);
+  });
+
+  // Client profile
+  var emp = estGetVal('empsize');
+  if (emp && _EST.empsize[emp]) add('complexity', emp, _EST.empsize[emp]);
+
+  var ctry = estGetVal('countries');
+  if (ctry && _EST.countries[ctry]) add('config', ctry, _EST.countries[ctry]);
+
+  var lng = estGetVal('langs');
+  if (lng && _EST.langs[lng]) add('config', lng, _EST.langs[lng]);
+
+  if (estGetVal('replacing') && estGetVal('replacing').indexOf('Yes') === 0) add('complexity', 'Replacing existing ATS', 1);
+
+  // Integrations & tech
+  var hris = estGetVal('hris');
+  if (hris && _EST.hris[hris]) add('integration', 'HRIS: ' + hris, _EST.hris[hris]);
+
+  estGetChecks('#est-s3 input[type=checkbox]').forEach(function(i) {
+    var d = _EST.ints[i] || 0;
+    if (d) add('integration', i, d);
+  });
+
+  var cs = estGetVal('csite');
+  if (cs && _EST.careerSite[cs]) add('config', 'Career site (' + cs.split(',')[0].split(' ').slice(0,2).join(' ') + ')', _EST.careerSite[cs]);
+
+  var cfg = estGetVal('config');
+  if (cfg && _EST.config[cfg]) add('config', 'Config complexity: ' + cfg.split(' ')[0], _EST.config[cfg]);
+
+  // Delivery
+  var gl = estGetVal('golive');
+  if (gl && gl.indexOf('Phased') === 0) add('goLive', 'Phased go-live', 3);
+
+  var av = estGetVal('avail');
+  if (av && _EST.avail[av] !== undefined && _EST.avail[av] !== 0) add('pm', 'Client availability: ' + av.split(' ')[0], _EST.avail[av]);
+
+  if (estGetVal('migration') && estGetVal('migration').indexOf('Yes') === 0) add('config', 'Data migration', 5);
+
+  var xp = estGetVal('experience');
+  if (xp && _EST.exp[xp]) add('pm', 'Team experience (first-time)', _EST.exp[xp]);
+
+  // Consultant tiers
+  var pc = function(v) { var m = String(v||'0').match(/\d+/); return m ? parseInt(m[0]) : 0; };
+  var nSr = pc(estGetVal('sr-lead')), nLd = pc(estGetVal('lead')), nCo = pc(estGetVal('consultant')), nJr = pc(estGetVal('junior'));
+  var total = nSr + nLd + nCo + nJr;
+  var tadj = nSr*-6 + nLd*-4 + nCo*-2 + nJr*-1
+    + Math.max(0, nJr - (nSr+nLd+nCo))*2
+    + ((nSr===0 && nLd===0 && total>1) ? 5 : 0);
+  if (tadj !== 0) add('team', 'Consultant team', tadj);
+
+  // Clamp
+  var wks = Math.min(Math.max(Math.round(raw / 5), 8), 32);
+
+  // Render
+  var weeksEl = document.getElementById('elp-weeks');
+  var rowsEl  = document.getElementById('elp-rows');
+  var rawEl   = document.getElementById('elp-raw');
+  if (!weeksEl || !rowsEl) return;
+
+  if (rows.length === 0) {
+    panel.classList.remove('elp-active');
+    return;
+  }
+  panel.classList.add('elp-active');
+
+  weeksEl.innerHTML = wks + ' <span>weeks</span>';
+  rowsEl.innerHTML = rows.map(function(r) {
+    var sign = r.days > 0 ? '+' : '';
+    return '<div class="elp-row"><span class="elp-tag elp-tag-' + r.tag + '">' + r.tag + '</span>'
+      + '<span class="elp-lbl">' + r.label + '</span>'
+      + '<span class="elp-val' + (r.days < 0 ? ' neg' : '') + '">' + sign + r.days + 'd</span></div>';
+  }).join('');
+
+  rawEl.style.display = '';
+  rawEl.textContent = 'Raw: ' + raw + 'd → ' + (raw/5).toFixed(1) + ' weeks → clamped to ' + wks + ' weeks (floor 8, ceiling 32)';
+}
+
+// Wire live calc to every input change in the estimator
+document.addEventListener('change', function(e) {
+  if (e.target.closest && e.target.closest('.est-wrap')) estCalcLive();
+});
+
 function estGetVal(name) {
   var el = document.querySelector('input[name="' + name + '"]:checked');
   return el ? el.value : '';
@@ -1183,6 +1299,8 @@ function estSubmit() {
   }
   document.getElementById('est-step-count').style.display = 'none';
   document.getElementById('est-progress').parentElement.style.display = 'none';
+  var livePanel = document.getElementById('est-live-panel');
+  if (livePanel) livePanel.style.display = 'none';
   var loadEl = document.getElementById('est-loading');
   loadEl.style.display = 'flex';
   document.getElementById('est-result').style.display = 'none';
