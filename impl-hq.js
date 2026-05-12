@@ -1148,6 +1148,7 @@ function estSubmit() {
   if(!estGetVal('migration')){ alert('Please indicate if there is data migration.'); return; }
   if(!estGetVal('deadline')){ alert('Please indicate if there is a fixed deadline.'); return; }
   if(!estGetVal('experience')){ alert('Please select your team experience level.'); return; }
+  if(!estGetVal('numconsultants')){ alert('Please select the number of consultants on this project.'); return; }
 
   var answers = {
     package: estGetVal('package'),
@@ -1164,7 +1165,8 @@ function estSubmit() {
     clientAvailability: estGetVal('avail'),
     migration: estGetVal('migration'),
     deadline: estGetVal('deadline'),
-    experience: estGetVal('experience')
+    experience: estGetVal('experience'),
+    numConsultants: estGetVal('numconsultants')
   };
 
   for(var i = 1; i <= 4; i++){

@@ -2048,6 +2048,19 @@ table.hq tr:last-child td{border-bottom:none}
             <div class="est-pill"><input type="radio" name="experience" id="exp-exp" value="Experienced with SmartRecruiters implementations"><label for="exp-exp">Experienced</label></div>
           </div>
         </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">How many consultants are working on this implementation?</span>
+          <span class="est-q-sub">Include all consultants actively delivering the project</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="numconsultants" id="nc-1" value="1 consultant (solo delivery)"><label for="nc-1">1 (solo)</label></div>
+            <div class="est-pill"><input type="radio" name="numconsultants" id="nc-2" value="2 consultants"><label for="nc-2">2</label></div>
+            <div class="est-pill"><input type="radio" name="numconsultants" id="nc-3" value="3 consultants"><label for="nc-3">3</label></div>
+            <div class="est-pill"><input type="radio" name="numconsultants" id="nc-4plus" value="4 or more consultants"><label for="nc-4plus">4+</label></div>
+          </div>
+        </div>
       </div>
       <div class="est-btn-row">
         <button class="est-btn-back" onclick="estBack(4)"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5m7 7-7-7 7-7"/></svg> Back</button>
@@ -4721,8 +4734,9 @@ ENGAGEMENT INPUTS:
 - Data migration: ${a.migration}
 - Fixed deadline: ${a.deadline}
 - Consultant team experience: ${a.experience}
+- Number of consultants on this project: ${a.numConsultants}
 
-Based on these inputs, provide a realistic project timeline estimate. Be specific and honest — if something will add weeks, say so. Do not be optimistic to please, be accurate.
+Based on these inputs, provide a realistic project timeline estimate. Be specific and honest — if something will add weeks, say so. Do not be optimistic to please, be accurate. Factor in the number of consultants: more consultants can parallelise workstreams and shorten the timeline, but also introduce coordination overhead. A solo consultant will take longer than a team of three splitting configuration, integrations, and project management.
 
 Return ONLY a JSON object with this exact structure:
 {
