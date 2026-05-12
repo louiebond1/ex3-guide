@@ -5102,6 +5102,46 @@ app.post('/consultant/implementation-hq/export-estimate', async (req, res) => {
     children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [new TextRun({ text: 'Generated ' + dateStr + '  |  EX3 Implementation HQ', size: 18, font: 'Calibri', color: 'aaaaaa', italics: true })] }));
     children.push(new Paragraph({ pageBreakBefore: true, children: [new TextRun({ text: '' })] }));
 
+    // Project Inputs — all answers captured from the estimator form
+    const a = d._answers || {};
+    const inputRows = [
+      ['Package',                  a.package || '—'],
+      ['Scope modules',            Array.isArray(a.scope) && a.scope.length ? a.scope.join(', ') : '—'],
+      ['Organisation size',        a.empsize || '—'],
+      ['Countries',                a.countries || '—'],
+      ['Languages',                a.langs || '—'],
+      ['Replacing existing ATS?',  a.replacing || '—'],
+      ['HRIS integration',         a.hris || '—'],
+      ['Additional integrations',  Array.isArray(a.integrations) && a.integrations.length ? a.integrations.join(', ') : 'None'],
+      ['Career site',              a.careerSite || '—'],
+      ['Configuration complexity', a.config || '—'],
+      ['Go-live approach',         a.goLiveApproach || '—'],
+      ['Client availability',      a.clientAvailability || '—'],
+      ['Data migration',           a.migration || '—'],
+      ['Fixed deadline',           a.deadline || '—'],
+      ['Team experience',          a.experience || '—'],
+      ['Team composition',         [
+        a.srLead && a.srLead !== '0' ? a.srLead + ' Sr Lead' : '',
+        a.lead && a.lead !== '0' ? a.lead + ' Lead' : '',
+        a.consultant && a.consultant !== '0' ? a.consultant + ' Consultant' : '',
+        a.junior && a.junior !== '0' ? a.junior + ' Junior' : ''
+      ].filter(Boolean).join(', ') || '—'],
+    ];
+    children.push(secHead('Project Inputs'));
+    children.push(new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: [
+        new TableRow({ children: [
+          new TableCell({ width: { size: 40, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'QUESTION', bold: true, size: 16, font: 'Calibri', color: '999999', characterSpacing: 60 })] })] }),
+          new TableCell({ width: { size: 60, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'ANSWER', bold: true, size: 16, font: 'Calibri', color: '999999', characterSpacing: 60 })] })] }),
+        ]}),
+        ...inputRows.map(([q, v]) => new TableRow({ children: [
+          new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: q, bold: true, size: 20, font: 'Calibri', color: '555555' })] })] }),
+          new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: String(v), size: 20, font: 'Calibri', color: '222222' })] })] }),
+        ]})),
+      ],
+    }));
+
     // Summary stats
     children.push(secHead('Estimate Summary'));
     children.push(new Table({
