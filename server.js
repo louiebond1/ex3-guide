@@ -4713,150 +4713,165 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
   const a = req.body;
   if (!a || !a.package) return res.status(400).json({ error: 'No answers provided' });
 
+  // ── ALL NUMBERS CALCULATED IN CODE (no AI involvement) ──────────
+  // Every value is in working days. Baseline derived from the SR kickoff
+  // deck which shows planning+discovery = first 4-6 weeks, config starts week 6+.
+
+  const baseline = {
+    'Essentials Lite': 45,
+    'Standard': 65,
+    'Enterprise': 100,
+    'Not sure yet': 65
+  }[a.package] || 65;
+
+  const hrisDays = {
+    'No HRIS integration': 0,
+    'Workday': 15,
+    'SAP SuccessFactors': 15,
+    'Oracle HCM': 20,
+    'Other HRIS': 10
+  }[a.hris] || 0;
+
+  const intDayMap = {
+    'Custom / bespoke integration': 10,
+    'Onboarding system integration': 7,
+    'Background check integration': 3,
+    'Assessment / testing integration': 3,
+    'LinkedIn integration': 3,
+    'Job board integrations': 2,
+    'GDPR / consent management tool': 2
+  };
+  const intDays = Array.isArray(a.integrations)
+    ? a.integrations.reduce((s, i) => s + (intDayMap[i] || 2), 0)
+    : 0;
+
+  const careerSiteDays = {
+    'Career site not in scope': 0,
+    'Standard template, minimal changes': 5,
+    'Light customisation required': 10,
+    'Full custom build required': 20
+  }[a.careerSite] || 0;
+
+  const configDays = {
+    'Minimal — mostly out-of-the-box': 0,
+    'Moderate — some custom fields and workflows': 10,
+    'Heavy — extensive custom setup': 20
+  }[a.config] || 0;
+
+  const countriesDays = {
+    '1 country': 0,
+    '2–5 countries': 5,
+    '6–20 countries': 15,
+    '20+ countries': 30
+  }[a.countries] || 0;
+
+  const langsDays = {
+    '1 language (English only)': 0,
+    '2–3 languages': 5,
+    '4+ languages': 10
+  }[a.langs] || 0;
+
+  const migrationDays = a.migration && a.migration.includes('Yes') ? 15 : 0;
+
+  const empsizeDays = {
+    'Under 100': 0,
+    '100–500': 0,
+    '500–2,000': 5,
+    '2,000–10,000': 10,
+    '10,000+': 20
+  }[a.empsize] || 0;
+
+  const replacingDays = a.replacing && a.replacing.includes('Yes') ? 5 : 0;
+
+  const goliveDays = a.goLiveApproach && a.goLiveApproach.includes('Phased') ? 10 : 0;
+
+  const availDays = {
+    'Dedicated — full-time project team on the client side': -5,
+    'Moderate — mostly available when needed': 0,
+    'Limited — client team is part-time on this project': 15
+  }[a.clientAvailability] || 0;
+
+  const experienceDays = {
+    'No prior SmartRecruiters experience': 10,
+    'Some exposure to SmartRecruiters': 5,
+    'Experienced with SmartRecruiters implementations': 0
+  }[a.experience] || 0;
+
+  const ncStr = String(a.numConsultants || '');
+  const consultantAdjDays = ncStr.includes('solo') || ncStr.startsWith('1') ? 10
+    : ncStr.startsWith('3') ? -5
+    : ncStr.startsWith('4') || ncStr.includes('more') ? -10
+    : 0; // 2 = baseline
+
+  const totalDays = baseline + hrisDays + intDays + careerSiteDays + configDays
+    + countriesDays + langsDays + migrationDays + empsizeDays + replacingDays
+    + goliveDays + availDays + experienceDays + consultantAdjDays;
+
+  const totalWeeks = Math.max(Math.round(totalDays / 5), 1);
+  const totalWeeksStr = String(totalWeeks);
+
+  // Phase split (fixed percentages, rounds to whole weeks, min 1)
+  const phasePcts = [
+    { name: 'Sales Handover & Planning', pct: 0.12 },
+    { name: 'Discovery & Workshops',     pct: 0.23 },
+    { name: 'Configuration',              pct: 0.33 },
+    { name: 'UAT',                        pct: 0.20 },
+    { name: 'Go-Live & Hypercare',        pct: 0.12 }
+  ];
+  const phases = phasePcts.map(p => ({
+    name: p.name,
+    weeks: String(Math.max(Math.round(totalDays * p.pct / 5), 1))
+  }));
+
+  // Consultant days = totalDays × numConsultants × 70% utilisation, rounded to nearest 5
+  const numConsultantsCount = parseInt((ncStr.match(/\d+/) || ['1'])[0]);
+  const consultantDays = String(Math.round(totalDays * numConsultantsCount * 0.7 / 5) * 5);
+
+  // Confidence
+  const activeAdjustments = [hrisDays, intDays, careerSiteDays, configDays, countriesDays,
+    langsDays, migrationDays, empsizeDays, replacingDays, goliveDays].filter(d => d > 0).length;
+  const isLimitedClient = a.clientAvailability && a.clientAvailability.includes('Limited');
+  const isFirstTimer = a.experience && a.experience.includes('No prior');
+  const isManyCountries = a.countries && a.countries.includes('20+');
+  const totalIntegrations = (Array.isArray(a.integrations) ? a.integrations.length : 0) + (hrisDays > 0 ? 1 : 0);
+
+  const confidence = (activeAdjustments >= 5 || (isLimitedClient && isFirstTimer) || isManyCountries || totalIntegrations >= 4)
+    ? 'Low'
+    : (activeAdjustments <= 2 && !isLimitedClient && !isManyCountries)
+    ? 'High'
+    : 'Medium';
+
+  // ── AI ONLY for narrative, risks, assumptions ─────────────────
   const scopeList = Array.isArray(a.scope) && a.scope.length ? a.scope.join(', ') : 'Core Recruiting only';
   const intList = Array.isArray(a.integrations) && a.integrations.length ? a.integrations.join(', ') : 'None';
 
-  const systemPrompt = `You are a senior SmartRecruiters implementation consultant who produces structured project timeline estimates. You must follow a strict scoring rubric to ensure consistent, proportional results. The same inputs must always produce the same output. Small changes to inputs should produce small changes to the estimate — never large swings.
+  const narrativePrompt = `You are a senior SmartRecruiters implementation consultant. The numbers below have already been calculated — do NOT change them. Write a narrative and risk list to accompany this estimate.
 
-SCORING RUBRIC — apply each adjustment to the baseline below:
-
-BASELINE TOTAL WEEKS BY PACKAGE:
-- Essentials Lite: 6–8 weeks
-- Standard: 10–14 weeks
-- Enterprise: 16–22 weeks
-- Not sure yet: treat as Standard (10–14 weeks)
-
-PHASE SPLIT (% of total weeks, always add up to 100%):
-- Sales Handover & Planning: 10–15%
-- Discovery & Workshops: 20–25%
-- Configuration: 30–35%
-- UAT: 20–25%
-- Go-Live & Hypercare: 10–15%
-
-ADDITIVE ADJUSTMENTS (weeks added to total):
-HRIS Integration:
-  - No HRIS: +0
-  - Workday: +3
-  - SAP SuccessFactors: +3
-  - Oracle HCM: +4
-  - Other HRIS: +2
-
-Other integrations (cumulative):
-  - Custom / bespoke integration: +2 each
-  - Onboarding system: +1.5
-  - Background check: +0.5
-  - Assessments: +0.5
-  - LinkedIn: +0.5
-  - Job boards: +0.5
-  - GDPR tool: +0.5
-
-Career site:
-  - Not in scope: +0
-  - Standard template: +1
-  - Light customisation: +2
-  - Full custom build: +4
-
-Configuration complexity:
-  - Minimal: +0
-  - Moderate: +2
-  - Heavy: +4
-
-Countries:
-  - 1 country: +0
-  - 2–5 countries: +1
-  - 6–20 countries: +3
-  - 20+ countries: +6
-
-Languages:
-  - 1 (English only): +0
-  - 2–3 languages: +1
-  - 4+ languages: +2
-
-Data migration:
-  - No: +0
-  - Yes: +3
-
-Employee size:
-  - Under 100: +0
-  - 100–500: +0
-  - 500–2,000: +1
-  - 2,000–10,000: +2
-  - 10,000+: +4
-
-Replacing existing ATS:
-  - No (greenfield): +0
-  - Yes: +1
-
-Go-live approach:
-  - Big bang: +0
-  - Phased by region/country: +2
-
-SUBTRACTIVE / RISK ADJUSTMENTS:
-Client availability:
-  - Dedicated team: -1
-  - Moderate: +0
-  - Limited (part-time): +3
-
-Consultant experience:
-  - First time: +2
-  - Some exposure: +1
-  - Experienced: +0
-
-Number of consultants (parallelisation):
-  - 1 (solo): +2 (no parallelisation possible)
-  - 2 consultants: +0 (baseline)
-  - 3 consultants: -1 (some parallelisation)
-  - 4 or more: -2 (significant parallelisation, but note coordination overhead in narrative)
-
-CONSULTANT DAYS:
-Estimate total consultant days = (total weeks) × (number of consultants) × 3.5 days/week active effort. Round to nearest 5.
-
-CONFIDENCE LEVEL:
-- High: ≤2 adjustments applied, experienced team, dedicated client, 1 country, no data migration
-- Low: 5+ adjustments applied, OR limited client availability + first-time team, OR 20+ countries, OR 3+ integrations total
-- Medium: everything else
-
-IMPORTANT RULES:
-1. Apply every relevant adjustment. Do not skip any.
-2. Round totalWeeks to the nearest whole number range (e.g. "12–14", not "11.5–13.5").
-3. Phase weeks must add up to totalWeeks (use the lower bound for phase split, upper bound for upper).
-4. Never produce a range wider than 4 weeks (e.g. "10–14" is fine, "10–18" is not).
-5. Be consistent — the same inputs must always produce the same output.`;
-
-  const userPrompt = `Produce a project estimate for these inputs:
-
+CALCULATED ESTIMATE:
+- Total weeks: ${totalWeeks}
 - Package: ${a.package}
 - Scope: ${scopeList}
-- Employee size: ${a.empsize}
-- Countries/regions: ${a.countries}
-- Languages: ${a.langs}
-- Replacing existing ATS: ${a.replacing}
-- HRIS integration: ${a.hris}
-- Other integrations: ${intList}
-- Career site complexity: ${a.careerSite}
-- Configuration complexity: ${a.config}
-- Go-live approach: ${a.goLiveApproach}
-- Client team availability: ${a.clientAvailability}
-- Data migration: ${a.migration}
-- Fixed deadline: ${a.deadline}
-- Consultant team experience: ${a.experience}
-- Number of consultants: ${a.numConsultants}
+- Confidence: ${confidence}
 
-Apply the scoring rubric exactly. Return ONLY this JSON, no markdown, no extra text:
+KEY FACTORS THAT SHAPED THIS ESTIMATE:
+- HRIS integration: ${a.hris} (+${hrisDays} days)
+- Other integrations: ${intList} (+${intDays} days)
+- Career site: ${a.careerSite} (+${careerSiteDays} days)
+- Configuration: ${a.config} (+${configDays} days)
+- Countries: ${a.countries} (+${countriesDays} days)
+- Languages: ${a.langs} (+${langsDays} days)
+- Data migration: ${a.migration} (+${migrationDays} days)
+- Employee size: ${a.empsize} (+${empsizeDays} days)
+- Replacing ATS: ${a.replacing} (+${replacingDays} days)
+- Go-live approach: ${a.goLiveApproach} (+${goliveDays} days)
+- Client availability: ${a.clientAvailability} (${availDays} days)
+- Consultant experience: ${a.experience} (+${experienceDays} days)
+- Number of consultants: ${a.numConsultants} (${consultantAdjDays} days)
+- Fixed deadline: ${a.deadline}
+
+Return ONLY this JSON, no markdown, no extra text:
 {
-  "package": "${a.package}",
-  "scope": ${JSON.stringify(a.scope || [])},
-  "totalWeeks": "X–Y",
-  "consultantDays": "X–Y",
-  "confidence": "High" or "Medium" or "Low",
-  "phases": [
-    {"name": "Sales Handover & Planning", "weeks": "X–Y"},
-    {"name": "Discovery & Workshops", "weeks": "X–Y"},
-    {"name": "Configuration", "weeks": "X–Y"},
-    {"name": "UAT", "weeks": "X–Y"},
-    {"name": "Go-Live & Hypercare", "weeks": "X–Y"}
-  ],
-  "narrative": "3–4 sentences explaining which specific factors drove the estimate up or down from the baseline, and what will determine whether it lands at the shorter or longer end.",
+  "narrative": "3-4 sentences naming the biggest day-drivers and what will push the project toward the longer or shorter end.",
   "risks": ["risk 1", "risk 2", "risk 3", "risk 4", "risk 5"],
   "assumptions": ["assumption 1", "assumption 2", "assumption 3", "assumption 4"]
 }`;
@@ -4864,51 +4879,31 @@ Apply the scoring rubric exactly. Return ONLY this JSON, no markdown, no extra t
   try {
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o',
-      temperature: 0,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ]
+      temperature: 0.3,
+      messages: [{ role: 'user', content: narrativePrompt }]
     });
 
     const raw = completion.choices[0]?.message?.content || '';
     const clean = raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
 
-    let parsed;
-    try { parsed = JSON.parse(clean); }
+    let prose = { narrative: '', risks: [], assumptions: [] };
+    try { prose = JSON.parse(clean); }
     catch(e) {
       const m = clean.match(/\{[\s\S]*\}/);
-      if (m) parsed = JSON.parse(m[0]);
-      else return res.status(500).json({ error: 'Could not parse response' });
+      if (m) try { prose = JSON.parse(m[0]); } catch(_) {}
     }
 
-    // Collapse identical ranges (e.g. "22–22" → "22")
-    const collapseRange = (str) => {
-      if (!str) return str;
-      const m = String(str).match(/^(\d+)\s*[–-]\s*(\d+)$/);
-      return (m && m[1] === m[2]) ? m[1] : String(str);
-    };
-
-    parsed.totalWeeks = collapseRange(parsed.totalWeeks);
-    if (Array.isArray(parsed.phases)) {
-      parsed.phases = parsed.phases.map(p => ({ ...p, weeks: collapseRange(p.weeks) }));
-    }
-
-    // Recalculate consultant days from actual weeks + consultant count
-    const numConsultants = parseInt((String(a.numConsultants || '1').match(/\d+/) || ['1'])[0]);
-    const parseWeekRange = (str) => {
-      const rm = String(str || '0').match(/(\d+)\s*[–-]\s*(\d+)/);
-      if (rm) return { lo: parseInt(rm[1]), hi: parseInt(rm[2]) };
-      const sm = String(str || '0').match(/(\d+)/);
-      const v = sm ? parseInt(sm[1]) : 0;
-      return { lo: v, hi: v };
-    };
-    const { lo, hi } = parseWeekRange(parsed.totalWeeks);
-    const daysLo = Math.round(lo * numConsultants * 3.5 / 5) * 5;
-    const daysHi = Math.round(hi * numConsultants * 3.5 / 5) * 5;
-    parsed.consultantDays = daysLo === daysHi ? String(daysLo) : `${daysLo}–${daysHi}`;
-
-    return res.json(parsed);
+    return res.json({
+      package: a.package,
+      scope: a.scope || [],
+      totalWeeks: totalWeeksStr,
+      consultantDays,
+      confidence,
+      phases,
+      narrative: prose.narrative || '',
+      risks: prose.risks || [],
+      assumptions: prose.assumptions || []
+    });
   } catch(err) {
     console.error('Estimator error:', err.message);
     return res.status(500).json({ error: 'Generation failed: ' + err.message });
