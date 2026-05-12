@@ -3,6 +3,36 @@
 var _PIN_PAGES = ['estimator', 'sowbuilder', 'discovery'];
 var _pinTarget = null;
 var _pinBuffer = '';
+var _logoTaps = 0;
+var _logoTapTimer = null;
+
+// Auto-reveal if already unlocked this session
+(function() {
+  if (sessionStorage.getItem('impl_hq_unlocked')) revealLockedNav();
+})();
+
+function revealLockedNav() {
+  document.querySelectorAll('.sb-locked').forEach(function(el) { el.style.display = ''; });
+}
+
+// Logo tap counter — 5 taps within 3s opens the PIN modal
+document.addEventListener('DOMContentLoaded', function() {
+  var logo = document.getElementById('sb-logo-tap');
+  if (!logo) return;
+  logo.addEventListener('click', function() {
+    _logoTaps++;
+    clearTimeout(_logoTapTimer);
+    if (_logoTaps >= 5) {
+      _logoTaps = 0;
+      if (!sessionStorage.getItem('impl_hq_unlocked')) {
+        _pinTarget = null;
+        showPinModal();
+      }
+      return;
+    }
+    _logoTapTimer = setTimeout(function() { _logoTaps = 0; }, 3000);
+  });
+});
 
 function showPage(id) {
   if (_PIN_PAGES.indexOf(id) !== -1 && !sessionStorage.getItem('impl_hq_unlocked')) {
@@ -64,8 +94,10 @@ function pinDel() {
 function checkPin() {
   if (_pinBuffer === '1703') {
     sessionStorage.setItem('impl_hq_unlocked', '1');
+    revealLockedNav();
     hidePinModal();
     if (_pinTarget) _doShowPage(_pinTarget);
+    else _doShowPage('estimator');
   } else {
     document.getElementById('pin-error').textContent = 'Incorrect PIN — try again';
     _pinBuffer = '';

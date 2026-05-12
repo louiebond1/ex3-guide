@@ -1314,7 +1314,7 @@ table.hq tr:last-child td{border-bottom:none}
 <!-- Sidebar -->
 <nav class="sidebar">
   <div class="sb-brand">
-    <div class="sb-logo">ex3</div>
+    <div class="sb-logo" id="sb-logo-tap">ex3</div>
     <div class="sb-tag">Implementation HQ</div>
   </div>
   <a href="/" class="sb-back">
@@ -1335,9 +1335,9 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="sb-item" onclick="showPage('meetingcoach')">Meeting Coach</div>
   <div class="sb-item" onclick="showPage('workbook')">Project Workbook</div>
   <div class="sb-item" onclick="showPage('guide')">Request a Guide</div>
-  <div class="sb-item" onclick="showPage('estimator')">Project Estimator</div>
-  <div class="sb-item" onclick="showPage('sowbuilder')">SOW Builder</div>
-  <div class="sb-item" onclick="showPage('discovery')">Discovery Builder</div>
+  <div class="sb-item sb-locked" id="nav-estimator" style="display:none" onclick="showPage('estimator')">Project Estimator</div>
+  <div class="sb-item sb-locked" id="nav-sowbuilder" style="display:none" onclick="showPage('sowbuilder')">SOW Builder</div>
+  <div class="sb-item sb-locked" id="nav-discovery" style="display:none" onclick="showPage('discovery')">Discovery Builder</div>
 </nav>
 
 <!-- PIN gate modal -->
