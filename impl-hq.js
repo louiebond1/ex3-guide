@@ -24,7 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
     clearTimeout(_logoTapTimer);
     if (_logoTaps >= 5) {
       _logoTaps = 0;
-      if (!sessionStorage.getItem('impl_hq_unlocked')) {
+      if (sessionStorage.getItem('impl_hq_unlocked')) {
+        // Re-lock: hide items, clear session, navigate away if on a locked page
+        sessionStorage.removeItem('impl_hq_unlocked');
+        document.querySelectorAll('.sb-locked').forEach(function(el) { el.style.display = 'none'; });
+        var active = document.querySelector('.page.active');
+        if (active && _PIN_PAGES.indexOf(active.id.replace('page-', '')) !== -1) {
+          _doShowPage('dashboard');
+        }
+      } else {
         _pinTarget = null;
         showPinModal();
       }
