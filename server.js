@@ -4793,16 +4793,18 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
   // ── BASELINES (working days) ─────────────────────────────────────
   // Target range: 8 weeks min, ~16 weeks average, 32 weeks max
   const baseline = {
-    'Essentials Lite': 45,  // 9 weeks
+    'Essentials Lite': 50,  // 10 weeks — matches SmartSuccess 10-week project plan template
     'Standard': 70,          // 14 weeks
     'Enterprise': 90,        // 18 weeks
     'Not sure yet': 70
   }[a.package] || 70;
 
-  // ── ADJUSTMENTS (all values in working days, kept small) ─────────
+  // ── ADJUSTMENTS (all values in working days) ─────────────────────
+  // Values derived from SR/SAP official implementation documents:
+  // - kickoff deck resource allocation, workshop durations, project plan template
   const hrisDays = {
     'No HRIS integration': 0,
-    'Workday': 5,
+    'Workday': 5,           // 7 distinct sync types (User/Config/Job/Hire/Onboarding etc)
     'SAP SuccessFactors': 5,
     'Oracle HCM': 7,
     'Other HRIS': 3
@@ -4825,26 +4827,26 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
     'Career site not in scope': 0,
     'Standard template, minimal changes': 1,
     'Light customisation required': 3,
-    'Full custom build required': 7
+    'Full custom build required': 10   // docs: Career Site SMEs at 60-75% for project length
   }[a.careerSite] || 0;
 
   const configDays = {
     'Minimal — mostly out-of-the-box': 0,
     'Moderate — some custom fields and workflows': 3,
-    'Heavy — extensive custom setup': 7
+    'Heavy — extensive custom setup': 10  // docs: 5 workshops × hundreds of config items
   }[a.config] || 0;
 
   const countriesDays = {
     '1 country': 0,
-    '2–5 countries': 1,
-    '6–20 countries': 5,
-    '20+ countries': 10
+    '2–5 countries': 3,    // docs: each country needs separate GDPR/consent/privacy policy
+    '6–20 countries': 7,
+    '20+ countries': 12
   }[a.countries] || 0;
 
   const langsDays = {
     '1 language (English only)': 0,
     '2–3 languages': 1,
-    '4+ languages': 3
+    '4+ languages': 5      // translations of career site, email templates, screening questions
   }[a.langs] || 0;
 
   const migrationDays = a.migration && a.migration.includes('Yes') ? 5 : 0;
@@ -4864,7 +4866,7 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
   const availDays = {
     'Dedicated — full-time project team on the client side': -3,
     'Moderate — mostly available when needed': 0,
-    'Limited — client team is part-time on this project': 8
+    'Limited — client team is part-time on this project': 12  // docs: workshop prep failure = workshop rescheduled (cascading delays)
   }[a.clientAvailability] || 0;
 
   const experienceDays = {
