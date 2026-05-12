@@ -4790,143 +4790,146 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
   // Every value is in working days. Baseline derived from the SR kickoff
   // deck which shows planning+discovery = first 4-6 weeks, config starts week 6+.
 
+  // ── BASELINES (working days) ─────────────────────────────────────
+  // Target range: 8 weeks min, ~16 weeks average, 32 weeks max
   const baseline = {
-    'Essentials Lite': 45,
-    'Standard': 65,
-    'Enterprise': 100,
-    'Not sure yet': 65
-  }[a.package] || 65;
+    'Essentials Lite': 45,  // 9 weeks
+    'Standard': 70,          // 14 weeks
+    'Enterprise': 90,        // 18 weeks
+    'Not sure yet': 70
+  }[a.package] || 70;
 
+  // ── ADJUSTMENTS (all values in working days, kept small) ─────────
   const hrisDays = {
     'No HRIS integration': 0,
-    'Workday': 15,
-    'SAP SuccessFactors': 15,
-    'Oracle HCM': 20,
-    'Other HRIS': 10
+    'Workday': 5,
+    'SAP SuccessFactors': 5,
+    'Oracle HCM': 7,
+    'Other HRIS': 3
   }[a.hris] || 0;
 
   const intDayMap = {
-    'Custom / bespoke integration': 10,
-    'Onboarding system integration': 7,
-    'Background check integration': 3,
-    'Assessment / testing integration': 3,
-    'LinkedIn integration': 3,
-    'Job board integrations': 2,
-    'GDPR / consent management tool': 2
+    'Custom / bespoke integration': 3,
+    'Onboarding system integration': 2,
+    'Background check integration': 1,
+    'Assessment / testing integration': 1,
+    'LinkedIn integration': 1,
+    'Job board integrations': 0,
+    'GDPR / consent management tool': 0
   };
   const intDays = Array.isArray(a.integrations)
-    ? a.integrations.reduce((s, i) => s + (intDayMap[i] || 2), 0)
+    ? a.integrations.reduce((s, i) => s + (intDayMap[i] || 1), 0)
     : 0;
 
   const careerSiteDays = {
     'Career site not in scope': 0,
-    'Standard template, minimal changes': 5,
-    'Light customisation required': 10,
-    'Full custom build required': 20
+    'Standard template, minimal changes': 1,
+    'Light customisation required': 3,
+    'Full custom build required': 7
   }[a.careerSite] || 0;
 
   const configDays = {
     'Minimal — mostly out-of-the-box': 0,
-    'Moderate — some custom fields and workflows': 10,
-    'Heavy — extensive custom setup': 20
+    'Moderate — some custom fields and workflows': 3,
+    'Heavy — extensive custom setup': 7
   }[a.config] || 0;
 
   const countriesDays = {
     '1 country': 0,
-    '2–5 countries': 5,
-    '6–20 countries': 15,
-    '20+ countries': 30
+    '2–5 countries': 1,
+    '6–20 countries': 5,
+    '20+ countries': 10
   }[a.countries] || 0;
 
   const langsDays = {
     '1 language (English only)': 0,
-    '2–3 languages': 5,
-    '4+ languages': 10
+    '2–3 languages': 1,
+    '4+ languages': 3
   }[a.langs] || 0;
 
-  const migrationDays = a.migration && a.migration.includes('Yes') ? 15 : 0;
+  const migrationDays = a.migration && a.migration.includes('Yes') ? 5 : 0;
 
   const empsizeDays = {
     'Under 100': 0,
     '100–500': 0,
-    '500–2,000': 5,
-    '2,000–10,000': 10,
-    '10,000+': 20
+    '500–2,000': 1,
+    '2,000–10,000': 3,
+    '10,000+': 5
   }[a.empsize] || 0;
 
-  const replacingDays = a.replacing && a.replacing.includes('Yes') ? 5 : 0;
+  const replacingDays = a.replacing && a.replacing.includes('Yes') ? 1 : 0;
 
-  const goliveDays = a.goLiveApproach && a.goLiveApproach.includes('Phased') ? 10 : 0;
+  const goliveDays = a.goLiveApproach && a.goLiveApproach.includes('Phased') ? 3 : 0;
 
   const availDays = {
-    'Dedicated — full-time project team on the client side': -5,
+    'Dedicated — full-time project team on the client side': -3,
     'Moderate — mostly available when needed': 0,
-    'Limited — client team is part-time on this project': 15
+    'Limited — client team is part-time on this project': 8
   }[a.clientAvailability] || 0;
 
   const experienceDays = {
-    'No prior SmartRecruiters experience': 10,
-    'Some exposure to SmartRecruiters': 5,
+    'No prior SmartRecruiters experience': 5,
+    'Some exposure to SmartRecruiters': 2,
     'Experienced with SmartRecruiters implementations': 0
   }[a.experience] || 0;
 
   // Parse each consultant tier (values are "0", "1", "2", "3+")
   const parseCount = (val) => { const m = String(val || '0').match(/\d+/); return m ? parseInt(m[0]) : 0; };
-  const numSrLead    = parseCount(a.srLead);
-  const numLead      = parseCount(a.lead);
+  const numSrLead     = parseCount(a.srLead);
+  const numLead       = parseCount(a.lead);
   const numConsultant = parseCount(a.consultant);
-  const numJunior    = parseCount(a.junior);
+  const numJunior     = parseCount(a.junior);
   const totalConsultants = numSrLead + numLead + numConsultant + numJunior;
 
-  // Day adjustment per tier — senior leads drive parallelisation most effectively
-  const srLeadAdj     = numSrLead     * -14;
-  const leadAdj       = numLead       * -10;
-  const consultantAdj = numConsultant * -6;
-  const juniorAdj     = numJunior     * -2;
+  const srLeadAdj     = numSrLead     * -6;
+  const leadAdj       = numLead       * -4;
+  const consultantAdj = numConsultant * -2;
+  const juniorAdj     = numJunior     * -1;
 
-  // Oversight overhead: juniors outnumbering experienced people create handholding cost
   const experiencedTotal = numSrLead + numLead + numConsultant;
-  const oversightOverhead = Math.max(0, numJunior - experiencedTotal) * 3;
-
-  // No senior guidance penalty when project has more than 1 person but no sr/lead
-  const noSeniorPenalty = (numSrLead === 0 && numLead === 0 && totalConsultants > 1) ? 8 : 0;
+  const oversightOverhead = Math.max(0, numJunior - experiencedTotal) * 2;
+  const noSeniorPenalty   = (numSrLead === 0 && numLead === 0 && totalConsultants > 1) ? 5 : 0;
 
   const consultantAdjDays = srLeadAdj + leadAdj + consultantAdj + juniorAdj + oversightOverhead + noSeniorPenalty;
 
-  // Scope items — each module beyond Core Recruiting adds configuration work
   const scopeDayMap = {
-    'Core Recruiting': 0,          // baseline, no addition
-    'Career Site': 0,              // already captured by career site complexity question
-    'CRM / Talent Pools': 10,
-    'Offer Management': 5,
-    'Analytics': 5,
-    'SSO / SCIM': 5,
-    'Multilingual Support': 3,
-    'Mobile': 2
+    'Core Recruiting': 0,
+    'Career Site': 0,
+    'CRM / Talent Pools': 3,
+    'Offer Management': 2,
+    'Analytics': 1,
+    'SSO / SCIM': 1,
+    'Multilingual Support': 1,
+    'Mobile': 0
   };
   const scopeDays = Array.isArray(a.scope)
     ? a.scope.reduce((s, item) => s + (scopeDayMap[item] || 0), 0)
     : 0;
 
-  const totalDays = baseline + hrisDays + intDays + careerSiteDays + configDays
+  const rawTotalDays = baseline + hrisDays + intDays + careerSiteDays + configDays
     + countriesDays + langsDays + migrationDays + empsizeDays + replacingDays
     + goliveDays + availDays + experienceDays + consultantAdjDays + scopeDays;
 
-  const totalWeeks = Math.max(Math.round(totalDays / 5), 1);
+  // Hard floor 8 weeks (2 months), hard ceiling 32 weeks (8 months)
+  const totalWeeks = Math.min(Math.max(Math.round(rawTotalDays / 5), 8), 32);
+  const totalDays  = totalWeeks * 5;
   const totalWeeksStr = String(totalWeeks);
 
-  // Phase split (fixed percentages, rounds to whole weeks, min 1)
-  const phasePcts = [
-    { name: 'Sales Handover & Planning', pct: 0.12 },
-    { name: 'Discovery & Workshops',     pct: 0.23 },
-    { name: 'Configuration',              pct: 0.33 },
-    { name: 'UAT',                        pct: 0.20 },
-    { name: 'Go-Live & Hypercare',        pct: 0.12 }
+  // Phase breakdown — workshops capped at 2 weeks, UAT capped at 2 weeks
+  // Config absorbs the bulk; Planning and Go-Live scale with complexity
+  const workshopsWk = Math.max(Math.min(Math.round(totalWeeks * 0.10), 2), 1);
+  const uatWk       = Math.max(Math.min(Math.round(totalWeeks * 0.13), 2), 1);
+  const planningWk  = Math.max(Math.round(totalWeeks * 0.17), 1);
+  const goliveWk    = Math.max(Math.round(totalWeeks * 0.15), 1);
+  const configWk    = Math.max(totalWeeks - planningWk - workshopsWk - uatWk - goliveWk, 1);
+
+  const phases = [
+    { name: 'Sales Handover & Planning', weeks: String(planningWk) },
+    { name: 'Discovery & Workshops',     weeks: String(workshopsWk) },
+    { name: 'Configuration',              weeks: String(configWk) },
+    { name: 'UAT',                        weeks: String(uatWk) },
+    { name: 'Go-Live & Hypercare',        weeks: String(goliveWk) }
   ];
-  const phases = phasePcts.map(p => ({
-    name: p.name,
-    weeks: String(Math.max(Math.round(totalDays * p.pct / 5), 1))
-  }));
 
   // Consultant days = sum of each tier's effort at their utilisation rate
   // Sr Lead 80%, Lead 75%, Consultant 70%, Junior 60%
