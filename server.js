@@ -3752,8 +3752,6 @@ app.post('/consultant/implementation-hq/export-discovery', async (req, res) => {
 
 // Implementation HQ — AI Chat endpoint
 app.post('/consultant/implementation-hq/chat', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
   const { message, threadId } = req.body;
   if (!message) return res.status(400).json({ error: 'No message' });
   if (!process.env.ASSISTANT_ID) return res.status(500).json({ error: 'Assistant not configured' });
@@ -3793,8 +3791,6 @@ app.post('/consultant/implementation-hq/chat', async (req, res) => {
 
 // Kickoff Generator — AI brief generation
 app.post('/consultant/implementation-hq/generate-brief', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
   const { client, golive, processes, countries, integrations, experience } = req.body;
   if (!client || !golive) return res.status(400).json({ error: 'Missing fields' });
@@ -3876,8 +3872,6 @@ Be specific to this client's profile. Reference real SmartRecruiters configurati
 
 // Kickoff Generator — Word export
 app.post('/consultant/implementation-hq/export-brief', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
   const d = req.body;
   if (!d || !d.overview) return res.status(400).json({ error: 'No brief data' });
@@ -4032,8 +4026,6 @@ app.post('/consultant/implementation-hq/export-brief', async (req, res) => {
 
 // Meeting Coach — brief generation
 app.post('/consultant/implementation-hq/meeting-brief', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
   const { meeting, context } = req.body;
   if (!meeting) return res.status(400).json({ error: 'Missing meeting type' });
@@ -4112,8 +4104,6 @@ Rules:
 
 // Meeting Coach — Word export
 app.post('/consultant/implementation-hq/export-meeting-brief', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
   const d = req.body;
   if (!d || !d.meeting) return res.status(400).json({ error: 'No brief data' });
@@ -4217,8 +4207,6 @@ app.post('/consultant/implementation-hq/export-meeting-brief', async (req, res) 
 
 // Project Workbook Builder — generation
 app.post('/consultant/implementation-hq/generate-workbook', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
   const { client, golive, weeks, areas, integrations, countries, processes, experience } = req.body;
   if (!client || !golive || !weeks || !areas || !areas.length) return res.status(400).json({ error: 'Missing fields' });
@@ -4328,8 +4316,6 @@ Rules:
 
 // Project Workbook Builder — Word export
 app.post('/consultant/implementation-hq/export-workbook', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
   const d = req.body;
   if (!d || !d.weeks || !d.weeks.length) return res.status(400).json({ error: 'No workbook data' });
@@ -4512,8 +4498,6 @@ app.post('/consultant/implementation-hq/export-workbook', async (req, res) => {
 
 // Request a Guide — generation
 app.post('/consultant/implementation-hq/request-guide', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
   const { query } = req.body;
   if (!query) return res.status(400).json({ error: 'Missing query' });
@@ -4586,8 +4570,6 @@ Generate 3-4 sections, 5-8 steps, 2-4 watch-outs, 2-4 who-does-what rows, 2-5 ke
 
 // Request a Guide — Word export
 app.post('/consultant/implementation-hq/export-guide', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
   const d = req.body;
   if (!d || !d.title) return res.status(400).json({ error: 'No guide data' });
@@ -4714,8 +4696,6 @@ app.post('/consultant/implementation-hq/export-guide', async (req, res) => {
 
 // Project Estimator — generate
 app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
   const a = req.body;
   if (!a || !a.package) return res.status(400).json({ error: 'No answers provided' });
@@ -4795,8 +4775,6 @@ Return only the JSON, no markdown, no extra text.`;
 
 // Project Estimator — Word export
 app.post('/consultant/implementation-hq/export-estimate', async (req, res) => {
-  const token = req.cookies?.impl_hq_auth;
-  if (token !== IMPL_HQ_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
 
   const d = req.body;
   if (!d || !d.totalWeeks) return res.status(400).json({ error: 'No estimate data' });

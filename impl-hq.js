@@ -445,7 +445,7 @@ async function aiSend() {
   appendAIMsg('user', msg);
   var sendBtn = document.getElementById('ai-send');
   sendBtn.disabled = true;
-  var assistantEl = appendAIMsg('assistant', '&#8230;');
+  var assistantEl = appendAIMsg('assistant', '…');
   try {
     var resp = await fetch('/consultant/implementation-hq/chat', {
       method:'POST',
@@ -1194,10 +1194,9 @@ function estSubmit() {
   })
   .catch(function(e){
     loadEl.style.display = 'none';
-    alert('Could not generate estimate: ' + e.message);
-    estShowStep(4);
-    document.getElementById('est-step-count').style.display = '';
-    document.getElementById('est-progress').parentElement.style.display = '';
+    var reason = e.message && e.message !== 'failed' ? e.message : 'The AI could not generate an estimate. Please check your inputs and try again.';
+    loadEl.innerHTML = '<div style="padding:24px 0"><p style="color:#e55;font-weight:700;font-size:15px;margin:0 0 8px">Could not generate estimate</p><p style="color:#888;font-size:13px;margin:0 0 20px">' + reason + '</p><button onclick="estReset()" style="padding:10px 20px;background:#fff;border:none;border-radius:8px;color:#0f0f0f;font-weight:700;cursor:pointer;font-size:13px">Start over</button></div>';
+    loadEl.style.display = 'flex';
   })
   .finally(function(){ document.getElementById('est-submit-btn').disabled = false; });
 }
