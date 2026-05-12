@@ -1326,7 +1326,7 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="sb-section">Core Tools</div>
   <div class="sb-item" onclick="showPage('timeline')">Implementation Timeline</div>
   <div class="sb-item" onclick="showPage('playbooks')">Phase Playbooks</div>
-  <div class="sb-item" onclick="showPage('vault')">Document Vault <span class="sb-badge">60</span></div>
+  <div class="sb-item" onclick="showPage('vault')">Document Vault <span class="sb-badge">96</span></div>
   <div class="sb-section">Reference</div>
   <div class="sb-item" onclick="showPage('gotchas')">Gotcha Library</div>
   <div class="sb-item" onclick="showPage('integrations')">Integration Wizard</div>
@@ -1385,7 +1385,7 @@ table.hq tr:last-child td{border-bottom:none}
   <div class="hero">
     <span class="hq-badge badge-violet">Implementation HQ</span>
     <h1>Implementation Command Centre</h1>
-    <p>Everything you need to deliver a flawless SmartRecruiters implementation — playbooks, documents, gotchas, and an AI coach built from 60 source documents.</p>
+    <p>Everything you need to deliver a flawless SmartRecruiters implementation — playbooks, documents, gotchas, and an AI coach built from 96 source documents.</p>
   </div>
 
   <div id="q-result" class="q-result">
@@ -1449,8 +1449,8 @@ table.hq tr:last-child td{border-bottom:none}
     <h2 class="sec">Quick Access</h2>
     <div class="cards">
       <div class="card" style="cursor:pointer" onclick="showPage('playbooks')"><div class="num">6</div><h3>Phase Playbooks</h3><p>Fully spoon-fed guides for every phase</p></div>
-      <div class="card" style="cursor:pointer" onclick="showPage('vault')"><div class="num">60</div><h3>Documents</h3><p>Every implementation file with Drive links</p></div>
-      <div class="card" style="cursor:pointer" onclick="showPage('gotchas')"><div class="num">19</div><h3>Gotchas</h3><p>Real pitfalls extracted from source documents</p></div>
+      <div class="card" style="cursor:pointer" onclick="showPage('vault')"><div class="num">96</div><h3>Documents</h3><p>Every implementation file with Drive links</p></div>
+      <div class="card" style="cursor:pointer" onclick="showPage('gotchas')"><div class="num">29</div><h3>Gotchas</h3><p>Real pitfalls extracted from source documents</p></div>
       <div class="card" style="cursor:pointer" onclick="showPage('integrations')"><div class="num">7</div><h3>Integrations</h3><p>Step-by-step setup wizards</p></div>
     </div>
   </div>
@@ -1857,7 +1857,7 @@ table.hq tr:last-child td{border-bottom:none}
     <div class="rg-hero-inner">
       <div class="rg-hero-label">Knowledge Guide</div>
       <h1 class="rg-hero-title">Tell me where you are.<br>Get exactly what you need.</h1>
-      <p class="rg-hero-sub">Describe your situation in plain English &mdash; whether you&rsquo;re about to run a kickoff, stuck on an integration, or need to understand a SmartRecruiters feature. We search all 57 source documents and build you a focused, professional guide.</p>
+      <p class="rg-hero-sub">Describe your situation in plain English &mdash; whether you&rsquo;re about to run a kickoff, stuck on an integration, or need to understand a SmartRecruiters feature. We search all 96 source documents and build you a focused, professional guide.</p>
     </div>
   </div>
 
@@ -1887,7 +1887,7 @@ table.hq tr:last-child td{border-bottom:none}
     <div class="rg-spinner"></div>
     <div>
       <div class="rg-loading-title">Building your guide&hellip;</div>
-      <div class="rg-loading-sub">Searching all 57 source documents and compiling everything relevant to your situation.</div>
+      <div class="rg-loading-sub">Searching all 96 source documents and compiling everything relevant to your situation.</div>
     </div>
   </div>
 
@@ -3253,7 +3253,7 @@ app.post('/consultant/implementation-hq/generate-sow', async (req, res) => {
 
   const systemPrompt = `You are a senior SmartRecruiters / SAP SuccessFactors implementation consultant at EX3 — a SAP Gold Partner. You write formal, client-ready Statements of Work that are commercially tight, technically accurate, and ready to send without editing.
 
-KNOWLEDGE BASE (sourced from SAP Partner Readiness Guide, SmartRecruiters Implementation Playbook, Advance Planning Considerations, Go-Live Checklist, EX3 internal guides, and 60 source documents):
+KNOWLEDGE BASE (sourced from SAP Partner Readiness Guide, SmartRecruiters Implementation Playbook, Advance Planning Considerations, Go-Live Checklist, EX3 internal guides, and 96 source documents):
 
 THE SIX IMPLEMENTATION PHASES (SmartRecruiters standard methodology):
 Phase 1 — PRE-DESIGN: Validate playbook, establish governance, define 80/20 rule, identify project team.
@@ -3319,7 +3319,20 @@ GOVERNANCE:
 RACI: EX3 Responsible for configuration and technical delivery; Client Accountable for decisions, sign-off, data, UAT. Change Tolerance: minor changes absorbed within fixed fee; anything beyond requires Change Request (assessed in 3 business days). Deemed Acceptance: deliverables not rejected within 5 business days are deemed accepted.
 
 STANDARD OUT OF SCOPE:
-EC configuration beyond RCM integration; Onboarding module; LMS; Performance & Goals; Succession; custom API development; multi-language beyond English; additional instances; post-hypercare support; third-party system configuration; any integration not listed.`;
+EC configuration beyond RCM integration; Onboarding module; LMS; Performance & Goals; Succession; custom API development; multi-language beyond English; additional instances; post-hypercare support; third-party system configuration; any integration not listed.
+
+SAP SUCCESSFACTORS INTEGRATION — CRITICAL CONSTRAINTS:
+- SF PROVISIONING: Allow 3–5 business days from SAP licence confirmation. Projects cannot start Build until the environment is provisioned. Flag if licence is not yet confirmed at kickoff.
+- USER SYNC IS ONE-WAY AND DISABLING: Once the SF→SR user sync is enabled, SmartRecruiters blocks all manual user creation. Every user must exist in SF first. This is irreversible without raising a support case.
+- DATA SYNC IS IRREVERSIBLE: Synced data cannot be rolled back without a support case. All sync testing must be completed in sandbox before production is touched.
+- INSTANCE REFRESH BREAKS INTEGRATION: If the client refreshes their SF instance at any point, the SR integration must be fully reconfigured. Flag any planned instance refreshes immediately.
+- SYNC LATENCY: After triggering a sync, it can take several hours for records to appear in SR. Build this into go-live planning.
+- COEXISTENCE MODE: If SF Coexistence is in scope, the client must choose: all requisitions from SF, or none. Mixed mode is not possible once enabled.
+- WINSTON CHAT: Winston Chat is a SAP-delivered integration — not EX3-delivered. EX3 provides no SLA for it. Any delays are on SAP's timeline.
+- DATA MIGRATION: Historical data migration from a legacy ATS is explicitly out of scope for a standard implementation. Any request requires a separate scoping exercise and Change Request.
+- POSITION-TO-JOB MAPPING: Mostly manual — not an automatic field sync. Budget design and build time, especially for complex org structures.
+- MARKETPLACE INTEGRATIONS: Activating any SAP Marketplace integration requires a SAP Support ticket. EX3 cannot activate these directly. Factor SAP SLA into the timeline.
+- PROXY NOT SUPPORTED: SR does not support SF proxy configuration. If the client's SF environment uses a proxy, this must be resolved before integration can proceed.`;
 
   const userPrompt = `Write a complete, formal Statement of Work for the following SmartRecruiters implementation. Do NOT use placeholder text — write it exactly as it would be sent to the client.
 
@@ -3435,7 +3448,7 @@ CRITICAL RULES — YOU MUST FOLLOW THESE WITHOUT EXCEPTION:
 4. Country-specific requirements (compensation, legal, allowances, right to work) must appear in their own section (Section 12).
 5. The approval chain must be evaluated — if it has 3+ approvers, flag as complexity risk.
 
-KNOWLEDGE BASE — sourced directly from: SF_MASTER Discovery Workshop Agendas (2-day, 3-day, 6-session online), SmartSuccess Configuration Workbook, Integrations Workbook, Advance Planning Considerations, Sales Handover Form, SOW Consultant Guide, SR Limits & FYIs, Sessions 1-8 training decks, HRIS Integration Best Practices, Change Management Overview, Career Site Builder Implementation Guide, Languages in the Platform, Field Type Decision Guide, SAP Partner Readiness Guide, and 60 source documents:
+KNOWLEDGE BASE — sourced directly from: SF_MASTER Discovery Workshop Agendas (2-day, 3-day, 6-session online), SmartSuccess Configuration Workbook, Integrations Workbook, Advance Planning Considerations, Sales Handover Form, SOW Consultant Guide, SR Limits & FYIs, Sessions 1-8 training decks, HRIS Integration Best Practices, Change Management Overview, Career Site Builder Implementation Guide, Languages in the Platform, Field Type Decision Guide, SAP Partner Readiness Guide, and 96 source documents:
 
 ═══════════════════════════════════════
 SECTION A — IMPLEMENTATION METHODOLOGY
@@ -3680,6 +3693,59 @@ TYPICAL TIMELINES BY COMPLEXITY:
 - Complex (multi-country, multi-entity, 5+ integrations, data migration, works council, multi-language): 20-28 weeks
 - Enterprise (global phased rollout, custom API, large data migration, multiple brands): 28-40 weeks
 - Career Site Builder (CSB) alone (English): ~12 weeks. Add languages/brands: +2-4 weeks each.
+
+═══════════════════════════════════════
+SECTION G — SAP SUCCESSFACTORS INTEGRATION
+═══════════════════════════════════════
+
+KEY CONSTRAINTS TO SURFACE IN DISCOVERY (from SF Integration Knowledge Base):
+
+PROVISIONING & TIMELINE:
+- New SF environments take 3–5 business days to provision after SAP confirms the licence. If the client does not have a confirmed, active licence at the start of the project, this delay flows directly into the implementation timeline. Confirm licence status at the first call.
+
+USER SYNC — ONE-WAY GATE:
+- When the SF→SR user sync is activated, SmartRecruiters disables manual user creation entirely. All users must exist in SF before they can access SR. This is not reversible without a support case. Before enabling, the client must confirm all users are in SF. Raise this explicitly in discovery — it often surprises clients.
+
+DATA SYNC IRREVERSIBILITY:
+- Data synced from SF into SR cannot be undone without raising a SAP/SR support case. All sync runs must be tested and validated in sandbox before touching production. Warn the client: a bad production sync can corrupt the entire user base.
+
+INSTANCE REFRESH WARNING:
+- Refreshing the SF instance resets the SR integration configuration completely. If the client has any planned instance refreshes during the project (common during SF upgrades), the SR integration will need to be fully rebuilt. This must be flagged and planned for.
+
+SYNC LATENCY:
+- After triggering a sync, records can take several hours to appear in SmartRecruiters. This is expected behaviour. Build adequate wait time into go-live plans — do not trigger second syncs or raise cases prematurely.
+
+COEXISTENCE MODE — ONE-WAY DOOR:
+- Coexistence mode forces a binary choice: all requisitions are created in SF and pushed to SR, or no requisitions come from SF. You cannot run mixed mode once coexistence is enabled. This is a scoping decision with long-term consequences — surface it in discovery.
+
+WINSTON CHAT:
+- Winston Chat (the SF-to-SR chat integration) is delivered and configured by SAP, not EX3. EX3 has no control over its delivery timeline, configuration, or support. Set client expectations clearly — do not allow the client to assume EX3 owns this.
+
+DATA MIGRATION (LEGACY ATS):
+- Migration of historical candidate and requisition data from a legacy ATS is NOT included in a standard SmartRecruiters implementation. If the client expects historical data to be moved, this requires a separate scoping exercise, commercial assessment, and a formal Change Request. Do not assume it is in scope.
+
+POSITION-TO-JOB MAPPING:
+- The Position-to-Job mapping between SF and SR is largely manual — it is not a field-for-field automatic sync. Complex org structures with many position types significantly increase the effort. Identify the client's position management approach in discovery and flag if it will require significant mapping work.
+
+MARKETPLACE INTEGRATIONS:
+- Any integration activated via the SAP Marketplace (pre-packaged connectors, third-party add-ons) requires a SAP Support ticket to activate. EX3 cannot activate these directly. If the client needs Marketplace integrations, factor SAP's support SLA into the project timeline — this can add days or weeks.
+
+PROXY NOT SUPPORTED:
+- SR does not support SF environments configured behind a proxy. If the client's SF instance uses a proxy, this is a blocker that must be resolved before integration work can begin. Confirm proxy configuration at discovery.
+
+HIRE SYNC — MINIMUM FIELDS:
+- The hire sync (SF→SR to trigger offer/onboarding steps) requires a minimum set of fields to function: Employee ID, First Name, Last Name, Email, Start Date, and Position ID. If any of these are missing or inconsistently formatted in SF, the sync will fail. Confirm data quality for these fields in discovery.
+
+DISCOVERY QUESTIONS TO ASK FOR ALL SF CLIENTS:
+1. Is the SF licence confirmed and active, or still being procured?
+2. Has the SF instance ever been refreshed, and are any refreshes planned during the project?
+3. Are all users who will need SR access currently in SF?
+4. Does the SF environment use a proxy?
+5. Is Coexistence mode required, or will SR be standalone?
+6. Is Winston Chat in scope? Who owns the delivery?
+7. Is there a requirement to migrate historical data from the legacy ATS?
+8. What is the client's position management model in SF?
+9. Are any SAP Marketplace integrations required?
 
 OUTPUT FORMAT — produce a structured discovery summary with these exact sections:
 
