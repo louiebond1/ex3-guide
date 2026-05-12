@@ -2086,13 +2086,52 @@ table.hq tr:last-child td{border-bottom:none}
         <div class="est-divider"></div>
 
         <div class="est-q">
-          <span class="est-q-label">How many consultants are working on this implementation?</span>
-          <span class="est-q-sub">Include all consultants actively delivering the project</span>
+          <span class="est-q-label">How many Senior Leads are on this project?</span>
+          <span class="est-q-sub">Most experienced ICs — can own multiple workstreams independently</span>
           <div class="est-pills">
-            <div class="est-pill"><input type="radio" name="numconsultants" id="nc-1" value="1 consultant (solo delivery)"><label for="nc-1">1 (solo)</label></div>
-            <div class="est-pill"><input type="radio" name="numconsultants" id="nc-2" value="2 consultants"><label for="nc-2">2</label></div>
-            <div class="est-pill"><input type="radio" name="numconsultants" id="nc-3" value="3 consultants"><label for="nc-3">3</label></div>
-            <div class="est-pill"><input type="radio" name="numconsultants" id="nc-4plus" value="4 or more consultants"><label for="nc-4plus">4+</label></div>
+            <div class="est-pill"><input type="radio" name="sr-lead" id="sl-0" value="0"><label for="sl-0">0</label></div>
+            <div class="est-pill"><input type="radio" name="sr-lead" id="sl-1" value="1"><label for="sl-1">1</label></div>
+            <div class="est-pill"><input type="radio" name="sr-lead" id="sl-2" value="2"><label for="sl-2">2</label></div>
+            <div class="est-pill"><input type="radio" name="sr-lead" id="sl-3" value="3+"><label for="sl-3">3+</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">How many Leads are on this project?</span>
+          <span class="est-q-sub">Experienced ICs — confident across most areas, may need light guidance on edge cases</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="lead" id="ld-0" value="0"><label for="ld-0">0</label></div>
+            <div class="est-pill"><input type="radio" name="lead" id="ld-1" value="1"><label for="ld-1">1</label></div>
+            <div class="est-pill"><input type="radio" name="lead" id="ld-2" value="2"><label for="ld-2">2</label></div>
+            <div class="est-pill"><input type="radio" name="lead" id="ld-3" value="3+"><label for="ld-3">3+</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">How many Consultants are on this project?</span>
+          <span class="est-q-sub">Mid-level ICs — solid delivery capability with some senior oversight needed</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="consultant" id="co-0" value="0"><label for="co-0">0</label></div>
+            <div class="est-pill"><input type="radio" name="consultant" id="co-1" value="1"><label for="co-1">1</label></div>
+            <div class="est-pill"><input type="radio" name="consultant" id="co-2" value="2"><label for="co-2">2</label></div>
+            <div class="est-pill"><input type="radio" name="consultant" id="co-3" value="3+"><label for="co-3">3+</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">How many Juniors are on this project?</span>
+          <span class="est-q-sub">Early-career ICs — support tasks and learning; require more oversight</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="junior" id="jr-0" value="0"><label for="jr-0">0</label></div>
+            <div class="est-pill"><input type="radio" name="junior" id="jr-1" value="1"><label for="jr-1">1</label></div>
+            <div class="est-pill"><input type="radio" name="junior" id="jr-2" value="2"><label for="jr-2">2</label></div>
+            <div class="est-pill"><input type="radio" name="junior" id="jr-3" value="3+"><label for="jr-3">3+</label></div>
           </div>
         </div>
       </div>
@@ -4831,11 +4870,28 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
     'Experienced with SmartRecruiters implementations': 0
   }[a.experience] || 0;
 
-  const ncStr = String(a.numConsultants || '');
-  const consultantAdjDays = ncStr.includes('solo') || ncStr.startsWith('1') ? 20
-    : ncStr.startsWith('3') ? -5
-    : ncStr.startsWith('4') || ncStr.includes('more') ? -20
-    : 0; // 2 = baseline
+  // Parse each consultant tier (values are "0", "1", "2", "3+")
+  const parseCount = (val) => { const m = String(val || '0').match(/\d+/); return m ? parseInt(m[0]) : 0; };
+  const numSrLead    = parseCount(a.srLead);
+  const numLead      = parseCount(a.lead);
+  const numConsultant = parseCount(a.consultant);
+  const numJunior    = parseCount(a.junior);
+  const totalConsultants = numSrLead + numLead + numConsultant + numJunior;
+
+  // Day adjustment per tier — senior leads drive parallelisation most effectively
+  const srLeadAdj     = numSrLead     * -14;
+  const leadAdj       = numLead       * -10;
+  const consultantAdj = numConsultant * -6;
+  const juniorAdj     = numJunior     * -2;
+
+  // Oversight overhead: juniors outnumbering experienced people create handholding cost
+  const experiencedTotal = numSrLead + numLead + numConsultant;
+  const oversightOverhead = Math.max(0, numJunior - experiencedTotal) * 3;
+
+  // No senior guidance penalty when project has more than 1 person but no sr/lead
+  const noSeniorPenalty = (numSrLead === 0 && numLead === 0 && totalConsultants > 1) ? 8 : 0;
+
+  const consultantAdjDays = srLeadAdj + leadAdj + consultantAdj + juniorAdj + oversightOverhead + noSeniorPenalty;
 
   // Scope items — each module beyond Core Recruiting adds configuration work
   const scopeDayMap = {
@@ -4872,9 +4928,12 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
     weeks: String(Math.max(Math.round(totalDays * p.pct / 5), 1))
   }));
 
-  // Consultant days = totalDays × numConsultants × 70% utilisation, rounded to nearest 5
-  const numConsultantsCount = parseInt((ncStr.match(/\d+/) || ['1'])[0]);
-  const consultantDays = String(Math.round(totalDays * numConsultantsCount * 0.7 / 5) * 5);
+  // Consultant days = sum of each tier's effort at their utilisation rate
+  // Sr Lead 80%, Lead 75%, Consultant 70%, Junior 60%
+  const effortDays = totalConsultants > 0
+    ? Math.round((totalDays * (numSrLead * 0.80 + numLead * 0.75 + numConsultant * 0.70 + numJunior * 0.60)) / 5) * 5
+    : Math.round(totalDays * 0.70 / 5) * 5;
+  const consultantDays = String(Math.max(effortDays, 5));
 
   // Confidence
   const activeAdjustments = [hrisDays, intDays, careerSiteDays, configDays, countriesDays,
@@ -4922,7 +4981,7 @@ KEY FACTORS THAT SHAPED THIS ESTIMATE:
 - Go-live approach: ${a.goLiveApproach} (+${goliveDays} days)
 - Client availability: ${a.clientAvailability} (${availDays} days)
 - Consultant experience: ${a.experience} (+${experienceDays} days)
-- Number of consultants: ${a.numConsultants} (${consultantAdjDays} days)
+- Team: ${numSrLead} Senior Lead, ${numLead} Lead, ${numConsultant} Consultant, ${numJunior} Junior (${consultantAdjDays} days net adjustment)
 - Scope modules: ${scopeList} (+${scopeDays} days)
 - Fixed deadline: ${a.deadline}${hasFixedDeadline ? ' (confidence dropped one level due to deadline risk)' : ''}
 

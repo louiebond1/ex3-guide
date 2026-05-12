@@ -1148,7 +1148,12 @@ function estSubmit() {
   if(!estGetVal('migration')){ alert('Please indicate if there is data migration.'); return; }
   if(!estGetVal('deadline')){ alert('Please indicate if there is a fixed deadline.'); return; }
   if(!estGetVal('experience')){ alert('Please select your team experience level.'); return; }
-  if(!estGetVal('numconsultants')){ alert('Please select the number of consultants on this project.'); return; }
+  if(!estGetVal('sr-lead')){ alert('Please select the number of Senior Leads.'); return; }
+  if(!estGetVal('lead')){ alert('Please select the number of Leads.'); return; }
+  if(!estGetVal('consultant')){ alert('Please select the number of Consultants.'); return; }
+  if(!estGetVal('junior')){ alert('Please select the number of Juniors.'); return; }
+  var _teamTotal = ['sr-lead','lead','consultant','junior'].reduce(function(s,n){ return s + (parseInt(estGetVal(n)) || 0); }, 0);
+  if(_teamTotal === 0){ alert('At least one consultant must be assigned to the project.'); return; }
 
   var answers = {
     package: estGetVal('package'),
@@ -1166,7 +1171,10 @@ function estSubmit() {
     migration: estGetVal('migration'),
     deadline: estGetVal('deadline'),
     experience: estGetVal('experience'),
-    numConsultants: estGetVal('numconsultants')
+    srLead: estGetVal('sr-lead'),
+    lead: estGetVal('lead'),
+    consultant: estGetVal('consultant'),
+    junior: estGetVal('junior')
   };
 
   for(var i = 1; i <= 4; i++){
