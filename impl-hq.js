@@ -1334,7 +1334,12 @@ function renderEstimate(d) {
   var confCls = d.confidence === 'High' ? 'est-conf-high' : d.confidence === 'Low' ? 'est-conf-low' : 'est-conf-med';
   document.getElementById('est-sub').textContent = d.package + '  ·  ' + (d.scope && d.scope.length ? d.scope.join(', ') : '');
   document.getElementById('est-stat-weeks').textContent = d.totalWeeks || '?';
-  document.getElementById('est-stat-cdays').textContent = d.consultantDays || '?';
+  document.getElementById('est-stat-cdays').textContent = d.consultantDays || '—';
+  var cdaysUnit = document.getElementById('est-stat-cdays-unit');
+  if (cdaysUnit) {
+    var n = parseInt(d.teamSize || '0', 10);
+    cdaysUnit.textContent = n === 0 ? 'no team selected' : n === 1 ? 'days for this consultant' : 'avg days per consultant (' + n + ' total)';
+  }
   document.getElementById('est-stat-conf').innerHTML = '<span class="est-confidence ' + confCls + '">' + esc(d.confidence || 'Medium') + '</span>';
 
   var ph = document.getElementById('est-phases');

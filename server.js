@@ -2209,7 +2209,7 @@ table.hq tr:last-child td{border-bottom:none}
           <div class="est-stat">
             <div class="est-stat-label">Consultant Days</div>
             <div class="est-stat-value" id="est-stat-cdays"></div>
-            <div class="est-stat-unit">estimated effort</div>
+            <div class="est-stat-unit" id="est-stat-cdays-unit">avg per consultant</div>
           </div>
           <div class="est-stat">
             <div class="est-stat-label">Estimate Confidence</div>
@@ -4966,12 +4966,13 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
     { name: 'Go-Live & Hypercare',        weeks: String(goliveWk) }
   ];
 
-  // Consultant days = sum of each tier's effort at their utilisation rate
+  // Consultant days = per-consultant average (weighted utilisation rate × project length)
   // Sr Lead 80%, Lead 75%, Consultant 70%, Junior 60%
-  const effortDays = totalConsultants > 0
-    ? Math.round((totalDays * (numSrLead * 0.80 + numLead * 0.75 + numConsultant * 0.70 + numJunior * 0.60)) / 5) * 5
-    : Math.round(totalDays * 0.70 / 5) * 5;
-  const consultantDays = String(Math.max(effortDays, 5));
+  // Divide by team size so the number is always ≤ project days (intuitive)
+  const weightedUtilSum = numSrLead * 0.80 + numLead * 0.75 + numConsultant * 0.70 + numJunior * 0.60;
+  const avgUtil = totalConsultants > 0 ? weightedUtilSum / totalConsultants : 0.70;
+  const perConsultantDays = Math.round(totalDays * avgUtil / 5) * 5;
+  const consultantDays = totalConsultants > 0 ? String(Math.max(perConsultantDays, 5)) : '—';
 
   // Confidence
   const activeAdjustments = [hrisDays, intDays, careerSiteDays, configDays, countriesDays,
@@ -5052,6 +5053,7 @@ Return ONLY this JSON, no markdown, no extra text:
       scope: a.scope || [],
       totalWeeks: totalWeeksStr,
       consultantDays,
+      teamSize: String(totalConsultants),
       confidence,
       phases,
       narrative: prose.narrative || '',
@@ -5107,12 +5109,12 @@ app.post('/consultant/implementation-hq/export-estimate', async (req, res) => {
       rows: [
         new TableRow({ children: [
           new TableCell({ width: { size: 33, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'TOTAL TIMELINE', bold: true, size: 16, font: 'Calibri', color: '999999', characterSpacing: 60 })] })] }),
-          new TableCell({ width: { size: 33, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'CONSULTANT DAYS', bold: true, size: 16, font: 'Calibri', color: '999999', characterSpacing: 60 })] })] }),
+          new TableCell({ width: { size: 33, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'DAYS PER CONSULTANT', bold: true, size: 16, font: 'Calibri', color: '999999', characterSpacing: 60 })] })] }),
           new TableCell({ width: { size: 34, type: WidthType.PERCENTAGE }, shading: { type: ShadingType.SOLID, color: 'f5f4f1', fill: 'f5f4f1' }, borders: CB, children: [new Paragraph({ children: [new TextRun({ text: 'CONFIDENCE', bold: true, size: 16, font: 'Calibri', color: '999999', characterSpacing: 60 })] })] }),
         ]}),
         new TableRow({ children: [
           new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: (d.totalWeeks || '?') + ' weeks', bold: true, size: 28, font: 'Calibri', color: NAVY })] })] }),
-          new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: (d.consultantDays || '?') + ' days', bold: true, size: 28, font: 'Calibri', color: NAVY })] })] }),
+          new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: (d.consultantDays && d.consultantDays !== '—' ? d.consultantDays + ' days avg pp' : '—'), bold: true, size: 28, font: 'Calibri', color: NAVY })] })] }),
           new TableCell({ borders: CB, children: [new Paragraph({ children: [new TextRun({ text: d.confidence || 'Medium', bold: true, size: 28, font: 'Calibri', color: NAVY })] })] }),
         ]}),
       ],
