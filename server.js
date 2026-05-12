@@ -4012,7 +4012,20 @@ app.post('/consultant/implementation-hq/chat', async (req, res) => {
     await new Promise((resolve, reject) => {
       openai.beta.threads.runs.stream(thread.id, {
         assistant_id: process.env.ASSISTANT_ID,
-        additional_instructions: `You are the EX3 Implementation Coach. The user is an EX3 consultant using the Implementation HQ. Focus on implementation methodology, platform limits, gotchas, configuration, integrations, UAT, and go-live. Be specific and practical. Reference document names when relevant. Do not include citation markers in your response.`,
+        additional_instructions: `You are the EX3 Implementation Coach. The user is an EX3 consultant using the Implementation HQ. Focus on implementation methodology, platform limits, gotchas, configuration, integrations, UAT, and go-live. Be specific and practical. Reference document names when relevant. Do not include citation markers in your response.
+
+CRITICAL SAP SUCCESSFACTORS FACTS — treat these as authoritative. Do not contradict them:
+- Instance refresh WIPES the SmartRecruiters integration configuration completely. It must be fully rebuilt from scratch. This is not a minor sync issue — it is a full integration rebuild. Always flag planned instance refreshes as a project risk.
+- SF provisioning takes 3–5 business days after SAP confirms the licence. Build cannot start until it is complete.
+- Once SF→SR user sync is enabled, SmartRecruiters blocks ALL manual user creation. Every user must come through SF. Irreversible without a support case.
+- Data synced from SF into SR cannot be rolled back without raising a support case. Always test in sandbox first.
+- Sync latency after triggering is normal — records can take hours to appear. Do not trigger a second sync.
+- Coexistence mode is a permanent binary choice: all requisitions from SF, or none. Mixed mode is not possible once enabled.
+- Winston Chat is delivered and configured by SAP, not EX3. EX3 has no SLA or control over it.
+- Historical data migration from a legacy ATS is out of scope for a standard implementation. Requires a separate scoping exercise and Change Request.
+- Position-to-Job mapping is mostly manual — not an automatic field sync.
+- SAP Marketplace integrations require a SAP Support ticket to activate. EX3 cannot do this directly.
+- SR does not support SF environments behind a proxy. This is a blocker.`,
       })
       .on('textDelta', (delta) => {
         const clean = (delta.value || '').replace(/【[^】]*】/g, '');
@@ -4744,6 +4757,19 @@ app.post('/consultant/implementation-hq/request-guide', async (req, res) => {
   if (!query) return res.status(400).json({ error: 'Missing query' });
 
   const prompt = `You are a senior SmartRecruiters implementation consultant creating a professional knowledge guide. A colleague has described their situation below. Search the implementation documents thoroughly and produce a focused, practical guide.
+
+CRITICAL KNOWLEDGE — SAP SUCCESSFACTORS INTEGRATION (authoritative, use this exactly):
+- SF PROVISIONING: New SF environments take 3–5 business days to provision after SAP confirms the licence. Build cannot start until provisioning is complete.
+- INSTANCE REFRESH DESTROYS INTEGRATION: Refreshing the SF instance wipes the SmartRecruiters integration configuration entirely. The integration must be fully rebuilt from scratch afterwards. This is not a minor disruption — the entire integration must be reconfigured. Flag any planned instance refreshes immediately.
+- USER SYNC IS A ONE-WAY GATE: Once the SF→SR user sync is enabled, SmartRecruiters blocks all manual user creation. All users must exist in SF. This cannot be reversed without raising a support case.
+- DATA SYNC IS IRREVERSIBLE: Data synced from SF into SR cannot be undone without a support case. Always test in sandbox first.
+- SYNC LATENCY: After triggering a sync, records can take several hours to appear in SR. This is normal — do not trigger a second sync or raise a case prematurely.
+- COEXISTENCE IS BINARY: Coexistence mode forces a permanent choice — all requisitions come from SF, or none do. Mixed mode is not possible once enabled.
+- WINSTON CHAT IS SAP-DELIVERED: Winston Chat is configured and delivered by SAP, not EX3. EX3 has no SLA or control over it.
+- DATA MIGRATION IS OUT OF SCOPE: Historical data migration from a legacy ATS is not included in a standard SmartRecruiters implementation. It requires a separate scoping exercise and Change Request.
+- POSITION-TO-JOB MAPPING IS MANUAL: This is not an automatic sync — it requires manual mapping, especially for complex org structures.
+- MARKETPLACE INTEGRATIONS NEED A SAP TICKET: EX3 cannot activate Marketplace integrations. A SAP Support ticket is required. Factor in SAP SLA times.
+- PROXY NOT SUPPORTED: SR does not support SF environments behind a proxy. This is a blocker.
 
 Situation: ${query}
 
