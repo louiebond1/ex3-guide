@@ -260,6 +260,63 @@ app.post('/api/ask', async (req, res) => {
   }
 });
 
+// Streaming endpoint for main page chatbot
+app.post('/api/ask/stream', async (req, res) => {
+  const { question, threadId } = req.body;
+  if (!question || typeof question !== 'string' || question.trim().length === 0) {
+    return res.status(400).json({ error: 'Question is required.' });
+  }
+  if (!process.env.ASSISTANT_ID) {
+    return res.status(500).json({ error: 'Assistant not configured.' });
+  }
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  const send = (data) => { if (!res.writableEnded) res.write(`data: ${JSON.stringify(data)}\n\n`); };
+  const start = Date.now();
+  let fullText = '';
+
+  try {
+    let thread;
+    if (threadId) { thread = { id: threadId }; }
+    else { thread = await openai.beta.threads.create(); }
+
+    const messageContent = `${question.trim()}
+
+(After your answer, on a new line write exactly: FOLLOWUPS: [question 1] | [question 2] | [question 3] — 3 short follow-up questions the user might ask next.)`;
+
+    await openai.beta.threads.messages.create(thread.id, { role: 'user', content: messageContent });
+
+    const runner = openai.beta.threads.runs.stream(thread.id, { assistant_id: process.env.ASSISTANT_ID });
+
+    runner.on('textDelta', (delta) => {
+      const chunk = delta.value || '';
+      if (chunk) { fullText += chunk; send({ chunk }); }
+    });
+
+    await runner.finalRun();
+
+    const cleaned = fullText.replace(/【[^】]*】/g, '').trim();
+    const followupMatch = cleaned.match(/FOLLOWUPS:\s*(.+)$/m);
+    let followUps = [], answer = cleaned;
+    if (followupMatch) {
+      followUps = followupMatch[1].split('|').map(q => q.replace(/^\[|\]$/g, '').trim()).filter(Boolean).slice(0, 3);
+      answer = cleaned.replace(/FOLLOWUPS:.*$/ms, '').trim();
+    }
+
+    logWebMessage({ ts: new Date().toISOString(), threadId: thread.id, question: question.trim(), answer, ms: Date.now() - start, success: true, uncertain: isUncertain(answer) });
+    send({ done: true, threadId: thread.id, followUps, answer });
+    res.end();
+  } catch (err) {
+    console.error('Stream error:', err.message);
+    send({ error: err.message });
+    res.end();
+  }
+});
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
