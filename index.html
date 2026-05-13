@@ -861,31 +861,44 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:36px 0}
 @keyframes toastOut{to{opacity:0;transform:translateX(100%)}}
 
 .assistant-float{position:fixed;bottom:24px;right:24px;z-index:800;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
-.assistant-panel{width:400px;max-height:min(680px,calc(100vh - 104px));background:var(--white);border:1px solid var(--border);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,0.15);overflow:hidden;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .2s ease,transform .2s ease;display:flex;flex-direction:column}
+.assistant-panel{width:400px;height:min(640px,calc(100vh - 104px));background:var(--white);border:1px solid var(--border);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,0.15);overflow:hidden;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .2s ease,transform .2s ease;display:flex;flex-direction:column}
 .assistant-panel.open{opacity:1;transform:translateY(0);pointer-events:auto}
-.assistant-header{padding:14px 16px;background:var(--canvas);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.assistant-header{padding:14px 16px;background:var(--canvas);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0}
 .assistant-title{font-size:14px;font-weight:700;color:var(--ink)}
 .assistant-close{width:28px;height:28px;border:none;border-radius:10px;background:var(--white);color:var(--ink-2);cursor:pointer;display:grid;place-items:center}
-.assistant-body{padding:14px 16px;display:grid;gap:10px;overflow-y:auto;min-height:0}
-.assistant-response{font-size:13px;color:var(--ink-3);line-height:1.6;padding:12px 14px;border-radius:14px;background:var(--canvas);max-height:min(320px,42vh);overflow-y:auto}
-.assistant-response p{margin-bottom:8px}.assistant-response p:last-child{margin-bottom:0}
-.assistant-response ul,.assistant-response ol{padding-left:18px;margin-bottom:8px}
-.assistant-response li{margin-bottom:4px}
-.assistant-response strong{color:var(--ink);font-weight:600}
-.assistant-followups{display:grid;gap:6px}
-.assistant-followup-label{font-size:11px;font-weight:600;color:var(--ink-4);text-transform:uppercase;letter-spacing:.06em;padding:0 2px}
-.assistant-followup{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:12px;background:var(--canvas);border:1px solid var(--border);color:var(--ink-2);cursor:pointer;transition:background .15s,border-color .15s;text-align:left;font-size:12.5px;width:100%}
-.assistant-followup:hover{background:var(--border);border-color:var(--border-2)}
-.assistant-followup-arrow{color:var(--ink-4);font-size:11px;margin-left:auto;flex-shrink:0}
-.assistant-new-chat{font-size:11.5px;color:var(--ink-4);background:none;border:none;cursor:pointer;padding:2px 0;text-decoration:underline;text-underline-offset:2px}
-.assistant-new-chat:hover{color:var(--ink-2)}
-.assistant-prompt{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--canvas);border:none;color:var(--ink);cursor:pointer;transition:background .15s;text-align:left}
+/* Scrollable message history */
+.assistant-messages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-height:0}
+.assistant-msg{display:flex;flex-direction:column;max-width:86%}
+.assistant-msg.user{align-self:flex-end;align-items:flex-end}
+.assistant-msg.ai{align-self:flex-start;align-items:flex-start}
+.assistant-msg-label{font-size:10.5px;font-weight:600;color:var(--ink-4);margin-bottom:4px;letter-spacing:.4px}
+.assistant-msg-bubble{padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.6;word-break:break-word}
+.assistant-msg.user .assistant-msg-bubble{background:var(--ink);color:#fff;border-bottom-right-radius:4px;white-space:pre-wrap}
+.assistant-msg.ai .assistant-msg-bubble{background:var(--canvas);border:1px solid var(--border);color:var(--ink-3);border-bottom-left-radius:4px}
+.assistant-msg.ai .assistant-msg-bubble p{margin-bottom:6px}.assistant-msg.ai .assistant-msg-bubble p:last-child{margin-bottom:0}
+.assistant-msg.ai .assistant-msg-bubble ul,.assistant-msg.ai .assistant-msg-bubble ol{padding-left:16px;margin-bottom:6px}
+.assistant-msg.ai .assistant-msg-bubble li{margin-bottom:3px}
+.assistant-msg.ai .assistant-msg-bubble strong{color:var(--ink);font-weight:600}
+/* Follow-ups inline with messages */
+.assistant-followups{display:grid;gap:5px;align-self:flex-start;width:86%}
+.assistant-followup-label{font-size:10px;font-weight:600;color:var(--ink-4);text-transform:uppercase;letter-spacing:.06em}
+.assistant-followup{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:10px;background:var(--canvas);border:1px solid var(--border);color:var(--ink-2);cursor:pointer;transition:background .15s;text-align:left;font-size:12px;width:100%}
+.assistant-followup:hover{background:var(--border)}
+.assistant-followup-arrow{color:var(--ink-4);font-size:10px;margin-left:auto;flex-shrink:0}
+/* Default prompt buttons */
+.assistant-empty{display:flex;flex-direction:column;gap:7px}
+.assistant-empty-label{font-size:11.5px;font-weight:600;color:var(--ink-4);margin-bottom:2px}
+.assistant-prompt{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--canvas);border:1px solid var(--border);color:var(--ink-2);cursor:pointer;transition:background .15s;text-align:left;font-size:12.5px;width:100%}
 .assistant-prompt:hover{background:var(--border)}
-.assistant-prompt-icon{width:30px;height:30px;border-radius:12px;background:var(--white);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--ink)}
-.assistant-field{display:flex;gap:8px;align-items:center;margin-top:8px}
-.assistant-input{flex:1;background:var(--canvas);border:1px solid var(--border);border-radius:12px;padding:10px 12px;font-size:13px;color:var(--ink);outline:none}
+.assistant-prompt-icon{width:26px;height:26px;border-radius:8px;background:var(--white);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ink);flex-shrink:0}
+/* Footer with input */
+.assistant-footer{flex-shrink:0;border-top:1px solid var(--border);padding:10px 14px;display:flex;flex-direction:column;gap:6px;background:var(--white)}
+.assistant-new-chat{font-size:11px;color:var(--ink-4);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;align-self:flex-end}
+.assistant-new-chat:hover{color:var(--ink-2)}
+.assistant-field{display:flex;gap:8px;align-items:center}
+.assistant-input{flex:1;background:var(--canvas);border:1px solid var(--border);border-radius:12px;padding:9px 12px;font-size:13px;color:var(--ink);outline:none}
 .assistant-input:focus{border-color:var(--ink-3)}
-.assistant-send{min-width:60px;padding:10px 12px;border:none;border-radius:12px;background:var(--a-rec);color:#fff;cursor:pointer;transition:background .15s;font-weight:700}
+.assistant-send{min-width:52px;padding:9px 12px;border:none;border-radius:12px;background:var(--a-rec);color:#fff;cursor:pointer;transition:background .15s;font-weight:700;font-size:13px}
 .assistant-send:hover{background:#174dc2}
 .assistant-button{width:52px;height:52px;border-radius:16px;background:var(--a-rec);color:#fff;border:none;cursor:pointer;box-shadow:0 18px 36px rgba(26,86,219,0.24);display:grid;place-items:center;font-size:16px;font-weight:700}
 
@@ -1022,7 +1035,7 @@ body.dark .stuck-head-title{color:#f5a63d}
 
   /* push EX3 assistant button above bottom nav */
   .assistant-float{bottom:80px;right:16px}
-  .assistant-panel{width:calc(100vw - 32px)}
+  .assistant-panel{width:calc(100vw - 32px);height:min(580px,calc(100vh - 120px))}
 }
 @media(max-width:480px){
   .role-grid{grid-template-columns:1fr!important}
@@ -5709,10 +5722,9 @@ async function runUnifiedFlowAI(){
     return;
   }
   const localChecklist = buildLocalFlowChecklist(selectedIds);
-  const response = document.getElementById('assistantResponse');
-  const dynamic = document.getElementById('assistantDynamic');
-  if(response) response.innerHTML = formatAIResponse(localChecklist);
-  if(dynamic) dynamic.innerHTML = '';
+  const defaultPrompts = document.getElementById('assistantDefaultPrompts');
+  if(defaultPrompts) defaultPrompts.style.display = 'none';
+  appendChatMsg('ai', formatAIResponse(localChecklist), true);
   if(flowCopy) flowCopy.textContent = 'AI API unavailable. Local checklist generated from your selected 4 processes.';
   showToast('AI unavailable - used local checklist fallback');
 }
@@ -5799,14 +5811,39 @@ function toggleAssistant(){
   if(panel.classList.contains('open')) input?.focus();
 }
 
+function appendChatMsg(role, content, isHtml){
+  const msgs = document.getElementById('assistantMessages');
+  const wrap = document.createElement('div');
+  wrap.className = 'assistant-msg ' + role;
+  const label = document.createElement('div');
+  label.className = 'assistant-msg-label';
+  label.textContent = role === 'user' ? 'You' : 'EX3';
+  const bubble = document.createElement('div');
+  bubble.className = 'assistant-msg-bubble';
+  if(isHtml){ bubble.innerHTML = content; } else { bubble.textContent = content; }
+  wrap.appendChild(label);
+  wrap.appendChild(bubble);
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+  return bubble;
+}
+
 function newAssistantChat(){
   currentThreadId = null;
-  const response = document.getElementById('assistantResponse');
-  response.innerHTML = 'Need help quickly? Choose one of the smart shortcuts below, or ask EX3 a question.';
-  response.scrollTop = 0;
-  document.getElementById('assistantDynamic').innerHTML = '';
+  const msgs = document.getElementById('assistantMessages');
+  msgs.innerHTML = '';
+  const empty = document.createElement('div');
+  empty.className = 'assistant-empty';
+  empty.id = 'assistantDefaultPrompts';
+  empty.innerHTML = '<div class="assistant-empty-label">Quick questions</div>' +
+    '<button class="assistant-prompt" onclick="runAssistantPrompt(\'How do I post a job?\')"><span class="assistant-prompt-icon">1</span>How do I post a job?</button>' +
+    '<button class="assistant-prompt" onclick="runAssistantPrompt(\'What is the fastest path for candidates?\')"><span class="assistant-prompt-icon">2</span>Candidate application tips</button>' +
+    '<button class="assistant-prompt" onclick="runAssistantPrompt(\'Show hiring manager tasks\')"><span class="assistant-prompt-icon">3</span>Show hiring manager tasks</button>';
+  msgs.appendChild(empty);
   document.getElementById('assistantQuery').value = '';
-  document.getElementById('assistantDefaultPrompts').style.display = '';
+  // Remove new-chat button from footer if it exists
+  const nc = document.getElementById('assistantNewChatBtn');
+  if(nc) nc.remove();
 }
 
 function submitAssistantQuestion(){
@@ -5822,12 +5859,27 @@ function assistantInputKey(event){
 }
 
 async function askAssistant(question, opts = {}){
-  const response = document.getElementById('assistantResponse');
-  const dynamic = document.getElementById('assistantDynamic');
-  response.innerHTML = '<em style="color:var(--ink-4)">Thinking...</em>';
-  response.scrollTop = 0;
-  dynamic.innerHTML = '';
-  document.getElementById('assistantDefaultPrompts').style.display = 'none';
+  // Hide default prompts on first real question
+  const defaultPrompts = document.getElementById('assistantDefaultPrompts');
+  if(defaultPrompts) defaultPrompts.style.display = 'none';
+
+  // Show user bubble
+  appendChatMsg('user', question, false);
+
+  // Show thinking bubble
+  const aiBubble = appendChatMsg('ai', '', true);
+  aiBubble.innerHTML = '<em style="color:var(--ink-4)">Thinking...</em>';
+
+  // Ensure new-chat button exists in footer
+  const footer = document.querySelector('.assistant-footer');
+  if(footer && !document.getElementById('assistantNewChatBtn')){
+    const nc = document.createElement('button');
+    nc.className = 'assistant-new-chat';
+    nc.id = 'assistantNewChatBtn';
+    nc.textContent = 'Start new conversation';
+    nc.onclick = newAssistantChat;
+    footer.insertBefore(nc, footer.firstChild);
+  }
 
   try {
     const res = await fetch('/api/ask', {
@@ -5840,45 +5892,36 @@ async function askAssistant(question, opts = {}){
     if(!data.answer) throw new Error('No answer returned');
 
     currentThreadId = data.threadId;
-    response.innerHTML = formatAIResponse(data.answer);
-  response.scrollTop = 0;
-    dynamic.innerHTML = '';
+    aiBubble.innerHTML = formatAIResponse(data.answer);
 
-    // New conversation link
-    const newChat = document.createElement('button');
-    newChat.className = 'assistant-new-chat';
-    newChat.textContent = 'Start new conversation';
-    newChat.onclick = newAssistantChat;
-    dynamic.appendChild(newChat);
-
-    // Follow-up questions
+    // Follow-up suggestions as a block in the messages area
     if(data.followUps && data.followUps.length){
+      const msgs = document.getElementById('assistantMessages');
       const fu = document.createElement('div');
       fu.className = 'assistant-followups';
       fu.innerHTML = '<div class="assistant-followup-label">You might also ask</div>';
       data.followUps.forEach(q => {
         const btn = document.createElement('button');
         btn.className = 'assistant-followup';
-        btn.innerHTML = `<span>${q}</span><span class="assistant-followup-arrow">→</span>`;
+        btn.innerHTML = '<span>' + q + '</span><span class="assistant-followup-arrow">→</span>';
         btn.onclick = () => {
           document.getElementById('assistantQuery').value = q;
           askAssistant(q);
         };
         fu.appendChild(btn);
       });
-      dynamic.appendChild(fu);
+      msgs.appendChild(fu);
+      msgs.scrollTop = msgs.scrollHeight;
     }
 
     showToast('EX3 answered your question');
     return { ok:true };
   } catch (error) {
     if(opts.disableSearchFallback){
-      response.innerHTML = 'Sorry, EX3 could not connect. Using local checklist fallback.';
-      response.scrollTop = 0;
+      aiBubble.textContent = 'Sorry, EX3 could not connect. Using local checklist fallback.';
       return { ok:false, reason:'api_unavailable' };
     }
-    response.innerHTML = 'Sorry, EX3 could not connect. Showing search results instead.';
-    response.scrollTop = 0;
+    aiBubble.textContent = 'Sorry, EX3 could not connect. Showing search results instead.';
     showToast('AI service not available, using search fallback');
     showView('v-search');
     const searchInput = document.getElementById('mainSearch');
@@ -6783,26 +6826,24 @@ window.addEventListener('hashchange', applyHash);
       <div class="assistant-title">Ask EX3</div>
       <button class="assistant-close" onclick="toggleAssistant()" aria-label="Close assistant">×</button>
     </div>
-    <div class="assistant-body">
-      <div class="assistant-response" id="assistantResponse" aria-live="polite">Need help quickly? Choose one of the smart shortcuts below, or ask EX3 a question.</div>
+    <div class="assistant-messages" id="assistantMessages">
+      <div class="assistant-empty" id="assistantDefaultPrompts">
+        <div class="assistant-empty-label">Quick questions</div>
+        <button class="assistant-prompt" onclick="runAssistantPrompt('How do I post a job?')">
+          <span class="assistant-prompt-icon">1</span>How do I post a job?
+        </button>
+        <button class="assistant-prompt" onclick="runAssistantPrompt('What is the fastest path for candidates?')">
+          <span class="assistant-prompt-icon">2</span>Candidate application tips
+        </button>
+        <button class="assistant-prompt" onclick="runAssistantPrompt('Show hiring manager tasks')">
+          <span class="assistant-prompt-icon">3</span>Show hiring manager tasks
+        </button>
+      </div>
+    </div>
+    <div class="assistant-footer">
       <div class="assistant-field">
         <input class="assistant-input" id="assistantQuery" aria-label="Ask EX3 assistant" placeholder="Ask a question..." onkeydown="assistantInputKey(event)">
         <button class="assistant-send" onclick="submitAssistantQuestion()">Ask</button>
-      </div>
-      <div id="assistantDynamic"></div>
-      <div id="assistantDefaultPrompts">
-      <button class="assistant-prompt" onclick="runAssistantPrompt('How do I post a job?')">
-        <span class="assistant-prompt-icon">1</span>
-        How do I post a job?
-      </button>
-      <button class="assistant-prompt" onclick="runAssistantPrompt('What is the fastest path for candidates?')">
-        <span class="assistant-prompt-icon">2</span>
-        Candidate application tips
-      </button>
-      <button class="assistant-prompt" onclick="runAssistantPrompt('Show hiring manager tasks')">
-        <span class="assistant-prompt-icon">3</span>
-        Show hiring manager tasks
-      </button>
       </div>
     </div>
   </div>
