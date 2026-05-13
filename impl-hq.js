@@ -1384,6 +1384,7 @@ function estSubmit() {
   if(!estGetVal('junior')){ alert('Please select the number of Juniors.'); return; }
   var _teamTotal = ['sr-lead','lead','consultant','junior'].reduce(function(s,n){ return s + (parseInt(estGetVal(n)) || 0); }, 0);
   if(_teamTotal === 0){ alert('At least one consultant must be assigned to the project.'); return; }
+  if(!estGetVal('dedicatedpm')){ alert('Please indicate if a dedicated Project Manager is required.'); return; }
 
   var answers = {
     package: estGetVal('package'),
@@ -1404,7 +1405,8 @@ function estSubmit() {
     srLead: estGetVal('sr-lead'),
     lead: estGetVal('lead'),
     consultant: estGetVal('consultant'),
-    junior: estGetVal('junior')
+    junior: estGetVal('junior'),
+    dedicatedPM: estGetVal('dedicatedpm')
   };
 
   for(var i = 1; i <= 4; i++){
@@ -2019,4 +2021,5 @@ async function exportSOW() {
     btn.disabled = false;
     btn.textContent = 'Download .docx';
   }
+}
 }

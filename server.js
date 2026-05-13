@@ -2034,6 +2034,7 @@ table.hq tr:last-child td{border-bottom:none}
             <div class="est-check"><input type="checkbox" id="sc-multi" value="Multilingual Support"><label for="sc-multi">Multilingual Support</label></div>
             <div class="est-check"><input type="checkbox" id="sc-sso" value="SSO / SCIM"><label for="sc-sso">SSO / SCIM</label></div>
             <div class="est-check"><input type="checkbox" id="sc-mobile" value="Mobile"><label for="sc-mobile">Mobile</label></div>
+            <div class="est-check"><input type="checkbox" id="sc-winston" value="Winston Chat / Candidate Messaging"><label for="sc-winston">Winston Chat</label></div>
           </div>
         </div>
       </div>
@@ -2266,6 +2267,17 @@ table.hq tr:last-child td{border-bottom:none}
             <div class="est-pill"><input type="radio" name="junior" id="jr-1" value="1"><label for="jr-1">1</label></div>
             <div class="est-pill"><input type="radio" name="junior" id="jr-2" value="2"><label for="jr-2">2</label></div>
             <div class="est-pill"><input type="radio" name="junior" id="jr-3" value="3+"><label for="jr-3">3+</label></div>
+          </div>
+        </div>
+
+        <div class="est-divider"></div>
+
+        <div class="est-q">
+          <span class="est-q-label">Is a dedicated Project Manager required?</span>
+          <span class="est-q-sub">If yes, 20% will be added to the consultant days estimate for PM overhead</span>
+          <div class="est-pills">
+            <div class="est-pill"><input type="radio" name="dedicatedpm" id="pm-yes" value="Yes — dedicated PM required"><label for="pm-yes">Yes</label></div>
+            <div class="est-pill"><input type="radio" name="dedicatedpm" id="pm-no" value="No — PM handled within consultant role"><label for="pm-no">No</label></div>
           </div>
         </div>
       </div>
@@ -5211,6 +5223,13 @@ CALCULATED ESTIMATE:
 - Package: ${a.package}
 - Scope: ${scopeList}
 - Confidence: ${confidence}
+- Dedicated Project Manager required: ${a.dedicatedPM || 'Not specified'}
+
+IMPORTANT SCOPING NOTES FOR NARRATIVE AND RISKS:
+- If "Winston Chat / Candidate Messaging" is in scope: Winston MUST be delivered by SAP SmartRecruiters resources — partners cannot configure it independently. Setup begins after core ATS is in place; WhatsApp or multi-country deployments add 4–8 weeks per language/country. Flag this in risks.
+- If Dedicated PM is required: the consultant days figure already includes the 20% PM uplift — mention this in the narrative.
+- If HRIS is SAP SuccessFactors: Hire Sync and internal mobility not available until Q2 2026 — flag as a risk if timeline is earlier.
+- If replacing ATS and data migration required: 4–8 weeks for template translation and data mapping — flag as a risk.
 
 KEY FACTORS THAT SHAPED THIS ESTIMATE:
 - HRIS integration: ${a.hris} (+${hrisDays} days)
