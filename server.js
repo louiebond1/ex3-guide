@@ -5152,7 +5152,8 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
     'Analytics': 1,
     'SSO / SCIM': 1,
     'Multilingual Support': 1,
-    'Mobile': 0
+    'Mobile': 0,
+    'Winston Chat / Candidate Messaging': 0  // no effect on project weeks — runs as SR parallel workstream
   };
   const scopeDays = Array.isArray(a.scope)
     ? a.scope.reduce((s, item) => s + (scopeDayMap[item] || 0), 0)
@@ -5189,7 +5190,9 @@ app.post('/consultant/implementation-hq/project-estimate', async (req, res) => {
   const weightedUtilSum = numSrLead * 0.80 + numLead * 0.75 + numConsultant * 0.70 + numJunior * 0.60;
   const avgUtil = totalConsultants > 0 ? weightedUtilSum / totalConsultants : 0.70;
   const perConsultantDays = Math.round(totalDays * avgUtil / 5) * 5;
-  const consultantDays = totalConsultants > 0 ? String(Math.max(perConsultantDays, 5)) : '—';
+  // Winston coordination: 2 days + 7 hours (EX3 scoping, intake form, SR liaison only — SR deliver the build)
+  const winstonCoordDays = Array.isArray(a.scope) && a.scope.includes('Winston Chat / Candidate Messaging') ? 3 : 0;
+  const consultantDays = totalConsultants > 0 ? String(Math.max(perConsultantDays + winstonCoordDays, 5)) : '—';
 
   // Confidence
   const activeAdjustments = [hrisDays, intDays, careerSiteDays, configDays, countriesDays,
@@ -5226,10 +5229,10 @@ CALCULATED ESTIMATE:
 - Dedicated Project Manager required: ${a.dedicatedPM || 'Not specified'}
 
 IMPORTANT SCOPING NOTES FOR NARRATIVE AND RISKS:
-- If "Winston Chat / Candidate Messaging" is in scope: Winston MUST be delivered by SAP SmartRecruiters resources — partners cannot configure it independently. Setup begins after core ATS is in place; WhatsApp or multi-country deployments add 4–8 weeks per language/country. Flag this in risks.
+- If "Winston Chat / Candidate Messaging" is in scope: Winston is delivered entirely by SAP SmartRecruiters Professional Services — not by EX3. The consultant days figure includes only ~3 days of EX3 coordination (scoping, intake form submission, SR liaison). Winston runs as a parallel SR workstream alongside the main build and does not add calendar weeks IF identified from day one and SR intake is submitted early. Key risks to flag: (1) intake form must be submitted 4 weeks before desired Winston start; (2) if WhatsApp or Extended Tier countries (DE, FR, AT, PL etc.) are involved, channel registration takes ~7 weeks and must begin in Week 1 — a 2-week delay means messaging won't be live at go-live; (3) if Winston is identified mid-project rather than at the start, add 4–8 weeks to the timeline.
 - If Dedicated PM is required: the consultant days figure already includes the 20% PM uplift — mention this in the narrative.
 - If HRIS is SAP SuccessFactors: Hire Sync and internal mobility not available until Q2 2026 — flag as a risk if timeline is earlier.
-- If replacing ATS and data migration required: 4–8 weeks for template translation and data mapping — flag as a risk.
+- If replacing ATS and data migration required: flag template translation and data mapping as a risk with meaningful additional effort.
 
 KEY FACTORS THAT SHAPED THIS ESTIMATE:
 - HRIS integration: ${a.hris} (+${hrisDays} days)
