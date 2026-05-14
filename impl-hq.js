@@ -2021,5 +2021,4 @@ async function exportSOW() {
     btn.disabled = false;
     btn.textContent = 'Download .docx';
   }
-}
 }
