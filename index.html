@@ -6013,7 +6013,58 @@ function setRole(r) {
   pill.className = 'role-tag '+m.cls;
 }
 
-function setRoleAndGo(r) { setRole(r); goL2(); }
+function setRoleAndGo(r) {
+  if (r === 'adm') { promptAdminPin(function(){ setRole('adm'); goL2(); }); return; }
+  setRole(r); goL2();
+}
+
+function promptAdminPin(onSuccess) {
+  const overlay = document.createElement('div');
+  overlay.id = 'pin-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center';
+  overlay.innerHTML = `
+    <div style="background:#fff;border-radius:16px;padding:36px 32px;width:300px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.2)">
+      <div style="font-size:2rem;margin-bottom:8px">🔐</div>
+      <div style="font-weight:700;font-size:1.1rem;margin-bottom:4px">Admin Access</div>
+      <div style="color:#6b7280;font-size:0.85rem;margin-bottom:20px">Enter your PIN to continue</div>
+      <div id="pin-dots" style="display:flex;justify-content:center;gap:12px;margin-bottom:20px">
+        <div class="pd"></div><div class="pd"></div><div class="pd"></div><div class="pd"></div>
+      </div>
+      <div id="pin-err" style="color:#dc2626;font-size:0.8rem;min-height:18px;margin-bottom:12px"></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:220px;margin:0 auto">
+        ${[1,2,3,4,5,6,7,8,9,'','0','⌫'].map(k=>`<button onclick="pinKey('${k}')" style="padding:14px 0;font-size:1.1rem;font-weight:600;border:1.5px solid #e5e7eb;border-radius:10px;background:#f9fafb;cursor:pointer;transition:background 0.15s" onmouseenter="this.style.background='#f3f4f6'" onmouseleave="this.style.background='#f9fafb'">${k}</button>`).join('')}
+      </div>
+      <button onclick="pinCancel()" style="margin-top:18px;font-size:0.85rem;color:#9ca3af;background:none;border:none;cursor:pointer">Cancel</button>
+    </div>
+    <style>.pd{width:14px;height:14px;border-radius:50%;background:#e5e7eb;transition:background 0.2s}</style>
+  `;
+  document.body.appendChild(overlay);
+  let entry = '';
+  const PIN = '4416';
+  window.pinKey = function(k) {
+    if (k === '') return;
+    if (k === '⌫') { entry = entry.slice(0,-1); }
+    else if (entry.length < 4) { entry += k; }
+    const dots = document.querySelectorAll('.pd');
+    dots.forEach((d,i) => d.style.background = i < entry.length ? '#b45309' : '#e5e7eb');
+    document.getElementById('pin-err').textContent = '';
+    if (entry.length === 4) {
+      if (entry === PIN) {
+        document.body.removeChild(overlay);
+        delete window.pinKey; delete window.pinCancel;
+        onSuccess();
+      } else {
+        document.getElementById('pin-err').textContent = 'Incorrect PIN — try again';
+        entry = '';
+        dots.forEach(d => { d.style.background = '#fca5a5'; setTimeout(()=>d.style.background='#e5e7eb',500); });
+      }
+    }
+  };
+  window.pinCancel = function() {
+    document.body.removeChild(overlay);
+    delete window.pinKey; delete window.pinCancel;
+  };
+}
 
 function goHome() {
   setBreadcrumb([{label:'Home',fn:null}]);
