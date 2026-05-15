@@ -1449,12 +1449,13 @@ body.dark .stuck-head-title{color:#f5a63d}
 
 const CATS = {
   rec: [
-    { id:'jobs',         icon:'🗂',  title:'Jobs',                   desc:'Create, edit, publish, and manage job postings', count:4 },
-    { id:'candidates',   icon:'👤',  title:'Candidates',             desc:'Review, move, reject and add candidates to your pipeline', count:5 },
+    { id:'jobs',         icon:'🗂',  title:'Jobs',                   desc:'Create, edit, publish, and manage job postings', count:5 },
+    { id:'candidates',   icon:'👤',  title:'Candidates',             desc:'Review, move, reject and add candidates to your pipeline', count:6 },
     { id:'interviews',   icon:'📅',  title:'Interviews',             desc:'Schedule interviews, send self-schedule links, leave feedback', count:3 },
     { id:'offers',       icon:'🤝',  title:'Offers',                 desc:'Create, approve, send offers and mark candidates as hired', count:3 },
-    { id:'comms',        icon:'✉️',  title:'Communication',          desc:'Email candidates and collaborate with your team', count:2 },
-    { id:'agencies',     icon:'🏢',  title:'Agencies',               desc:'Send jobs to agencies and manage candidate submissions', count:2 },
+    { id:'comms',        icon:'✉️',  title:'Communication',          desc:'Email candidates and collaborate with your team', count:3 },
+    { id:'agencies',     icon:'🏢',  title:'Agencies',               desc:'Send jobs to agencies and manage candidate submissions', count:3 },
+    { id:'crm',          icon:'💜',  title:'CRM & Talent Communities', desc:'Build talent pools, add members and run engagement campaigns for proactive sourcing', count:3 },
   ],
   hm: [
     { id:'hmjobs',       icon:'📋',  title:'My Open Roles',          desc:'View and understand the roles you are the hiring manager for', count:2 },
@@ -1469,41 +1470,44 @@ const CATS = {
     { id:'candoffers',     icon:'📄', title:'Reviewing an Offer',       desc:'Receive, review and accept or decline your offer', count:2 },
   ],
   adm: [
-    { id:'users',          icon:'👥',  title:'Users & Roles',          desc:'Add users, assign system roles and manage permissions', count:4 },
+    { id:'users',          icon:'👥',  title:'Users & Roles',          desc:'Add users, assign system roles and manage permissions', count:5 },
     { id:'accessgroups',   icon:'🔐',  title:'Access Groups',          desc:'Control which jobs and candidates teams can see', count:3 },
     { id:'orgfields',      icon:'📊',  title:'Org & Job Fields',       desc:'Create and manage the fields that drive your configurations', count:3 },
-    { id:'hiringprocess',  icon:'⟳',   title:'Hiring Processes',       desc:'Build stages, steps, and automate workflows', count:7 },
+    { id:'hiringprocess',  icon:'⟳',   title:'Hiring Processes',       desc:'Build stages, steps, and automate workflows', count:8 },
     { id:'appexp',         icon:'📝',  title:'Application Experience', desc:'Configure what candidates see when they apply', count:4 },
     { id:'emailtpl',       icon:'✉️',  title:'Email Templates',        desc:'Build templates for every communication type', count:3 },
-    { id:'interviewtpl',   icon:'📅',  title:'Interview Templates',    desc:'Set up individual and group interview scheduling templates', count:3 },
+    { id:'interviewtpl',   icon:'📅',  title:'Interview Templates',    desc:'Set up individual and group interview scheduling templates', count:4 },
     { id:'offertpl',       icon:'📄',  title:'Offer Templates',        desc:'Create, upload and configure offer letter templates', count:4 },
     { id:'jobboards',      icon:'📢',  title:'Job Boards & Contracts', desc:'Set up posting contracts and automated distribution', count:3 },
     { id:'careersite',     icon:'🌐',  title:'Career Site',            desc:'Configure your external career site, branding, pages, and mobile experience', count:4 },
-    { id:'company',        icon:'⚙️',  title:'Company Settings',       desc:'Configure branding, security, and company profile', count:3 },
+    { id:'company',        icon:'⚙️',  title:'Company Settings',       desc:'Configure branding, security, and company profile', count:4 },
     { id:'compliance',    icon:'⚖️',  title:'Compliance & Policy',    desc:'Configure consent models, SMS opt-in, rejection enforcement and data compliance', count:4 },
     { id:'datamigration',  icon:'🗄️', title:'Data Migration',          desc:'Import legacy candidates, requisitions, and historical data into SmartRecruiters', count:3 },
     { id:'referralmgmt',   icon:'🤝',  title:'Referral Management',    desc:'Enable the employee referral portal and manage referral workflows', count:3 },
     { id:'reporting',      icon:'📊',  title:'Reporting & Analytics',  desc:'Build dashboards, create saved reports, and schedule data distribution', count:4 },
     { id:'aifeatures',    icon:'🤖',  title:'AI & Winston',           desc:'Winston Match for resume scoring and Winston Chat for conversational apply', count:5 },
-    { id:'systemconfig',  icon:'⚙️',  title:'System Configuration',   desc:'Locations, scheduling rules, approval delegation, calendar sync and integrations', count:9 },
-    { id:'worktemplates', icon:'📋',  title:'Templates & Fields',     desc:'Job templates, org field detail, internal application and employee filters', count:4 },
+    { id:'systemconfig',  icon:'⚙️',  title:'System Configuration',   desc:'Locations, scheduling rules, approval delegation, calendar sync and integrations', count:10 },
+    { id:'worktemplates', icon:'📋',  title:'Templates & Fields',     desc:'Job templates, org field detail, internal application and employee filters', count:5 },
+    { id:'integrations',  icon:'🔗',  title:'Integrations & Sync',    desc:'SAP SuccessFactors integration, User Sync and data flows between systems', count:2 },
   ]
 };
 
 const TASKS = {
   // ─── RECRUITER ─────────────────────────────────
   'rec-jobs': [
-    { id:'post-job',      icon:'🗂',  title:'Post a Job',               desc:'Create a new job from scratch or from a template and publish it live',         role:'rec' },
-    { id:'edit-job',      icon:'✏️',  title:'Edit a Job',               desc:'Update the job ad content, details, or hiring team on an existing job',         role:'rec' },
-    { id:'put-on-hold',   icon:'⏸',  title:'Put a Job on Hold',        desc:'Pause recruitment without losing your pipeline or candidate data',              role:'rec' },
-    { id:'close-job',     icon:'✅',  title:'Close / Fill a Job',       desc:'Mark a role as filled after hiring a candidate and close the pipeline',         role:'rec' },
+    { id:'post-job',           icon:'🗂',  title:'Post a Job',               desc:'Create a new job from scratch or from a template and publish it live',         role:'rec' },
+    { id:'edit-job',           icon:'✏️',  title:'Edit a Job',               desc:'Update the job ad content, details, or hiring team on an existing job',         role:'rec' },
+    { id:'put-on-hold',        icon:'⏸',  title:'Put a Job on Hold',        desc:'Pause recruitment without losing your pipeline or candidate data',              role:'rec' },
+    { id:'close-job',          icon:'✅',  title:'Close / Fill a Job',       desc:'Mark a role as filled after hiring a candidate and close the pipeline',         role:'rec' },
+    { id:'submit-job-approval',icon:'📤',  title:'Submit a Job for Approval',desc:'Trigger a job approval chain so the role is reviewed before going live',       role:'rec' },
   ],
   'rec-candidates': [
-    { id:'review-cand',   icon:'👀',  title:'Review a Candidate',       desc:'Open a profile, read the application, and leave a star rating',                 role:'rec' },
-    { id:'move-cand',     icon:'➡️',  title:'Move a Candidate Forward', desc:'Progress a candidate to the next step or stage in the hiring process',          role:'rec' },
-    { id:'reject-cand',   icon:'❌',  title:'Reject a Candidate',       desc:'Formally decline and send a rejection notification with the right template',     role:'rec' },
-    { id:'add-cand',      icon:'➕',  title:'Add a Candidate Manually', desc:'Add a referral, direct applicant or sourced candidate who didn\'t apply online', role:'rec' },
-    { id:'search-cands',  icon:'🔎',  title:'Search & Filter Candidates',desc:'Find candidates across all jobs using filters, keywords and saved searches',   role:'rec' },
+    { id:'review-cand',   icon:'👀',  title:'Review a Candidate',        desc:'Open a profile, read the application, and leave a star rating',                 role:'rec' },
+    { id:'move-cand',     icon:'➡️',  title:'Move a Candidate Forward',  desc:'Progress a candidate to the next step or stage in the hiring process',          role:'rec' },
+    { id:'reject-cand',   icon:'❌',  title:'Reject a Candidate',        desc:'Formally decline and send a rejection notification with the right template',     role:'rec' },
+    { id:'add-cand',      icon:'➕',  title:'Add a Candidate Manually',  desc:'Add a referral, direct applicant or sourced candidate who didn\'t apply online', role:'rec' },
+    { id:'search-cands',  icon:'🔎',  title:'Search & Filter Candidates',desc:'Find candidates across all jobs using filters, keywords and saved searches',    role:'rec' },
+    { id:'bulk-actions',  icon:'⚡',  title:'Bulk Actions',              desc:'Move, reject, or email multiple candidates simultaneously to save time',          role:'rec' },
   ],
   'rec-interviews': [
     { id:'sched-interview',icon:'📅', title:'Schedule an Interview',    desc:'Book an interview and send the candidate an invitation with all details',        role:'rec' },
@@ -1516,13 +1520,19 @@ const TASKS = {
     { id:'hire-cand',     icon:'🎉',  title:'Mark a Candidate as Hired',desc:'Confirm the hire once the offer is accepted and close out the application',      role:'rec' },
   ],
   'rec-comms': [
-    { id:'email-cand',    icon:'✉️',  title:'Email a Candidate',        desc:'Send an email from inside SmartRecruiters using a template or free-typing',      role:'rec' },
-    { id:'hireloop-note', icon:'💬',  title:'Leave a HireLoop Note',    desc:'Post a note, tag a colleague or send a private message in the activity feed',    role:'rec' },
+    { id:'email-cand',        icon:'✉️',  title:'Email a Candidate',        desc:'Send an email from inside SmartRecruiters using a template or free-typing',      role:'rec' },
+    { id:'hireloop-note',     icon:'💬',  title:'Leave a HireLoop Note',    desc:'Post a note, tag a colleague or send a private message in the activity feed',    role:'rec' },
+    { id:'send-smartmessage', icon:'📱',  title:'Send a SmartMessage',      desc:'Send an SMS or WhatsApp message directly to a candidate from their profile',     role:'rec' },
   ],
   'rec-agencies': [
     { id:'send-to-agency',icon:'🏢',  title:'Send a Job to an Agency',  desc:'Share an open role with an external agency through their portal',                role:'rec' },
     { id:'agency-comms',  icon:'📨',  title:'Communicate with an Agency',desc:'Message an agency about a specific candidate through the agency inbox',         role:'rec' },
     { id:'verify-agency-attribution', icon:'💰', title:'Verify Agency Attribution', desc:'Confirm the system has correctly attributed a candidate to the submitting agency for fee purposes', role:'rec' },
+  ],
+  'rec-crm': [
+    { id:'create-crm-community', icon:'💜',  title:'Create a Talent Community',    desc:'Set up a CRM community to pool candidates for a role type or talent segment',  role:'rec' },
+    { id:'add-crm-members',      icon:'➕',  title:'Add Members to a Community',   desc:'Add individual candidates or bulk import a list into a talent community',        role:'rec' },
+    { id:'run-crm-campaign',     icon:'📣',  title:'Send an Engagement Campaign',  desc:'Build and send a targeted email campaign to a talent community',                role:'rec' },
   ],
 
   // ─── HIRING MANAGER ────────────────────────────
@@ -1571,6 +1581,7 @@ const TASKS = {
     { id:'assign-role',         icon:'🎭', title:'Change a User\'s System Role',desc:'Update which system role a user has to change their level of access',       role:'adm' },
     { id:'create-custom-role',  icon:'⚙️', title:'Create a Custom System Role', desc:'Build a role with granular permissions for a specific user type',           role:'adm' },
     { id:'grant-crm',           icon:'💜', title:'Grant CRM Access',            desc:'Enable SmartCRM access so a user can manage talent communities',             role:'adm' },
+    { id:'bulk-user-upload',    icon:'📥', title:'Bulk User Upload & Download', desc:'Import multiple users at once via spreadsheet and export user lists',        role:'adm' },
   ],
   'adm-accessgroups': [
     { id:'create-ag',   icon:'🔐', title:'Create an Access Group',             desc:'Define an org-field-based group that controls which jobs a user can see',    role:'adm' },
@@ -1590,6 +1601,7 @@ const TASKS = {
     { id:'save-and-rematch',           icon:'🔄', title:'Update Active Jobs (Save & Rematch)',    desc:'Push hiring process changes to all currently active jobs',                role:'adm' },
     { id:'configure-required-steps',   icon:'🔒', title:'Configure Required Steps',              desc:'Enforce that candidates must pass a specific step before advancing',       role:'adm' },
     { id:'configure-internal-mobility',icon:'🏃', title:'Internal Mobility Automation',          desc:'Automatically skip stages for internal employee applicants',               role:'adm' },
+    { id:'create-job-approval',        icon:'✅', title:'Create a Job Approval Chain',           desc:'Build an approval chain so jobs are reviewed before going live',           role:'adm' },
   ],
   'adm-appexp': [
     { id:'config-default-app',          icon:'📝', title:'Configure the Default Application',     desc:'Set which fields are required, optional or hidden on the apply form',         role:'adm' },
@@ -1603,9 +1615,10 @@ const TASKS = {
     { id:'assign-notif-workflow', icon:'⟳',title:'Assign a Notification to a Workflow',desc:'Attach an automated template to a specific hiring process step',     role:'adm' },
   ],
   'adm-interviewtpl': [
-    { id:'create-ind-tpl',  icon:'📅',title:'Create an Individual Interview Template',desc:'Set up a reusable template for 1:1 or panel interviews',              role:'adm' },
-    { id:'create-group-tpl',icon:'👥',title:'Create a Group Interview Template',      desc:'Configure slots, capacity and comms for group interview sessions',      role:'adm' },
-    { id:'attach-int-tpl',  icon:'🔗',title:'Attach a Template to a Hiring Step',    desc:'Link an interview template to a standard or custom step',               role:'adm' },
+    { id:'create-ind-tpl',          icon:'📅',title:'Create an Individual Interview Template',desc:'Set up a reusable template for 1:1 or panel interviews',              role:'adm' },
+    { id:'create-group-tpl',        icon:'👥',title:'Create a Group Interview Template',      desc:'Configure slots, capacity and comms for group interview sessions',      role:'adm' },
+    { id:'attach-int-tpl',          icon:'🔗',title:'Attach a Template to a Hiring Step',    desc:'Link an interview template to a standard or custom step',               role:'adm' },
+    { id:'configure-interview-types',icon:'⚙️',title:'Configure Interview Types',            desc:'Define and manage the interview types available to recruiters and hiring managers', role:'adm' },
   ],
   'adm-offertpl': [
     { id:'upload-offer-tpl', icon:'📄',title:'Upload an Offer Template',       desc:'Prepare and upload a Word offer letter with merge fields',                   role:'adm' },
@@ -1622,6 +1635,7 @@ const TASKS = {
     { id:'update-company-profile',icon:'🏢',title:'Update Company Profile',    desc:'Edit company industry, size, website and physical address',                  role:'adm' },
     { id:'upload-logo',           icon:'🖼',title:'Upload Company Logos',       desc:'Add or replace rectangular and square logos used across job ads',            role:'adm' },
     { id:'security-settings',     icon:'🔐',title:'Configure Security Settings',desc:'Set automatic logout rules and manage domain authentication',               role:'adm' },
+    { id:'smartlabs-overview',    icon:'🧪',title:'SmartLabs — Beta Features', desc:'Preview and enable experimental features before they are released globally', role:'adm' },
   ],
 
   'adm-compliance': [
@@ -1632,6 +1646,7 @@ const TASKS = {
   ],
   'adm-aifeatures': [
     { id:'configure-winston-match',        icon:'🤖', title:'Configure Winston Match',                desc:'Enable AI resume scoring to rank candidates by match against the job description',        role:'adm' },
+    { id:'configure-winston-chat-admin',   icon:'💬', title:'Enable & Configure Winston Chat',        desc:'Set up Winston Chat so candidates can apply conversationally via the career site',        role:'adm' },
     { id:'configure-winston-localisation', icon:'🌏', title:'Localise Winston Chat',                  desc:'Set up language variants for Winston Chat — including the Japanese Introduction Message', role:'adm' },
     { id:'understand-crm-access',          icon:'💜', title:'Granting CRM Access (Two Steps)',        desc:'Enable CRM seat and add user to community — both required for full CRM access',           role:'adm' },
     { id:'crm-bulk-import-leads',          icon:'📥', title:'Bulk Import Leads to a CRM Community',  desc:'Import a spreadsheet of contacts into a talent community with correct source tracking',    role:'adm' },
@@ -1646,12 +1661,18 @@ const TASKS = {
     { id:'marketplace-language-filter',    icon:'🌐', title:'Find Partners by Language in Marketplace', desc:'Use the Language filter to find providers supporting a specific language like Polish',      role:'adm' },
     { id:'configure-docusign-integration', icon:'✍️', title:'DocuSign — Service Account Setup',         desc:'Configure DocuSign correctly using a service account to prevent failures when staff leave', role:'adm' },
     { id:'scope-offer-approval',           icon:'✅', title:'Scope Offer Approval to Specific Jobs',  desc:'Configure an approval chain that only triggers for specific org field combinations',      role:'adm' },
+    { id:'configure-admin-notifications',  icon:'🔔', title:'Configure System-Wide Notifications',    desc:'Control which automated email notifications fire globally across all jobs and users',      role:'adm' },
   ],
   'adm-worktemplates': [
     { id:'understand-job-templates',       icon:'📋', title:'Job Templates — What Updates and What Doesn\'t', desc:'Updating a template never updates existing jobs — the critical exam concept',   role:'adm' },
     { id:'configure-job-details-tab',      icon:'🗂', title:'Job Profile Tabs — Where Org Fields Live', desc:'Which tab holds cost centre, department code and all org fields',                    role:'adm' },
     { id:'configure-internal-application', icon:'🏢', title:'Internal Application Experience',          desc:'Apply different screening questions to the internal employee apply form',              role:'adm' },
     { id:'configure-employee-filters',     icon:'🔍', title:'Employee Portal Search Filters',           desc:'Add searchable filters like Technical Branch to the internal career portal',           role:'adm' },
+    { id:'understand-position-types',      icon:'🔄', title:'Position Types: New vs Replacement',       desc:'Understand the difference between New and Replacement positions and how they flow from SF', role:'adm' },
+  ],
+  'adm-integrations': [
+    { id:'sf-sr-integration-overview',     icon:'🔗', title:'SAP SuccessFactors ↔ SmartRecruiters Integration', desc:'How the SF-SR integration works, the 5 sync types, and what flows between systems', role:'adm' },
+    { id:'user-sync-setup',                icon:'👥', title:'User Sync Configuration',                  desc:'Configure the automated sync that creates and updates SR users from SF records',     role:'adm' },
   ],
   'adm-careersite': [
     { id:'configure-career-site-branding', icon:'🎨', title:'Configure Career Site Branding',           desc:'Apply your logo, brand colours, and imagery to the external career site',              role:'adm' },
@@ -2040,7 +2061,7 @@ const TASK_DETAIL = {
       title:'Assign an Access Group (if needed)',
       desc:'If the user should only see jobs within a specific region, department, or brand, assign them to the relevant <strong>Access Group</strong>. Leave blank for Standard/Basic users who should see all jobs (rare — most organisations use access groups).',
       subs:[
-        { icon:'🔐', title:'When to use access groups', points:['A recruiter in the UK who should only see UK jobs → assign "United Kingdom" access group','A recruiter managing Sales roles only → assign "Sales" access group','Without an access group, a Standard user can only see jobs they\'re explicitly added to as a hiring team member'] },
+        { icon:'🔐', title:'When to use access groups', points:['A recruiter in the UK who should only see UK jobs → assign "United Kingdom" access group','A recruiter managing Sales roles only → assign "Sales" access group','Without an access group, a Basic (Restricted) user can only see jobs they\'re explicitly added to as a hiring team member'] },
       ]
     },
     {
@@ -5090,6 +5111,862 @@ const TASK_DETAIL = {
 },
 
 
+
+
+
+// ─── BULK ACTIONS ─────────────────────────────────────
+'bulk-actions': {
+  role:'rec', icon:'⚡', title:'Bulk Actions — Move, Reject & Email at Scale',
+  desc:'Select multiple candidates at once and move, reject, or email them in a single action — essential for managing high-volume pipelines efficiently.',
+  path:['Jobs','[Job Name]','Candidate Pipeline'],
+  who:[{label:'Recruiter',c:'var(--rec)'},{label:'Admin',c:'var(--a-adm)'}],
+  before:['Bulk actions apply to ALL selected candidates — double-check your selection before confirming','Bulk rejections send the same email template to everyone selected — choose carefully'],
+  steps:[
+    {
+      title:'Select candidates using the checkboxes',
+      desc:'On the candidate pipeline for a job, tick the <strong>checkbox</strong> next to each candidate you want to act on. Tick the top checkbox to select all visible candidates on the current page.',
+      subs:[
+        { icon:'💡', title:'Selection tips', points:[
+          'Filter or sort the pipeline first to group candidates — then select all in that group at once',
+          'Stage filters are most useful: filter to the New stage, select all, bulk reject in one action',
+          'The top checkbox selects all candidates currently visible on screen — if you have more than one page, repeat per page',
+          'Your selection clears if you navigate away — complete the bulk action before leaving the page'
+        ]}
+      ]
+    },
+    {
+      title:'Click Bulk Actions and choose your action',
+      desc:'Once candidates are selected, a <strong>Bulk Actions</strong> button appears at the top of the list. Click it to see available actions: Move to Step, Reject, Send Email, Add to Job.',
+      subs:[
+        { icon:'➡️', title:'Move to Step', points:[
+          'Moves all selected candidates to a chosen step in the hiring process simultaneously',
+          'Useful for shortlisting: select your top candidates from New and move them all to In-Review at once',
+          'Required steps are enforced even in bulk — if a required step would be skipped, the system warns you',
+          'Each move is logged individually in each candidate\'s activity feed with your name and timestamp'
+        ]},
+        { icon:'❌', title:'Bulk Reject', points:[
+          'Rejects all selected candidates simultaneously',
+          'You select one rejection reason that applies to the whole group',
+          'You choose one email template that sends to all — or "No email" to send nothing',
+          'Most efficient use: filter to New stage, select all knocked-out candidates (red flag), bulk reject with a generic template'
+        ]},
+        { icon:'✉️', title:'Send Email', points:[
+          'Sends the same email template to all selected candidates',
+          'Only Generic-type templates are available in bulk send',
+          'Each candidate receives an individually addressed version with their name merge field filled in correctly'
+        ]},
+        { icon:'➕', title:'Add to Job', points:[
+          'Adds all selected candidates to another job simultaneously',
+          'Useful when a role is cancelled and you want to move the whole pipeline to a similar live role',
+          'Creates new applications on the target job, source tagged from the original'
+        ]}
+      ]
+    },
+    {
+      title:'Confirm and check the outcome summary',
+      desc:'After selecting the action and configuring options (rejection reason, email template, target step), click <strong>Confirm</strong>. A completion summary shows how many were actioned and any failures.',
+      subs:[
+        { icon:'✅', title:'After bulk actions', points:[
+          'Check a sample of individual candidate profiles to verify the action applied correctly',
+          'Bulk rejections cannot be undone — the rejection is logged permanently',
+          'For bulk moves: check your Home page task list — workflows may have triggered for each moved candidate',
+          'Candidates who failed to action (e.g. were in a required step that blocked movement) appear in the failure summary — handle these individually'
+        ]}
+      ],
+      tip:'On high-volume roles, build this habit: filter to New, sort by knockout (red = failed minimum criteria), select all knocked-out candidates, bulk reject with a generic "not progressing" template. Then work through the remaining pipeline individually.'
+    }
+  ]
+},
+
+// ─── SMARTMESSAGE ──────────────────────────────────────
+'send-smartmessage': {
+  role:'rec', icon:'💬', title:'Send a SmartMessage (WhatsApp / SMS)',
+  desc:'Send a WhatsApp or SMS message to a candidate directly from SmartRecruiters — far faster engagement than email for time-sensitive communication like interview reminders.',
+  path:['Jobs','[Candidate]','Communication Tab'],
+  who:[{label:'Recruiter',c:'var(--rec)'},{label:'Coordinator',c:'var(--hm)'}],
+  before:['SmartMessage must be enabled on your account — ask your admin if you don\'t see the option','The candidate must have opted in to SMS/WhatsApp contact (required under GDPR and UAE PDPL — the system handles this automatically)','The candidate\'s mobile number must be in their profile'],
+  steps:[
+    {
+      title:'Open the candidate\'s Communication tab',
+      desc:'Go to the job, open the candidate\'s profile, and click the <strong>Communication</strong> tab. This shows the full message history — email, SMS, and WhatsApp — all in one thread.',
+      subs:[
+        { icon:'📱', title:'What appears in the Communication tab', points:[
+          'All outbound emails from your team to this candidate',
+          'Candidate replies received by email',
+          'SmartMessage (WhatsApp/SMS) threads — shown with a WhatsApp or phone icon',
+          'Date, sender, and delivery/read status of each message'
+        ]}
+      ]
+    },
+    {
+      title:'Click Send via WhatsApp or Send via SMS',
+      desc:'Below the compose area, find the <strong>Send via WhatsApp</strong> or <strong>Send via SMS</strong> button. A message window opens.',
+      subs:[
+        { icon:'⚠️', title:'If the candidate has not yet opted in', points:[
+          'The system automatically sends an opt-in request first: "Reply START to receive messages from [Company]"',
+          'Your actual message is held and delivers only after the candidate replies START',
+          'If they reply STOP at any time, all future SmartMessage contact is immediately blocked — this cannot be reversed by a recruiter',
+          'Opt-in status is shown on the candidate profile — green tick means opted in and ready to message'
+        ]}
+      ]
+    },
+    {
+      title:'Select a template or type your message',
+      desc:'Choose a pre-built SmartMessage template from the dropdown, or type a short message. Keep it brief — WhatsApp and SMS are not email: 2–3 lines is the maximum for good readability.',
+      subs:[
+        { icon:'📝', title:'Writing effective SmartMessages', points:[
+          'Introduce yourself and the company on first contact: "Hi [Name], I\'m [Your Name] from [Company] — reaching out about your application for [Role]"',
+          'Be direct: "We\'d love to schedule a quick call — are you free this week?"',
+          'Avoid attaching documents — keep any links short and direct',
+          'Do not send a second unreplied message — wait for a response before following up'
+        ]},
+        { icon:'💡', title:'Best use cases for SmartMessage', points:[
+          'Same-day interview reminders — significantly higher open rates than email (WhatsApp messages are read within 5 minutes on average)',
+          'Chasing candidates who haven\'t booked a self-schedule slot after 24–48h',
+          'Quick "Are you still interested?" for stale applications before rejecting',
+          'Sharing a self-schedule link when email deliverability is uncertain'
+        ]}
+      ]
+    },
+    {
+      title:'Send and track delivery',
+      desc:'Click <strong>Send</strong>. Delivery status updates in real time. Replies appear in the Communication tab and trigger an inbox notification.',
+      subs:[
+        { icon:'📊', title:'Delivery status indicators', points:[
+          'Sent — message left SmartRecruiters',
+          'Delivered — reached the candidate\'s device',
+          'Read — candidate opened the message (WhatsApp only)',
+          'Failed — delivery failed: number invalid, candidate blocked contact, or opted out'
+        ]}
+      ],
+      tip:'SmartMessage works best alongside email, not instead of it. Use email for formal, record-keeping communication (offers, rejections, interview confirmation) and SmartMessage for quick nudges where speed matters.'
+    }
+  ]
+},
+
+// ─── SUBMIT JOB FOR APPROVAL ───────────────────────────
+'submit-job-approval': {
+  role:'rec', icon:'✅', title:'Submit a Job for Approval',
+  desc:'If your organisation requires sign-off before a job can be published, submit it through the approval chain and track its progress.',
+  path:['Jobs','[Job Name]','Submit for Approval'],
+  who:[{label:'Recruiter',c:'var(--rec)'}],
+  before:['Job approvals are configured by your admin — not all organisations use them','The job must be fully completed and saved as a draft before you can submit'],
+  steps:[
+    {
+      title:'Complete and save the job as a draft',
+      desc:'Fill in all required fields on the job — Job Ad content, Job Details (org fields, location, hiring team). Click <strong>Save</strong> without publishing. The job stays as a draft until approved.',
+      subs:[
+        { icon:'📋', title:'How to tell if your job needs approval', points:[
+          'If approval is required, a <strong>Submit for Approval</strong> button appears instead of Publish',
+          'If you see Publish directly, no approval is needed for this job type',
+          'Which jobs require approval depends on org field values — your admin controls this (e.g. all Finance roles, or all Director-level positions)'
+        ]}
+      ]
+    },
+    {
+      title:'Click Submit for Approval',
+      desc:'On the draft job, click <strong>Submit for Approval</strong>. The configured approvers are notified automatically by email and via their SmartRecruiters Home page Approvals widget.',
+      subs:[
+        { icon:'🔄', title:'What happens during approval', points:[
+          'Sequential chain — approvers sign off one at a time. Approver 2 is only notified after Approver 1 signs off.',
+          'Parallel chain — all approvers are notified simultaneously and can approve in any order',
+          'Track approval status on the job\'s detail page — each approver shows as Pending, Approved, or Rejected',
+          'You are notified when the job is fully approved and ready to publish, or if any approver rejects it'
+        ]}
+      ]
+    },
+    {
+      title:'If rejected — update and resubmit',
+      desc:'You will receive a notification with the approver\'s comments. Update the job as requested (e.g. revise salary band, adjust headcount, change job title). Then resubmit for approval.',
+      subs:[
+        { icon:'💡', title:'Avoiding rejection cycles', points:[
+          'Align on salary, level, and headcount with stakeholders before creating the job — these are the most common rejection reasons',
+          'Read the rejection comment fully and address every point before resubmitting blindly',
+          'If the comment is unclear, contact the approver directly — resubmitting unchanged will get the same rejection'
+        ]}
+      ]
+    },
+    {
+      title:'Publish the approved job',
+      desc:'Once all approvals complete, the job status updates and a <strong>Publish</strong> button becomes active. Click it to go live. Select your job boards and confirm publication.',
+      subs:[],
+      warn:'An approved job does NOT auto-publish — you still need to click Publish. Check your notifications when you receive the approval confirmation and publish promptly so the role goes live as planned.'
+    }
+  ]
+},
+
+// ─── CREATE CRM COMMUNITY ──────────────────────────────
+'create-crm-community': {
+  role:'rec', icon:'💜', title:'Create a Talent Community',
+  desc:'Build a curated pool of passive candidates around a specific skill set, role type, or talent segment — so you can engage them proactively before roles open.',
+  path:['CRM','Communities','+ New Community'],
+  who:[{label:'Recruiter (CRM seat required)',c:'var(--rec)'}],
+  before:['You must have a CRM seat enabled — ask your admin if you don\'t see CRM in the navigation','Plan the focus of the community before creating it — a specific community ("Senior Java Engineers — APAC") is far more valuable than a broad one'],
+  diagram:{type:'hflow',nodes:[
+    {l:'Create Community',s:'hf-purple',sub:'Name + description'},
+    {l:'Set Criteria',s:'hf-purple',sub:'Skills · Location · Type'},
+    {l:'Add Members',s:'hf-purple',sub:'Search, import, or invite'},
+    {l:'Send Campaign',s:'hf-green',sub:'Engage your talent pool'},
+  ]},
+  steps:[
+    {
+      title:'Go to CRM and click + New Community',
+      desc:'From the top navigation, click <strong>CRM</strong>. On the Communities page, click <strong>+ New Community</strong>.',
+      path:['CRM','Communities'],
+      subs:[
+        { icon:'💜', title:'What you\'ll see in CRM', points:[
+          'Communities — your talent pools, each with member count and last campaign date',
+          'Contacts — all CRM prospects across all your communities',
+          'Campaigns — engagement emails sent to your communities',
+          'If you have Standard role + CRM seat, you see only communities you created or were explicitly added to as Sourcer'
+        ]}
+      ]
+    },
+    {
+      title:'Name the community, set owner and privacy',
+      desc:'Give it a specific name — name it by talent type, not job: <strong>"Senior Java Engineers — APAC"</strong>, not "Engineering Pool". Add a description for team context. Set the owner (usually yourself) and whether it is private or shared with other CRM users.',
+      subs:[
+        { icon:'📝', title:'Naming best practice', points:[
+          'Skill + seniority + geography is the best format: "Mid-Level Product Managers — UK"',
+          'Avoid job title names — talent pools should outlive individual requisitions',
+          'Private communities are only visible to you; shared ones can be seen and contributed to by colleagues with CRM access',
+          'Owner can be changed later — important if the community should survive recruiter turnover'
+        ]}
+      ]
+    },
+    {
+      title:'Set the data retention period',
+      desc:'Select how long candidate data is retained in this community. Candidates approaching expiry receive an automatic opt-in renewal email — if they don\'t re-consent, they are removed automatically.',
+      subs:[
+        { icon:'⚖️', title:'Compliance context', points:[
+          'UK/EU: typically 12–24 months under GDPR',
+          'UAE (PDPL) and Saudi Arabia (PDPPL): data must be deleted when the processing purpose no longer exists — confirm the period with your legal team',
+          'SmartRecruiters enforces retention by Country field — each community can have its own retention policy',
+          'This is managed automatically — you do not need to manually remove expired members'
+        ]}
+      ]
+    },
+    {
+      title:'Save — then add members',
+      desc:'Click <strong>Save</strong>. The community exists but is empty. An empty community does nothing. Proceed to Add Members to a Community to populate it.',
+      subs:[],
+      tip:'Create communities in advance of roles opening. A 300-person talent pool you can email on day one of a new vacancy is significantly more powerful than building from zero when the role opens.'
+    }
+  ]
+},
+
+// ─── ADD CRM MEMBERS ───────────────────────────────────
+'add-crm-members': {
+  role:'rec', icon:'➕', title:'Add Members to a Talent Community',
+  desc:'Grow your talent pool by adding existing candidates from your SR database, importing contacts from a spreadsheet, or inviting prospects to self-join.',
+  path:['CRM','[Community Name]','Add Members'],
+  who:[{label:'Recruiter (CRM seat required)',c:'var(--rec)'}],
+  before:['The community must already exist','For CSV imports, have the spreadsheet ready with at minimum: First Name, Last Name, Email Address'],
+  steps:[
+    {
+      title:'Open the community and click Add Members',
+      desc:'Go to <strong>CRM → Communities</strong>. Open the target community. Click <strong>Add Members</strong>. Three options appear: Search, Import, and Invite.',
+      subs:[
+        { icon:'📋', title:'Three ways to add members', points:[
+          '<strong>Search</strong> — find existing SmartRecruiters candidates or CRM contacts and add directly',
+          '<strong>Import CSV</strong> — upload a spreadsheet of new contacts (career fair leads, LinkedIn exports)',
+          '<strong>Invite</strong> — send an email invitation for prospects to join the community themselves'
+        ]}
+      ]
+    },
+    {
+      title:'Search — add from your existing candidate database',
+      desc:'Click <strong>Search</strong>. Use keyword, skill, location, and source filters to find matching candidates already in SmartRecruiters. Select and click <strong>Add to Community</strong>.',
+      subs:[
+        { icon:'🔍', title:'Search tips for talent pooling', points:[
+          'Search by job titles and skills from the role type you are building the pool for',
+          'Filter by rejection reason to find silver-medal candidates from past roles — strong people who narrowly missed out',
+          'Filter by Source = Referral to find high-quality contacts already in the system',
+          'Boolean search works: ("Java" OR "Kotlin") AND "London"'
+        ]}
+      ]
+    },
+    {
+      title:'Import CSV — add contacts from a spreadsheet',
+      desc:'Click <strong>Import CSV</strong>. Prepare your file with at minimum First Name, Last Name, Email. Upload it, map columns to SmartRecruiters fields, set the Source, and confirm import.',
+      subs:[
+        { icon:'⚠️', title:'CSV import requirements', points:[
+          'Required columns: First Name, Last Name, Email Address',
+          'Invalid or duplicate email addresses are automatically skipped',
+          'Set the Source field before confirming — you cannot efficiently update source for hundreds of records after the fact',
+          'If the email already exists in SmartRecruiters, the import links to the existing profile rather than creating a duplicate'
+        ]}
+      ]
+    },
+    {
+      title:'Invite — let prospects opt themselves in',
+      desc:'Click <strong>Invite</strong>. Write a short invitation message. SmartRecruiters generates a personal invite link that prospects click to join and consent to contact.',
+      subs:[
+        { icon:'✅', title:'Why self-opt-in is valuable', points:[
+          'Candidates who join themselves have explicitly consented — the cleanest possible opt-in record',
+          'Higher engagement rates than cold imports',
+          'Invite links can be shared via LinkedIn messages, events, or printed as QR codes at career fairs',
+          'Each link is tracked — you can see who joined via your specific invite'
+        ]}
+      ],
+      tip:'Build your community from multiple sources simultaneously: past candidates (Search), events (Import), and active outreach (Invite). A diverse sourcing mix creates a healthier, more engaged talent pool.'
+    }
+  ]
+},
+
+// ─── RUN CRM CAMPAIGN ──────────────────────────────────
+'run-crm-campaign': {
+  role:'rec', icon:'📢', title:'Send an Engagement Campaign',
+  desc:'Email your talent community to re-engage passive candidates — sharing open roles, company news, or a direct call to apply.',
+  path:['CRM','[Community Name]','Send Campaign'],
+  who:[{label:'Recruiter (CRM seat required)',c:'var(--rec)'}],
+  before:['The community must have active members','Have your email content ready — subject, body, and one clear call-to-action','Data retention is enforced automatically — expired members are excluded from sends without any action needed'],
+  steps:[
+    {
+      title:'Open the community and click Send Campaign',
+      desc:'Go to <strong>CRM → Communities</strong> → open your community → click <strong>Send Campaign</strong>.',
+      subs:[
+        { icon:'💡', title:'When to send a campaign', points:[
+          'A new role opens that matches this community — email immediately while the posting is fresh',
+          '"Stay warm" update when no specific role is ready — keeps the talent engaged with your brand',
+          'Company news (new office, award, product milestone) — employer brand building',
+          'Re-consent campaign when members are approaching their data retention expiry date'
+        ]}
+      ]
+    },
+    {
+      title:'Write the campaign email',
+      desc:'Enter the <strong>Subject</strong> line and write the email body. Use the <strong>[First Name]</strong> merge field to personalise the opening.',
+      subs:[
+        { icon:'✍️', title:'Campaign writing best practices', points:[
+          'Subject line under 50 characters for full mobile display — "A role that might interest you" outperforms long formal subjects',
+          'Lead with the candidate\'s name and a specific reason for reaching out: "Hi [Name], we just opened a Senior Java role in London that looks like a great fit"',
+          'Keep the body to 3–4 sentences — link to the job or career site for detail',
+          'One clear call-to-action only: Apply Now, Learn More, or Reply to this email',
+          'SmartRecruiters automatically includes an unsubscribe link — required by law, do not remove it'
+        ]},
+        { icon:'⚠️', title:'What to avoid', points:[
+          'Do not send to communities that have been inactive for 6+ months without a re-consent check first',
+          'Do not include multiple CTAs — one ask per email',
+          'Do not use image-heavy designs — many candidates view on mobile where images are blocked'
+        ]}
+      ]
+    },
+    {
+      title:'Target a subset if needed, then send or schedule',
+      desc:'By default the campaign goes to all active community members. Use <strong>filters</strong> to target a subset (e.g. only members in London, or members who opened your last campaign). Then click <strong>Send</strong> now or <strong>Schedule</strong> for a future date and time.',
+      subs:[
+        { icon:'🎯', title:'Scheduling tip', points:[
+          'Tuesday–Thursday mornings (8–10am recipient\'s local time) consistently produce the highest open rates for recruiting emails',
+          'Avoid Friday afternoons and Monday mornings',
+          'If your community spans multiple time zones, send at 9am in the majority time zone or use a send-time optimisation tool'
+        ]}
+      ]
+    },
+    {
+      title:'Review campaign results',
+      desc:'After sending, track <strong>Open Rate</strong>, <strong>Click Rate</strong>, and <strong>Replies</strong> on the campaign results page.',
+      subs:[
+        { icon:'📊', title:'Performance benchmarks', points:[
+          'Open rate above 30% is strong for talent communities — these are warm audiences who know your brand',
+          'Click rate above 5% means the role and message are resonating',
+          'Replies are the highest-quality signal — personal responses indicate genuine interest',
+          'Open rate below 15%: test a different subject line approach on your next campaign'
+        ]}
+      ],
+      tip:'Send follow-up campaigns within 48 hours of a career fair or event while your brand is still top of mind. Response rates drop significantly after 72 hours — speed matters for talent community engagement.'
+    }
+  ]
+},
+
+// ─── JOB APPROVAL CHAINS ──────────────────────────────
+'create-job-approval': {
+  role:'adm', icon:'✅', title:'Create a Job Approval Chain',
+  desc:'Build a sign-off workflow that routes new job requisitions to specified approvers before they can be published — enforcing headcount and budget control.',
+  path:['Settings','Configuration','Job Approvals','+ New Approval'],
+  who:[{label:'Admin',c:'var(--adm)'}],
+  before:['Map out who needs to approve job requisitions — Finance, HRBP, Executive?','Determine whether approvals should be sequential (ordered sign-off) or parallel (all at once)','Identify which org field values should trigger this chain — usually not all jobs need approval'],
+  diagram:{type:'hflow',nodes:[
+    {l:'Create Chain',s:'hf-adm',sub:'Name + type'},
+    {l:'Add Approvers',s:'hf-adm',sub:'Named users or roles'},
+    {l:'Scope Org Fields',s:'hf-purple',sub:'Which jobs trigger this'},
+    {l:'Activate',s:'hf-green',sub:'Goes live immediately'},
+  ]},
+  steps:[
+    {
+      title:'Go to Settings → Configuration → Job Approvals',
+      desc:'Click User Menu → Settings → <strong>Job Approvals</strong> under Configuration. Click <strong>+ New Approval</strong>.',
+      path:['Settings','Configuration','Job Approvals'],
+      subs:[
+        { icon:'📋', title:'Job Approvals vs Offer Approvals', points:[
+          '<strong>Job Approvals</strong> — control who signs off a JOB REQUISITION before it is published to candidates',
+          '<strong>Offer Approvals</strong> — control who signs off an OFFER before it is sent to the candidate',
+          'Both are configured independently — a role can require both, either, or neither',
+          'This guide covers Job Approvals only — see Scope Offer Approval for offer-side configuration'
+        ]}
+      ]
+    },
+    {
+      title:'Name the chain and choose Sequential or Parallel',
+      desc:'Enter a descriptive name (e.g. "Finance — Director+ Roles Approval"). Choose <strong>Sequential</strong> (ordered sign-off, approver 2 only notified after approver 1 approves) or <strong>Parallel</strong> (all notified simultaneously).',
+      subs:[
+        { icon:'🔄', title:'Sequential vs Parallel — when to use each', points:[
+          'Sequential — use when each approver adds a distinct check: HRBP approves role scope, then Finance approves budget. Order matters.',
+          'Parallel — use when multiple people have equal sign-off authority and speed is the priority: any one of three regional HRDs can approve',
+          'Sequential is better for budget governance; parallel is faster for time-sensitive hires'
+        ]}
+      ]
+    },
+    {
+      title:'Add approvers to the chain',
+      desc:'Click <strong>Add Approver</strong>. Search for and add each approver by name. For sequential chains, drag to set the order. Each approver receives an email notification and Home page alert when it is their turn.',
+      subs:[
+        { icon:'⚠️', title:'Approver requirements', points:[
+          'Approvers must have a SmartRecruiters account — Basic role minimum',
+          'They do not need to be on the hiring team of every job that triggers this chain',
+          'If an approver\'s account is deactivated, update the chain immediately — a deactivated approver blocks all requests at their step',
+          'Consider naming a backup approver using delegation settings (see Configure Approval Delegation)'
+        ]}
+      ]
+    },
+    {
+      title:'Scope to org field values and activate',
+      desc:'In the <strong>Apply to</strong> section, select the org field values that trigger this chain — e.g. Experience Level = Director or Department = Finance. Toggle <strong>Active</strong> and click <strong>Save</strong>.',
+      subs:[
+        { icon:'🎯', title:'Scoping recommendations', points:[
+          'Most organisations apply job approvals to seniority levels or budget-sensitive departments — not every job',
+          'Test with one department or role type before rolling out broadly',
+          'Verify no job type is covered by two overlapping approval chains — this causes a conflict error at job creation'
+        ]}
+      ],
+      warn:'Once active, any new job matching the org field criteria will require approval before publishing. Brief your recruiters before activating — they will see Submit for Approval instead of Publish.',
+      tip:'Keep chains short. Every additional approver step adds days to time-to-hire. One HRBP + one Finance approver handles most governance requirements. A 5-step approval chain is a process design problem.'
+    }
+  ]
+},
+
+// ─── CONFIGURE INTERVIEW TYPES ─────────────────────────
+'configure-interview-types': {
+  role:'adm', icon:'🏷️', title:'Configure Interview Types',
+  desc:'Set up the interview type labels that appear in the scheduling modal and candidate communications — so candidates know exactly what kind of interview to prepare for.',
+  path:['Settings','Configuration','Interview Types'],
+  who:[{label:'Admin',c:'var(--adm)'}],
+  before:['Agree the standard interview stage names with your recruiting team before configuring — consistency across all hiring processes matters for reporting and candidate experience'],
+  steps:[
+    {
+      title:'Go to Settings → Configuration → Interview Types',
+      desc:'Click User Menu → Settings → <strong>Interview Types</strong> under Configuration.',
+      path:['Settings','Configuration','Interview Types'],
+      subs:[
+        { icon:'🏷️', title:'What Interview Types control', points:[
+          'The type label appears in the scheduling modal when recruiters book interviews',
+          'It appears in the candidate\'s invitation email subject and calendar event title',
+          'The merge field [m_interview_type] in email templates pulls this label automatically — making it critical for candidate communications',
+          'Examples: Phone Screen, Video Interview, Technical Assessment, Panel Interview, Executive Interview, On-site'
+        ]}
+      ]
+    },
+    {
+      title:'Review existing types — edit or deactivate as needed',
+      desc:'SmartRecruiters provides default interview types. Review these against your process. Click the pencil to rename, or toggle to deactivate types that don\'t apply to your hiring.',
+      subs:[
+        { icon:'✍️', title:'Naming best practices', points:[
+          'Use candidate-facing language — they see these labels on their calendar invite and invitation email',
+          '"Technical Interview" is clearer than "Tech Screen Stage 2"',
+          '"Hiring Manager Conversation" is warmer than "HM Interview"',
+          'Keep names short — they appear in calendar event subjects which have limited character display',
+          'Align with how you refer to each stage in actual conversations with candidates'
+        ]}
+      ]
+    },
+    {
+      title:'Add new interview types if needed',
+      desc:'Click <strong>+ Add Interview Type</strong>. Enter the name. Save. The new type immediately appears in the scheduling modal for all recruiters.',
+      subs:[
+        { icon:'💡', title:'Recommended standard set', points:[
+          'Phone Screen — first contact call',
+          'Video Interview — remote interview via video platform',
+          'Hiring Manager Interview — with the direct manager',
+          'Technical Assessment — skills or technical evaluation',
+          'Panel Interview — multiple interviewers simultaneously',
+          'On-site Interview — in-person at the office',
+          'Executive Interview — with senior leadership',
+          'Reference Check — structured reference conversation'
+        ]}
+      ],
+      tip:'After configuring interview types, ensure your interview email templates reference the [m_interview_type] merge field. It dynamically inserts the correct type label into every invitation — no manual editing per interview.'
+    }
+  ]
+},
+
+// ─── BULK USER UPLOAD ──────────────────────────────────
+'bulk-user-upload': {
+  role:'adm', icon:'📤', title:'Bulk User Upload & Download',
+  desc:'Add or update large numbers of users at once using a CSV upload — far more efficient than creating accounts one by one during a large rollout or migration.',
+  path:['Settings','Permissions','User Management','Bulk Upload'],
+  who:[{label:'Admin',c:'var(--adm)'}],
+  before:['Prepare your user list: first name, last name, work email, and the exact system role name','For SSO environments, the email must exactly match what is in your identity provider'],
+  steps:[
+    {
+      title:'Download the user upload template',
+      desc:'Go to Settings → Permissions → <strong>User Management</strong>. Click the <strong>Bulk Upload</strong> option (cloud/upload icon, top right). Download the CSV template.',
+      path:['Settings','Permissions','User Management'],
+      subs:[
+        { icon:'📋', title:'Template columns', points:[
+          'First Name — required',
+          'Last Name — required',
+          'Email — required, must be unique per user',
+          'System Role — required. Use EXACT values: ADMINISTRATOR, EXTENDED, STANDARD, RESTRICTED, EMPLOYEE',
+          'Access Group — optional: enter the exact access group name as it appears in the system',
+          'CRM Access — optional: TRUE or FALSE'
+        ]}
+      ]
+    },
+    {
+      title:'Complete the template carefully',
+      desc:'Fill in all required columns. Role names are case-sensitive. Check for duplicate email addresses before uploading — duplicates cause the row to fail without failing the whole file.',
+      subs:[
+        { icon:'⚠️', title:'Common upload errors', points:[
+          'Wrong role name — must be STANDARD not "Standard", RESTRICTED not "Basic"',
+          'Email already exists — existing emails are skipped (not updated)',
+          'Invalid access group name — must match exactly (including capitalisation)',
+          'Missing required fields — blank first/last name or email causes that row to fail',
+          'Rows with errors are skipped; the rest are processed — always check the post-upload summary'
+        ]}
+      ]
+    },
+    {
+      title:'Upload the CSV and review the summary',
+      desc:'Return to User Management → Bulk Upload → upload your completed CSV. A summary shows imported, skipped, and failed rows. Download the error report to identify and fix failed rows.',
+      subs:[
+        { icon:'✅', title:'After the upload', points:[
+          'Newly created users receive the standard invitation email automatically',
+          'Fix failed rows and re-upload only those rows — do not re-upload the full file',
+          'Check a sample of newly created accounts to confirm role and access group are correctly applied',
+          'For SSO environments: created users must log in via your identity provider — test one account before announcing'
+        ]}
+      ]
+    },
+    {
+      title:'Bulk download — export your current user list',
+      desc:'In User Management, click <strong>Download</strong> (without uploading a file) to export all current users as CSV. Useful for access audits, offboarding reconciliation, or sharing with IT and HR.',
+      subs:[
+        { icon:'📊', title:'Uses for the user export', points:[
+          'Quarterly access audit — compare against your HRIS active employee list',
+          'Identify users who haven\'t logged in for 90+ days (dormant accounts)',
+          'Share with IT/HR for onboarding/offboarding reconciliation',
+          'Verify roles are correctly assigned as teams and structures change'
+        ]}
+      ],
+      tip:'Schedule a quarterly user audit: export the user list, compare against your HRIS, and deactivate leavers. Dormant accounts are a security risk and may unnecessarily consume CRM seat licences.'
+    }
+  ]
+},
+
+// ─── POSITION TYPES ────────────────────────────────────
+'understand-position-types': {
+  role:'adm', icon:'📋', title:'Position Types — New vs Replacement',
+  desc:'Understand the two position types in SmartRecruiters and when to use each. Commonly confused with Type of Employment — they are completely separate fields serving different purposes.',
+  path:['Jobs','Create Job','Job Details'],
+  who:[{label:'Admin',c:'var(--adm)'},{label:'Recruiter',c:'var(--rec)'}],
+  before:[],
+  steps:[
+    {
+      title:'Position Type has only two values — and is not the same as Type of Employment',
+      desc:'This is one of the most frequently confused fields in SmartRecruiters. These are two entirely different fields serving different audiences.',
+      subs:[
+        { icon:'📋', title:'Position Type — two values only', points:[
+          '<strong>NEW</strong> — you are creating a brand new headcount position that did not exist before. This is net-new headcount requiring new budget.',
+          '<strong>REPLACEMENT</strong> — you are replacing someone who left an existing role. The headcount position already exists in the org chart.',
+          'There is no "Contract Position", "Temporary", or "Intern" value — those are employment types, not position types.',
+          'Position Type is used for workforce planning and headcount reporting — it tells Finance and HR whether this hire is net-new or a backfill.'
+        ]},
+        { icon:'💼', title:'Type of Employment — a completely separate field', points:[
+          'Type of Employment captures the working arrangement: Full-time, Part-time, Temporary, Contract, Internship',
+          'This field appears on the job ad to inform candidates about the contract nature',
+          'A REPLACEMENT position could be Full-time permanent, or a Contract role — they are independent',
+          'Set both fields correctly — they serve different audiences (internal HR/Finance vs external candidates)'
+        ]}
+      ]
+    },
+    {
+      title:'Where to set Position Type',
+      desc:'When creating or editing a job, go to the <strong>Job Details</strong> tab. The Position Type field appears in the job fields section. Select <strong>New</strong> or <strong>Replacement</strong>.',
+      path:['Jobs','Job Details'],
+      subs:[
+        { icon:'💡', title:'Why consistent use matters for reporting', points:[
+          'Headcount planning reports split hires by NEW vs REPLACEMENT to show net growth vs attrition replacement',
+          'Job approval chains can be scoped to NEW positions only — some organisations require extra sign-off for net-new headcount but not replacements',
+          'Inconsistent use corrupts TA analytics on whether the business is growing or maintaining headcount'
+        ]}
+      ],
+      tip:'Unsure which to select? Ask the hiring manager: "Did someone leave a role that needs filling (Replacement) or is this a newly approved headcount position (New)?" That question always resolves the ambiguity.'
+    }
+  ]
+},
+
+// ─── ADMIN NOTIFICATIONS CONFIG ────────────────────────
+'configure-admin-notifications': {
+  role:'adm', icon:'🔔', title:'Configure System-Wide Notifications',
+  desc:'Control which notification types are available globally — individual users can turn off globally-enabled notifications for themselves, but cannot enable ones you have disabled system-wide.',
+  path:['Settings','Administration','Notifications'],
+  who:[{label:'Admin',c:'var(--adm)'}],
+  before:['Changes affect all users system-wide — brief your team before making changes that remove notifications they rely on'],
+  steps:[
+    {
+      title:'Understand the two-tier notification system',
+      desc:'Notifications are controlled at two levels: the admin system level (this guide) and the individual user level (User Menu → Settings → Notifications).',
+      subs:[
+        { icon:'📋', title:'How the two levels interact', points:[
+          '<strong>Admin level (here)</strong> — enables or disables notification types for the entire system. If you disable "Candidate Withdrew", nobody can receive it.',
+          '<strong>User level</strong> — each user can turn OFF any globally-enabled notification. They cannot turn ON a notification you have disabled.',
+          'The admin level is the ceiling; individual users can only lower themselves within that ceiling.',
+          'Key implication: if a recruiter asks to stop receiving a specific notification, direct them to their own Settings → Notifications tab rather than changing it globally.'
+        ]}
+      ]
+    },
+    {
+      title:'Go to Settings → Administration → Notifications',
+      desc:'Click User Menu → Settings → <strong>Notifications</strong> under Administration. Review the notification categories and their current enabled/disabled state.',
+      path:['Settings','Administration','Notifications'],
+      subs:[
+        { icon:'🔔', title:'Recommended configuration', points:[
+          'Keep enabled — New application received, Candidate shortlisted, Interview scheduled, Offer approved/rejected, @mention or task assigned',
+          'Review carefully — "Every candidate moved to any step" creates very high volume for active recruiters — consider disabling globally and letting individuals opt in',
+          'Generally safe to disable — internal system admin events that non-admin users do not need',
+          'When in doubt: enable globally and let users self-manage their personal preferences'
+        ]}
+      ]
+    },
+    {
+      title:'Save and communicate changes',
+      desc:'Click <strong>Save</strong> after any changes. Inform your team of any notifications that have been disabled — users who relied on them will notice and wonder why they stopped.',
+      subs:[],
+      tip:'The most common admin notification mistake is disabling a notification globally when one recruiter complained about it. Instead: point them to their own Settings → Notifications. Their preference should not override everyone else\'s.'
+    }
+  ]
+},
+
+// ─── SF-SR INTEGRATION OVERVIEW ────────────────────────
+'sf-sr-integration-overview': {
+  role:'adm', icon:'🔗', title:'SAP SuccessFactors ↔ SmartRecruiters Integration',
+  desc:'Understand the five sync types between SAP SuccessFactors and SmartRecruiters — what data flows in each direction, what to expect from each, and how to investigate failures.',
+  path:['Settings','Apps & Integrations','SuccessFactors'],
+  who:[{label:'Admin',c:'var(--adm)'}],
+  before:['The SF-SR integration is configured during implementation by your EX3 consultant — this guide helps you understand what is running and troubleshoot when something breaks'],
+  steps:[
+    {
+      title:'The five sync types — what each one does',
+      desc:'The SF-SR integration covers five distinct data flows. Understanding which sync handles which data is the foundation for troubleshooting anything that goes wrong.',
+      subs:[
+        { icon:'🔄', title:'The five sync types', points:[
+          '<strong>User Sync</strong> — SF Employee Central → SmartRecruiters. Keeps SR user accounts aligned with your employee database. New joiners get SR accounts; leavers are deactivated.',
+          '<strong>Department Sync</strong> — SF Org Structure → SR Department field values. Keeps your department list current without manual maintenance.',
+          '<strong>Job Sync</strong> — SR ↔ SF. When a job is created in SR, a corresponding Job Requisition is created in SF. Status and key field updates flow bidirectionally.',
+          '<strong>Position Sync</strong> — SF Positions → SR. Open positions in SF flow to SR as job requisitions — enabling headcount-driven recruiting from your position management system.',
+          '<strong>Hire Sync</strong> — SR → SF. When a candidate is marked as Hired in SR, a New Hire or equivalent record is created in SF to trigger onboarding workflows.'
+        ]}
+      ]
+    },
+    {
+      title:'Hire Sync types — five options, each creates a different SF record',
+      desc:'When a hire sync fires, the type of SF record created depends on configuration. This must be set correctly for each hire type your organisation processes.',
+      subs:[
+        { icon:'🎯', title:'The five Hire Sync types', points:[
+          '<strong>New Hire</strong> — creates a new employee record in SF. Used for external candidates joining the organisation for the first time.',
+          '<strong>Rehire</strong> — reinstates a former employee. Requires matching the candidate\'s externalID to the previous SF employee record.',
+          '<strong>Add Job Relationship</strong> — adds a second job to an existing employee (concurrent or matrix employment).',
+          '<strong>Add Non-Employee Relationship</strong> — for contractors, interns, or consultants who receive an SF record but not a permanent employee record.',
+          '<strong>Global Assignment</strong> — for employees moving internationally while retaining their home country employment record.'
+        ]}
+      ]
+    },
+    {
+      title:'How to check integration status',
+      desc:'Go to Settings → Apps & Integrations → SuccessFactors. Check the status indicator. Click into the integration to view event logs showing which records synced successfully and which failed.',
+      subs:[
+        { icon:'🔧', title:'Common failure causes', points:[
+          'Authentication expired — SF admin password changed or OAuth token expired. Re-authenticate the integration.',
+          'Required SF field missing — a field SR is trying to write to SF is empty or formatted incorrectly',
+          'Duplicate Employee ID — a Hire Sync trying to create a record for an ID that already exists in SF',
+          'SF field validation rule blocking write — the value from SR fails an SF business rule or picklist check',
+          'For any persistent failure, raise a ticket with your EX3 consultant and include the exact error from the integration event log'
+        ]}
+      ],
+      tip:'Check integration status monthly — silent failures where no notification is sent can go undetected for weeks. A monthly check catches data gaps before they create real downstream problems in onboarding or payroll.'
+    }
+  ]
+},
+
+// ─── USER SYNC SETUP ───────────────────────────────────
+'user-sync-setup': {
+  role:'adm', icon:'👤', title:'User Sync — How It Works & What It Manages',
+  desc:'Understand how the User Sync keeps your SmartRecruiters user list aligned with SAP SuccessFactors — including the critical Employee ID field configuration.',
+  path:['Settings','Apps & Integrations','SuccessFactors','User Sync'],
+  who:[{label:'Admin',c:'var(--adm)'}],
+  before:['The SF-SR integration must be connected (configured during implementation)','Do not change User Sync field mappings without testing in Sandbox first and coordinating with your EX3 consultant'],
+  steps:[
+    {
+      title:'How User Sync works — event-based, not scheduled',
+      desc:'User Sync is triggered by changes in SF Employee Central — not a fixed schedule. When an employee record is created, changed, or deactivated in SF, the corresponding SR user updates within minutes.',
+      subs:[
+        { icon:'✅', title:'What User Sync handles automatically', points:[
+          'New employee joins SF → SR account created and invitation email sent automatically',
+          'Employee name or email changes in SF → SR record updates',
+          'Employee leaves → SR account is deactivated (data is retained per your retention policy)',
+          'Department changes in SF → SR user\'s department field updates'
+        ]},
+        { icon:'❌', title:'What User Sync does NOT manage', points:[
+          'System Role — must be assigned manually in SR (Admin, Extended, Standard, Basic, Employee)',
+          'Access Group — must be assigned manually per user',
+          'CRM seat — must be toggled manually per user',
+          'These must be managed independently from the sync. When a new employee appears via User Sync, an admin must still set their role and access group before they can use the platform effectively.'
+        ]}
+      ]
+    },
+    {
+      title:'Employee ID (externalData) — the critical link field',
+      desc:'The Employee ID is the unique identifier that links an SR user to their SF employee record. This must be configured correctly from the start.',
+      subs:[
+        { icon:'🔑', title:'Employee ID field rules', points:[
+          'SR field name: externalData',
+          'Data type: String (text format — not a number field)',
+          'Length: 1 to 300 characters',
+          'Required: YES — every synced user must have this field populated',
+          'Will Update: NO — once set, the Employee ID does not update even if it changes in SF. This is intentional to prevent accidental record mismatches.',
+          'If an Employee ID needs correcting, it must be done manually by a system admin and confirmed with your EX3 consultant before making changes'
+        ]}
+      ]
+    },
+    {
+      title:'What to do when a new employee doesn\'t appear in SR',
+      desc:'If a new employee was created in SF but hasn\'t appeared in SR within 1 hour, check the User Sync event log in Settings → Apps & Integrations → SuccessFactors for errors.',
+      subs:[
+        { icon:'🔧', title:'Troubleshooting new user sync failures', points:[
+          'Check the SF employee record is fully saved and active — draft SF records do not trigger sync events',
+          'Verify the integration is showing as Active (green) — an orange or red status means the sync is not running',
+          'Check the event log for a specific error message — it will indicate which field caused the failure',
+          'If no error appears in the log and the record still hasn\'t synced after 2 hours, contact your EX3 consultant with the SF Employee ID'
+        ]}
+      ],
+      tip:'When a new recruiter joins via User Sync, their SR account is created automatically — but you still need to manually set their System Role and Access Group. Set a task or calendar reminder linked to their SF start date so their account is ready on Day 1.'
+    }
+  ]
+},
+
+// ─── WINSTON CHAT ADMIN SETUP ──────────────────────────
+'configure-winston-chat-admin': {
+  role:'adm', icon:'🤖', title:'Enable & Configure Winston Chat',
+  desc:'Activate Winston Chat on your career site and configure its behaviour — the AI chatbot that guides candidates through the application process conversationally instead of a standard form.',
+  path:['Settings','Winston AI','Winston Chat'],
+  who:[{label:'Admin',c:'var(--adm)'}],
+  before:['Winston Chat requires a paid AI licence — confirm with your SmartRecruiters account manager it is active on your contract','Have the introduction message copy and brand colour ready before starting'],
+  steps:[
+    {
+      title:'Go to Settings → Winston AI → Winston Chat',
+      desc:'Click User Menu → Settings → <strong>Winston AI</strong> → <strong>Winston Chat</strong>. The Chatbot Configuration Panel opens.',
+      path:['Settings','Winston AI','Winston Chat'],
+      subs:[
+        { icon:'🤖', title:'Winston Chat vs Winston Match — reminder', points:[
+          '<strong>Winston Chat</strong> — PRE-apply conversational chatbot on the career site. Collects candidate information through conversation.',
+          '<strong>Winston Match</strong> — POST-apply AI that scores submitted CVs against the job description.',
+          'They are completely independent features — enable either or both independently.',
+          'This guide covers Winston Chat admin setup only.'
+        ]}
+      ]
+    },
+    {
+      title:'Enable Winston Chat and configure the Introduction Message',
+      desc:'Toggle <strong>Enable Winston Chat</strong> on. Write the <strong>Introduction Message</strong> — this is the first message candidates see when they open the chat widget.',
+      subs:[
+        { icon:'✍️', title:'Introduction Message best practices', points:[
+          'Keep it welcoming and brief: "Hi! I\'m Winston, your guide at [Company]. Tell me what kind of role you\'re looking for and I\'ll help you find the right fit."',
+          'Include the company name — candidates may have multiple career sites open',
+          'For multiple languages, use + Add Language to create localised variants (Winston detects browser language automatically and serves the matching variant)',
+          'Avoid overly corporate language — conversational and warm outperforms formal in chat contexts'
+        ]}
+      ]
+    },
+    {
+      title:'Configure appearance and auto-open behaviour',
+      desc:'Set the widget colour (match your brand hex code), position (bottom-right is standard), and whether the chat widget auto-opens after a delay on the career site.',
+      subs:[
+        { icon:'🎨', title:'Settings to configure', points:[
+          'Widget colour: enter your brand hex code to match the career site primary colour',
+          'Auto-open delay: 10–15 seconds works well for targeted career sites; disable auto-open for high-traffic general sites to avoid friction',
+          'Widget position: bottom-right is the standard — candidates expect and look for chat there'
+        ]},
+        { icon:'💬', title:'Re-engagement — abandoned application recovery', points:[
+          'Enable re-engagement: if a candidate starts but does not complete the chat application, Winston sends a follow-up SMS or WhatsApp link',
+          'The link allows the candidate to resume exactly where they left off — the only cross-session continuity Winston Chat offers',
+          'Configure re-engagement delay at 2–4 hours after abandonment — long enough not to feel immediate, short enough to catch candidates who were interrupted'
+        ]}
+      ]
+    },
+    {
+      title:'Test the full chat flow before go-live',
+      desc:'Open your career site in an incognito browser window. Start a Winston Chat session and complete the full application flow. Verify the application appears in the SmartRecruiters pipeline.',
+      subs:[
+        { icon:'🧪', title:'End-to-end test checklist', points:[
+          'Chat widget appears on career site and opens correctly',
+          'Introduction message displays as configured',
+          'Conversational flow collects name, email, experience, and screening question answers',
+          'Completed application appears in the SR pipeline with correct source tag',
+          'Test on mobile — the majority of Winston Chat sessions happen on mobile devices',
+          'Test the re-engagement flow: abandon mid-conversation and confirm the follow-up link arrives and resumes correctly'
+        ]}
+      ],
+      tip:'Winston Chat quality depends heavily on job description quality. Vague, generic descriptions produce vague candidate matches. Review and sharpen your job templates before enabling Chat for high-volume roles.'
+    }
+  ]
+},
+
+// ─── SMARTLABS ─────────────────────────────────────────
+'smartlabs-overview': {
+  role:'adm', icon:'🧪', title:'SmartLabs — Preview & Enable Beta Features',
+  desc:'SmartLabs is SmartRecruiters\' early-access programme. Preview features from the product roadmap before they are fully released, and opt in or out freely.',
+  path:['Settings','Administration','SmartLabs'],
+  who:[{label:'Admin',c:'var(--adm)'}],
+  before:['SmartLabs features are not fully released — expect rough edges','Do not enable SmartLabs features during peak hiring periods — unexpected behaviour can disrupt live processes'],
+  steps:[
+    {
+      title:'Go to Settings → Administration → SmartLabs',
+      desc:'Click User Menu → Settings → <strong>SmartLabs</strong> under Administration. All available early-access features are listed here.',
+      path:['Settings','Administration','SmartLabs'],
+      subs:[
+        { icon:'🧪', title:'What SmartLabs contains', points:[
+          'Pre-release features from the SmartRecruiters product roadmap',
+          'Features are listed with status labels: Preview (very early), Beta (in active testing), or Early Access (near-GA)',
+          'Not all accounts have access to all SmartLabs features — some are gated by licence tier or region',
+          'Features in Labs may change before reaching General Availability — configuration you set may need updating post-GA'
+        ]}
+      ]
+    },
+    {
+      title:'Review each feature description before enabling',
+      desc:'Read the description and status carefully. Click <strong>Learn More</strong> if available. Enable features in Sandbox first when possible — test before enabling in Production.',
+      subs:[
+        { icon:'⚠️', title:'Before enabling in Production', points:[
+          'Check the status: Beta features may have documented known issues. Preview features are the least stable.',
+          'Read for caveats — some features change existing behaviour (e.g. a new workflow trigger that fires on conditions the old behaviour did not)',
+          'Keep a note of what you enable in SmartLabs — if unexpected behaviour appears, it helps to know what changed'
+        ]}
+      ]
+    },
+    {
+      title:'Opt out if a feature causes issues',
+      desc:'Toggle any SmartLabs feature back off at any time — there is no lock-in. If something breaks immediately after enabling a Labs feature, toggle it off before investigating further.',
+      subs:[
+        { icon:'💡', title:'Getting value from SmartLabs', points:[
+          'Features that solve a real pain point in your process are worth the early-access trade-off — evaluate each one against your actual needs',
+          'Share feedback with your EX3 consultant and SmartRecruiters account manager — Labs feedback directly shapes the GA release',
+          'Monitor SmartRecruiters release notes: Labs features graduate to GA regularly and the toggle is no longer needed'
+        ]}
+      ],
+      tip:'Review SmartLabs during your quarterly platform check. Features rotate in and out — something that was unavailable six months ago may now be in Labs and worth trying.'
+    }
+  ]
+},
 
 };
 
