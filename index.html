@@ -611,6 +611,16 @@ select{font-family:inherit}
 }
 .note.tip{background:#eff4ff;border-left:2px solid var(--a-rec);color:#1e3a8a}
 .note.warn{background:#fffbeb;border-left:2px solid var(--a-adm);color:#78350f}
+.release-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;letter-spacing:0.03em;margin-bottom:10px}
+.release-badge.jun15{background:#dbeafe;color:#1d4ed8;border:1px solid #93c5fd}
+.release-badge.jun30{background:#d1fae5;color:#065f46;border:1px solid #6ee7b7}
+.release-badge.changing{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.note.release-note{background:#dbeafe;border-left:2px solid #3b82f6;color:#1e3a8a}
+.note.changing-note{background:#fef3c7;border-left:2px solid #f59e0b;color:#78350f}
+.tr-release{display:inline-flex;align-items:center;margin-left:8px;padding:2px 7px;border-radius:10px;font-size:0.68rem;font-weight:700;vertical-align:middle;white-space:nowrap}
+.tr-release.jun15{background:#dbeafe;color:#1d4ed8}
+.tr-release.jun30{background:#d1fae5;color:#065f46}
+.tr-release.changing{background:#fef3c7;color:#92400e}
 .note.danger{background:#fef2f2;border-left:2px solid #dc2626;color:#7f1d1d}
 .note.info{background:#f0fdf6;border-left:2px solid var(--a-hm);color:#14532d}
 .note-icon{flex-shrink:0;font-size:12px;margin-top:1px}
@@ -1479,16 +1489,16 @@ const CATS = {
     { id:'interviewtpl',   icon:'📅',  title:'Interview Templates',    desc:'Set up individual and group interview scheduling templates', count:4 },
     { id:'offertpl',       icon:'📄',  title:'Offer Templates',        desc:'Create, upload and configure offer letter templates', count:4 },
     { id:'jobboards',      icon:'📢',  title:'Job Boards & Contracts', desc:'Set up posting contracts and automated distribution', count:3 },
-    { id:'careersite',     icon:'🌐',  title:'Career Site',            desc:'Configure your external career site, branding, pages, and mobile experience', count:4 },
+    { id:'careersite',     icon:'🌐',  title:'Career Site',            desc:'Configure your external career site, branding, pages, and mobile experience', count:5 },
     { id:'company',        icon:'⚙️',  title:'Company Settings',       desc:'Configure branding, security, and company profile', count:4 },
     { id:'compliance',    icon:'⚖️',  title:'Compliance & Policy',    desc:'Configure consent models, SMS opt-in, rejection enforcement and data compliance', count:4 },
-    { id:'datamigration',  icon:'🗄️', title:'Data Migration',          desc:'Import legacy candidates, requisitions, and historical data into SmartRecruiters', count:3 },
+    { id:'datamigration',  icon:'🗄️', title:'Data Migration',          desc:'Import legacy candidates, requisitions, and historical data into SmartRecruiters', count:4 },
     { id:'referralmgmt',   icon:'🤝',  title:'Referral Management',    desc:'Enable the employee referral portal and manage referral workflows', count:3 },
     { id:'reporting',      icon:'📊',  title:'Reporting & Analytics',  desc:'Build dashboards, create saved reports, and schedule data distribution', count:4 },
     { id:'aifeatures',    icon:'🤖',  title:'AI & Winston',           desc:'Winston Match for resume scoring and Winston Chat for conversational apply', count:5 },
     { id:'systemconfig',  icon:'⚙️',  title:'System Configuration',   desc:'Locations, scheduling rules, approval delegation, calendar sync and integrations', count:10 },
     { id:'worktemplates', icon:'📋',  title:'Templates & Fields',     desc:'Job templates, org field detail, internal application and employee filters', count:5 },
-    { id:'integrations',  icon:'🔗',  title:'Integrations & Sync',    desc:'SAP SuccessFactors integration, User Sync and data flows between systems', count:2 },
+    { id:'integrations',  icon:'🔗',  title:'Integrations & Sync',    desc:'SAP SuccessFactors integration, User Sync and data flows between systems', count:5 },
   ]
 };
 
@@ -1673,12 +1683,16 @@ const TASKS = {
   'adm-integrations': [
     { id:'sf-sr-integration-overview',     icon:'🔗', title:'SAP SuccessFactors ↔ SmartRecruiters Integration', desc:'How the SF-SR integration works, the 5 sync types, and what flows between systems', role:'adm' },
     { id:'user-sync-setup',                icon:'👥', title:'User Sync Configuration',                  desc:'Configure the automated sync that creates and updates SR users from SF records',     role:'adm' },
+    { id:'integration-hub-setup',          icon:'🔗', title:'Integration Hub',                          desc:'New June 15: dedicated space in SR to manage all SF integration configuration',       role:'adm' },
+    { id:'position-field-mapping',         icon:'📍', title:'Position-to-Job Field Mapping',            desc:'Configure which SF Position fields pre-fill SR job fields on job creation',           role:'adm' },
+    { id:'hire-to-ec-field-mapping',       icon:'👤', title:'Hire-to-Employee Data Mapping',            desc:'Map additional SR data to Employee Central and Onboarding at point of hire',          role:'adm' },
   ],
   'adm-careersite': [
     { id:'configure-career-site-branding', icon:'🎨', title:'Configure Career Site Branding',           desc:'Apply your logo, brand colours, and imagery to the external career site',              role:'adm' },
     { id:'configure-career-site-pages',    icon:'📄', title:'Build Career Site Pages',                  desc:'Create the homepage, category pages, and content pages for your career site',          role:'adm' },
     { id:'configure-career-site-locale',   icon:'🌍', title:'Set Career Site Locale & Language',        desc:'Configure the site locale, language, and regional display settings',                   role:'adm' },
     { id:'test-career-site-mobile',        icon:'📱', title:'Test Mobile Career Site',                  desc:'Validate that the career site renders correctly on mobile devices',                    role:'adm' },
+    { id:'career-site-builder-sr',         icon:'🔗', title:'Career Site Builder — SR Integration',     desc:'New June 30: connect SR as the ATS inside SAP Career Site Builder with field mapping and internal mobility', role:'adm' },
   ],
   'adm-referralmgmt': [
     { id:'enable-referral-portal',         icon:'🤝', title:'Enable the Employee Referral Portal',      desc:'Activate the native SmartRecruiters referral portal so employees can submit referrals', role:'adm' },
@@ -1692,6 +1706,7 @@ const TASKS = {
     { id:'export-recruiting-data',         icon:'⬇️', title:'Export Recruiting Data',                   desc:'Export candidate and job data for external analysis or compliance records',             role:'adm' },
   ],
   'adm-datamigration': [
+    { id:'migration-analyser',             icon:'🔍', title:'Migration Analyser',                       desc:'Assess your SF Recruiting config — incompatibilities, usage, redundancy (live now)',    role:'adm' },
     { id:'prepare-migration-templates',    icon:'📋', title:'Prepare Data Migration Templates',         desc:'Download and complete EX3 data load templates for candidates and requisitions',         role:'adm' },
     { id:'validate-migration-data',        icon:'✅', title:'Validate Migration Data',                  desc:'Run basic format and integrity checks before submitting data for loading',               role:'adm' },
     { id:'execute-data-migration',         icon:'🚀', title:'Execute Data Migration',                   desc:'Coordinate the test and production migration cycles with your EX3 consultant',          role:'adm' },
@@ -3953,8 +3968,13 @@ const TASK_DETAIL = {
   desc:'Download and complete the EX3-provided data load templates for candidates and open requisitions. Correct template completion is the single biggest factor in a smooth migration.',
   path:['Settings','Data Import'],
   who:[{label:'Admin',c:'var(--a-adm)'}],
-  before:['Data migration scope must be confirmed in the SOW — not all implementations include migration','A maximum of 1 test cycle and 1 production migration cycle is included in standard scope'],
+  before:['Data migration scope must be confirmed in the SOW — not all implementations include migration','A maximum of 1 test cycle and 1 production migration cycle is included in standard scope','Run the Migration Analyser first (available now) — it identifies data type incompatibilities and redundancy before you start template prep'],
   steps:[
+    {
+      title:'Run the Migration Analyser first',
+      desc:'The <strong>Migration Analyser</strong> is available now in the Migration Workspace. Before preparing templates, run it against your SF Recruiting configuration. It identifies data type incompatibilities, usage frequency, and redundant configurations — information that directly shapes which fields to include in your templates and which to simplify or discard.',
+      tip:'From June 15, the Analyser also covers Candidate Profile, Job Application, and Offer — re-run it after June 15 for complete coverage before production migration.',
+    },
     {
       title:'Receive migration templates from your EX3 consultant',
       desc:'Your EX3 consultant will provide the official data load templates during the Examine Phase. Do not use templates from previous projects or SmartRecruiters documentation — use EX3\'s templates only.',
@@ -5749,12 +5769,18 @@ const TASK_DETAIL = {
 
 // ─── SF-SR INTEGRATION OVERVIEW ────────────────────────
 'sf-sr-integration-overview': {
+  release:'changing-jun15',
   role:'adm', icon:'🔗', title:'SAP SuccessFactors ↔ SmartRecruiters Integration',
-  desc:'Understand the five sync types between SAP SuccessFactors and SmartRecruiters — what data flows in each direction, what to expect from each, and how to investigate failures.',
-  path:['Settings','Apps & Integrations','SuccessFactors'],
+  desc:'Understand the five sync types between SAP SuccessFactors and SmartRecruiters — what data flows in each direction, what to expect from each, and how to investigate failures. Updated for June 15, 2026: Integration Hub and enhanced field mapping are new.',
+  path:['Settings','Administration','Integration Hub'],
   who:[{label:'Admin',c:'var(--adm)'}],
-  before:['The SF-SR integration is configured during implementation by your EX3 consultant — this guide helps you understand what is running and troubleshoot when something breaks'],
+  before:['The SF-SR integration is configured during implementation by your EX3 consultant — this guide helps you understand what is running and troubleshoot when something breaks','From June 15, 2026: all integration configuration moves to the new Integration Hub (Settings → Administration → Integration Hub)'],
   steps:[
+    {
+      title:'Integration Hub — new from June 15, 2026',
+      desc:'From June 15, a dedicated <strong>Integration Hub</strong> appears under Settings → Administration. This replaces the scattered integration settings previously spread across multiple admin pages. All SF-SR configuration — position mappings, data sync settings, and hire field mappings — is managed from one place. It activates automatically on June 15 with no setup required.',
+      warn:'Before June 15, integration settings remain in their current locations (Settings → Apps & Integrations → SuccessFactors). After June 15, use the Integration Hub.',
+    },
     {
       title:'The five sync types — what each one does',
       desc:'The SF-SR integration covers five distinct data flows. Understanding which sync handles which data is the foundation for troubleshooting anything that goes wrong.',
@@ -5782,8 +5808,30 @@ const TASK_DETAIL = {
       ]
     },
     {
+      title:'Hire-to-Employee data — what flows automatically',
+      desc:'When a candidate is marked Hired in SR, the following fields transfer automatically into EC Manage Pending Hires and Onboarding Dashboard today.',
+      subs:[
+        { icon:'✅', title:'Standard fields flowing now', points:[
+          'First Name, Last Name',
+          'Hire Date',
+          'Email',
+          'Application ID',
+          'Position ID',
+          'Hiring Manager',
+          'Legal Entity',
+        ]},
+        { icon:'🗓', title:'From June 15 — additional field mapping', points:[
+          'Map any additional SR data to EC/Onboarding via the Integration Hub',
+          'Sources: candidate profile data, job data, or application data',
+          'Configure in Integration Hub → Hire Mapping',
+          'Identify which Manage Pending Hires fields EC admins currently fill in manually — those are your June 15 targets'
+        ]},
+      ],
+      tip:'Ask your EC admin team now which MPH fields they fill in manually on every hire. That list is your June 15 mapping priority.',
+    },
+    {
       title:'How to check integration status',
-      desc:'Go to Settings → Apps & Integrations → SuccessFactors. Check the status indicator. Click into the integration to view event logs showing which records synced successfully and which failed.',
+      desc:'Before June 15: Settings → Apps & Integrations → SuccessFactors. From June 15: Settings → Administration → <strong>Integration Hub</strong>. Check the status indicator and click into the integration to view event logs showing which records synced successfully and which failed.',
       subs:[
         { icon:'🔧', title:'Common failure causes', points:[
           'Authentication expired — SF admin password changed or OAuth token expired. Re-authenticate the integration.',
@@ -5801,10 +5849,10 @@ const TASK_DETAIL = {
 // ─── USER SYNC SETUP ───────────────────────────────────
 'user-sync-setup': {
   role:'adm', icon:'👤', title:'User Sync — How It Works & What It Manages',
-  desc:'Understand how the User Sync keeps your SmartRecruiters user list aligned with SAP SuccessFactors — including the critical Employee ID field configuration.',
+  desc:'Understand how the User Sync keeps your SmartRecruiters user list aligned with SAP SuccessFactors — including the critical Employee ID field configuration. No changes to User Sync behaviour on June 15, 2026.',
   path:['Settings','Apps & Integrations','SuccessFactors','User Sync'],
   who:[{label:'Admin',c:'var(--adm)'}],
-  before:['The SF-SR integration must be connected (configured during implementation)','Do not change User Sync field mappings without testing in Sandbox first and coordinating with your EX3 consultant'],
+  before:['The SF-SR integration must be connected (configured during implementation)','Do not change User Sync field mappings without testing in Sandbox first and coordinating with your EX3 consultant','June 15, 2026 confirmed: no changes to SSO or User Sync behaviour — this guide remains accurate after the June release'],
   steps:[
     {
       title:'How User Sync works — event-based, not scheduled',
@@ -5968,6 +6016,203 @@ const TASK_DETAIL = {
   ]
 },
 
+// ─── INTEGRATION HUB ───────────────────────────────
+'integration-hub-setup': {
+  release:'jun15',
+  role:'adm', icon:'🔗', title:'Integration Hub — Manage All Integration Config',
+  desc:'From June 15, 2026 the Integration Hub is a dedicated space inside SmartRecruiters where admins manage all SF-SR integration configuration in one place. It appears automatically — no installation required.',
+  path:['Settings','Administration','Integration Hub'],
+  who:[{label:'Admin',c:'var(--a-adm)'}],
+  before:['Integration Hub goes live June 15, 2026 — not available before that date','Your SF-SR integration must already be provisioned and active','You need SR Super Admin permissions to access Settings'],
+  diagram:{type:'hflow',nodes:[
+    {l:'Settings',s:'hf-adm',sub:'User Menu'},
+    {l:'Administration',s:'hf-adm',sub:'Left nav'},
+    {l:'Integration Hub',s:'hf-purple',sub:'New June 15'},
+    {l:'Select Area',s:'hf-green',sub:'Position / Hire / Data'},
+  ]},
+  steps:[
+    {
+      title:'Access the Integration Hub',
+      desc:'Click your <strong>User Menu</strong> (top right) → <strong>Settings</strong> → under Administration, select <strong>Integration Hub</strong>. This section is new from June 15 and replaces the scattered integration settings previously spread across multiple admin pages.',
+    },
+    {
+      title:'Understand what the Hub contains',
+      desc:'The Integration Hub consolidates three configuration areas into one place.',
+      subs:[
+        { icon:'📍', title:'Position-to-Job Field Mappings', points:['Configure which SF Position fields pre-fill which SR job fields when a job is created from a Position','Replaces manual entry — once mapped, the data flows automatically on job creation'] },
+        { icon:'🔄', title:'Master Data Sync Settings', points:['View and manage the SF data types syncing into SR','From June 15: create SR application fields mapped to specific SF object and data types','Create multiple SR fields from a single SF data type, each with a custom name'] },
+        { icon:'👤', title:'Hire-to-Employee Mapping', points:['Configure which SR data fields map to Employee Central and Onboarding at point of hire','From June 15: go beyond the standard fields (Name, Hire Date, Email) to map candidate profile, job data and application data'] },
+      ],
+      tip:'No configuration is required just to open the Hub — it activates automatically on June 15. Treat your first visit as a review of what is already syncing before making changes.',
+    },
+    {
+      title:'Check existing sync status',
+      desc:'Before making any changes, review each section to understand what is already configured. The Hub shows current field mappings, sync frequency, and any warnings about unmapped required fields.',
+    },
+  ]
+},
+
+// ─── POSITION FIELD MAPPING ────────────────────────
+'position-field-mapping': {
+  release:'jun15',
+  role:'adm', icon:'📍', title:'Position-to-Job Field Mapping',
+  desc:'From June 15, 2026, configure which SAP SuccessFactors Position fields automatically pre-fill SmartRecruiters job fields when a job is created from a Position. Reduces manual data entry for recruiters.',
+  path:['Settings','Administration','Integration Hub','Position Mappings'],
+  who:[{label:'Admin',c:'var(--a-adm)'}],
+  before:['Integration Hub must be available (June 15, 2026 onwards)','For every SF Position field you want to map, a matching SR job field must exist with the same data type — create these in advance','Test in your sandbox environment first'],
+  diagram:{type:'hflow',nodes:[
+    {l:'SF Position',s:'hf-purple',sub:'Source field'},
+    {l:'Integration Hub',s:'hf-adm',sub:'Mapping page'},
+    {l:'SR Job Field',s:'hf-rec',sub:'Target field'},
+    {l:'Job Created',s:'hf-green',sub:'Pre-filled automatically'},
+  ]},
+  steps:[
+    {
+      title:'Prepare your SR job fields before June 15',
+      desc:'For every SF Position field you want to map, ensure a corresponding SR job field already exists with a <strong>matching data type</strong>. Mismatched types will block the mapping. If the SR field doesn\'t exist yet, create it under Settings → Administration → Job Fields.',
+      tip:'Do this prep work now so the June 15 upgrade is immediately useful — no rush on go-live day.',
+    },
+    {
+      title:'Open Integration Hub → Position Mappings',
+      desc:'From June 15: Settings → Administration → <strong>Integration Hub</strong> → <strong>Position Mappings</strong>. You\'ll see a list of available SF Position fields on the left and SR job fields on the right.',
+    },
+    {
+      title:'Create a mapping',
+      desc:'Select the SF Position field you want to use as the source. Then select the matching SR job field as the destination. Click <strong>Add Mapping</strong>. Repeat for each field you want to pre-fill.',
+      warn:'Only map fields where the data types match exactly. A text field in SF cannot map to a picklist in SR without a transformation — the Hub will warn you if types are incompatible.',
+    },
+    {
+      title:'Test the mapping',
+      desc:'In your SF sandbox, open a Position and use <strong>Create SmartRecruiters Job</strong>. When the SR job creation screen opens, verify the mapped fields are pre-filled with the correct SF values. Check each mapped field — a blank field means the mapping did not trigger correctly.',
+    },
+    {
+      title:'Confirm recruiter experience',
+      desc:'Mapped fields appear pre-filled but <strong>remain editable</strong> by the recruiter. They are not locked. Inform your recruiters which fields will be pre-populated so they know to verify rather than re-enter data.',
+    },
+  ]
+},
+
+// ─── HIRE-TO-EC FIELD MAPPING ──────────────────────
+'hire-to-ec-field-mapping': {
+  release:'jun15',
+  role:'adm', icon:'👤', title:'Hire-to-Employee Data Mapping',
+  desc:'From June 15, 2026, map additional SR data — candidate profile, job data, and application fields — directly to SAP Employee Central and Onboarding at the point of hire. Reduces manual EC admin data entry.',
+  path:['Settings','Administration','Integration Hub','Hire Mapping'],
+  who:[{label:'Admin',c:'var(--a-adm)'}],
+  before:['Integration Hub must be available (June 15, 2026 onwards)','Identify which Manage Pending Hires fields your EC admins currently fill in manually — those are your priority targets','Any additional SR fields you want to map must exist in SR before mapping them'],
+  steps:[
+    {
+      title:'Identify your mapping targets before June 15',
+      desc:'Talk to your EC admin team now. Ask them: <em>which fields on the Manage Pending Hires screen do you currently fill in manually after every hire?</em> Each of those is a candidate for automation from June 15. Document the list — it becomes your mapping plan.',
+      tip:'The standard fields already flowing automatically are: First Name, Last Name, Hire Date, Email, Application ID, Position ID, Hiring Manager, Legal Entity. Focus your June 15 prep on everything beyond that list.',
+    },
+    {
+      title:'Create SR application fields for SF data types',
+      desc:'If you want to map a field that exists in SF but not yet in SR, you need to create it first via the <strong>Master Data Sync</strong> page in the SF Admin Centre. Create SR application fields matched to the relevant SF object type. From June 15 you can create multiple SR fields from a single SF data type, each with a custom name.',
+    },
+    {
+      title:'Open Integration Hub → Hire Mapping',
+      desc:'From June 15: Settings → Administration → <strong>Integration Hub</strong> → <strong>Hire Mapping</strong>. The current standard field mappings are shown. Click <strong>Add Field Mapping</strong> to configure additional fields.',
+    },
+    {
+      title:'Map additional fields',
+      desc:'Select the SR data source (candidate profile, job data, or application data), choose the specific SR field, then select the destination field in EC or Onboarding. Save the mapping.',
+      warn:'Test every new mapping in sandbox before applying to production. A badly mapped field can cause hire transfer failures that require manual correction in EC.',
+    },
+    {
+      title:'Train EC admins',
+      desc:'Once new mappings are live, brief your EC admin team that those fields will now auto-populate. Ask them to verify the data quality on the first few hires after June 15 to confirm the mappings are working as expected.',
+    },
+  ]
+},
+
+// ─── MIGRATION ANALYSER ────────────────────────────
+'migration-analyser': {
+  role:'adm', icon:'🔍', title:'Migration Analyser — Assess Your SF Recruiting Config',
+  desc:'The Migration Analyser (live from May 8, 2026) scans your SuccessFactors Recruiting configuration and generates insights to help plan your migration to SmartRecruiters — identifying data type incompatibilities, usage frequency, and redundancy.',
+  path:['Migration Workspace'],
+  who:[{label:'Admin',c:'var(--a-adm)'}],
+  before:['Migration Analyser is available now — no need to wait for June 15','You need access to the Migration Workspace in SmartRecruiters (confirm with your EX3 consultant)','Have your SF system admin available — some analyser functions require SF-side access'],
+  diagram:{type:'hflow',nodes:[
+    {l:'Run Analyser',s:'hf-adm',sub:'Available now'},
+    {l:'SF Req + Org Fields',s:'hf-purple',sub:'Currently assessed'},
+    {l:'Review Insights',s:'hf-rec',sub:'Incompatibilities + usage'},
+    {l:'June 15+',s:'hf-green',sub:'Candidate Profile, Job App, Offer'},
+  ]},
+  steps:[
+    {
+      title:'Access the Migration Workspace',
+      desc:'The Migration Workspace is available in SmartRecruiters now. Contact your EX3 consultant to confirm access has been provisioned for your account. Once confirmed, navigate to the Workspace from the main navigation.',
+    },
+    {
+      title:'Run the Migration Analyser',
+      desc:'The Analyser starts by assessing the two most complex configuration areas on the SF side: <strong>Job Requisition</strong> and <strong>Org Fields</strong>. Click <strong>Run Analysis</strong> and allow the process to complete — it may take several minutes depending on configuration size.',
+    },
+    {
+      title:'Review the insights',
+      desc:'The Analyser generates three types of insight.',
+      subs:[
+        { icon:'⚠️', title:'Data type incompatibilities', points:['Fields that exist in SF but have no direct equivalent in SR','The Analyser suggests transformations — review each one and decide whether to transform, simplify, or discard'] },
+        { icon:'📊', title:'Usage frequency', points:['How often each field or configuration element is actually used','Low-frequency items are candidates for simplification or removal — reduces SR config complexity'] },
+        { icon:'🔁', title:'Redundant configurations', points:['Duplicate or overlapping fields and templates','June 15 is a good time to rationalise — don\'t migrate redundancy into SR'] },
+      ],
+    },
+    {
+      title:'From June 15 — extended coverage',
+      desc:'On June 15, the Analyser adds coverage for three additional SF Recruiting objects: <strong>Candidate Profile</strong>, <strong>Job Application</strong>, and <strong>Offer</strong>. Re-run the analysis after June 15 to get the full picture across all major configuration areas.',
+      tip:'The centralised migration workspace launching June 15 also lets you plan, execute and monitor all migration activities from a single screen — not just analysis.',
+    },
+  ]
+},
+
+// ─── CAREER SITE BUILDER SR INTEGRATION ────────────
+'career-site-builder-sr': {
+  release:'jun30',
+  role:'adm', icon:'🌐', title:'Career Site Builder — SmartRecruiters Integration',
+  desc:'From June 30, 2026, SmartRecruiters is a supported ATS integration within SAP\'s Career Site Builder (CSB). Job data, search, filters, and apply flows are powered by SR. Internal mobility and brownfield migration tooling are included.',
+  path:['Career Site Builder','ATS Integration','SmartRecruiters'],
+  who:[{label:'Admin',c:'var(--a-adm)'}],
+  before:['Available from June 30, 2026 — aligned to SAP\'s release schedule','Requires both SR and SAP Career Site Builder to be active in your environment','Brownfield tooling available for existing RMK and UDM career site customers'],
+  diagram:{type:'hflow',nodes:[
+    {l:'CSB Admin',s:'hf-adm',sub:'Configure SR integration'},
+    {l:'Brand Mapping',s:'hf-purple',sub:'SR brands → CSB sites'},
+    {l:'Field Mapping',s:'hf-rec',sub:'SR job data → RMK model'},
+    {l:'Pre-sync Jobs',s:'hf-green',sub:'Before go-live'},
+    {l:'Live',s:'hf-green',sub:'Native SR experience'},
+  ]},
+  steps:[
+    {
+      title:'Enable SR as ATS in Career Site Builder',
+      desc:'From June 30: in the Career Site Builder admin, navigate to <strong>ATS Integration</strong> and select <strong>SmartRecruiters</strong>. Configure the SR-only integration mode to validate the connection between your SR instance and CSB.',
+    },
+    {
+      title:'Map SmartRecruiters brands to CSB career sites',
+      desc:'If your organisation uses multiple SR brands (e.g. different brands per region or business unit), map each brand to the corresponding CSB career site. This ensures job data from the correct SR brand surfaces on the right site.',
+    },
+    {
+      title:'Configure field mappings',
+      desc:'Map SmartRecruiters job data fields to the RMK model used by CSB. This controls how SR job data appears in search results, filters, category pages, and job detail layouts on the career site.',
+      tip:'Standardised job and location handling is built into the June 30 release — this reduces the custom field mapping work compared to earlier integration approaches.',
+    },
+    {
+      title:'Pre-sync jobs before go-live',
+      desc:'Use the pre-sync capability to push SR job data into CSB before the site goes live. This reduces deployment risk — verifying that job data, search, and filters render correctly before exposing the site to candidates.',
+    },
+    {
+      title:'Configure internal mobility',
+      desc:'The internal career site becomes the employee front door for SR-powered job discovery. Configure <strong>SAML-based authentication</strong> to preserve employee context through the apply flow. The SR Employee Portal continues to support applicant tracking and internal job visibility in parallel where needed.',
+      subs:[
+        { icon:'🏃', title:'Internal vs external job advertising', points:['You can configure differentiated experiences for internal and external candidates','Internal applicants are routed through SR with employee context preserved','External candidates get the standard CSB/SR apply experience'] },
+      ],
+    },
+    {
+      title:'Brownfield migration — existing RMK / UDM customers',
+      desc:'If you already have an RMK or UDM career site, the June 30 tooling allows you to adopt SR-powered experiences without starting from scratch. SR and RCM can coexist within a single career site during transition — you do not need to cut over all at once.',
+      warn:'Brownfield tooling preserves your existing career site investment but still requires planning. Coordinate with your EX3 consultant before enabling to map out which pages/sections transition to SR first.',
+    },
+  ]
+},
+
 };
 
 
@@ -6110,10 +6355,12 @@ function goL3(role, catId) {
   const primaryIds = new Set(tasks.map(t=>t.id));
   const primaryHtml = tasks.map((t,i)=>{
     const s = (TASK_DETAIL[t.id]?.steps||[]).length;
+    const rel = TASK_DETAIL[t.id]?.release;
+    const relTag = rel==='jun15' ? `<span class="tr-release jun15">🗓 June 15</span>` : rel==='jun30' ? `<span class="tr-release jun30">🗓 June 30</span>` : rel==='changing-jun15' ? `<span class="tr-release changing">⚡ Changes June 15</span>` : '';
     return `<div class="task-row" onclick="goL4('${t.id}')">
       <div class="tr-n">${pad(i+1)}</div>
       <div class="tr-body">
-        <div class="tr-title">${t.title}</div>
+        <div class="tr-title">${t.title}${relTag}</div>
         <div class="tr-desc">${t.desc}</div>
         ${s?`<div class="tr-meta"><span class="tr-steps">${s} steps</span></div>`:''}
       </div>
@@ -6171,6 +6418,7 @@ function goL4(taskId, inFlow) {
   const pathHtml=(t.path||[]).map((p,i,a)=>`<span class="tp${i===a.length-1?' last '+m.cls:''}">${p}</span>${i<a.length-1?'<span class="tp-sep">›</span>':''}`).join('');
   const whoHtml=(t.who||[]).map(w=>`<div class="who-row"><div class="who-dot" style="background:${w.c}"></div>${w.label}</div>`).join('');
   const beforeHtml=(t.before||[]).map(b=>`<div class="before-row"><span class="before-dot">○</span>${b}</div>`).join('');
+  const releaseBadgeHtml = t.release==='jun15' ? `<div class="release-badge jun15">🗓 Available from June 15, 2026</div>` : t.release==='jun30' ? `<div class="release-badge jun30">🗓 Available from June 30, 2026</div>` : t.release==='changing-jun15' ? `<div class="release-badge changing">⚡ This guide changes on June 15, 2026</div>` : '';
   let diagHtml='';
   if(t.diagram){
     if(t.diagram.type==='hflow'){
@@ -6234,6 +6482,7 @@ function goL4(taskId, inFlow) {
             <div class="th-icon">${t.icon}</div>
             <div class="th-right">
               <div class="page-label ${m.cls}" style="margin-bottom:8px">${m.label}</div>
+              ${releaseBadgeHtml}
               <div class="th-title">${t.title}</div>
               <div class="th-desc">${t.desc}</div>
             </div>
