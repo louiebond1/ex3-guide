@@ -665,17 +665,20 @@ select{font-family:inherit}
 /* ═══════════════════════════════════════════════════
    SIDE PANEL
 ═══════════════════════════════════════════════════ */
-.side-col{display:flex;flex-direction:column;gap:8px}
-.sc{
-  background:var(--white);border:1px solid var(--border);
-  border-radius:8px;overflow:hidden;
-}
+.side-col{display:flex;flex-direction:column;gap:0;background:var(--white);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.sc{background:none;border:none;border-top:1px solid var(--border)}
+.sc:first-child{border-top:none}
 .sc-head{
-  padding:12px 16px;border-bottom:1px solid var(--border);
+  padding:11px 16px;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;user-select:none;transition:background .1s;
   font-size:10px;font-weight:500;letter-spacing:.06em;
   text-transform:uppercase;color:var(--ink-4);
 }
-.sc-body{padding:12px 16px}
+.sc-head:hover{background:var(--canvas)}
+.sc-chev{font-size:9px;color:var(--ink-4);transition:transform .2s;flex-shrink:0;margin-left:8px}
+.sc.sc-open .sc-chev{transform:rotate(180deg)}
+.sc-body{display:none;padding:0 16px 14px;border-top:1px solid var(--border)}
+.sc.sc-open .sc-body{display:block}
 .who-row{
   display:flex;align-items:center;gap:8px;
   padding:7px 0;border-bottom:1px solid var(--border);
@@ -1047,7 +1050,7 @@ body.dark .stuck-head-title{color:var(--ink-3)}
   .onboard-modal{padding:24px 20px}
   .onboard-title{font-size:var(--f-xl)}
   .flow-page,.search-page{max-width:100%}
-  .sc-body{overflow-wrap:anywhere}
+  .sc.sc-open .sc-body{overflow-wrap:anywhere}
 
   /* push EX3 assistant button above bottom nav */
   .assistant-float{bottom:80px;right:16px}
@@ -6415,10 +6418,10 @@ function goL4(taskId, inFlow) {
   if(t.diagram){
     if(t.diagram.type==='hflow'){
       const nodes=t.diagram.nodes.map(n=>`<div class="hf-node"><div class="hf-box ${n.s}">${n.l}</div>${n.sub?`<div class="hf-sub">${n.sub}</div>`:''}</div>`).join('<div class="hf-arr">›</div>');
-      diagHtml=`<div class="sc"><div class="sc-head">Process flow</div><div class="sc-body"><div class="hflow"><div class="hflow-inner">${nodes}</div></div></div></div>`;
+      diagHtml=`<div class="sc"><div class="sc-head" onclick="togSc(this)">Process flow<span class="sc-chev">▾</span></div><div class="sc-body"><div class="hflow"><div class="hflow-inner">${nodes}</div></div></div></div>`;
     } else if(t.diagram.type==='vflow'){
       const nodes=t.diagram.nodes.map((n,i)=>`<div class="vf-node"><div class="vf-left"><div class="vf-circle" style="color:${n.c};background:${n.bg};border-color:${n.ln}">${i+1}</div><div class="vf-line" style="background:${n.ln}"></div></div><div class="vf-right"><h5 style="color:${n.c}">${n.l}</h5><p>${n.sub}</p></div></div>`).join('');
-      diagHtml=`<div class="sc"><div class="sc-head">Process flow</div><div class="sc-body"><div class="vflow">${nodes}</div></div></div>`;
+      diagHtml=`<div class="sc"><div class="sc-head" onclick="togSc(this)">Process flow<span class="sc-chev">▾</span></div><div class="sc-body"><div class="vflow">${nodes}</div></div></div>`;
     }
   }
   const pad=(n,l=2)=>String(n).padStart(l,'0');
@@ -6491,8 +6494,8 @@ function goL4(taskId, inFlow) {
         </div>
       </div>
       <div class="side-col">
-        ${whoHtml?`<div class="sc"><div class="sc-head">Who does this</div><div class="sc-body">${whoHtml}</div></div>`:''}
-        ${beforeHtml?`<div class="sc"><div class="sc-head">Before you start</div><div class="sc-body">${beforeHtml}</div></div>`:''}
+        ${whoHtml?`<div class="sc sc-open"><div class="sc-head" onclick="togSc(this)">Who does this<span class="sc-chev">▾</span></div><div class="sc-body">${whoHtml}</div></div>`:''}
+        ${beforeHtml?`<div class="sc"><div class="sc-head" onclick="togSc(this)">Before you start<span class="sc-chev">▾</span></div><div class="sc-body">${beforeHtml}</div></div>`:''}
         ${diagHtml}
         ${renderAlsoNeed(taskId)}
       </div>
@@ -6504,6 +6507,11 @@ function goL4(taskId, inFlow) {
   setBreadcrumb([{label:'Home',fn:goHome},{label:m.label,fn:goL2},{label:catName,fn:()=>goL3(catRole,catId)},{label:t.title,fn:null}]);
   showView('v-l4');
   enhanceKeyboardAccess();
+}
+
+function togSc(head){
+  const sc=head.closest('.sc');
+  sc.classList.toggle('sc-open');
 }
 
 function togStep(taskId,idx){
@@ -7541,7 +7549,7 @@ function renderAlsoNeed(taskId){
       <span class="an-arr">→</span>
     </div>`;
   }).join('');
-  return `<div class="sc"><div class="sc-head">You might also need</div><div class="sc-body">${items}</div></div>`;
+  return `<div class="sc sc-open"><div class="sc-head" onclick="togSc(this)">You might also need<span class="sc-chev">▾</span></div><div class="sc-body">${items}</div></div>`;
 }
 
 // ─── ONBOARDING WIZARD (Feature 5) ─────────────────
