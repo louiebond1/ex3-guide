@@ -6619,164 +6619,267 @@ app.get('/analytics/web', (req, res) => {
   const total = logs.length;
   const errors = logs.filter(l => !l.success).length;
   const uncertain = logs.filter(l => l.uncertain).length;
-  const avgMs = total ? Math.round(logs.reduce((s, l) => s + l.ms, 0) / total) : 0;
+  const successful = logs.filter(l => l.success).length;
+  const successRate = total ? Math.round((successful / total) * 100) : 0;
+  const allMs = logs.filter(l => l.ms > 0).map(l => l.ms).sort((a,b) => a-b);
+  const avgMs = allMs.length ? Math.round(allMs.reduce((s,v)=>s+v,0)/allMs.length) : 0;
+  const p50Ms = allMs.length ? allMs[Math.floor(allMs.length*0.5)] : 0;
+  const p95Ms = allMs.length ? allMs[Math.floor(allMs.length*0.95)] : 0;
 
-  // Unique sessions (threadIds)
+  // Unique sessions
   const uniqueSessions = new Set(logs.map(l => l.threadId).filter(Boolean)).size;
+  const avgMsgsPerSession = uniqueSessions ? (total / uniqueSessions).toFixed(1) : '—';
 
-  // Questions per day
+  // Questions per day — last 30 days
   const byDay = {};
   for (const l of logs) {
     const day = (l.ts || '').slice(0, 10);
     if (day) byDay[day] = (byDay[day] || 0) + 1;
   }
+  const dayEntries = Object.entries(byDay).sort();
+  const maxDay = Math.max(...Object.values(byDay), 1);
+  const mostActiveDay = dayEntries.reduce((a, b) => b[1] > a[1] ? b : a, ['—', 0]);
 
-  // Top 10 questions (deduplicated by normalising whitespace + lowercase)
+  // Response time buckets for histogram
+  const buckets = [
+    { label: '0–5s', min: 0, max: 5000, count: 0 },
+    { label: '5–10s', min: 5000, max: 10000, count: 0 },
+    { label: '10–15s', min: 10000, max: 15000, count: 0 },
+    { label: '15–20s', min: 15000, max: 20000, count: 0 },
+    { label: '20s+', min: 20000, max: Infinity, count: 0 },
+  ];
+  for (const l of logs) {
+    if (!l.ms) continue;
+    const b = buckets.find(b => l.ms >= b.min && l.ms < b.max);
+    if (b) b.count++;
+  }
+  const maxBucket = Math.max(...buckets.map(b => b.count), 1);
+
+  // Top 10 questions
   const qCount = {};
   for (const l of logs) {
     if (!l.question) continue;
     const key = l.question.trim().toLowerCase().replace(/\s+/g, ' ');
-    qCount[key] = (qCount[key] || { count: 0, original: l.question });
+    if (!qCount[key]) qCount[key] = { count: 0, original: l.question };
     qCount[key].count++;
   }
-  const top10 = Object.values(qCount)
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 10);
+  const top10 = Object.values(qCount).sort((a,b) => b.count - a.count).slice(0, 10);
 
-  // Uncertain answers
-  const uncertainRows = logs.filter(l => l.uncertain).slice(-20).reverse();
-
-  // Recent 50
-  const recent = logs.slice().reverse().slice(0, 50);
+  // Recent 30
+  const recent = logs.slice().reverse().slice(0, 30);
 
   function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-  const dayRows = Object.entries(byDay).sort().reverse().slice(0, 14)
-    .map(([d, c]) => `<tr><td>${d}</td><td><div class="bar-wrap"><div class="bar" style="width:${Math.round(c/Math.max(...Object.values(byDay))*100)}%"></div><span>${c}</span></div></td></tr>`).join('');
+  const dayBars = dayEntries.slice(-21).map(([d, c]) => {
+    const pct = Math.round((c / maxDay) * 100);
+    const label = d.slice(5); // MM-DD
+    return `<div class="day-col"><div class="day-bar-wrap"><div class="day-bar" style="height:${pct}%" title="${d}: ${c}"></div></div><div class="day-label">${label}</div></div>`;
+  }).join('');
 
-  const top10Rows = top10.map((q, i) =>
-    `<tr><td class="rank">${i+1}</td><td>${esc(q.original)}</td><td class="cnt">${q.count}</td></tr>`
-  ).join('');
+  const bucketBars = buckets.map(b => {
+    const pct = Math.round((b.count / maxBucket) * 100);
+    return `<div class="bk-col"><div class="bk-bar-wrap"><div class="bk-bar" style="height:${pct}%"></div></div><div class="bk-val">${b.count}</div><div class="bk-label">${b.label}</div></div>`;
+  }).join('');
 
-  const uncertainHtml = uncertainRows.map(l =>
-    `<div class="u-row"><div class="u-q">${esc(l.question)}</div><div class="u-a">${esc((l.answer||'').slice(0,200))}${(l.answer||'').length>200?'…':''}</div><div class="u-ts">${(l.ts||'').replace('T',' ').slice(0,16)}</div></div>`
-  ).join('');
+  const top10Html = top10.map((q, i) => {
+    const pct = Math.round((q.count / (top10[0]?.count || 1)) * 100);
+    return `<div class="tq-row">
+      <div class="tq-rank">${String(i+1).padStart(2,'0')}</div>
+      <div class="tq-right">
+        <div class="tq-text">${esc(q.original.length > 120 ? q.original.slice(0,120)+'…' : q.original)}</div>
+        <div class="tq-bar-wrap"><div class="tq-bar" style="width:${pct}%"></div><span class="tq-cnt">${q.count}×</span></div>
+      </div>
+    </div>`;
+  }).join('');
 
-  const recentRows = recent.map(l => {
-    const status = !l.success ? '<span class="badge err">Error</span>' : l.uncertain ? '<span class="badge unc">Uncertain</span>' : '<span class="badge ok">OK</span>';
-    return `<tr>
-      <td>${(l.ts||'').replace('T',' ').slice(0,16)}</td>
-      <td>${esc(l.question)}</td>
-      <td class="preview" onclick="this.classList.toggle('open')" data-full="${esc(l.answer||'')}">${esc((l.answer||'').slice(0,100))}${(l.answer||'').length>100?'<span class="more"> ▾</span>':''}</td>
-      <td>${status}</td>
-      <td>${((l.ms||0)/1000).toFixed(1)}s</td>
-    </tr>`;
+  const feedHtml = recent.map(l => {
+    const dot = !l.success ? 'dot-err' : l.uncertain ? 'dot-unc' : 'dot-ok';
+    const time = (l.ts||'').replace('T',' ').slice(0,16);
+    const ms = l.ms ? ((l.ms/1000).toFixed(1)+'s') : '—';
+    return `<div class="feed-row">
+      <div class="feed-meta"><span class="dot ${dot}"></span><span class="feed-time">${time}</span><span class="feed-ms">${ms}</span></div>
+      <div class="feed-q">${esc(l.question||'')}</div>
+      ${l.answer ? `<div class="feed-a">${esc((l.answer).slice(0,180))}${l.answer.length>180?'…':''}</div>` : '<div class="feed-a feed-err">No response</div>'}
+    </div>`;
   }).join('');
 
   res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Web Chat Analytics</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Analytics — EX3</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',system-ui,sans-serif;background:#f5f4f1;color:#0f0f0e;min-height:100vh}
-.topbar{background:#0f0f0e;padding:16px 32px;display:flex;align-items:center;justify-content:space-between}
-.topbar-brand{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em}
-.topbar-nav{display:flex;gap:20px}
-.topbar-nav a{font-size:13px;font-weight:600;color:#888;text-decoration:none;transition:color .15s}
-.topbar-nav a:hover,.topbar-nav a.active{color:#fff}
-.wrap{max-width:1100px;margin:0 auto;padding:32px 24px}
-.page-title{font-size:28px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
-.page-sub{font-size:14px;color:#666;margin-bottom:32px}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:32px}
-.stat{background:#fff;border:1px solid #e4e2dc;border-radius:10px;padding:20px 24px}
-.stat-num{font-size:32px;font-weight:800;color:#0f0f0e;letter-spacing:-.03em;line-height:1}
-.stat-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-top:6px}
-.stat-err .stat-num{color:#dc2626}
-.stat-warn .stat-num{color:#d97706}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
-.card{background:#fff;border:1px solid #e4e2dc;border-radius:10px;overflow:hidden}
-.card-head{padding:16px 20px;border-bottom:1px solid #f0ede8;display:flex;align-items:center;justify-content:space-between}
-.card-title{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#0f0f0e}
-.card-body{padding:20px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:10px 14px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#888;border-bottom:1px solid #e4e2dc}
-td{padding:10px 14px;border-bottom:1px solid #f5f4f1;vertical-align:top;color:#333}
-tr:last-child td{border-bottom:none}
-.rank{font-weight:800;color:#0f0f0e;width:32px}
-.cnt{font-weight:700;color:#0f0f0e;text-align:right}
-.bar-wrap{display:flex;align-items:center;gap:10px}
-.bar{height:8px;background:#0f0f0e;border-radius:4px;min-width:2px}
-.bar-wrap span{font-size:12px;font-weight:600;color:#555}
-.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-.badge.ok{background:#dcfce7;color:#16a34a}
-.badge.err{background:#fee2e2;color:#dc2626}
-.badge.unc{background:#fef3c7;color:#d97706}
-.u-row{padding:12px 0;border-bottom:1px solid #f5f4f1}
-.u-row:last-child{border-bottom:none}
-.u-q{font-size:13px;font-weight:600;color:#0f0f0e;margin-bottom:4px}
-.u-a{font-size:12px;color:#666;line-height:1.5;margin-bottom:4px}
-.u-ts{font-size:11px;color:#aaa}
-.preview{cursor:pointer;max-width:320px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.preview.open{white-space:normal;overflow:visible;text-overflow:unset}
-.more{color:#0f0f0e;font-size:11px}
-.full-card{margin-bottom:24px}
-@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+:root{--bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--border:#222;--border2:#2a2a2a;--ink:#f0f0f0;--ink2:#a0a0a0;--ink3:#555;--green:#00d084;--yellow:#f5c542;--red:#ff4d4d;--blue:#4d9fff}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:13px}
+a{color:inherit;text-decoration:none}
+
+/* Topbar */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.brand{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+.brand span{color:var(--ink3)}
+.nav{display:flex;gap:0}
+.nav a{font-size:12px;font-weight:500;color:var(--ink3);padding:0 16px;height:52px;display:flex;align-items:center;border-bottom:2px solid transparent;transition:all .15s}
+.nav a:hover{color:var(--ink2)}
+.nav a.active{color:var(--ink);border-bottom-color:var(--green)}
+.nav-right{display:flex;align-items:center;gap:16px}
+.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.ts{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink3)}
+
+/* Layout */
+.wrap{max-width:1200px;margin:0 auto;padding:32px 24px}
+.section-label{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:16px}
+
+/* Stat grid */
+.stats{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:32px}
+.stat{background:var(--bg2);padding:20px 18px}
+.stat-val{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;color:var(--ink);letter-spacing:-.02em;line-height:1}
+.stat-label{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-top:7px}
+.stat-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3);margin-top:4px}
+.stat-val.green{color:var(--green)}
+.stat-val.yellow{color:var(--yellow)}
+.stat-val.red{color:var(--red)}
+.stat-val.blue{color:var(--blue)}
+
+/* Charts row */
+.charts{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.panel-head{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.panel-title{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.panel-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3)}
+.panel-body{padding:20px}
+
+/* Day chart */
+.day-chart{display:flex;align-items:flex-end;gap:3px;height:80px}
+.day-col{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px}
+.day-bar-wrap{flex:1;display:flex;align-items:flex-end;width:100%}
+.day-bar{width:100%;background:var(--green);border-radius:2px 2px 0 0;min-height:2px;opacity:.8;transition:opacity .15s}
+.day-bar:hover{opacity:1}
+.day-label{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--ink3);white-space:nowrap;transform:rotate(-45deg);transform-origin:center;margin-top:4px}
+
+/* RT histogram */
+.bk-chart{display:flex;align-items:flex-end;gap:6px;height:80px}
+.bk-col{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px}
+.bk-bar-wrap{flex:1;display:flex;align-items:flex-end;width:100%}
+.bk-bar{width:100%;background:var(--blue);border-radius:2px 2px 0 0;min-height:2px;opacity:.8}
+.bk-val{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink2)}
+.bk-label{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--ink3);text-align:center}
+
+/* Top questions */
+.tq-row{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.tq-row:last-child{border-bottom:none}
+.tq-rank{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink3);min-width:22px;padding-top:1px}
+.tq-right{flex:1;min-width:0}
+.tq-text{font-size:12px;color:var(--ink);line-height:1.45;margin-bottom:6px}
+.tq-bar-wrap{display:flex;align-items:center;gap:8px}
+.tq-bar{height:3px;background:var(--green);border-radius:2px;opacity:.6;transition:width .4s ease}
+.tq-cnt{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3);flex-shrink:0}
+
+/* Feed */
+.feed-row{padding:14px 20px;border-bottom:1px solid var(--border)}
+.feed-row:last-child{border-bottom:none}
+.feed-meta{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dot-ok{background:var(--green)}
+.dot-unc{background:var(--yellow)}
+.dot-err{background:var(--red)}
+.feed-time{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink3)}
+.feed-ms{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3);margin-left:auto}
+.feed-q{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px;line-height:1.4}
+.feed-a{font-size:11px;color:var(--ink3);line-height:1.5}
+.feed-err{color:var(--red)}
+
+/* Uncertain */
+.unc-row{padding:14px 20px;border-bottom:1px solid var(--border)}
+.unc-row:last-child{border-bottom:none}
+.unc-q{font-size:12px;font-weight:600;color:var(--yellow);margin-bottom:4px}
+.unc-a{font-size:11px;color:var(--ink3);line-height:1.5;margin-bottom:4px}
+.unc-ts{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3)}
+
+/* Bottom grid */
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+
+@media(max-width:900px){.stats{grid-template-columns:repeat(4,1fr)}.charts{grid-template-columns:1fr}.bottom{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <div class="topbar-brand">ex3 — Analytics</div>
-  <div class="topbar-nav">
+  <div class="brand">ex3<span>/</span>analytics</div>
+  <div class="nav">
     <a href="/analytics">WhatsApp</a>
     <a href="/analytics/web" class="active">Web Chat</a>
     <a href="/conversations">Conversations</a>
   </div>
+  <div class="nav-right">
+    <span class="live-dot"></span>
+    <span class="ts" id="clock"></span>
+  </div>
 </div>
+
 <div class="wrap">
-  <div class="page-title">Web Chat Analytics</div>
-  <div class="page-sub">All questions asked to the EX3 AI assistant via the website chatbot</div>
-
+  <div class="section-label">Overview</div>
   <div class="stats">
-    <div class="stat"><div class="stat-num">${total}</div><div class="stat-label">Total Questions</div></div>
-    <div class="stat"><div class="stat-num">${uniqueSessions}</div><div class="stat-label">Unique Sessions</div></div>
-    <div class="stat"><div class="stat-num">${avgMs > 0 ? (avgMs/1000).toFixed(1)+'s' : '—'}</div><div class="stat-label">Avg Response Time</div></div>
-    <div class="stat stat-warn"><div class="stat-num">${uncertain}</div><div class="stat-label">Uncertain Answers</div></div>
-    <div class="stat stat-err"><div class="stat-num">${errors}</div><div class="stat-label">Errors</div></div>
+    <div class="stat"><div class="stat-val" data-count="${total}">${total}</div><div class="stat-label">Total Messages</div></div>
+    <div class="stat"><div class="stat-val blue" data-count="${uniqueSessions}">${uniqueSessions}</div><div class="stat-label">Sessions</div><div class="stat-sub">${avgMsgsPerSession} msg/session</div></div>
+    <div class="stat"><div class="stat-val green">${successRate}%</div><div class="stat-label">Success Rate</div><div class="stat-sub">${successful} ok / ${errors} err</div></div>
+    <div class="stat"><div class="stat-val">${avgMs > 0 ? (avgMs/1000).toFixed(1)+'s' : '—'}</div><div class="stat-label">Avg Response</div><div class="stat-sub">p50: ${p50Ms > 0 ? (p50Ms/1000).toFixed(1)+'s' : '—'}</div></div>
+    <div class="stat"><div class="stat-val">${p95Ms > 0 ? (p95Ms/1000).toFixed(1)+'s' : '—'}</div><div class="stat-label">p95 Response</div></div>
+    <div class="stat"><div class="stat-val ${uncertain > 0 ? 'yellow' : ''}">${uncertain}</div><div class="stat-label">Uncertain</div><div class="stat-sub">${total ? Math.round(uncertain/total*100) : 0}% of total</div></div>
+    <div class="stat"><div class="stat-val">${mostActiveDay[0] !== '—' ? mostActiveDay[0].slice(5) : '—'}</div><div class="stat-label">Peak Day</div><div class="stat-sub">${mostActiveDay[1]} messages</div></div>
   </div>
 
-  <div class="grid2">
-    <div class="card">
-      <div class="card-head"><div class="card-title">Top 10 Questions Asked</div></div>
-      <table>
-        <thead><tr><th>#</th><th>Question</th><th style="text-align:right">Asked</th></tr></thead>
-        <tbody>${top10Rows || '<tr><td colspan="3" style="color:#aaa;text-align:center;padding:24px">No data yet</td></tr>'}</tbody>
-      </table>
+  <div class="section-label">Activity</div>
+  <div class="charts">
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Messages per day</div><div class="panel-meta">last 21 days</div></div>
+      <div class="panel-body"><div class="day-chart">${dayBars || '<span style="color:var(--ink3);font-size:12px">No data yet</span>'}</div></div>
     </div>
-    <div class="card">
-      <div class="card-head"><div class="card-title">Questions Per Day</div></div>
-      <table>
-        <thead><tr><th>Date</th><th>Volume</th></tr></thead>
-        <tbody>${dayRows || '<tr><td colspan="2" style="color:#aaa;text-align:center;padding:24px">No data yet</td></tr>'}</tbody>
-      </table>
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Response time</div><div class="panel-meta">distribution</div></div>
+      <div class="panel-body"><div class="bk-chart">${bucketBars}</div></div>
     </div>
   </div>
 
-  ${uncertainRows.length ? `<div class="card full-card">
-    <div class="card-head"><div class="card-title">Uncertain Answers — Review These</div><span style="font-size:12px;color:#d97706;font-weight:600">${uncertain} total</span></div>
-    <div class="card-body">${uncertainHtml}</div>
-  </div>` : ''}
+  <div class="bottom">
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Top questions</div><div class="panel-meta">${top10.length} unique</div></div>
+      <div class="panel-body">${top10Html || '<div style="color:var(--ink3);font-size:12px;padding:8px 0">No data yet</div>'}</div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Uncertain answers</div><div class="panel-meta">${uncertain} total — review these</div></div>
+      ${logs.filter(l=>l.uncertain).slice(-10).reverse().map(l=>`<div class="unc-row"><div class="unc-q">${esc(l.question||'')}</div><div class="unc-a">${esc((l.answer||'').slice(0,160))}${(l.answer||'').length>160?'…':''}</div><div class="unc-ts">${(l.ts||'').replace('T',' ').slice(0,16)}</div></div>`).join('') || '<div style="color:var(--ink3);font-size:12px;padding:14px 20px">None — looking good</div>'}
+    </div>
+  </div>
 
-  <div class="card full-card">
-    <div class="card-head"><div class="card-title">Recent Questions</div><span style="font-size:12px;color:#888">Last 50</span></div>
-    <table>
-      <thead><tr><th>Time</th><th>Question</th><th>Answer</th><th>Status</th><th>Speed</th></tr></thead>
-      <tbody>${recentRows || '<tr><td colspan="5" style="color:#aaa;text-align:center;padding:24px">No data yet</td></tr>'}</tbody>
-    </table>
+  <div style="margin-top:16px">
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Live feed</div><div class="panel-meta">last 30 messages</div></div>
+      ${feedHtml || '<div style="color:var(--ink3);font-size:12px;padding:14px 20px">No messages yet</div>'}
+    </div>
   </div>
 </div>
+
+<script>
+(function clock(){
+  const el = document.getElementById('clock');
+  if(el) el.textContent = new Date().toISOString().replace('T',' ').slice(0,19)+' UTC';
+  setTimeout(clock, 1000);
+})();
+// Animate count-up on stat numbers
+document.querySelectorAll('[data-count]').forEach(el => {
+  const target = parseInt(el.dataset.count, 10);
+  if(!target) return;
+  let cur = 0;
+  const step = Math.max(1, Math.ceil(target / 40));
+  const t = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur;
+    if(cur >= target) clearInterval(t);
+  }, 20);
+});
+</script>
 </body></html>`);
 });
 
