@@ -8095,46 +8095,53 @@ window.addEventListener('hashchange', applyHash);
 <div class="ft-overlay" id="ftOverlay">
   <div class="ft-modal" id="ftModal">
 
-    <!-- Top bar -->
-    <div class="ft-topbar">
-      <div class="ft-caller-info">
-        <div class="ft-caller-name">EX3 Assistant</div>
-        <div class="ft-caller-sub" id="ftStatus">Connecting...</div>
-      </div>
-    </div>
+    <!-- Blurred photo background -->
+    <div class="ft-bg-blur"></div>
 
-    <!-- Main video: D-ID avatar -->
+    <!-- Live D-ID video (fullscreen when speaking) -->
     <video class="ft-video" id="ftVideo" autoplay playsinline></video>
 
-    <!-- Avatar photo shown while connecting -->
-    <img class="ft-avatar-bg" id="ftAvatarBg" src="/images/Screenshot 2026-05-26 162923.png" alt="">
-
-    <!-- Connecting / loading state -->
-    <div class="ft-connecting" id="ftConnecting">
-      <div class="ft-spinner"></div>
-      <div class="ft-conn-text" id="ftConnText">Starting call...</div>
+    <!-- Top: name + status -->
+    <div class="ft-topbar">
+      <div class="ft-caller-name">EX3 Assistant</div>
+      <div class="ft-caller-sub" id="ftStatus">Connecting...</div>
     </div>
 
-    <!-- Transcript overlay -->
+    <!-- Centre: circular avatar photo -->
+    <div class="ft-avatar-circle" id="ftAvatarCircle">
+      <img src="/images/Screenshot%202026-05-26%20162923.png" alt="EX3">
+    </div>
+
+    <!-- Connecting pill -->
+    <div class="ft-conn-pill" id="ftConnecting">
+      <div class="ft-spinner"></div>
+      <div class="ft-conn-text" id="ftConnText">Connecting...</div>
+    </div>
+
+    <!-- Transcript -->
     <div class="ft-transcript" id="ftTranscript"></div>
 
-    <!-- Bottom controls bar -->
+    <!-- Controls -->
     <div class="ft-controls">
-      <!-- Mic / record -->
-      <button class="ft-btn ft-btn-mic" id="ftMicBtn" onclick="ftToggleMic()" title="Speak">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-          <line x1="12" y1="19" x2="12" y2="23"/>
-          <line x1="8" y1="23" x2="16" y2="23"/>
-        </svg>
-      </button>
-      <!-- End call -->
-      <button class="ft-btn ft-btn-end" onclick="ftEndCall()" title="End call">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.42 19.42 0 0 1 4.43 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.34 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.32 9.9a16 16 0 0 0 3.36 3.41z"/>
-        </svg>
-      </button>
+      <div class="ft-btn-wrap">
+        <button class="ft-btn ft-btn-mic" id="ftMicBtn" onclick="ftToggleMic()" title="Speak">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <span class="ft-btn-label" id="ftMicLabel">Speak</span>
+      </div>
+      <div class="ft-btn-wrap">
+        <button class="ft-btn ft-btn-end" onclick="ftEndCall()" title="End call">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+        <span class="ft-btn-label">End</span>
+      </div>
     </div>
 
   </div>
@@ -8159,163 +8166,216 @@ window.addEventListener('hashchange', applyHash);
 .ft-overlay {
   display: none;
   position: fixed; inset: 0;
-  background: #000;
+  background: #0a0a0a;
   z-index: 2000;
   align-items: center;
   justify-content: center;
 }
 .ft-overlay.ft-open { display: flex; }
 
-/* ─── Modal (phone proportions) ─────────────────────────────────────────── */
+/* ─── Modal ──────────────────────────────────────────────────────────────── */
 .ft-modal {
   position: relative;
   width: 100%;
-  max-width: 420px;
+  max-width: 390px;
   height: 100%;
   max-height: 100vh;
-  background: #111;
+  background: #141414;
   display: flex;
   flex-direction: column;
+  align-items: center;
   overflow: hidden;
 }
 
-/* ─── Video fills everything ─────────────────────────────────────────────── */
+/* ─── Blurred photo background ───────────────────────────────────────────── */
+.ft-bg-blur {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/Screenshot%202026-05-26%20162923.png');
+  background-size: cover;
+  background-position: center top;
+  filter: blur(28px) brightness(0.28) saturate(1.4);
+  transform: scale(1.1);
+  z-index: 0;
+}
+
+/* ─── Live D-ID video (fullscreen, hidden until speaking) ───────────────── */
 .ft-video {
   position: absolute;
   inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  background: transparent;
+  object-position: center top;
   z-index: 2;
   opacity: 0;
-  transition: opacity .6s;
+  transition: opacity .5s;
 }
 .ft-video.ft-live { opacity: 1; }
 
 /* ─── Top bar ────────────────────────────────────────────────────────────── */
 .ft-topbar {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  padding: 52px 24px 20px;
-  background: linear-gradient(to bottom, rgba(0,0,0,.7), transparent);
+  position: relative;
   z-index: 10;
+  width: 100%;
+  padding: 56px 24px 0;
+  text-align: center;
 }
 .ft-caller-name {
   font-family: 'Sora', sans-serif;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 600;
   color: #fff;
-  letter-spacing: -.01em;
+  letter-spacing: -.02em;
 }
 .ft-caller-sub {
   font-family: 'Sora', sans-serif;
-  font-size: 14px;
-  color: rgba(255,255,255,.6);
-  margin-top: 2px;
+  font-size: 15px;
+  color: rgba(255,255,255,.5);
+  margin-top: 6px;
+  min-height: 22px;
 }
 
-/* ─── Avatar background photo (shown while connecting) ──────────────────── */
-.ft-avatar-bg {
-  position: absolute;
-  inset: 0;
+/* ─── Centre avatar circle ───────────────────────────────────────────────── */
+.ft-avatar-circle {
+  position: relative;
+  z-index: 10;
+  margin: auto 0;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.08), 0 24px 60px rgba(0,0,0,.6);
+  flex-shrink: 0;
+}
+.ft-avatar-circle img {
   width: 100%; height: 100%;
   object-fit: cover;
   object-position: center top;
-  z-index: 1;
-  filter: brightness(0.75);
+}
+/* Pulse ring when speaking */
+.ft-avatar-circle.ft-speaking::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.35);
+  animation: ft-ring 1.2s ease-out infinite;
+}
+@keyframes ft-ring {
+  0% { transform: scale(1); opacity: .6; }
+  100% { transform: scale(1.18); opacity: 0; }
 }
 
-/* ─── Connecting overlay ─────────────────────────────────────────────────── */
-.ft-connecting {
-  position: absolute;
-  inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  background: transparent;
-  z-index: 8;
-  gap: 18px;
-  transition: opacity .4s;
+/* ─── Connecting pill ────────────────────────────────────────────────────── */
+.ft-conn-pill {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 20px;
+  padding: 6px 14px;
+  margin-top: 20px;
+  margin-bottom: 12px;
 }
-.ft-connecting.ft-hidden { opacity: 0; pointer-events: none; }
+.ft-conn-pill.ft-hidden { opacity: 0; pointer-events: none; }
 .ft-spinner {
-  width: 36px; height: 36px;
-  border: 2px solid rgba(255,255,255,.15);
-  border-top-color: rgba(255,255,255,.7);
+  width: 12px; height: 12px;
+  border: 1.5px solid rgba(255,255,255,.2);
+  border-top-color: rgba(255,255,255,.8);
   border-radius: 50%;
-  animation: ft-spin .8s linear infinite;
+  animation: ft-spin .7s linear infinite;
+  flex-shrink: 0;
 }
 @keyframes ft-spin { to { transform: rotate(360deg); } }
 .ft-conn-text {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 13px;
-  color: rgba(255,255,255,.4);
+  font-size: 11px;
+  color: rgba(255,255,255,.45);
   letter-spacing: .04em;
 }
 
-/* ─── Transcript ─────────────────────────────────────────────────────────── */
+/* ─── Transcript caption ─────────────────────────────────────────────────── */
 .ft-transcript {
-  position: absolute;
-  bottom: 130px; left: 20px; right: 20px;
-  background: rgba(0,0,0,.55);
-  backdrop-filter: blur(8px);
-  border-radius: 12px;
+  position: relative; z-index: 10;
+  width: calc(100% - 40px);
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
   padding: 12px 16px;
   font-family: 'Sora', sans-serif;
   font-size: 14px;
   line-height: 1.55;
-  color: rgba(255,255,255,.9);
-  z-index: 10;
+  color: rgba(255,255,255,.88);
   display: none;
-  max-height: 120px;
+  max-height: 110px;
   overflow-y: auto;
+  margin-bottom: 16px;
 }
 .ft-transcript.ft-show { display: block; }
-.ft-transcript .ft-you { color: rgba(255,255,255,.5); font-size: 12px; margin-bottom: 4px; }
+.ft-transcript .ft-you {
+  color: rgba(255,255,255,.4);
+  font-size: 11px;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: .04em;
+  margin-bottom: 3px;
+}
 
 /* ─── Controls bar ───────────────────────────────────────────────────────── */
 .ft-controls {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 24px 0 44px;
-  background: linear-gradient(to top, rgba(0,0,0,.75), transparent);
+  position: relative; z-index: 10;
+  width: 100%;
+  padding: 0 0 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 32px;
-  z-index: 10;
+  gap: 40px;
+  margin-top: auto;
 }
 .ft-btn {
-  width: 64px; height: 64px;
+  width: 68px; height: 68px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: transform .15s, filter .15s;
 }
-.ft-btn:active { transform: scale(.93); }
+.ft-btn:active { transform: scale(.91); }
 
 .ft-btn-mic {
-  background: rgba(255,255,255,.18);
+  background: rgba(255,255,255,.14);
   color: #fff;
-  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255,255,255,.15);
 }
-.ft-btn-mic:hover { filter: brightness(1.2); }
+.ft-btn-mic:hover { background: rgba(255,255,255,.2); }
 .ft-btn-mic.ft-recording {
-  background: rgba(255,59,48,.85);
-  animation: ft-mic-pulse 1s ease-in-out infinite;
+  background: #ff3b30;
+  border-color: #ff3b30;
+  animation: ft-mic-pulse 1.1s ease-in-out infinite;
 }
 .ft-btn-mic.ft-processing {
-  background: rgba(255,255,255,.08);
-  color: rgba(255,255,255,.35);
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.3);
   cursor: default;
 }
-@keyframes ft-mic-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.4)} 50%{box-shadow:0 0 0 12px rgba(255,59,48,0)} }
+@keyframes ft-mic-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,59,48,.5); }
+  50% { box-shadow: 0 0 0 14px rgba(255,59,48,0); }
+}
 
 .ft-btn-end {
-  background: rgba(255,59,48,.9);
+  background: #ff3b30;
   color: #fff;
+  border: none;
 }
 .ft-btn-end:hover { filter: brightness(1.1); }
+
+/* Label under buttons */
+.ft-btn-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.ft-btn-label {
+  font-family: 'Sora', sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,.45);
+}
 </style>
 
 <script>
@@ -8360,10 +8420,7 @@ async function ftStartCall() {
       const video = document.getElementById('ftVideo');
       if (video.srcObject !== e.streams[0]) {
         video.srcObject = e.streams[0];
-        video.onloadedmetadata = () => {
-          video.classList.add('ft-live');
-          document.getElementById('ftAvatarBg').style.display = 'none';
-        };
+        // Don't auto-show video — only show when avatar is actually speaking
       }
     };
 
@@ -8380,8 +8437,8 @@ async function ftStartCall() {
     ftPeerConn.onconnectionstatechange = () => {
       if (ftPeerConn.connectionState === 'connected') {
         document.getElementById('ftConnecting').classList.add('ft-hidden');
-        ftSetStatus('Connected');
-        setTimeout(() => ftSetStatus('Tap mic to ask a question'), 1500);
+        ftSetStatus('Ready');
+        setTimeout(() => ftSetStatus('Tap mic to ask a question'), 1200);
       }
     };
 
@@ -8431,6 +8488,7 @@ async function ftStartRecording() {
     ftRecorder.start(250);
     ftRecording = true;
     document.getElementById('ftMicBtn').classList.add('ft-recording');
+    document.getElementById('ftMicLabel').textContent = 'Done';
     ftSetStatus('Listening...');
     ftHideTranscript();
   } catch (e) {
@@ -8443,7 +8501,8 @@ function ftStopRecording() {
   ftRecording = false;
   document.getElementById('ftMicBtn').classList.remove('ft-recording');
   document.getElementById('ftMicBtn').classList.add('ft-processing');
-  ftSetStatus('Thinking...');
+  document.getElementById('ftMicLabel').textContent = 'Thinking...';
+  ftSetStatus('Searching knowledge base...');
 }
 
 async function ftSendRecording(mimeType) {
@@ -8466,14 +8525,24 @@ async function ftSendRecording(mimeType) {
     // Show what user asked
     ftShowTranscript(data.question, data.answer);
 
-    // Make avatar speak
+    // Make avatar speak — show video + pulse ring
     ftSetStatus('EX3 speaking...');
+    document.getElementById('ftMicLabel').textContent = 'Speak';
+    document.getElementById('ftVideo').classList.add('ft-live');
+    document.getElementById('ftAvatarCircle').classList.add('ft-speaking');
     await ftSpeak(data.answer);
 
+    // Wait for avatar to finish (rough estimate: 200ms/word + 2s buffer)
+    const wordCount = data.answer.split(' ').length;
+    await new Promise(r => setTimeout(r, wordCount * 200 + 2000));
+
+    document.getElementById('ftVideo').classList.remove('ft-live');
+    document.getElementById('ftAvatarCircle').classList.remove('ft-speaking');
     ftSetStatus('Tap mic to ask another question');
   } catch (e) {
     console.error('FaceTime send error:', e);
     ftSetStatus('Something went wrong — try again');
+    document.getElementById('ftMicLabel').textContent = 'Speak';
   } finally {
     ftProcessing = false;
     document.getElementById('ftMicBtn').classList.remove('ft-processing');
@@ -8523,9 +8592,11 @@ async function ftEndCall() {
   ftRecording = false; ftProcessing = false; ftThreadId = null;
 
   const video = document.getElementById('ftVideo');
-  if (video) video.srcObject = null;
-
+  if (video) { video.srcObject = null; video.classList.remove('ft-live'); }
+  document.getElementById('ftAvatarCircle').classList.remove('ft-speaking');
   document.getElementById('ftConnecting').classList.remove('ft-hidden');
+  document.getElementById('ftMicBtn').classList.remove('ft-recording','ft-processing');
+  document.getElementById('ftMicLabel').textContent = 'Speak';
   document.getElementById('ftOverlay').classList.remove('ft-open');
   ftHideTranscript();
 }

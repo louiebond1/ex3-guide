@@ -8842,10 +8842,9 @@ app.post('/api/did/stream', async (req, res) => {
       headers: { Authorization: didAuth(), 'Content-Type': 'application/json' },
       body: JSON.stringify({
         source_url: source_url || process.env.DID_AVATAR_URL || 'https://create-images-results.d-id.com/DefaultPresenters/Noelle_f/image.jpeg',
-        driver_url: 'bank://lively',
+        driver_url: 'bank://natural',
         output_resolution: 512,
-        stream_warmup: true,
-        config: { stitch: true, fluent: true }
+        config: { stitch: true, fluent: true, pad_audio: 0 }
       }),
     });
     const data = await r.json();
@@ -8893,7 +8892,7 @@ app.post('/api/did/stream/:streamId/speak', async (req, res) => {
         script: {
           type: 'text',
           input: text,
-          provider: { type: 'microsoft', voice_id: 'en-GB-SoniaNeural' }
+          provider: { type: 'microsoft', voice_id: 'en-GB-RyanNeural' }
         },
         session_id,
         config: { fluent: true, stitch: true }
