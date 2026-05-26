@@ -8095,8 +8095,10 @@ window.addEventListener('hashchange', applyHash);
 <div class="ft-overlay" id="ftOverlay">
   <div class="ft-modal" id="ftModal">
 
-    <!-- Blurred photo background -->
-    <div class="ft-bg-blur"></div>
+    <!-- William idle video (loops while waiting) -->
+    <video class="ft-idle-video" id="ftIdleVideo"
+      src="https://clips-presenters.d-id.com/v2/William_NoHands_BlackShirt_Lab/ro_YvG4mU1/LeoeCFQwjR/idle.mp4"
+      autoplay loop muted playsinline></video>
 
     <!-- Live D-ID video (fullscreen when speaking) -->
     <video class="ft-video" id="ftVideo" autoplay playsinline></video>
@@ -8105,11 +8107,6 @@ window.addEventListener('hashchange', applyHash);
     <div class="ft-topbar" id="ftTopbar">
       <div class="ft-caller-name">EX3 Assistant</div>
       <div class="ft-caller-sub" id="ftStatus">Connecting...</div>
-    </div>
-
-    <!-- Centre: circular avatar photo -->
-    <div class="ft-avatar-circle" id="ftAvatarCircle">
-      <img src="/images/Screenshot%202026-05-26%20162923.png" alt="EX3">
     </div>
 
     <!-- Connecting pill -->
@@ -8187,17 +8184,17 @@ window.addEventListener('hashchange', applyHash);
   overflow: hidden;
 }
 
-/* ─── Blurred photo background ───────────────────────────────────────────── */
-.ft-bg-blur {
+/* ─── Idle video (William at rest, looping) ──────────────────────────────── */
+.ft-idle-video {
   position: absolute;
   inset: 0;
-  background-image: url('/images/Screenshot%202026-05-26%20162923.png');
-  background-size: cover;
-  background-position: center top;
-  filter: blur(28px) brightness(0.28) saturate(1.4);
-  transform: scale(1.1);
-  z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 1;
+  transition: opacity .4s;
 }
+.ft-idle-video.ft-hidden { opacity: 0; }
 
 /* ─── Live D-ID video (fullscreen, hidden until speaking) ───────────────── */
 .ft-video {
@@ -8236,36 +8233,6 @@ window.addEventListener('hashchange', applyHash);
   min-height: 22px;
 }
 
-/* ─── Centre avatar circle ───────────────────────────────────────────────── */
-.ft-avatar-circle {
-  position: relative;
-  z-index: 10;
-  margin: auto 0;
-  width: 180px; height: 180px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 0 0 3px rgba(255,255,255,.08), 0 24px 60px rgba(0,0,0,.6);
-  flex-shrink: 0;
-  transition: opacity .4s, transform .4s;
-}
-.ft-avatar-circle img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-/* Pulse ring when speaking */
-.ft-avatar-circle.ft-speaking::after {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,.35);
-  animation: ft-ring 1.2s ease-out infinite;
-}
-@keyframes ft-ring {
-  0% { transform: scale(1); opacity: .6; }
-  100% { transform: scale(1.18); opacity: 0; }
-}
 
 /* ─── Connecting pill ────────────────────────────────────────────────────── */
 .ft-conn-pill {
@@ -8527,12 +8494,11 @@ async function ftSendRecording(mimeType) {
     // Show what user asked
     ftShowTranscript(data.question, data.answer);
 
-    // Make avatar speak — show full video, hide circle
+    // Make avatar speak — show D-ID video, hide idle
     ftSetStatus('EX3 speaking...');
     document.getElementById('ftMicLabel').textContent = 'Speak';
     document.getElementById('ftVideo').classList.add('ft-live');
-    document.getElementById('ftAvatarCircle').style.opacity = '0';
-    document.getElementById('ftAvatarCircle').style.transform = 'scale(0.85)';
+    document.getElementById('ftIdleVideo').classList.add('ft-hidden');
     document.getElementById('ftTopbar').style.opacity = '0';
     await ftSpeak(data.answer);
 
@@ -8541,8 +8507,7 @@ async function ftSendRecording(mimeType) {
     await new Promise(r => setTimeout(r, wordCount * 200 + 2000));
 
     document.getElementById('ftVideo').classList.remove('ft-live');
-    document.getElementById('ftAvatarCircle').style.opacity = '1';
-    document.getElementById('ftAvatarCircle').style.transform = 'scale(1)';
+    document.getElementById('ftIdleVideo').classList.remove('ft-hidden');
     document.getElementById('ftTopbar').style.opacity = '1';
     ftSetStatus('Tap mic to ask another question');
   } catch (e) {
@@ -8599,8 +8564,7 @@ async function ftEndCall() {
 
   const video = document.getElementById('ftVideo');
   if (video) { video.srcObject = null; video.classList.remove('ft-live'); }
-  document.getElementById('ftAvatarCircle').style.opacity = '1';
-  document.getElementById('ftAvatarCircle').style.transform = 'scale(1)';
+  document.getElementById('ftIdleVideo').classList.remove('ft-hidden');
   document.getElementById('ftTopbar').style.opacity = '1';
   document.getElementById('ftConnecting').classList.remove('ft-hidden');
   document.getElementById('ftMicBtn').classList.remove('ft-recording','ft-processing');

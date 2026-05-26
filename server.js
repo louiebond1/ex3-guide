@@ -8841,7 +8841,8 @@ app.post('/api/did/stream', async (req, res) => {
       method: 'POST',
       headers: { Authorization: didAuth(), 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        source_url: source_url || process.env.DID_AVATAR_URL || 'https://create-images-results.d-id.com/DefaultPresenters/Noelle_f/image.jpeg',
+        source_url: 'https://clips-presenters.d-id.com/v2/William_NoHands_BlackShirt_Lab/ro_YvG4mU1/LeoeCFQwjR/image.png',
+        presenter_id: 'v2_public_William_NoHands_BlackShirt_Lab@ro_YvG4mU1',
         driver_url: 'bank://natural',
         output_resolution: 512,
         config: { stitch: true, fluent: true, pad_audio: 0 }
