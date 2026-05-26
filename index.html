@@ -673,8 +673,11 @@ select{font-family:inherit}
   cursor:pointer;user-select:none;transition:background .1s;
   font-size:10px;font-weight:500;letter-spacing:.06em;
   text-transform:uppercase;color:var(--ink-4);
+  width:100%;background:none;border:none;font-family:inherit;
+  text-align:left;position:relative;z-index:1;
 }
 .sc-head:hover{background:var(--canvas)}
+.sc-head *{pointer-events:none}
 .sc-chev{font-size:9px;color:var(--ink-4);transition:transform .2s;flex-shrink:0;margin-left:8px}
 .sc.sc-open .sc-chev{transform:rotate(180deg)}
 .sc-body{display:none;padding:0 16px 14px;border-top:1px solid var(--border)}
@@ -6418,10 +6421,10 @@ function goL4(taskId, inFlow) {
   if(t.diagram){
     if(t.diagram.type==='hflow'){
       const nodes=t.diagram.nodes.map(n=>`<div class="hf-node"><div class="hf-box ${n.s}">${n.l}</div>${n.sub?`<div class="hf-sub">${n.sub}</div>`:''}</div>`).join('<div class="hf-arr">›</div>');
-      diagHtml=`<div class="sc"><div class="sc-head" onclick="togSc(this)">Process flow<span class="sc-chev">▾</span></div><div class="sc-body"><div class="hflow"><div class="hflow-inner">${nodes}</div></div></div></div>`;
+      diagHtml=`<div class="sc"><button class="sc-head" onclick="togSc(this)">Process flow<span class="sc-chev">▾</span></button><div class="sc-body"><div class="hflow"><div class="hflow-inner">${nodes}</div></div></div></div>`;
     } else if(t.diagram.type==='vflow'){
       const nodes=t.diagram.nodes.map((n,i)=>`<div class="vf-node"><div class="vf-left"><div class="vf-circle" style="color:${n.c};background:${n.bg};border-color:${n.ln}">${i+1}</div><div class="vf-line" style="background:${n.ln}"></div></div><div class="vf-right"><h5 style="color:${n.c}">${n.l}</h5><p>${n.sub}</p></div></div>`).join('');
-      diagHtml=`<div class="sc"><div class="sc-head" onclick="togSc(this)">Process flow<span class="sc-chev">▾</span></div><div class="sc-body"><div class="vflow">${nodes}</div></div></div>`;
+      diagHtml=`<div class="sc"><button class="sc-head" onclick="togSc(this)">Process flow<span class="sc-chev">▾</span></button><div class="sc-body"><div class="vflow">${nodes}</div></div></div>`;
     }
   }
   const pad=(n,l=2)=>String(n).padStart(l,'0');
@@ -6493,8 +6496,8 @@ function goL4(taskId, inFlow) {
         </div>
       </div>
       <div class="side-col">
-        ${whoHtml?`<div class="sc"><div class="sc-head" onclick="togSc(this)">Who does this<span class="sc-chev">▾</span></div><div class="sc-body">${whoHtml}</div></div>`:''}
-        ${beforeHtml?`<div class="sc"><div class="sc-head" onclick="togSc(this)">Before you start<span class="sc-chev">▾</span></div><div class="sc-body">${beforeHtml}</div></div>`:''}
+        ${whoHtml?`<div class="sc"><button class="sc-head" onclick="togSc(this)">Who does this<span class="sc-chev">▾</span></button><div class="sc-body">${whoHtml}</div></div>`:''}
+        ${beforeHtml?`<div class="sc"><button class="sc-head" onclick="togSc(this)">Before you start<span class="sc-chev">▾</span></button><div class="sc-body">${beforeHtml}</div></div>`:''}
         ${diagHtml}
         ${renderAlsoNeed(taskId)}
       </div>
@@ -7548,7 +7551,7 @@ function renderAlsoNeed(taskId){
       <span class="an-arr">→</span>
     </div>`;
   }).join('');
-  return `<div class="sc"><div class="sc-head" onclick="togSc(this)">You might also need<span class="sc-chev">▾</span></div><div class="sc-body">${items}</div></div>`;
+  return `<div class="sc"><button class="sc-head" onclick="togSc(this)">You might also need<span class="sc-chev">▾</span></button><div class="sc-body">${items}</div></div>`;
 }
 
 // ─── ONBOARDING WIZARD (Feature 5) ─────────────────
