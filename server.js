@@ -8826,45 +8826,77 @@ document.getElementById(\'live-frame\').src=\'/\';
 </html>`);
 });
 
-// ─── Voice session (OpenAI Realtime API) ────────────────────────────────────
-app.post('/api/voice/session', async (req, res) => {
+// ─── Voice Ask: Whisper → Assistants API (file_search) → TTS ────────────────
+// Accepts raw audio body; query param ?threadId= to continue a session
+app.post('/api/voice/ask', express.raw({ type: '*/*', limit: '25mb' }), async (req, res) => {
+  let tmpPath = null;
   try {
-    const response = await fetch('https://api.openai.com/v1/realtime/sessions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-realtime-preview-2024-12-17',
-        voice: 'alloy',
-        instructions: `You are EX3, a SmartRecruiters expert assistant embedded in the EX3 SmartRecruiters Enablement Guide. You are talking to a user via voice — keep your answers concise, clear, and conversational. Speak like a knowledgeable colleague, not a manual.
+    const mimeType = req.headers['content-type'] || 'audio/webm';
+    const ext = mimeType.includes('ogg') ? '.ogg'
+              : mimeType.includes('mp4') ? '.mp4'
+              : mimeType.includes('wav') ? '.wav'
+              : '.webm';
+    tmpPath = path.join(os.tmpdir(), `voice_${Date.now()}${ext}`);
+    fs.writeFileSync(tmpPath, req.body);
 
-You ONLY answer questions about SmartRecruiters — the modern AI-powered talent acquisition platform.
-
-Key SmartRecruiters navigation to use:
-- Creating jobs: Jobs > Create Job (not "Recruiting > Requisition")
-- Posting a job: Jobs > [select job] > Publish / Post to job boards
-- Candidate pipeline: Jobs > [select job] > Pipeline tab
-- Offers: Jobs > [select job] > Pipeline > [candidate] > Create Offer
-- CRM / sourcing: Sourcing > CRM
-- Reports: Analytics > Reports
-- User management: Admin > Users & Roles
-- System settings: Admin > Company Settings
-
-Do NOT reference SAP SuccessFactors Recruiting navigation or SAP-specific terms. Do NOT use SAP menu paths.
-
-If you are unsure or the question is outside SmartRecruiters, say so clearly rather than guessing.`
-      }),
+    // 1. Transcribe
+    const transcription = await openai.audio.transcriptions.create({
+      file: fs.createReadStream(tmpPath),
+      model: 'whisper-1',
     });
-    if (!response.ok) {
-      const err = await response.text();
-      return res.status(500).json({ error: err });
+    const question = transcription.text.trim();
+    fs.unlinkSync(tmpPath); tmpPath = null;
+
+    if (!question) return res.status(400).json({ error: 'No speech detected' });
+
+    // 2. Assistants API with file_search (full knowledge base)
+    let threadId = req.query.threadId;
+    let thread;
+    if (threadId) {
+      thread = { id: threadId };
+    } else {
+      thread = await openai.beta.threads.create();
+      threadId = thread.id;
     }
-    const data = await response.json();
-    res.json({ client_secret: data.client_secret.value });
+
+    await openai.beta.threads.messages.create(threadId, {
+      role: 'user',
+      content: question,
+    });
+
+    const run = await openai.beta.threads.runs.createAndPoll(threadId, {
+      assistant_id: process.env.ASSISTANT_ID,
+      additional_instructions: 'You are answering via voice. Keep your answer concise (2–4 sentences max). No bullet points, no markdown. Speak conversationally.',
+    });
+
+    if (run.status !== 'completed') {
+      return res.status(500).json({ error: `Assistant run ${run.status}` });
+    }
+
+    const msgs = await openai.beta.threads.messages.list(threadId, { limit: 1, order: 'desc' });
+    let answer = msgs.data[0]?.content?.[0]?.text?.value || 'Sorry, I could not generate a response.';
+    // Strip follow-up prompts and citations
+    answer = answer.replace(/FOLLOWUPS:.*/s, '').replace(/【[^】]*】/g, '').trim();
+
+    // 3. TTS — OpenAI
+    const speech = await openai.audio.speech.create({
+      model: 'tts-1',
+      voice: 'nova',
+      input: answer,
+      response_format: 'mp3',
+    });
+
+    const audioBuffer = Buffer.from(await speech.arrayBuffer());
+
+    res.json({
+      threadId,
+      question,
+      answer,
+      audio: audioBuffer.toString('base64'),
+    });
   } catch (e) {
-    console.error('Voice session error:', e.message);
+    if (tmpPath) try { fs.unlinkSync(tmpPath); } catch {}
+    console.error('Voice ask error:', e.message);
     res.status(500).json({ error: e.message });
   }
 });
