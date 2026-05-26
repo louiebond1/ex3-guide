@@ -8077,20 +8077,19 @@ window.addEventListener('hashchange', applyHash);
     <div class="assistant-footer">
       <div class="assistant-field">
         <input class="assistant-input" id="assistantQuery" aria-label="Ask EX3 assistant" placeholder="Ask a question..." onkeydown="assistantInputKey(event)">
+        <button class="assistant-voice-btn" onclick="openVoiceModal()" title="Ask by voice">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
         <button class="assistant-send" onclick="submitAssistantQuestion()">Ask</button>
       </div>
     </div>
   </div>
 </div>
-<!-- ─── VOICE BUTTON ─────────────────────────────────────────────────────── -->
-<button class="voice-fab" id="voiceFab" onclick="openVoiceModal()" title="Talk to EX3">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-    <line x1="12" y1="19" x2="12" y2="23"/>
-    <line x1="8" y1="23" x2="16" y2="23"/>
-  </svg>
-</button>
 
 <!-- ─── VOICE MODAL ─────────────────────────────────────────────────────── -->
 <div class="voice-overlay" id="voiceOverlay" onclick="closeVoiceModal(event)">
@@ -8131,27 +8130,26 @@ window.addEventListener('hashchange', applyHash);
 </div>
 
 <style>
-/* ─── Voice FAB ─────────────────────────────────────────────────────────── */
-.voice-fab {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--ink);
-  color: var(--white);
-  border: none;
+/* ─── Voice inline mic button (next to Ask) ─────────────────────────────── */
+.assistant-voice-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: #f5f4f1;
+  color: rgba(0,0,0,0.45);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(0,0,0,.22);
-  z-index: 900;
-  transition: transform .15s, box-shadow .15s;
+  flex-shrink: 0;
+  transition: background .15s, color .15s, border-color .15s;
 }
-.voice-fab:hover { transform: scale(1.07); box-shadow: 0 6px 22px rgba(0,0,0,.28); }
-.voice-fab:active { transform: scale(.97); }
+.assistant-voice-btn:hover {
+  background: #eeede9;
+  color: rgba(0,0,0,0.7);
+  border-color: rgba(0,0,0,0.18);
+}
 
 /* ─── Overlay ───────────────────────────────────────────────────────────── */
 .voice-overlay {
