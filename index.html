@@ -8106,6 +8106,9 @@ window.addEventListener('hashchange', applyHash);
     <!-- Main video: D-ID avatar -->
     <video class="ft-video" id="ftVideo" autoplay playsinline></video>
 
+    <!-- Avatar photo shown while connecting -->
+    <img class="ft-avatar-bg" id="ftAvatarBg" src="/images/Screenshot 2026-05-26 162923.png" alt="">
+
     <!-- Connecting / loading state -->
     <div class="ft-connecting" id="ftConnecting">
       <div class="ft-spinner"></div>
@@ -8182,8 +8185,12 @@ window.addEventListener('hashchange', applyHash);
   inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  background: #1a1a1a;
+  background: transparent;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity .6s;
 }
+.ft-video.ft-live { opacity: 1; }
 
 /* ─── Top bar ────────────────────────────────────────────────────────────── */
 .ft-topbar {
@@ -8207,13 +8214,24 @@ window.addEventListener('hashchange', applyHash);
   margin-top: 2px;
 }
 
+/* ─── Avatar background photo (shown while connecting) ──────────────────── */
+.ft-avatar-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 1;
+  filter: brightness(0.75);
+}
+
 /* ─── Connecting overlay ─────────────────────────────────────────────────── */
 .ft-connecting {
   position: absolute;
   inset: 0;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  background: #111;
+  background: transparent;
   z-index: 8;
   gap: 18px;
   transition: opacity .4s;
@@ -8342,6 +8360,10 @@ async function ftStartCall() {
       const video = document.getElementById('ftVideo');
       if (video.srcObject !== e.streams[0]) {
         video.srcObject = e.streams[0];
+        video.onloadedmetadata = () => {
+          video.classList.add('ft-live');
+          document.getElementById('ftAvatarBg').style.display = 'none';
+        };
       }
     };
 

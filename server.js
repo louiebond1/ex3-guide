@@ -8841,7 +8841,7 @@ app.post('/api/did/stream', async (req, res) => {
       method: 'POST',
       headers: { Authorization: didAuth(), 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        source_url: source_url || 'https://create-images-results.d-id.com/DefaultPresenters/Noelle_f/image.jpeg',
+        source_url: source_url || process.env.DID_AVATAR_URL || 'https://create-images-results.d-id.com/DefaultPresenters/Noelle_f/image.jpeg',
         driver_url: 'bank://lively',
         output_resolution: 512,
         stream_warmup: true,
