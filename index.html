@@ -6493,7 +6493,7 @@ function goL4(taskId, inFlow) {
         </div>
       </div>
       <div class="side-col">
-        ${whoHtml?`<div class="sc sc-open"><div class="sc-head" onclick="togSc(this)">Who does this<span class="sc-chev">▾</span></div><div class="sc-body">${whoHtml}</div></div>`:''}
+        ${whoHtml?`<div class="sc"><div class="sc-head" onclick="togSc(this)">Who does this<span class="sc-chev">▾</span></div><div class="sc-body">${whoHtml}</div></div>`:''}
         ${beforeHtml?`<div class="sc"><div class="sc-head" onclick="togSc(this)">Before you start<span class="sc-chev">▾</span></div><div class="sc-body">${beforeHtml}</div></div>`:''}
         ${diagHtml}
         ${renderAlsoNeed(taskId)}
@@ -7548,7 +7548,7 @@ function renderAlsoNeed(taskId){
       <span class="an-arr">→</span>
     </div>`;
   }).join('');
-  return `<div class="sc sc-open"><div class="sc-head" onclick="togSc(this)">You might also need<span class="sc-chev">▾</span></div><div class="sc-body">${items}</div></div>`;
+  return `<div class="sc"><div class="sc-head" onclick="togSc(this)">You might also need<span class="sc-chev">▾</span></div><div class="sc-body">${items}</div></div>`;
 }
 
 // ─── ONBOARDING WIZARD (Feature 5) ─────────────────
