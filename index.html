@@ -8082,5 +8082,428 @@ window.addEventListener('hashchange', applyHash);
     </div>
   </div>
 </div>
+<!-- ─── VOICE BUTTON ─────────────────────────────────────────────────────── -->
+<button class="voice-fab" id="voiceFab" onclick="openVoiceModal()" title="Talk to EX3">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+    <line x1="12" y1="19" x2="12" y2="23"/>
+    <line x1="8" y1="23" x2="16" y2="23"/>
+  </svg>
+</button>
+
+<!-- ─── VOICE MODAL ─────────────────────────────────────────────────────── -->
+<div class="voice-overlay" id="voiceOverlay" onclick="closeVoiceModal(event)">
+  <div class="voice-modal" id="voiceModal">
+    <button class="voice-close" onclick="closeVoiceModal(null)" title="Close">✕</button>
+    <div class="voice-header">
+      <span class="voice-label">EX3 Voice</span>
+    </div>
+
+    <!-- Avatar -->
+    <div class="voice-avatar-wrap">
+      <canvas class="voice-canvas" id="voiceCanvas" width="220" height="220"></canvas>
+      <div class="voice-avatar-icon" id="voiceAvatarIcon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="voice-status" id="voiceStatus">Tap the mic to start</div>
+    <div class="voice-transcript" id="voiceTranscript"></div>
+
+    <!-- Controls -->
+    <div class="voice-controls">
+      <button class="voice-mic-btn" id="voiceMicBtn" onclick="toggleVoice()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+          <line x1="8" y1="23" x2="16" y2="23"/>
+        </svg>
+      </button>
+    </div>
+    <div class="voice-hint" id="voiceHint">Ask anything about SmartRecruiters</div>
+  </div>
+</div>
+
+<style>
+/* ─── Voice FAB ─────────────────────────────────────────────────────────── */
+.voice-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,.22);
+  z-index: 900;
+  transition: transform .15s, box-shadow .15s;
+}
+.voice-fab:hover { transform: scale(1.07); box-shadow: 0 6px 22px rgba(0,0,0,.28); }
+.voice-fab:active { transform: scale(.97); }
+
+/* ─── Overlay ───────────────────────────────────────────────────────────── */
+.voice-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.voice-overlay.vo-open { display: flex; }
+
+/* ─── Modal ─────────────────────────────────────────────────────────────── */
+.voice-modal {
+  background: #0d0d0d;
+  border-radius: 20px;
+  padding: 28px 28px 24px;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 24px 80px rgba(0,0,0,.6);
+}
+.voice-close {
+  position: absolute;
+  top: 16px; right: 18px;
+  background: none; border: none;
+  color: rgba(255,255,255,.35);
+  font-size: 16px; cursor: pointer;
+  padding: 4px; line-height: 1;
+  transition: color .15s;
+}
+.voice-close:hover { color: rgba(255,255,255,.7); }
+
+.voice-header { margin-bottom: 20px; }
+.voice-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+}
+
+/* ─── Avatar ─────────────────────────────────────────────────────────────── */
+.voice-avatar-wrap {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin-bottom: 20px;
+}
+.voice-canvas {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+.voice-avatar-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.55);
+  pointer-events: none;
+}
+
+/* ─── Status & Transcript ───────────────────────────────────────────────── */
+.voice-status {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: rgba(255,255,255,.35);
+  letter-spacing: .04em;
+  margin-bottom: 10px;
+  min-height: 18px;
+  text-align: center;
+}
+.voice-transcript {
+  font-size: 14px;
+  color: rgba(255,255,255,.75);
+  text-align: center;
+  line-height: 1.5;
+  min-height: 42px;
+  max-width: 280px;
+  margin-bottom: 22px;
+  font-family: 'Sora', sans-serif;
+}
+
+/* ─── Mic button ────────────────────────────────────────────────────────── */
+.voice-controls { margin-bottom: 14px; }
+.voice-mic-btn {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, border-color .2s, transform .15s;
+}
+.voice-mic-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.22); }
+.voice-mic-btn:active { transform: scale(.95); }
+.voice-mic-btn.vm-active {
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.5);
+  color: #fff;
+}
+.voice-mic-btn.vm-active svg { animation: pulse-mic .8s ease-in-out infinite; }
+@keyframes pulse-mic { 0%,100%{opacity:1} 50%{opacity:.6} }
+
+.voice-hint {
+  font-size: 11px;
+  color: rgba(255,255,255,.2);
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: .03em;
+  text-align: center;
+}
+</style>
+
+<script>
+/* ─── Voice Modal State ─────────────────────────────────────────────────── */
+let voicePC = null;          // RTCPeerConnection
+let voiceStream = null;      // mic MediaStream
+let voiceAudioCtx = null;    // AudioContext for analyser
+let voiceAnalyser = null;    // AnalyserNode
+let voiceAiAnalyser = null;  // Analyser on AI audio
+let voiceAiAudioEl = null;   // <audio> for AI voice
+let voiceAnimFrame = null;
+let voiceActive = false;     // connected + listening
+let voiceAiSpeaking = false;
+
+function openVoiceModal() {
+  document.getElementById('voiceOverlay').classList.add('vo-open');
+  initVoiceCanvas();
+}
+
+function closeVoiceModal(e) {
+  if (e && e.target !== document.getElementById('voiceOverlay')) return;
+  stopVoice();
+  document.getElementById('voiceOverlay').classList.remove('vo-open');
+}
+
+/* ─── Canvas Animation ──────────────────────────────────────────────────── */
+function initVoiceCanvas() {
+  const canvas = document.getElementById('voiceCanvas');
+  const ctx = canvas.getContext('2d');
+  const cx = 110, cy = 110, baseR = 60;
+
+  function draw() {
+    voiceAnimFrame = requestAnimationFrame(draw);
+    ctx.clearRect(0, 0, 220, 220);
+
+    // Get amplitude
+    let amp = 0;
+    const analyserToUse = voiceAiSpeaking ? voiceAiAnalyser : voiceAnalyser;
+    if (analyserToUse) {
+      const data = new Uint8Array(analyserToUse.frequencyBinCount);
+      analyserToUse.getByteTimeDomainData(data);
+      let sum = 0;
+      for (let i = 0; i < data.length; i++) sum += Math.abs(data[i] - 128);
+      amp = Math.min(1, (sum / data.length) / 40);
+    }
+
+    const t = Date.now() / 1000;
+
+    // Outer glow ring
+    const glowR = baseR + 28 + (voiceAiSpeaking ? amp * 36 : Math.sin(t * 1.5) * 4 + 4);
+    const grd = ctx.createRadialGradient(cx, cy, baseR, cx, cy, glowR + 12);
+    const alpha = voiceAiSpeaking ? 0.18 + amp * 0.22 : (voiceActive ? 0.1 : 0.06);
+    grd.addColorStop(0, `rgba(255,255,255,${alpha})`);
+    grd.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, glowR + 12, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+
+    // Middle ring
+    const midR = baseR + 14 + (voiceAiSpeaking ? amp * 20 : Math.sin(t * 2) * 2 + 2);
+    ctx.beginPath();
+    ctx.arc(cx, cy, midR, 0, Math.PI * 2);
+    ctx.strokeStyle = voiceAiSpeaking
+      ? `rgba(255,255,255,${0.18 + amp * 0.3})`
+      : `rgba(255,255,255,${voiceActive ? 0.14 : 0.07})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Core circle
+    const coreGrd = ctx.createRadialGradient(cx, cy, 0, cx, cy, baseR);
+    const coreAlpha = voiceAiSpeaking ? 0.22 + amp * 0.18 : (voiceActive ? 0.15 : 0.08);
+    coreGrd.addColorStop(0, `rgba(255,255,255,${coreAlpha + 0.1})`);
+    coreGrd.addColorStop(1, `rgba(255,255,255,${coreAlpha})`);
+    ctx.beginPath();
+    ctx.arc(cx, cy, baseR, 0, Math.PI * 2);
+    ctx.fillStyle = coreGrd;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(255,255,255,${0.12 + coreAlpha * 0.5})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Waveform arc when AI speaking
+    if (voiceAiSpeaking && voiceAiAnalyser) {
+      const waveData = new Uint8Array(voiceAiAnalyser.frequencyBinCount);
+      voiceAiAnalyser.getByteFrequencyData(waveData);
+      const bars = 48;
+      for (let i = 0; i < bars; i++) {
+        const angle = (i / bars) * Math.PI * 2 - Math.PI / 2;
+        const v = waveData[Math.floor(i * waveData.length / bars)] / 255;
+        const r1 = baseR + 2;
+        const r2 = r1 + v * 28;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(angle) * r1, cy + Math.sin(angle) * r1);
+        ctx.lineTo(cx + Math.cos(angle) * r2, cy + Math.sin(angle) * r2);
+        ctx.strokeStyle = `rgba(255,255,255,${0.15 + v * 0.55})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    }
+  }
+
+  if (voiceAnimFrame) cancelAnimationFrame(voiceAnimFrame);
+  draw();
+}
+
+/* ─── Toggle voice ──────────────────────────────────────────────────────── */
+async function toggleVoice() {
+  if (voiceActive) {
+    stopVoice();
+  } else {
+    await startVoice();
+  }
+}
+
+async function startVoice() {
+  setVoiceStatus('Connecting...');
+  const btn = document.getElementById('voiceMicBtn');
+  btn.classList.add('vm-active');
+
+  try {
+    // 1. Get ephemeral key
+    const sessRes = await fetch('/api/voice/session', { method: 'POST' });
+    const sessData = await sessRes.json();
+    if (!sessData.client_secret) throw new Error(sessData.error || 'No session token');
+    const ephemeralKey = sessData.client_secret;
+
+    // 2. Mic access
+    voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    // 3. Mic analyser
+    voiceAudioCtx = new AudioContext();
+    voiceAnalyser = voiceAudioCtx.createAnalyser();
+    voiceAnalyser.fftSize = 256;
+    const src = voiceAudioCtx.createMediaStreamSource(voiceStream);
+    src.connect(voiceAnalyser);
+
+    // 4. RTCPeerConnection
+    voicePC = new RTCPeerConnection();
+
+    // AI audio — attach to analyser
+    voicePC.ontrack = (e) => {
+      if (!voiceAiAudioEl) {
+        voiceAiAudioEl = document.createElement('audio');
+        voiceAiAudioEl.autoplay = true;
+        document.body.appendChild(voiceAiAudioEl);
+      }
+      voiceAiAudioEl.srcObject = e.streams[0];
+
+      const aiSrc = voiceAudioCtx.createMediaStreamSource(e.streams[0]);
+      voiceAiAnalyser = voiceAudioCtx.createAnalyser();
+      voiceAiAnalyser.fftSize = 256;
+      aiSrc.connect(voiceAiAnalyser);
+
+      // Detect if AI is speaking
+      (function checkSpeaking() {
+        if (!voiceActive) return;
+        const d = new Uint8Array(voiceAiAnalyser.frequencyBinCount);
+        voiceAiAnalyser.getByteTimeDomainData(d);
+        let sum = 0;
+        for (let i = 0; i < d.length; i++) sum += Math.abs(d[i] - 128);
+        const amp = sum / d.length;
+        voiceAiSpeaking = amp > 2;
+        setVoiceStatus(voiceAiSpeaking ? 'EX3 speaking...' : 'Listening...');
+        setTimeout(checkSpeaking, 100);
+      })();
+    };
+
+    // Add mic track
+    voiceStream.getTracks().forEach(t => voicePC.addTrack(t, voiceStream));
+
+    // Data channel (required)
+    voicePC.createDataChannel('oai-events');
+
+    // SDP offer
+    const offer = await voicePC.createOffer();
+    await voicePC.setLocalDescription(offer);
+
+    const sdpRes = await fetch(
+      `https://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-12-17`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${ephemeralKey}`,
+          'Content-Type': 'application/sdp',
+        },
+        body: offer.sdp,
+      }
+    );
+    if (!sdpRes.ok) throw new Error(`SDP exchange failed: ${sdpRes.status}`);
+    const answerSdp = await sdpRes.text();
+    await voicePC.setRemoteDescription({ type: 'answer', sdp: answerSdp });
+
+    voiceActive = true;
+    setVoiceStatus('Listening...');
+    setVoiceTranscript('Ask your SmartRecruiters question...');
+
+  } catch (e) {
+    console.error('Voice error:', e);
+    setVoiceStatus('Failed to connect');
+    setVoiceTranscript(e.message);
+    btn.classList.remove('vm-active');
+    stopVoice();
+  }
+}
+
+function stopVoice() {
+  voiceActive = false;
+  voiceAiSpeaking = false;
+  if (voicePC) { voicePC.close(); voicePC = null; }
+  if (voiceStream) { voiceStream.getTracks().forEach(t => t.stop()); voiceStream = null; }
+  if (voiceAudioCtx) { voiceAudioCtx.close().catch(()=>{}); voiceAudioCtx = null; }
+  if (voiceAiAudioEl) { voiceAiAudioEl.srcObject = null; voiceAiAudioEl.remove(); voiceAiAudioEl = null; }
+  voiceAnalyser = null;
+  voiceAiAnalyser = null;
+  const btn = document.getElementById('voiceMicBtn');
+  if (btn) btn.classList.remove('vm-active');
+  setVoiceStatus('Tap the mic to start');
+  setVoiceTranscript('');
+}
+
+function setVoiceStatus(msg) {
+  const el = document.getElementById('voiceStatus');
+  if (el) el.textContent = msg;
+}
+function setVoiceTranscript(msg) {
+  const el = document.getElementById('voiceTranscript');
+  if (el) el.textContent = msg;
+}
+</script>
 </body>
 </html>

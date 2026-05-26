@@ -8826,6 +8826,49 @@ document.getElementById(\'live-frame\').src=\'/\';
 </html>`);
 });
 
+// ─── Voice session (OpenAI Realtime API) ────────────────────────────────────
+app.post('/api/voice/session', async (req, res) => {
+  try {
+    const response = await fetch('https://api.openai.com/v1/realtime/sessions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-realtime-preview-2024-12-17',
+        voice: 'alloy',
+        instructions: `You are EX3, a SmartRecruiters expert assistant embedded in the EX3 SmartRecruiters Enablement Guide. You are talking to a user via voice — keep your answers concise, clear, and conversational. Speak like a knowledgeable colleague, not a manual.
+
+You ONLY answer questions about SmartRecruiters — the modern AI-powered talent acquisition platform.
+
+Key SmartRecruiters navigation to use:
+- Creating jobs: Jobs > Create Job (not "Recruiting > Requisition")
+- Posting a job: Jobs > [select job] > Publish / Post to job boards
+- Candidate pipeline: Jobs > [select job] > Pipeline tab
+- Offers: Jobs > [select job] > Pipeline > [candidate] > Create Offer
+- CRM / sourcing: Sourcing > CRM
+- Reports: Analytics > Reports
+- User management: Admin > Users & Roles
+- System settings: Admin > Company Settings
+
+Do NOT reference SAP SuccessFactors Recruiting navigation or SAP-specific terms. Do NOT use SAP menu paths.
+
+If you are unsure or the question is outside SmartRecruiters, say so clearly rather than guessing.`
+      }),
+    });
+    if (!response.ok) {
+      const err = await response.text();
+      return res.status(500).json({ error: err });
+    }
+    const data = await response.json();
+    res.json({ client_secret: data.client_secret.value });
+  } catch (e) {
+    console.error('Voice session error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.listen(PORT, () => {
   if (!process.env.ASSISTANT_ID) {
     console.warn('⚠  ASSISTANT_ID not set — run "node setup.js" first to upload your documents.');
