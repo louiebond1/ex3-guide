@@ -8102,7 +8102,7 @@ window.addEventListener('hashchange', applyHash);
     <video class="ft-video" id="ftVideo" autoplay playsinline></video>
 
     <!-- Top: name + status -->
-    <div class="ft-topbar">
+    <div class="ft-topbar" id="ftTopbar">
       <div class="ft-caller-name">EX3 Assistant</div>
       <div class="ft-caller-sub" id="ftStatus">Connecting...</div>
     </div>
@@ -8219,6 +8219,7 @@ window.addEventListener('hashchange', applyHash);
   width: 100%;
   padding: 56px 24px 0;
   text-align: center;
+  transition: opacity .4s;
 }
 .ft-caller-name {
   font-family: 'Sora', sans-serif;
@@ -8245,6 +8246,7 @@ window.addEventListener('hashchange', applyHash);
   overflow: hidden;
   box-shadow: 0 0 0 3px rgba(255,255,255,.08), 0 24px 60px rgba(0,0,0,.6);
   flex-shrink: 0;
+  transition: opacity .4s, transform .4s;
 }
 .ft-avatar-circle img {
   width: 100%; height: 100%;
@@ -8293,22 +8295,22 @@ window.addEventListener('hashchange', applyHash);
   letter-spacing: .04em;
 }
 
-/* ─── Transcript caption ─────────────────────────────────────────────────── */
+/* ─── Transcript caption (absolute, sits above controls) ─────────────────── */
 .ft-transcript {
-  position: relative; z-index: 10;
-  width: calc(100% - 40px);
-  background: rgba(0,0,0,.45);
-  backdrop-filter: blur(12px);
+  position: absolute;
+  bottom: 135px; left: 20px; right: 20px;
+  z-index: 20;
+  background: rgba(0,0,0,.52);
+  backdrop-filter: blur(14px);
   border-radius: 14px;
-  padding: 12px 16px;
+  padding: 13px 16px;
   font-family: 'Sora', sans-serif;
   font-size: 14px;
   line-height: 1.55;
-  color: rgba(255,255,255,.88);
+  color: rgba(255,255,255,.9);
   display: none;
-  max-height: 110px;
+  max-height: 120px;
   overflow-y: auto;
-  margin-bottom: 16px;
 }
 .ft-transcript.ft-show { display: block; }
 .ft-transcript .ft-you {
@@ -8525,11 +8527,13 @@ async function ftSendRecording(mimeType) {
     // Show what user asked
     ftShowTranscript(data.question, data.answer);
 
-    // Make avatar speak — show video + pulse ring
+    // Make avatar speak — show full video, hide circle
     ftSetStatus('EX3 speaking...');
     document.getElementById('ftMicLabel').textContent = 'Speak';
     document.getElementById('ftVideo').classList.add('ft-live');
-    document.getElementById('ftAvatarCircle').classList.add('ft-speaking');
+    document.getElementById('ftAvatarCircle').style.opacity = '0';
+    document.getElementById('ftAvatarCircle').style.transform = 'scale(0.85)';
+    document.getElementById('ftTopbar').style.opacity = '0';
     await ftSpeak(data.answer);
 
     // Wait for avatar to finish (rough estimate: 200ms/word + 2s buffer)
@@ -8537,7 +8541,9 @@ async function ftSendRecording(mimeType) {
     await new Promise(r => setTimeout(r, wordCount * 200 + 2000));
 
     document.getElementById('ftVideo').classList.remove('ft-live');
-    document.getElementById('ftAvatarCircle').classList.remove('ft-speaking');
+    document.getElementById('ftAvatarCircle').style.opacity = '1';
+    document.getElementById('ftAvatarCircle').style.transform = 'scale(1)';
+    document.getElementById('ftTopbar').style.opacity = '1';
     ftSetStatus('Tap mic to ask another question');
   } catch (e) {
     console.error('FaceTime send error:', e);
@@ -8593,7 +8599,9 @@ async function ftEndCall() {
 
   const video = document.getElementById('ftVideo');
   if (video) { video.srcObject = null; video.classList.remove('ft-live'); }
-  document.getElementById('ftAvatarCircle').classList.remove('ft-speaking');
+  document.getElementById('ftAvatarCircle').style.opacity = '1';
+  document.getElementById('ftAvatarCircle').style.transform = 'scale(1)';
+  document.getElementById('ftTopbar').style.opacity = '1';
   document.getElementById('ftConnecting').classList.remove('ft-hidden');
   document.getElementById('ftMicBtn').classList.remove('ft-recording','ft-processing');
   document.getElementById('ftMicLabel').textContent = 'Speak';
