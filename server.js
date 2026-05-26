@@ -8826,6 +8826,97 @@ document.getElementById(\'live-frame\').src=\'/\';
 </html>`);
 });
 
+// ─── D-ID Avatar Proxy endpoints ─────────────────────────────────────────────
+const DID_BASE = 'https://api.d-id.com';
+function didAuth() {
+  const key = process.env.DID_API_KEY || '';
+  return 'Basic ' + Buffer.from(key).toString('base64');
+}
+
+// Create a new D-ID stream session
+app.post('/api/did/stream', async (req, res) => {
+  try {
+    const { source_url } = req.body;
+    const r = await fetch(`${DID_BASE}/talks/streams`, {
+      method: 'POST',
+      headers: { Authorization: didAuth(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        source_url: source_url || 'https://create-images-results.d-id.com/DefaultPresenters/Noelle_f/image.jpeg',
+        driver_url: 'bank://lively',
+        output_resolution: 512,
+        stream_warmup: true,
+        config: { stitch: true, fluent: true }
+      }),
+    });
+    const data = await r.json();
+    if (!r.ok) return res.status(r.status).json(data);
+    res.json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Send browser SDP answer
+app.post('/api/did/stream/:streamId/sdp', async (req, res) => {
+  try {
+    const { answer, session_id } = req.body;
+    const r = await fetch(`${DID_BASE}/talks/streams/${req.params.streamId}/sdp`, {
+      method: 'POST',
+      headers: { Authorization: didAuth(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answer, session_id }),
+    });
+    const data = await r.json();
+    res.status(r.ok ? 200 : r.status).json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Send ICE candidates
+app.post('/api/did/stream/:streamId/ice', async (req, res) => {
+  try {
+    const { candidate, sdpMid, sdpMLineIndex, session_id } = req.body;
+    const r = await fetch(`${DID_BASE}/talks/streams/${req.params.streamId}/ice`, {
+      method: 'POST',
+      headers: { Authorization: didAuth(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ candidate, sdpMid, sdpMLineIndex, session_id }),
+    });
+    const data = await r.json().catch(() => ({}));
+    res.status(r.ok ? 200 : r.status).json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Make avatar speak text
+app.post('/api/did/stream/:streamId/speak', async (req, res) => {
+  try {
+    const { text, session_id } = req.body;
+    const r = await fetch(`${DID_BASE}/talks/streams/${req.params.streamId}`, {
+      method: 'POST',
+      headers: { Authorization: didAuth(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        script: {
+          type: 'text',
+          input: text,
+          provider: { type: 'microsoft', voice_id: 'en-GB-SoniaNeural' }
+        },
+        session_id,
+        config: { fluent: true, stitch: true }
+      }),
+    });
+    const data = await r.json();
+    res.status(r.ok ? 200 : r.status).json(data);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Close stream
+app.delete('/api/did/stream/:streamId', async (req, res) => {
+  try {
+    const { session_id } = req.body;
+    await fetch(`${DID_BASE}/talks/streams/${req.params.streamId}`, {
+      method: 'DELETE',
+      headers: { Authorization: didAuth(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id }),
+    });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // ─── Voice Ask: Whisper → Assistants API (file_search) → TTS ────────────────
 // Accepts raw audio body; query param ?threadId= to continue a session
 app.post('/api/voice/ask', express.raw({ type: '*/*', limit: '25mb' }), async (req, res) => {

@@ -8091,500 +8091,425 @@ window.addEventListener('hashchange', applyHash);
   </div>
 </div>
 
-<!-- ─── VOICE MODAL ─────────────────────────────────────────────────────── -->
-<div class="voice-overlay" id="voiceOverlay" onclick="closeVoiceModal(event)">
-  <div class="voice-modal" id="voiceModal">
-    <button class="voice-close" onclick="closeVoiceModal(null)" title="Close">✕</button>
-    <div class="voice-header">
-      <span class="voice-label">EX3 Voice</span>
-    </div>
+<!-- ─── FACETIME MODAL ──────────────────────────────────────────────────────── -->
+<div class="ft-overlay" id="ftOverlay">
+  <div class="ft-modal" id="ftModal">
 
-    <!-- Avatar -->
-    <div class="voice-avatar-wrap">
-      <canvas class="voice-canvas" id="voiceCanvas" width="220" height="220"></canvas>
-      <div class="voice-avatar-icon" id="voiceAvatarIcon">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-        </svg>
+    <!-- Top bar -->
+    <div class="ft-topbar">
+      <div class="ft-caller-info">
+        <div class="ft-caller-name">EX3 Assistant</div>
+        <div class="ft-caller-sub" id="ftStatus">Connecting...</div>
       </div>
     </div>
 
-    <!-- Status -->
-    <div class="voice-status" id="voiceStatus">Tap the mic to start</div>
-    <div class="voice-transcript" id="voiceTranscript"></div>
+    <!-- Main video: D-ID avatar -->
+    <video class="ft-video" id="ftVideo" autoplay playsinline></video>
 
-    <!-- Controls -->
-    <div class="voice-controls">
-      <button class="voice-mic-btn" id="voiceMicBtn" onclick="toggleVoice()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Connecting / loading state -->
+    <div class="ft-connecting" id="ftConnecting">
+      <div class="ft-spinner"></div>
+      <div class="ft-conn-text" id="ftConnText">Starting call...</div>
+    </div>
+
+    <!-- Transcript overlay -->
+    <div class="ft-transcript" id="ftTranscript"></div>
+
+    <!-- Bottom controls bar -->
+    <div class="ft-controls">
+      <!-- Mic / record -->
+      <button class="ft-btn ft-btn-mic" id="ftMicBtn" onclick="ftToggleMic()" title="Speak">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
           <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
           <line x1="12" y1="19" x2="12" y2="23"/>
           <line x1="8" y1="23" x2="16" y2="23"/>
         </svg>
       </button>
+      <!-- End call -->
+      <button class="ft-btn ft-btn-end" onclick="ftEndCall()" title="End call">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.42 19.42 0 0 1 4.43 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.34 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.32 9.9a16 16 0 0 0 3.36 3.41z"/>
+        </svg>
+      </button>
     </div>
-    <div class="voice-hint" id="voiceHint">Ask anything about SmartRecruiters</div>
+
   </div>
 </div>
 
 <style>
-/* ─── Voice inline mic button (next to Ask) ─────────────────────────────── */
+/* ─── Voice inline mic button ───────────────────────────────────────────── */
 .assistant-voice-btn {
-  width: 38px;
-  height: 38px;
+  width: 38px; height: 38px;
   border-radius: 10px;
   border: 1px solid rgba(0,0,0,0.1);
   background: #f5f4f1;
   color: rgba(0,0,0,0.45);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
   transition: background .15s, color .15s, border-color .15s;
 }
-.assistant-voice-btn:hover {
-  background: #eeede9;
-  color: rgba(0,0,0,0.7);
-  border-color: rgba(0,0,0,0.18);
-}
+.assistant-voice-btn:hover { background: #eeede9; color: rgba(0,0,0,0.7); border-color: rgba(0,0,0,0.18); }
 
-/* ─── Overlay ───────────────────────────────────────────────────────────── */
-.voice-overlay {
+/* ─── FaceTime Overlay ──────────────────────────────────────────────────── */
+.ft-overlay {
   display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.55);
-  z-index: 1000;
+  position: fixed; inset: 0;
+  background: #000;
+  z-index: 2000;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(4px);
 }
-.voice-overlay.vo-open { display: flex; }
+.ft-overlay.ft-open { display: flex; }
 
-/* ─── Modal ─────────────────────────────────────────────────────────────── */
-.voice-modal {
-  background: #0d0d0d;
-  border-radius: 20px;
-  padding: 28px 28px 24px;
-  width: 340px;
-  max-width: calc(100vw - 32px);
+/* ─── Modal (phone proportions) ─────────────────────────────────────────── */
+.ft-modal {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 100%;
+  max-height: 100vh;
+  background: #111;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0;
-  position: relative;
-  border: 1px solid rgba(255,255,255,.08);
-  box-shadow: 0 24px 80px rgba(0,0,0,.6);
-}
-.voice-close {
-  position: absolute;
-  top: 16px; right: 18px;
-  background: none; border: none;
-  color: rgba(255,255,255,.35);
-  font-size: 16px; cursor: pointer;
-  padding: 4px; line-height: 1;
-  transition: color .15s;
-}
-.voice-close:hover { color: rgba(255,255,255,.7); }
-
-.voice-header { margin-bottom: 20px; }
-.voice-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.3);
+  overflow: hidden;
 }
 
-/* ─── Avatar ─────────────────────────────────────────────────────────────── */
-.voice-avatar-wrap {
-  position: relative;
-  width: 220px;
-  height: 220px;
-  margin-bottom: 20px;
-}
-.voice-canvas {
+/* ─── Video fills everything ─────────────────────────────────────────────── */
+.ft-video {
   position: absolute;
   inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  background: #1a1a1a;
+}
+
+/* ─── Top bar ────────────────────────────────────────────────────────────── */
+.ft-topbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  padding: 52px 24px 20px;
+  background: linear-gradient(to bottom, rgba(0,0,0,.7), transparent);
+  z-index: 10;
+}
+.ft-caller-name {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -.01em;
+}
+.ft-caller-sub {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  color: rgba(255,255,255,.6);
+  margin-top: 2px;
+}
+
+/* ─── Connecting overlay ─────────────────────────────────────────────────── */
+.ft-connecting {
+  position: absolute;
+  inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: #111;
+  z-index: 8;
+  gap: 18px;
+  transition: opacity .4s;
+}
+.ft-connecting.ft-hidden { opacity: 0; pointer-events: none; }
+.ft-spinner {
+  width: 36px; height: 36px;
+  border: 2px solid rgba(255,255,255,.15);
+  border-top-color: rgba(255,255,255,.7);
   border-radius: 50%;
+  animation: ft-spin .8s linear infinite;
 }
-.voice-avatar-icon {
+@keyframes ft-spin { to { transform: rotate(360deg); } }
+.ft-conn-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .04em;
+}
+
+/* ─── Transcript ─────────────────────────────────────────────────────────── */
+.ft-transcript {
   position: absolute;
-  inset: 0;
+  bottom: 130px; left: 20px; right: 20px;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.9);
+  z-index: 10;
+  display: none;
+  max-height: 120px;
+  overflow-y: auto;
+}
+.ft-transcript.ft-show { display: block; }
+.ft-transcript .ft-you { color: rgba(255,255,255,.5); font-size: 12px; margin-bottom: 4px; }
+
+/* ─── Controls bar ───────────────────────────────────────────────────────── */
+.ft-controls {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px 0 44px;
+  background: linear-gradient(to top, rgba(0,0,0,.75), transparent);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255,255,255,.55);
-  pointer-events: none;
+  gap: 32px;
+  z-index: 10;
 }
-
-/* ─── Status & Transcript ───────────────────────────────────────────────── */
-.voice-status {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  color: rgba(255,255,255,.35);
-  letter-spacing: .04em;
-  margin-bottom: 10px;
-  min-height: 18px;
-  text-align: center;
-}
-.voice-transcript {
-  font-size: 14px;
-  color: rgba(255,255,255,.75);
-  text-align: center;
-  line-height: 1.5;
-  min-height: 42px;
-  max-width: 280px;
-  margin-bottom: 22px;
-  font-family: 'Sora', sans-serif;
-}
-
-/* ─── Mic button ────────────────────────────────────────────────────────── */
-.voice-controls { margin-bottom: 14px; }
-.voice-mic-btn {
+.ft-btn {
   width: 64px; height: 64px;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.06);
-  color: rgba(255,255,255,.7);
+  border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background .2s, border-color .2s, transform .15s;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .15s, filter .15s;
 }
-.voice-mic-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.22); }
-.voice-mic-btn:active { transform: scale(.95); }
-.voice-mic-btn.vm-active {
-  background: rgba(180,220,255,.15);
-  border-color: rgba(180,220,255,.6);
-  color: rgba(180,220,255,1);
-}
-.voice-mic-btn.vm-active svg { animation: pulse-mic .7s ease-in-out infinite; }
-@keyframes pulse-mic { 0%,100%{opacity:1} 50%{opacity:.55} }
+.ft-btn:active { transform: scale(.93); }
 
-.voice-mic-btn.vm-processing {
-  background: rgba(255,255,255,.05);
-  border-color: rgba(255,255,255,.2);
-  color: rgba(255,255,255,.4);
+.ft-btn-mic {
+  background: rgba(255,255,255,.18);
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+.ft-btn-mic:hover { filter: brightness(1.2); }
+.ft-btn-mic.ft-recording {
+  background: rgba(255,59,48,.85);
+  animation: ft-mic-pulse 1s ease-in-out infinite;
+}
+.ft-btn-mic.ft-processing {
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.35);
   cursor: default;
 }
-.voice-mic-btn.vm-speaking {
-  background: rgba(255,255,255,.08);
-  border-color: rgba(255,255,255,.35);
-  color: rgba(255,255,255,.9);
-}
+@keyframes ft-mic-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.4)} 50%{box-shadow:0 0 0 12px rgba(255,59,48,0)} }
 
-.voice-hint {
-  font-size: 11px;
-  color: rgba(255,255,255,.2);
-  font-family: 'IBM Plex Mono', monospace;
-  letter-spacing: .03em;
-  text-align: center;
+.ft-btn-end {
+  background: rgba(255,59,48,.9);
+  color: #fff;
 }
+.ft-btn-end:hover { filter: brightness(1.1); }
 </style>
 
 <script>
-/* ─── Voice: Whisper → Assistants API (full knowledge base) → TTS ────────
-   Flow: tap mic → record → tap again → Whisper transcription →
-         Assistant with file_search → OpenAI TTS → plays back
+/* ─── FaceTime Voice: D-ID avatar + Whisper + Assistants API ─────────────
+   Flow:
+   1. Open call → D-ID Streams WebRTC → real person video
+   2. Tap mic → record → Whisper → Assistants API (file_search)
+   3. Answer text → D-ID speak → avatar lip-syncs
    ──────────────────────────────────────────────────────────────────────── */
 
-let voiceRecorder = null;
-let voiceChunks = [];
-let voiceRecording = false;
-let voiceProcessing = false;
-let voiceAiSpeaking = false;
-let voiceThreadId = null;          // persists across turns in same session
-let voiceAudioCtx = null;
-let voiceMicAnalyser = null;
-let voiceAiAnalyser = null;
-let voiceAnimFrame = null;
-let voiceCurrentAudio = null;      // currently playing Audio element
+let ftStreamId = null;
+let ftSessionId = null;
+let ftPeerConn = null;
+let ftRecorder = null;
+let ftChunks = [];
+let ftRecording = false;
+let ftProcessing = false;
+let ftThreadId = null;
 
 function openVoiceModal() {
-  document.getElementById('voiceOverlay').classList.add('vo-open');
-  initVoiceCanvas();
+  document.getElementById('ftOverlay').classList.add('ft-open');
+  ftStartCall();
 }
 
-function closeVoiceModal(e) {
-  if (e && e.target !== document.getElementById('voiceOverlay')) return;
-  stopAllVoice();
-  voiceThreadId = null;
-  document.getElementById('voiceOverlay').classList.remove('vo-open');
-}
+async function ftStartCall() {
+  ftSetStatus('Connecting...');
+  ftSetConnText('Starting call...');
 
-/* ─── Tap mic to start / stop recording ─────────────────────────────────── */
-async function toggleVoice() {
-  if (voiceProcessing) return;   // busy, ignore taps
+  try {
+    // 1. Create D-ID stream
+    const r = await fetch('/api/did/stream', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'D-ID stream failed');
 
-  if (voiceRecording) {
-    // Stop recording → send to server
-    stopRecording();
-  } else if (voiceAiSpeaking) {
-    // Interrupt AI
-    stopAudio();
-    setVoiceState('idle');
-  } else {
-    // Start recording
-    await startRecording();
+    ftStreamId = data.id;
+    ftSessionId = data.session_id;
+
+    // 2. Set up WebRTC
+    ftPeerConn = new RTCPeerConnection({ iceServers: data.ice_servers });
+
+    ftPeerConn.ontrack = (e) => {
+      const video = document.getElementById('ftVideo');
+      if (video.srcObject !== e.streams[0]) {
+        video.srcObject = e.streams[0];
+      }
+    };
+
+    ftPeerConn.onicecandidate = async (e) => {
+      if (e.candidate) {
+        await fetch(`/api/did/stream/${ftStreamId}/ice`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ candidate: e.candidate.candidate, sdpMid: e.candidate.sdpMid, sdpMLineIndex: e.candidate.sdpMLineIndex, session_id: ftSessionId }),
+        }).catch(() => {});
+      }
+    };
+
+    ftPeerConn.onconnectionstatechange = () => {
+      if (ftPeerConn.connectionState === 'connected') {
+        document.getElementById('ftConnecting').classList.add('ft-hidden');
+        ftSetStatus('Connected');
+        setTimeout(() => ftSetStatus('Tap mic to ask a question'), 1500);
+      }
+    };
+
+    // 3. Set D-ID offer as remote
+    await ftPeerConn.setRemoteDescription(new RTCSessionDescription(data.offer));
+
+    // 4. Create answer
+    const answer = await ftPeerConn.createAnswer();
+    await ftPeerConn.setLocalDescription(answer);
+
+    // 5. Send answer to D-ID
+    await fetch(`/api/did/stream/${ftStreamId}/sdp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answer: { type: answer.type, sdp: answer.sdp }, session_id: ftSessionId }),
+    });
+
+    ftSetConnText('Connecting...');
+
+  } catch (e) {
+    console.error('FaceTime init error:', e);
+    ftSetConnText('Failed to connect: ' + e.message);
+    ftSetStatus('Error');
   }
 }
 
-async function startRecording() {
+/* ─── Mic ─────────────────────────────────────────────────────────────────── */
+async function ftToggleMic() {
+  if (ftProcessing) return;
+  if (ftRecording) {
+    ftStopRecording();
+  } else {
+    await ftStartRecording();
+  }
+}
+
+async function ftStartRecording() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus'
+      : MediaRecorder.isTypeSupported('audio/ogg;codecs=opus') ? 'audio/ogg;codecs=opus' : 'audio/mp4';
 
-    // Mic analyser for avatar animation
-    if (!voiceAudioCtx) voiceAudioCtx = new AudioContext();
-    voiceMicAnalyser = voiceAudioCtx.createAnalyser();
-    voiceMicAnalyser.fftSize = 256;
-    voiceAudioCtx.createMediaStreamSource(stream).connect(voiceMicAnalyser);
-
-    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
-      ? 'audio/webm;codecs=opus'
-      : MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')
-        ? 'audio/ogg;codecs=opus'
-        : 'audio/mp4';
-
-    voiceChunks = [];
-    voiceRecorder = new MediaRecorder(stream, { mimeType });
-    voiceRecorder.ondataavailable = e => { if (e.data.size > 0) voiceChunks.push(e.data); };
-    voiceRecorder.onstop = () => {
-      stream.getTracks().forEach(t => t.stop());
-      voiceMicAnalyser = null;
-      sendVoiceRecording(mimeType);
-    };
-    voiceRecorder.start(250);
-    voiceRecording = true;
-    setVoiceState('recording');
-    setVoiceTranscript('');
+    ftChunks = [];
+    ftRecorder = new MediaRecorder(stream, { mimeType });
+    ftRecorder.ondataavailable = e => { if (e.data.size > 0) ftChunks.push(e.data); };
+    ftRecorder.onstop = () => { stream.getTracks().forEach(t => t.stop()); ftSendRecording(mimeType); };
+    ftRecorder.start(250);
+    ftRecording = true;
+    document.getElementById('ftMicBtn').classList.add('ft-recording');
+    ftSetStatus('Listening...');
+    ftHideTranscript();
   } catch (e) {
-    setVoiceStatus('Mic access denied');
-    setVoiceTranscript(e.message);
+    ftSetStatus('Mic access denied');
   }
 }
 
-function stopRecording() {
-  if (voiceRecorder && voiceRecorder.state !== 'inactive') {
-    voiceRecorder.stop();
-  }
-  voiceRecording = false;
+function ftStopRecording() {
+  if (ftRecorder && ftRecorder.state !== 'inactive') ftRecorder.stop();
+  ftRecording = false;
+  document.getElementById('ftMicBtn').classList.remove('ft-recording');
+  document.getElementById('ftMicBtn').classList.add('ft-processing');
+  ftSetStatus('Thinking...');
 }
 
-async function sendVoiceRecording(mimeType) {
-  voiceProcessing = true;
-  setVoiceState('processing');
-  setVoiceStatus('Transcribing...');
-
+async function ftSendRecording(mimeType) {
+  ftProcessing = true;
   try {
-    const blob = new Blob(voiceChunks, { type: mimeType });
-    const url = voiceThreadId
-      ? `/api/voice/ask?threadId=${voiceThreadId}`
-      : '/api/voice/ask';
+    const blob = new Blob(ftChunks, { type: mimeType });
+    const url = ftThreadId ? `/api/voice/ask?threadId=${ftThreadId}` : '/api/voice/ask';
 
+    ftSetStatus('Searching knowledge base...');
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': mimeType },
       body: blob,
     });
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-      throw new Error(err.error || 'Server error');
-    }
-
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    voiceThreadId = data.threadId;
+    ftThreadId = data.threadId;
 
-    setVoiceTranscript(`"${data.question}"`);
-    setVoiceStatus('EX3 speaking...');
+    // Show what user asked
+    ftShowTranscript(data.question, data.answer);
 
-    // Play audio
-    await playVoiceAudio(data.audio, data.answer);
+    // Make avatar speak
+    ftSetStatus('EX3 speaking...');
+    await ftSpeak(data.answer);
 
+    ftSetStatus('Tap mic to ask another question');
   } catch (e) {
-    console.error('Voice error:', e);
-    setVoiceStatus('Something went wrong');
-    setVoiceTranscript(e.message);
-    setVoiceState('idle');
+    console.error('FaceTime send error:', e);
+    ftSetStatus('Something went wrong — try again');
   } finally {
-    voiceProcessing = false;
+    ftProcessing = false;
+    document.getElementById('ftMicBtn').classList.remove('ft-processing');
   }
 }
 
-async function playVoiceAudio(base64mp3, answerText) {
-  voiceAiSpeaking = true;
-  setVoiceState('speaking');
-
-  const bytes = Uint8Array.from(atob(base64mp3), c => c.charCodeAt(0));
-  const audioBlob = new Blob([bytes], { type: 'audio/mpeg' });
-  const audioUrl = URL.createObjectURL(audioBlob);
-
-  if (!voiceAudioCtx) voiceAudioCtx = new AudioContext();
-
-  const audio = new Audio(audioUrl);
-  voiceCurrentAudio = audio;
-
-  // Hook analyser to AI audio for avatar animation
-  const mediaEl = voiceAudioCtx.createMediaElementSource(audio);
-  voiceAiAnalyser = voiceAudioCtx.createAnalyser();
-  voiceAiAnalyser.fftSize = 256;
-  mediaEl.connect(voiceAiAnalyser);
-  mediaEl.connect(voiceAudioCtx.destination);
-
-  await new Promise((resolve) => {
-    audio.onended = resolve;
-    audio.onerror = resolve;
-    audio.play().catch(resolve);
+async function ftSpeak(text) {
+  if (!ftStreamId || !ftSessionId) return;
+  await fetch(`/api/did/stream/${ftStreamId}/speak`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, session_id: ftSessionId }),
   });
-
-  URL.revokeObjectURL(audioUrl);
-  voiceCurrentAudio = null;
-  voiceAiAnalyser = null;
-  voiceAiSpeaking = false;
-
-  // Show answer text after speaking
-  setVoiceTranscript(answerText);
-  setVoiceState('idle');
-  setVoiceStatus('Tap to ask another question');
 }
 
-function stopAudio() {
-  if (voiceCurrentAudio) {
-    voiceCurrentAudio.pause();
-    voiceCurrentAudio = null;
-  }
-  voiceAiSpeaking = false;
-  voiceAiAnalyser = null;
-}
-
-function stopAllVoice() {
-  stopRecording();
-  stopAudio();
-  voiceProcessing = false;
-  voiceRecording = false;
-  if (voiceAudioCtx) { voiceAudioCtx.close().catch(()=>{}); voiceAudioCtx = null; }
-  voiceMicAnalyser = null;
-  setVoiceState('idle');
-  setVoiceStatus('Tap the mic to start');
-  setVoiceTranscript('');
-}
-
-/* ─── State management ───────────────────────────────────────────────────── */
-function setVoiceState(state) {
-  const btn = document.getElementById('voiceMicBtn');
-  if (!btn) return;
-  btn.classList.remove('vm-active', 'vm-processing', 'vm-speaking');
-  if (state === 'recording') {
-    btn.classList.add('vm-active');
-    setVoiceStatus('Recording... tap to send');
-    document.getElementById('voiceHint').textContent = 'Tap mic when done speaking';
-  } else if (state === 'processing') {
-    btn.classList.add('vm-processing');
-    document.getElementById('voiceHint').textContent = 'Searching knowledge base...';
-  } else if (state === 'speaking') {
-    btn.classList.add('vm-speaking');
-    document.getElementById('voiceHint').textContent = 'Tap to interrupt';
-  } else {
-    document.getElementById('voiceHint').textContent = 'Ask anything about SmartRecruiters';
-  }
-}
-
-function setVoiceStatus(msg) {
-  const el = document.getElementById('voiceStatus');
+/* ─── UI helpers ──────────────────────────────────────────────────────────── */
+function ftSetStatus(msg) {
+  const el = document.getElementById('ftStatus');
   if (el) el.textContent = msg;
 }
-function setVoiceTranscript(msg) {
-  const el = document.getElementById('voiceTranscript');
+function ftSetConnText(msg) {
+  const el = document.getElementById('ftConnText');
   if (el) el.textContent = msg;
 }
-
-/* ─── Canvas Animation ───────────────────────────────────────────────────── */
-function initVoiceCanvas() {
-  const canvas = document.getElementById('voiceCanvas');
-  const ctx = canvas.getContext('2d');
-  const cx = 110, cy = 110, baseR = 62;
-
-  function draw() {
-    voiceAnimFrame = requestAnimationFrame(draw);
-    ctx.clearRect(0, 0, 220, 220);
-
-    const t = Date.now() / 1000;
-
-    // Get amplitude from whichever source is active
-    let amp = 0;
-    const activeAnalyser = voiceAiSpeaking ? voiceAiAnalyser : (voiceRecording ? voiceMicAnalyser : null);
-    if (activeAnalyser) {
-      const d = new Uint8Array(activeAnalyser.frequencyBinCount);
-      activeAnalyser.getByteTimeDomainData(d);
-      let sum = 0;
-      for (let i = 0; i < d.length; i++) sum += Math.abs(d[i] - 128);
-      amp = Math.min(1, (sum / d.length) / 35);
-    }
-
-    const isActive = voiceRecording || voiceAiSpeaking;
-    const breathe = Math.sin(t * 1.6) * 3;
-
-    // Outer glow
-    const glowR = baseR + 26 + (isActive ? amp * 38 : breathe + 4);
-    const grd = ctx.createRadialGradient(cx, cy, baseR, cx, cy, glowR + 14);
-    const glowAlpha = isActive ? 0.16 + amp * 0.24 : 0.06;
-    grd.addColorStop(0, `rgba(255,255,255,${glowAlpha})`);
-    grd.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.beginPath(); ctx.arc(cx, cy, glowR + 14, 0, Math.PI * 2);
-    ctx.fillStyle = grd; ctx.fill();
-
-    // Mid ring
-    const midR = baseR + 13 + (isActive ? amp * 18 : Math.sin(t * 2.2) * 2 + 2);
-    ctx.beginPath(); ctx.arc(cx, cy, midR, 0, Math.PI * 2);
-    ctx.strokeStyle = `rgba(255,255,255,${isActive ? 0.18 + amp * 0.28 : 0.08})`;
-    ctx.lineWidth = 1; ctx.stroke();
-
-    // Core fill
-    const coreGrd = ctx.createRadialGradient(cx - 10, cy - 10, 0, cx, cy, baseR);
-    const cA = isActive ? 0.2 + amp * 0.15 : 0.09;
-    coreGrd.addColorStop(0, `rgba(255,255,255,${cA + 0.12})`);
-    coreGrd.addColorStop(1, `rgba(255,255,255,${cA})`);
-    ctx.beginPath(); ctx.arc(cx, cy, baseR, 0, Math.PI * 2);
-    ctx.fillStyle = coreGrd; ctx.fill();
-    ctx.strokeStyle = `rgba(255,255,255,${0.12 + cA * 0.5})`;
-    ctx.lineWidth = 1.5; ctx.stroke();
-
-    // Frequency bars (AI speaking or recording)
-    if (isActive && activeAnalyser) {
-      const freqData = new Uint8Array(activeAnalyser.frequencyBinCount);
-      activeAnalyser.getByteFrequencyData(freqData);
-      const bars = 52;
-      for (let i = 0; i < bars; i++) {
-        const angle = (i / bars) * Math.PI * 2 - Math.PI / 2;
-        const v = freqData[Math.floor(i * freqData.length / bars)] / 255;
-        if (v < 0.04) continue;
-        const r1 = baseR + 3, r2 = r1 + v * 30;
-        ctx.beginPath();
-        ctx.moveTo(cx + Math.cos(angle) * r1, cy + Math.sin(angle) * r1);
-        ctx.lineTo(cx + Math.cos(angle) * r2, cy + Math.sin(angle) * r2);
-        const barColor = voiceRecording ? `rgba(180,220,255,${0.2 + v * 0.6})` : `rgba(255,255,255,${0.2 + v * 0.55})`;
-        ctx.strokeStyle = barColor;
-        ctx.lineWidth = 2.2; ctx.stroke();
-      }
-    }
-
-    // Processing spinner
-    if (voiceProcessing) {
-      ctx.beginPath();
-      ctx.arc(cx, cy, baseR + 10, -Math.PI / 2, -Math.PI / 2 + t * 3);
-      ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-      ctx.lineWidth = 2; ctx.stroke();
-    }
-  }
-
-  if (voiceAnimFrame) cancelAnimationFrame(voiceAnimFrame);
-  draw();
+function ftShowTranscript(question, answer) {
+  const el = document.getElementById('ftTranscript');
+  el.innerHTML = `<div class="ft-you">You</div>${question}<br><br><div class="ft-you">EX3</div>${answer}`;
+  el.classList.add('ft-show');
 }
+function ftHideTranscript() {
+  document.getElementById('ftTranscript').classList.remove('ft-show');
+}
+
+/* ─── End call ────────────────────────────────────────────────────────────── */
+async function ftEndCall() {
+  if (ftStreamId && ftSessionId) {
+    fetch(`/api/did/stream/${ftStreamId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: ftSessionId }),
+    }).catch(() => {});
+  }
+  if (ftPeerConn) { ftPeerConn.close(); ftPeerConn = null; }
+  if (ftRecorder && ftRecorder.state !== 'inactive') ftRecorder.stop();
+
+  ftStreamId = null; ftSessionId = null;
+  ftRecording = false; ftProcessing = false; ftThreadId = null;
+
+  const video = document.getElementById('ftVideo');
+  if (video) video.srcObject = null;
+
+  document.getElementById('ftConnecting').classList.remove('ft-hidden');
+  document.getElementById('ftOverlay').classList.remove('ft-open');
+  ftHideTranscript();
+}
+
+// Alias for close
+function closeVoiceModal(e) { ftEndCall(); }
 </script>
 </body>
 </html>
