@@ -114,6 +114,29 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const ASK_RESPONSE_INSTRUCTIONS = [
+  'Answer the user directly and briefly.',
+  'Use plain English. No markdown tables, no citations, no source markers, and no follow-up question footer.',
+  'Keep most answers to 1-3 short sentences. If steps are needed, use at most 4 short bullets.',
+  'Put the useful answer first. Do not add filler like "if you need more details, ask".',
+].join(' ');
+
+function buildAssistantQuestion(question) {
+  return `${question.trim()}
+
+Answer style: concise, direct, plain English. No FOLLOWUPS section. No citation markers. No unnecessary lists.`;
+}
+
+function cleanAssistantAnswer(raw) {
+  return String(raw || '')
+    .replace(/【[^】]*】/g, '')
+    .replace(/ã€[^ã€‘]*ã€‘/g, '')
+    .replace(/\n?\s*(FOLLOW\s*UPS?|FOLLOW[- ]?UP QUESTIONS?|SUGGESTED QUESTIONS)\s*:[\s\S]*$/i, '')
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/\*(.*?)\*/g, '$1')
+    .trim();
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
@@ -185,10 +208,7 @@ app.post('/api/ask', async (req, res) => {
       thread = await openai.beta.threads.create();
     }
 
-    // Add the user's question, appending a follow-up request
-    const messageContent = `${question.trim()}
-
-(After your answer, on a new line write exactly: FOLLOWUPS: [question 1] | [question 2] | [question 3] — 3 short follow-up questions the user might ask next.)`;
+    const messageContent = buildAssistantQuestion(question);
 
     await openai.beta.threads.messages.create(thread.id, {
       role: 'user',
@@ -198,6 +218,7 @@ app.post('/api/ask', async (req, res) => {
     // Run the assistant
     let run = await openai.beta.threads.runs.create(thread.id, {
       assistant_id: process.env.ASSISTANT_ID,
+      additional_instructions: ASK_RESPONSE_INSTRUCTIONS,
     });
 
     // Poll until complete (with 30s timeout)
@@ -217,22 +238,12 @@ app.post('/api/ask', async (req, res) => {
     const raw = messages.data[0]?.content[0]?.text?.value || '';
 
     // Strip citation markers like 【4:0†source】
-    const cleaned = raw.replace(/【[^】]*】/g, '').trim();
+    const cleaned = cleanAssistantAnswer(raw);
 
     if (!cleaned) throw new Error('No answer returned.');
 
-    // Parse follow-up questions out of the response
-    const followupMatch = cleaned.match(/FOLLOWUPS:\s*(.+)$/m);
-    let followUps = [];
-    let answer = cleaned;
-    if (followupMatch) {
-      followUps = followupMatch[1]
-        .split('|')
-        .map(q => q.replace(/^\[|\]$/g, '').trim())
-        .filter(Boolean)
-        .slice(0, 3);
-      answer = cleaned.replace(/FOLLOWUPS:.*$/m, '').trim();
-    }
+    const followUps = [];
+    const answer = cleaned;
 
     logWebMessage({
       ts: new Date().toISOString(),
@@ -284,13 +295,14 @@ app.post('/api/ask/stream', async (req, res) => {
     if (threadId) { thread = { id: threadId }; }
     else { thread = await openai.beta.threads.create(); }
 
-    const messageContent = `${question.trim()}
-
-(After your answer, on a new line write exactly: FOLLOWUPS: [question 1] | [question 2] | [question 3] — 3 short follow-up questions the user might ask next.)`;
+    const messageContent = buildAssistantQuestion(question);
 
     await openai.beta.threads.messages.create(thread.id, { role: 'user', content: messageContent });
 
-    const runner = openai.beta.threads.runs.stream(thread.id, { assistant_id: process.env.ASSISTANT_ID });
+    const runner = openai.beta.threads.runs.stream(thread.id, {
+      assistant_id: process.env.ASSISTANT_ID,
+      additional_instructions: ASK_RESPONSE_INSTRUCTIONS,
+    });
 
     runner.on('textDelta', (delta) => {
       const chunk = delta.value || '';
@@ -299,13 +311,8 @@ app.post('/api/ask/stream', async (req, res) => {
 
     await runner.finalRun();
 
-    const cleaned = fullText.replace(/【[^】]*】/g, '').trim();
-    const followupMatch = cleaned.match(/FOLLOWUPS:\s*(.+)$/m);
-    let followUps = [], answer = cleaned;
-    if (followupMatch) {
-      followUps = followupMatch[1].split('|').map(q => q.replace(/^\[|\]$/g, '').trim()).filter(Boolean).slice(0, 3);
-      answer = cleaned.replace(/FOLLOWUPS:.*$/ms, '').trim();
-    }
+    const answer = cleanAssistantAnswer(fullText);
+    const followUps = [];
 
     logWebMessage({ ts: new Date().toISOString(), threadId: thread.id, question: question.trim(), answer, ms: Date.now() - start, success: true, uncertain: isUncertain(answer) });
     send({ done: true, threadId: thread.id, followUps, answer });

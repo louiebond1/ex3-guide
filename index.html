@@ -6974,11 +6974,18 @@ if(localStorage.getItem('sidebarCollapsed') === 'true'){
 let currentThreadId = null;
 
 function formatAIResponse(text){
-  const lines = text.split('\n');
+  const cleaned = String(text || '')
+    .replace(/【[^】]*】/g, '')
+    .replace(/ã€[^ã€‘]*ã€‘/g, '')
+    .replace(/\n?\s*(FOLLOW\s*UPS?|FOLLOW[- ]?UP QUESTIONS?|SUGGESTED QUESTIONS)\s*:[\s\S]*$/i, '')
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .trim();
+  const lines = cleaned.split('\n');
   let html = '';
   let inUl = false, inOl = false;
   function closeList(){ if(inUl){html+='</ul>';inUl=false;} if(inOl){html+='</ol>';inOl=false;} }
-  function inline(t){ return t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>'); }
+  function escapeHtml(t){ return t.replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])); }
+  function inline(t){ return escapeHtml(t).replace(/\*(.+?)\*/g,'<em>$1</em>'); }
   for(const line of lines){
     const t = line.trim();
     if(!t){ closeList(); continue; }
@@ -7117,9 +7124,7 @@ async function askAssistant(question, opts = {}){
 
         if(data.chunk){
           displayText += data.chunk;
-          // Hide FOLLOWUPS section while streaming
-          const visible = displayText.replace(/\nFOLLOWUPS:[\s\S]*$/, '').replace(/【[^】]*】/g, '');
-          aiBubble.innerHTML = formatAIResponse(visible) + '<span class="stream-cursor"></span>';
+          aiBubble.innerHTML = formatAIResponse(displayText) + '<span class="stream-cursor"></span>';
           msgs.scrollTop = msgs.scrollHeight;
         }
 
@@ -7128,20 +7133,6 @@ async function askAssistant(question, opts = {}){
           aiBubble.innerHTML = formatAIResponse(data.answer);
           msgs.scrollTop = msgs.scrollHeight;
 
-          if(data.followUps && data.followUps.length){
-            const fu = document.createElement('div');
-            fu.className = 'assistant-followups';
-            fu.innerHTML = '<div class="assistant-followup-label">You might also ask</div>';
-            data.followUps.forEach(q => {
-              const btn = document.createElement('button');
-              btn.className = 'assistant-followup';
-              btn.innerHTML = '<span>' + q + '</span><span class="assistant-followup-arrow">→</span>';
-              btn.onclick = () => { document.getElementById('assistantQuery').value = ''; askAssistant(q); };
-              fu.appendChild(btn);
-            });
-            msgs.appendChild(fu);
-            msgs.scrollTop = msgs.scrollHeight;
-          }
           showToast('EX3 answered your question');
         }
 
