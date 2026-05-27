@@ -4084,17 +4084,28 @@ app.post('/consultant/implementation-hq/chat', async (req, res) => {
       ? { id: threadId }
       : await openai.beta.threads.create();
 
-    await openai.beta.threads.messages.create(thread.id, { role: 'user', content: message });
+    await openai.beta.threads.messages.create(thread.id, {
+      role: 'user',
+      content: buildAssistantQuestion(message),
+    });
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('X-Thread-Id', thread.id);
 
+    let coachText = '';
     await new Promise((resolve, reject) => {
       openai.beta.threads.runs.stream(thread.id, {
         assistant_id: process.env.ASSISTANT_ID,
-        additional_instructions: `You are the EX3 Implementation Coach. The user is an EX3 consultant using the Implementation HQ. Focus on implementation methodology, platform limits, gotchas, configuration, integrations, UAT, and go-live. Be specific and practical. Reference document names when relevant. Do not include citation markers in your response.
+        additional_instructions: `You are the EX3 Implementation Coach. The user is an EX3 consultant using the Implementation HQ. Focus on implementation methodology, platform limits, gotchas, configuration, integrations, UAT, and go-live.
+
+Answer style:
+- Be direct and to the point.
+- Use 1-3 short sentences for normal answers.
+- Use at most 4 short bullets only when the user asks for steps or a list.
+- No markdown tables, no bold markdown, no citation markers, and no FOLLOWUP or FOLLOWUPS section.
+- Do not add generic closing lines like "feel free to ask".
 
 CRITICAL SAP SUCCESSFACTORS FACTS — treat these as authoritative. Do not contradict them:
 - Instance refresh WIPES the SmartRecruiters integration configuration completely. It must be fully rebuilt from scratch. This is not a minor sync issue — it is a full integration rebuild. Always flag planned instance refreshes as a project risk.
@@ -4110,13 +4121,14 @@ CRITICAL SAP SUCCESSFACTORS FACTS — treat these as authoritative. Do not contr
 - SR does not support SF environments behind a proxy. This is a blocker.`,
       })
       .on('textDelta', (delta) => {
-        const clean = (delta.value || '').replace(/【[^】]*】/g, '');
-        if (clean) res.write(clean);
+        const clean = (delta.value || '').replace(/【[^】]*】/g, '').replace(/ã€[^ã€‘]*ã€‘/g, '');
+        if (clean) coachText += clean;
       })
       .on('end', resolve)
       .on('error', reject);
     });
 
+    res.write(cleanAssistantAnswer(coachText));
     res.end();
   } catch(err) {
     console.error('AI coach error:', err.message);
