@@ -650,13 +650,13 @@ function isUncertain(text) {
 
 // ─── Implementation HQ ───────────────────────────────────────────────────────
 
-const IMPL_HQ_PASSWORD = '4416';
+const IMPL_HQ_PASSWORD = process.env.IMPL_HQ_PASSWORD || '4416';
 
 function requireImplPassword(req, res, next) {
   const token = req.cookies?.impl_hq_auth;
   if (token === IMPL_HQ_PASSWORD) return next();
   if (req.method === 'POST' && req.body?.password === IMPL_HQ_PASSWORD) {
-    res.setHeader('Set-Cookie', `impl_hq_auth=${IMPL_HQ_PASSWORD}; Path=/; HttpOnly`);
+    res.setHeader('Set-Cookie', `impl_hq_auth=${IMPL_HQ_PASSWORD}; Path=/; HttpOnly; SameSite=Lax`);
     return res.redirect('/consultant/implementation-hq');
   }
   const wrong = req.method === 'POST';
@@ -700,6 +700,12 @@ button:hover{background:#5b21b6}
 </div>
 </body></html>`);
 }
+
+app.use('/consultant', requireImplPassword);
+
+app.get('/consultant', (_req, res) => {
+  res.redirect('/consultant/implementation-hq');
+});
 
 app.get('/consultant/implementation-hq', (req, res) => {
   res.send(`<!DOCTYPE html>
