@@ -6978,6 +6978,7 @@ function formatAIResponse(text){
     .replace(/【[^】]*】/g, '')
     .replace(/ã€[^ã€‘]*ã€‘/g, '')
     .replace(/\n?\s*(FOLLOW\s*UPS?|FOLLOW[- ]?UP QUESTIONS?|SUGGESTED QUESTIONS)\s*:[\s\S]*$/i, '')
+    .replace(/\n?\s*(This process|These steps|This helps|This will help|That helps)\s+[\s\S]*$/i, '')
     .replace(/\*\*(.*?)\*\*/g, '$1')
     .trim();
   const lines = cleaned.split('\n');
