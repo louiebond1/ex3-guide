@@ -592,7 +592,13 @@ function appendAIMsg(role, text) {
   return el;
 }
 function formatAIMsg(text) {
-  return text.replace(/\\*\\*(.*?)\\*\\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  return String(text || '')
+    .replace(/【[^】]*】/g, '')
+    .replace(/\n?\s*(FOLLOW\s*UPS?|FOLLOW[- ]?UP QUESTIONS?|SUGGESTED QUESTIONS)\s*:[\s\S]*$/i, '')
+    .replace(/\\*\\*(.*?)\\*\\*/g, '$1')
+    .replace(/^(.{1,120}?):\s+-\s+/s, '$1:<br>- ')
+    .replace(/\s+-\s+/g, '<br>- ')
+    .replace(/\n/g, '<br>');
 }
 
 // ── Kickoff Generator ──────────────────────────────────────────────
