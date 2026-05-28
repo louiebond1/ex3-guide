@@ -592,7 +592,7 @@ function appendAIMsg(role, text) {
   return el;
 }
 function formatAIMsg(text) {
-  return text.replace(/\\*\\*(.*?)\\*\\*/g,'<strong>$1</strong>').replace(/\\n/g,'<br>');
+  return text.replace(/\\*\\*(.*?)\\*\\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
 }
 
 // ── Kickoff Generator ──────────────────────────────────────────────
