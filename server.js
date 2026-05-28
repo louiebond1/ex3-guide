@@ -118,6 +118,8 @@ const TEXT_MODEL = process.env.OPENAI_TEXT_MODEL || process.env.OPENAI_MODEL || 
 
 const ASK_RESPONSE_INSTRUCTIONS = [
   'Answer the user directly and briefly.',
+  'Assume the user is asking about SmartRecruiters unless they explicitly name another system.',
+  'For SSO questions, answer the SmartRecruiters SSO setup path; do not explain SAP SuccessFactors IAS unless explicitly asked.',
   'Use plain English. No markdown tables, no citations, no source markers, and no follow-up question footer.',
   'Keep most answers to 1-2 short sentences. If steps are needed, use at most 5 short bullets.',
   'For checklist questions, return only the checklist bullets. No intro sentence and no closing sentence.',
@@ -127,6 +129,7 @@ const ASK_RESPONSE_INSTRUCTIONS = [
 function buildAssistantQuestion(question) {
   return `${question.trim()}
 
+Context: This site answers SmartRecruiters implementation questions. If the question is ambiguous, answer for SmartRecruiters, not SAP SuccessFactors.
 Answer style: concise, direct, plain English. No FOLLOWUPS section. No citation markers. No unnecessary intro or closing sentence. Use max 5 bullets for checklists.`;
 }
 
@@ -137,6 +140,7 @@ function cleanAssistantAnswer(raw) {
     .replace(/\n?\s*(FOLLOW\s*UPS?|FOLLOW[- ]?UP QUESTIONS?|SUGGESTED QUESTIONS)\s*:[\s\S]*$/i, '')
     .replace(/\*\*(.*?)\*\*/g, '$1')
     .replace(/\*(.*?)\*/g, '$1')
+    .replace(/^(.{1,120}?):\s+-\s+/s, '$1:\n- ')
     .replace(/\s+-\s+/g, '\n- ')
     .replace(/\n?\s*(These steps|This helps|This will help|That helps)[\s\S]*$/i, '')
     .trim();
