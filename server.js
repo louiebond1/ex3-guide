@@ -119,24 +119,35 @@ const TEXT_MODEL = process.env.OPENAI_TEXT_MODEL || process.env.OPENAI_MODEL || 
 const ASK_RESPONSE_INSTRUCTIONS = [
   'Answer the user directly and briefly.',
   'Use plain English. No markdown tables, no citations, no source markers, and no follow-up question footer.',
-  'Keep most answers to 1-3 short sentences. If steps are needed, use at most 4 short bullets.',
-  'Put the useful answer first. Do not add filler like "if you need more details, ask".',
+  'Keep most answers to 1-2 short sentences. If steps are needed, use at most 5 short bullets.',
+  'For checklist questions, return only the checklist bullets. No intro sentence and no closing sentence.',
+  'Put the useful answer first. Do not add filler like "these steps help", "feel free to ask", or "if you need more details".',
 ].join(' ');
 
 function buildAssistantQuestion(question) {
   return `${question.trim()}
 
-Answer style: concise, direct, plain English. No FOLLOWUPS section. No citation markers. No unnecessary lists.`;
+Answer style: concise, direct, plain English. No FOLLOWUPS section. No citation markers. No unnecessary intro or closing sentence. Use max 5 bullets for checklists.`;
 }
 
 function cleanAssistantAnswer(raw) {
-  return String(raw || '')
+  let text = String(raw || '')
     .replace(/【[^】]*】/g, '')
     .replace(/ã€[^ã€‘]*ã€‘/g, '')
     .replace(/\n?\s*(FOLLOW\s*UPS?|FOLLOW[- ]?UP QUESTIONS?|SUGGESTED QUESTIONS)\s*:[\s\S]*$/i, '')
     .replace(/\*\*(.*?)\*\*/g, '$1')
     .replace(/\*(.*?)\*/g, '$1')
+    .replace(/\s+-\s+/g, '\n- ')
+    .replace(/\n?\s*(These steps|This helps|This will help|That helps)[\s\S]*$/i, '')
     .trim();
+
+  const lines = text.split('\n').map(line => line.trim()).filter(Boolean);
+  const bullets = lines.filter(line => /^[-*]\s+/.test(line) || /^\d+\.\s+/.test(line));
+  if (bullets.length > 5) {
+    text = bullets.slice(0, 5).join('\n');
+  }
+
+  return text;
 }
 
 app.use(express.json());
