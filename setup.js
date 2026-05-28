@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const ASSISTANT_MODEL = process.env.OPENAI_ASSISTANT_MODEL || process.env.OPENAI_MODEL || 'gpt-5.4-mini';
 
 async function setup() {
   const docsDir = path.join(__dirname, 'docs');
@@ -66,7 +67,7 @@ Rules:
 - Be practical — tell the user exactly what to click or where to go
 - If the documents contain a step-by-step guide for the task, summarise the key steps and mention the guide exists in the tool
 - If a question is not about SmartRecruiters, politely decline and redirect to SmartRecruiters topics`,
-    model: 'gpt-4o-mini',
+    model: ASSISTANT_MODEL,
     tools: [{ type: 'file_search' }],
     tool_resources: {
       file_search: {

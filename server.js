@@ -114,6 +114,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const TEXT_MODEL = process.env.OPENAI_TEXT_MODEL || process.env.OPENAI_MODEL || 'gpt-5.4-mini';
+
 const ASK_RESPONSE_INSTRUCTIONS = [
   'Answer the user directly and briefly.',
   'Use plain English. No markdown tables, no citations, no source markers, and no follow-up question footer.',
@@ -3444,7 +3446,7 @@ Use formal commercial language. Be specific throughout — name exact counts, in
 
   try {
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: TEXT_MODEL,
       messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
       stream: true,
       max_tokens: 4000,
@@ -4007,7 +4009,7 @@ Now produce the full Discovery Summary following the output format exactly.`;
     res.setHeader('Cache-Control', 'no-cache');
 
     const stream = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: TEXT_MODEL,
       stream: true,
       max_tokens: 4000,
       messages: [
@@ -5285,7 +5287,7 @@ Return ONLY this JSON, no markdown, no extra text:
 
   try {
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: TEXT_MODEL,
       temperature: 0.3,
       messages: [{ role: 'user', content: narrativePrompt }]
     });
