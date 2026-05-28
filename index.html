@@ -7130,7 +7130,10 @@ async function askAssistant(question, opts = {}){
 
         if(data.done){
           currentThreadId = data.threadId;
-          aiBubble.innerHTML = formatAIResponse(data.answer);
+          const streamed = displayText.trim();
+          const finalAnswer = String(data.answer || '').trim();
+          const answerToShow = streamed && finalAnswer.length < streamed.length * 0.75 ? streamed : (finalAnswer || streamed);
+          aiBubble.innerHTML = formatAIResponse(answerToShow);
           msgs.scrollTop = msgs.scrollHeight;
 
           showToast('EX3 answered your question');
