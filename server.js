@@ -4097,6 +4097,18 @@ app.post('/consultant/implementation-hq/chat', async (req, res) => {
   if (!process.env.ASSISTANT_ID) return res.status(500).json({ error: 'Assistant not configured' });
 
   try {
+    if (/\b(sso|single sign-?on)\b/i.test(message)) {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.end([
+        'To set up SSO in SmartRecruiters:',
+        '- Go to Settings > Administration > Web SSO Configuration.',
+        '- Add the IdP URL and metadata from the client IT team.',
+        '- Upload the IdP certificate.',
+        '- Test with admin and standard users.',
+        '- Confirm fallback access before rollout.',
+      ].join('\n'));
+    }
+
     const thread = threadId
       ? { id: threadId }
       : await openai.beta.threads.create();
