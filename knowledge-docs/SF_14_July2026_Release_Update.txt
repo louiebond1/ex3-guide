@@ -1,0 +1,302 @@
+# SmartRecruiters for SAP SuccessFactors - July 2026 Knowledge Base
+**Source:** July 27, 2026 Partner/Customer Release Review Webinar (Release from Monday prior)
+**Speakers:** Brady Kermody (host), Becky Mosby, Christen (Kristen) Murphy, Nikki LaDeur, Stefan Hahnle, Julia Khanin
+
+---
+
+## PART 1: JULY 2026 RELEASE - KEY FEATURES & CHANGES
+
+### SmartRecruiters Core Platform
+
+**1. Employee Portal - Compensation Visibility**
+If compensation is defined on the job ad, the Employee Portal can now display that information on **internal** job ads too (previously this was more externally-focused).
+- If a customer wants the *same* compensation shown internally and externally, this is a single-source win - one place to manage it, reflected in both portals.
+- If a customer wants *different* compensation visibility internally vs. externally, they can still use multiple job adverts (as before), now with the added ability to show compensation on either.
+- **Implementation takeaway:** Be deliberate about job ad setup during rollout - this isn't just a transparency feature, it changes how job ads should be architected.
+
+**2. Collaboration - Improved @Mention Controls**
+When mentioning a hiring team in the activity feed (typing job title or ref number), suggestions are now **filtered based on the jobs the user has access to.**
+- Previously, @mention suggestions could surface hiring teams linked to jobs a user shouldn't see - a permissions gap in segmented setups.
+- **Example use case:** A global customer with separate business units where a recruiter in one region shouldn't see hiring team suggestions from another region.
+- Closes a permissions gap without changing day-to-day collaboration behavior.
+
+**3. Position Management - Hiring Manager Field on Positions**
+Hiring managers can now be assigned **directly at the Position level**, separate from the existing Job-level hiring manager field. This assignment persists with the position through its lifecycle.
+- **Use case:** Structured position management customers get clearer ownership earlier in the workflow (e.g., shared services team creating a job on behalf of the business, wanting the correct hiring manager tied to the position from the start).
+
+**4. Report Builder - Winston Match Data**
+Winston Match data can now be brought into Report Builder, including:
+- Overall match levels
+- Dimension-level subscores
+- Scoring timestamps
+- Historical application data
+- **Use case:** Track whether recruiters are actually using match insights, and whether high-match candidates progress differently across teams. Supports adoption tracking, recruiter enablement, leadership reporting, and AI-assisted decision-support conversations.
+
+**5. Report Builder - Messaging & SMS/WhatsApp Metrics**
+Customers can now report on:
+- Consent events
+- Message activity
+- Delivery outcomes
+- Replies
+- **Privacy note:** Sensitive data (phone numbers, message bodies) is **excluded** from reporting.
+- **Use case:** Understand channel engagement (SMS vs. WhatsApp), delivery/response rates, without a separate analytics tool.
+
+### SmartRecruiters for SAP SuccessFactors Updates
+
+**6. Migration Hub Enhancements**
+Migration Hub now includes a **preparation guide** for job fields and application fields migration, combining:
+- AI-generated insights
+- Migration metrics
+- Relevant documentation
+- **Use case:** Use ahead of a design workshop to spot unusual field usage or complexity before detailed mapping discussions begin - gives fact-based grounding for migration planning.
+
+**7. Career Site Builder (CSB) Support for SmartRecruiters-for-SAP Customers**
+CSB now supports two scenarios:
+1. New customers
+2. SmartRecruiters migration customers with an existing CSB configuration
+- **Benefit:** Customers can retain more of their current career site setup and avoid unnecessary rebuild effort when moving their ATS to SmartRecruiters.
+- Not flashy, but materially reduces scope, effort, and transition planning risk.
+
+**Overall framing from Becky Mosby:** Nothing in this release requires major retraining or testing right now, but the governance, reporting, and migration-readiness improvements will surface quickly in implementation conversations.
+
+---
+
+## PART 2: FULL Q&A - CONSOLIDATED
+
+*Questions marked "answered live" in the original chat log have been matched to the corresponding spoken answer in the transcript and merged below. Where a question was asked more than once with the same answer, it appears once.*
+
+### Winston / AI Matching
+
+**Q: Does Winston chat automatically translate to other languages like French?**
+A: Yes - Winston will change languages based on the candidate. (Nikki LaDeur) Follow-up clarification: French is supported as long as the bot has been configured in French. If translation issues occur (e.g., only labels translate, not messaging), that's likely a defect - raise a support ticket. (Becky Mosby)
+
+**Q: Do admins have the ability to update or overwrite a Winston Match score?**
+A: No. Admins cannot manually change or overwrite a Winston Match score. They can control who sees the score and where Winston Match is enabled, but the score itself is system-generated. (Becky Mosby)
+
+### Session Format
+
+**Q: Is there a section of this session focused on implementation best practice guidance, or is this a new-release focus session?**
+A: There are no specific planned topics of that kind on this call - if there are specific questions, please raise them in the Q&A. (Becky Mosby)
+
+### NCL / TDD Tenants & Platform Access
+
+**Q: What is the current status of NCL? It's frustrating not to be able to work with any instances from configuration/testing outside actual customer instances.**
+A: Currently in a pilot phase for NCL/TDD tenants. It's a technical challenge and the team wants to ensure everything works as expected before wider rollout. (Stefan Hahnle)
+
+**Q: When will SmartRecruiters be available for activation in the partner instance? (Currently using demo instance only.)**
+A: Currently in a pilot phase for Test, Demo, and Development tenants. Once the pilot succeeds, all partners will be informed of the way forward. Expect news within the next few weeks. (Stefan Hahnle)
+
+### Job Requisition / Position Field Mapping
+
+**Q: For Job Requisition - Field Mapping, is it possible to navigate through related objects when defining the mapping from the Position, or only sync fields directly available on the Position object?**
+A: The field must be directly available on the Position object to be mapped - you cannot navigate through related objects. Only **text-to-text** mapping is supported today: if the SF EC Position field is text, it must map to a text field in SmartRecruiters. Decimal fields (e.g., Standard Hours) currently **cannot** be mapped, since SmartRecruiters doesn't support decimal fields on this mapping - this is a submitted product idea. Single-select fields (picklist or object) on the Position are also supported. **Recommended process:** Review your current SF EC - SF Recruiting position mapping, identify what's already mapped, avoid recruiting-specific picklists where possible (to prevent multiple data sources), create the field via Foundational Data Mapping first, then map like-for-like fields via the Position Mapping tool inside Integration Hub. (Brady Kermody)
+
+**Q: Are numeric, percentage, and currency fields mappable Position-to-Job? What about pay range (navigation from position to pay range)?**
+A: No - numeric, percentage, and currency-style fields do not map yet for Position-to-Job. Pay Range can only be supported as a **synced foundation object field**, not as free navigation into related pay-range/compensation values. (Becky Mosby)
+
+**Q: At the moment, Matrix Relationships cannot be mapped from the Position to SmartRecruiters - is there a planned release date/roadmap?**
+A: Not supported today. (Julia Khanin)
+
+### Access, Visibility & Confidentiality
+
+**Q: Is it possible to restrict HR users' visibility to specific subsets of candidates based on categorization (tags, hiring stages, ratings) - e.g., HR User A sees Candidates 1-50, HR User B sees 51-100 within the same job?**
+A: Limiting visible segments is done through **Access Groups**, based on core configuration fields - not tags. SmartRecruiters does **not** natively support automatic candidate-level partitioning within the same requisition. Access is managed at the job/hiring-role level, not by dynamic per-candidate rules. The closest workaround is **Restricted Applicant Sharing**: remove job access for a role, then manually share only specific candidates with that user. This is a manual sharing model, not an automated rule. (Nikki LaDeur / Becky Mosby)
+
+**Q: Can a specific candidate active on a confidential requisition be restricted from other recruiters browsing the general candidate database (e.g., via a custom field)?**
+A: You can restrict visibility with **Confidential Requisitions + Access Groups**, but you cannot hide a candidate in the general database based on a custom field. If a system user doesn't have access to the job, they won't be able to see the associated candidate - so configure the system so users can't see confidential jobs, and they won't see the candidates tied to them. (Becky Mosby / Christen Murphy)
+
+**Q: Our client needs confidential requisitions restricted to only specific users, not all recruiters.**
+A: Access Groups are designed for this - but remember, Access Groups **broaden** access, they don't restrict it. Think of it as an access group that gives access to all general/non-confidential requisitions, rather than something that restricts access to confidential ones. (Christen Murphy)
+
+**Q: Is it possible to restrict data shown on the analytics dashboard based on country?**
+A: Reporting is restricted to the data the user has access to (via Access Group or role assignment). Dashboards can be filtered by country, but that's a **user-selected** filter, not hardcoded. Recommendation: use Access Groups to segment data access. (Nikki LaDeur)
+
+**Q: Can you share a job in private with employees?**
+A: If you post the job privately and share that link, it directs them to the relevant job advert. (Becky Mosby)
+
+### GDPR & Data Privacy
+
+**Q: Is it possible to define different Data Privacy settings based on the candidate's country, or differentiated by application/source type (Job Application vs. Lead Capture Form)?**
+A: Data privacy settings are based on the **country of the job**, not the location of the candidate. (Christen Murphy)
+
+**Q: Is it possible to send an automated email notification to a candidate before their profile is deleted under the Data Retention policy?**
+A: An email is sent automatically, but this is not currently configurable. (Becky Mosby)
+
+**Q: When a candidate's email is entered incorrectly at account creation, how does the system handle it?**
+A: SmartRecruiters treats it as a separate candidate account/profile tied to that (incorrect) email. An Admin must update the email address, and the candidate then needs to reapply using the corrected email - after which they should see their original applications. (Becky Mosby)
+
+### Candidates & Communities
+
+**Q: Is it possible to create candidates without adding them to a job?**
+A: No - candidates must be tied to a job or a community. (Christen Murphy)
+
+**Q: Is there a way to mass upload resumes to create a candidate community?**
+A: Yes - candidates can be imported via spreadsheet, or a folder of resumes can be uploaded when manually adding candidates to a community. (Christen Murphy)
+
+**Q: Can candidates reapplying to the same job within a defined period be tracked/flagged as returning applicants - is it reportable?**
+A: Not reportable at this time. (Becky Mosby)
+
+**Q: Can internal candidates/employees be manually added to a job requisition by a recruiter without a formal application?**
+A: Yes - but note the user table is separate from the candidate table in SmartRecruiters, so there may not be an existing candidate record to match; a **new candidate profile would be created**. (Christen Murphy)
+
+**Q: If a recruiter adds a candidate to a community or job, do they have to accept consent afterward? How will they know their login?**
+A: The candidate does not consent automatically - someone must send a consent request later, unless the compliance setup auto-sends it. Being added by a recruiter does **not** automatically give the candidate a login/account - they'd typically only get access if they applied themselves. (Becky Mosby)
+
+**Q: Can the General Application "Get in Touch" feature serve as a way for candidates to create a general profile/talent pool submission without applying to a specific job?**
+A: General Application candidates still go to a job - the "General Application" job. A **Community** is recommended instead, since it offers more flexibility around access and candidate management (CRM) than General Application. (Christen Murphy)
+
+**Q: Do employees have to be added to SmartRecruiters to apply internally? If yes, is there an alternative?**
+A: Yes - employees need to be synced over. There's no filtering on the sync today: once it runs, all active and inactive user profiles feed over to SmartRecruiters. To fully authenticate for internal applications, the user likely needs to be fully synced. How this interacts with Internal Career Site vs. Employee Portal is still being clarified - Internal Career Site triggers off the main Careers navigation, while Employee Portal is accessed from inside SmartRecruiters. (Brady Kermody)
+
+### Offers
+
+**Q: Can candidates accept/decline offers directly in-platform without manual recruiter intervention?**
+A: At this time, only via the **DocuSign flow**. (Becky Mosby)
+
+**Q: Can the system send an automated reminder email to the recruiter if a candidate hasn't responded to an offer within a set number of days?**
+A: This is a good use case for the **Send Message workflow** in the hiring process. (Christen Murphy)
+
+### Tags, Automation & Screening
+
+**Q: Is it possible to configure automation rules to automatically assign Tags to candidates based on specific criteria?**
+A: Not possible today. (Christen Murphy)
+
+**Q: Can screening questions be configured so an incorrect answer auto-disqualifies and triggers an action based on the job's language requirement?**
+A: Yes - knockout screening questions can be configured. (Christen Murphy)
+
+**Q: Can custom application fields (e.g., screening question answers like language skill) be captured and used as merge fields in offer/communication templates?**
+A: Not possible today via the SR application flow. (Becky Mosby)
+
+### Career Site Builder (CSB)
+
+**Q: Can CSB be used for internal use as well (Internal Career Site)?**
+A: Yes, this is supported - Internal Career Site powered by CSB works in conjunction with the Employee Portal inside SmartRecruiters. It requires IAS (Identity Authentication Service) setup to fully authenticate the internal career site process. The exact end-to-end experience/connection between Internal Career Site and Employee Portal is still being fully mapped out internally. Separately noted in chat: this is on the roadmap to be released soon. (Julia Khanin / Brady Kermody)
+
+**Q: What does "SELECTED Customers" mean for CSB regarding the July Release - what does this mean for new customers not coming from SF Recruiting?**
+A: **Not answered live - taken back by the team for follow-up.** (Christen Murphy flagged as wanting to answer live but ran out of time.)
+
+**Q: Will SmartRecruiters job postings in CSB still show the CSB header and footer, or will it look like the current job posting (a landing page without header/footer)?**
+A: There's a dual experience today. When a job syncs from SmartRecruiters to CSB, all theming/branding lives inside CSB (e.g., unique job layouts per function/category). When a user clicks Apply, they're pushed to the Apply page inside SmartRecruiters and typically fast-forwarded through without seeing SR's own theming. However, direct URLs to the individual SmartRecruiters job page still exist and carry SR's own header/footer/branding - so users may experience both, depending on how links are shared. Core content (company description, job description, qualifications) feeds into CSB, where you get an additional layer of branding/layout control (e.g., extra columns, images, video). (Brady Kermody)
+
+**Q: With integrated CSB, is it possible to make account creation optional (not mandatory) for candidates, or must they create an account before applying?**
+A: Dual ATS functionality is **not yet supported** (potentially coming "next month" - unconfirmed). In the current single-ATS-via-SmartRecruiters model, it's recommended to **hide/turn off** the "create profile"/"view profile" call-to-action components on CSB, since SmartRecruiters has no true profile creation (no password required) - candidates apply and are routed back into SmartRecruiters without account creation. As an alternative to the profile-creation link, you can link to a **Lead Capture Form** (for passive/non-applicant candidates) or to the candidate's individualized **candidate dashboard link** inside SmartRecruiters, placed in CSB's main navigation, so candidates can check application status. This guidance may change once dual ATS support is released. (Brady Kermody)
+
+**Q: Which filter fields are available in CSB?**
+A: Depends on the customer's specific setup. When CSB is activated, SmartRecruiters fields sync over and (once the Unified Data Model is configured) admins choose which fields to filter on - similar to how SF Recruiting search filtering works today. Most fields used in SmartRecruiters can be made available to filter on in CSB. **Strongly recommended**: review the Unified Data Model configuration and prerequisites thoroughly before setting up the CSB connector - there are several prerequisite steps (data readiness, mapping, RBP) required before activation. (Brady Kermody)
+
+**Q: Can a single job posting in SmartRecruiters support multiple locations - and how does this affect LinkedIn job scraping (duplicate listings)?**
+A: A single requisition can be advertised across multiple locations via separate job ads; individual job ads created per location are what sync downstream into CSB, and each is posted individually/uniquely for job distribution purposes. In CSB specifically: if a single job is posted across multiple locations, it appears as **separate individual job listings per location**, not one listing with multiple locations. (Christen Murphy / Brady Kermody)
+
+**Q: Can the location list in SmartRecruiters be automatically synced from SAP SF Employee Central, so it doesn't need manual updates?**
+A: Yes - there's a sync tool with the CSB release, but it works off the **Job Location object** (not the Foundation Location object) - a key prerequisite of the Unified Data Model. The predefined location list in SmartRecruiters can be pre-populated with all Job Location object values via this sync (rather than the Google API search or manual loading). Note: **defaulting** the location onto a job automatically does not appear to be currently available - only syncing the values themselves. (Brady Kermody)
+
+**Q: Regarding External Job Posting - besides Microsites and CSB, is Attrax (Career Site System) still available?**
+A: Attrax is no longer available. (Christen Murphy)
+
+**Q: Regarding Internal Job Posting - does existing SF Careers functionality remain available, or is another solution planned? (Guides indicate CSB's Internal Career Site isn't available yet.)**
+A: SF Career Site Builder has been identified as the go-forward product for career sites, including internal candidate experience. Not currently fully available but actively being worked on. (Stefan Hahnle)
+
+**Q: If a language requirement is pulled from an org field in Employee Central, can it be surfaced/displayed on the public job ad?**
+A: Yes - this data can be mapped over (via the field mapping/Unified Data Model process) and used on the job in CSB. (Brady Kermody)
+
+**Q: What if a customer doesn't have Career Site Builder?**
+A: CSB is part of the SmartRecruiters-for-SAP instance. If a client isn't leveraging CSB, they can still use one of SmartRecruiters' other career site options: the **SR Hosted site**, the **Job Widget**, or a fully **custom site built via API**. (Christen Murphy)
+
+**Q: Why is CSB not available on a Blue instance I'm currently working on?**
+A: Need the specific customer/partner instance name to investigate - it could be a provisioning issue. Recommendation: raise a support ticket. (Stefan Hahnle) - *Related follow-up from Tobias Ernigkeit asking whether this should be expected to work given documentation states CSB is only available to "selected" customers: Stefan asked for the customer information directly via email (stefan.hahnle@sap.com) to investigate further - no definitive general answer was given on the call.*
+
+**Q: Will there be integration/link to RBP in SF to help dynamically update user access for larger organizations? Is there an alternative to manually updating user roles?**
+A: This functionality is currently on the roadmap - stay tuned for enhancements. (Christen Murphy)
+
+**Q: How do we add a user to different access/roles dynamically, similar to the dynamic filter available for RBP?**
+A: Currently, all users are added to SmartRecruiters in the **Employee role** by default, and any additional access must be **manually adjusted** - there is no dynamic-filter equivalent today. SmartRecruiters user role management improvements are on the roadmap. One automatic exception: **Hiring Managers are automatically elevated to the Basic system role** when added to a job. (Christen Murphy)
+
+**Q: Does SmartRecruiters support standalone customers running non-SAP/SF HRIS systems? How flexible is the integration?**
+A: Yes - SmartRecruiters has standalone customers and supports them based on the contractual agreement. Integration to non-SAP HRIS systems is highly flexible, as demonstrated over the past decade; most such integrations are built as custom integrations. (Stefan Hahnle)
+
+**Q: What is the dimension/size requirement for the company logo in SmartRecruiters?**
+A: Minimum 80px tall; must be under 5MB. (Christen Murphy) - *Separately, a question came up about the blue "SAP" placeholder logo not being replaceable by the company logo in a Blue (sandbox/demo) instance. No confirmed answer - team suspected a provisioning-related issue, first troubleshooting step suggested was confirming the square logo variant is updated; flagged to investigate further.* (Becky Mosby / Brady Kermody)
+
+### Reporting, Analytics & Story Reports
+
+**Q: Do we have Stories connection for personalized dashboards, or how should we approach this - considering SmartAnalytics existed in the past? How should we integrate it?**
+A: No native Story Reports connection for SmartRecruiters recruiting data is generally available yet. SmartRecruiters data does not automatically flow into SF Story Reporting. Current recommendation: use SmartRecruiters' native reporting for recruiting operations, and SAP BTP/custom integration if personalized cross-system dashboards are needed now. SmartAnalytics is **not** the SAP route - it's a separate product, not available for SAP SF customers. Story Reports is the strategic long-term direction for SAP customers. (Becky Mosby)
+
+**Q: When will the integration to People Analytics be available, and how do we configure it?**
+A: Refer to the H2 2026 roadmap (with disclaimer): https://learning.sap.com/live-sessions/smartrecruiters-for-sap-successfactors-h2-2026-roadmap (Stefan Hahnle)
+
+**Q: When will SmartRecruiters be enabled for Story Reporting?**
+A: On the roadmap (with disclosure) - see the same H2 2026 roadmap link above. (Stefan Hahnle)
+
+**Q: Do you have anything prepared regarding security settings for the Mobile app (integrating security across both)?**
+A: There is information in the Help Centre; however, at this time the mobile app is available but **not being promoted** for use with SmartRecruiters for SF customers. (Becky Mosby)
+
+### Onboarding / EC Integration
+
+**Q: Will first rehire verification be supported in the ONB integration soon? / What are the plans for internal hires, rehires, or other non-new-hire events?**
+A: Currently, **New Hire is the only supported event reason**. Internal transfers, rehires, and global assignments are **not currently supported** - check release notes as this is a hot topic being actively worked on. What **has** changed recently: the ability to **override the default "New Hire" event reason**. To do this: sync over the Event Reason field (typically as an application field), make it required, and surface it (leading practice: on the New Hire form) so the correct event reason can be selected and passed to Onboarding. It's unclear exactly how non-new-hire event reasons behave once passed through to Onboarding, though from testing, "higher" event reasons appear to be supported for the override. (Brady Kermody)
+
+**Q: Is there a timeline for SmartRecruiters to support internal movements, Onboarding 2.0, or other transactions (e.g., contingent worker)?**
+A: (See above - not currently supported; on the roadmap, more detail expected as product develops this area.)
+
+**Q: Do you have materials/guidance on syncing only certain countries with EC and Onboarding, depending on company needs - how do we differentiate which hires go to EC vs. Onboarding vs. both?**
+A: Country-specific mapping is **not currently supported** in the hire sync tool. Product is expected to focus more on the hire sync going forward, and country-specific configuration may come in future - possibly via Recruit-to-Hire mapping - but nothing available today. (Brady Kermody)
+
+**Q: We have a 50% success rate with the onboarding trigger. Is there a way to check what data is sent to SF and why it's failing (e.g., New Hire event reason coming through blank despite being filled and required in SR)? Is raising a support ticket the only way to debug?**
+A: The **Activity Log** on a particular candidate/user inside SmartRecruiters should identify specific errors - examples seen include incorrect/missing phone number format, incorrect (non-hire) event reason passed, and legal entity errors. These typically show on the Activity tab. **Important limitation:** the sync currently only works **once** per candidate on a job - if it fails and you try to reinitiate, that retry is **not currently supported**, and you may not see a hard error logged in that specific scenario (the team is seeking clarification from Product on the intended process here - expect more guidance next month). If the error occurs before the record reaches SF, there is no log visible from the EC/Onboarding side - the Activity tab in SmartRecruiters is the source of truth. (Brady Kermody)
+
+**Q: How does SmartRecruiters support validating/checking criteria (like SF business rules)? How does custom data flow from SR to SF Onboarding?**
+A: Validation starts at the **Foundational Data Sync** - creating fields correctly (job or application field) from SF ensures field and field-type matching between systems, which is the core validation mechanism today (source field in SF, updates sync to SR). **True business rules support is on the roadmap but not available today** - this is a highly anticipated enhancement, especially for SF Recruiting customers used to using business rules. (Brady Kermody)
+
+### Migration & Data Management
+
+**Q: We have multiple Job Requisition templates - how do we migrate Job Req templates to SmartRecruiters?**
+A: This is **not a 1:1 migration** - it's a transition of the customer's configuration into SmartRecruiters' configuration model, requiring change management guidance through the transition. **Migration Hub** supports this transition but does not replace change management. Review the SAP PartnerEdge hub for scoping, limits, and data migration resources: https://partneredge.sap.com/en/products/hxm/about/suite-products/smart.html (Stefan Hahnle)
+
+**Q: What's the recommended alternative if Job Profile Builder (JPB) integration isn't available near-term, given an implementation project starting soon?**
+A: Recommended near-term approach: (1) Pass over the **job code** now (via Foundational Data Sync - this data can be mapped over today). (2) For job templates: templates can be added via **API**, useful for mass-loading hundreds/thousands of templates. (3) Prioritize by hiring volume - build out templates for high-volume, hard-to-fill roles first (e.g., retail), and deprioritize low-volume/niche roles (e.g., a rarely-hired senior engineer role) until later. Note that SmartRecruiters' underlying architecture differs meaningfully from Job Profile Builder - much of what JPB drives is handled differently in SmartRecruiters, so a like-for-like comparison isn't accurate. (Brady Kermody / team)
+
+**Q: Are there restrictions to be aware of when using the SmartSandbox feature to sync configurations between (Blue) environments? Will this interfere with the SF-SR integration?**
+A: For **SmartRecruiters-only configuration**, using the config transport/sync tool between environments should be fine. However, for **any touchpoint with SF** (foundational data), the current recommendation is to **manually rerun the Foundational Data Sync** in each environment rather than transporting the config directly - because underlying data can differ meaningfully between environments (e.g., lower environments may have uncleaned, inactive records that would otherwise get pushed over and create misalignment). (Brady Kermody)
+
+**Q: Migration Hub is showing blank data when fetching from SAP SF Recruiting - seen on 2 different customers. Is this a known issue?**
+A: This is a known focus topic being closely followed up on - please raise a support ticket. (Stefan Hahnle)
+
+**Q: Is there a comprehensive/consolidated list of restrictions in SR that can be shared with a customer migrating from the current SF Recruiting module?**
+A: Review SAP PartnerEdge for scoping, limits, and data migration information: https://partneredge.sap.com/en/products/hxm/about/suite-products/smart.html (Stefan Hahnle)
+
+**Q: What is the typical implementation timeline for new customers?**
+A: It's still relatively early days to determine a "typical" implementation timeline for SmartRecruiters for SAP SF, and it varies hugely by scope. Historically, implementing SmartRecruiters alone has ranged from weeks to months; the average for **enterprise** implementations has been around **6-9 months**. (Becky Mosby)
+
+**Q: How should we approach test users/consultant accounts across test and production instances? Understanding was that the same email can't be used across a test instance and a prod instance.**
+A: This has recently been improved - there is a documented KBA confirming users can now have the **same email address across different environments** (test/prod) for the same customer. However, **across different customers**, email addresses still need to be individualized. This was a recent enhancement (within roughly the past month at time of the call). (Brady Kermody)
+
+**Q: Is there an implementation guide? Can't find it on the SAP Partner portal.**
+A: SAP is currently developing a "best practice" and "embedded launch activity" guide for an integrated SF-SR scenario, which will become available going forward. In the meantime, review: https://partneredge.sap.com/en/products/hxm/about/suite-products/smart.html - a Consultant's Implementation Guide is also referenced there. (Stefan Hahnle)
+
+### Job Distribution & Job Boards
+
+**Q: Is there a comprehensive list of job boards integrated/available for posting within SmartRecruiters? How does VONQ fit in - separate contract needed?**
+A: **Job Distribution 1.0** (default/standard) includes: (1) a standard list of **free aggregators** customers can post to at no cost, no contract required, and (2) a standard list of **partner job boards** that customers can connect to if they hold an existing paid contract with that vendor (via their own credentials inside SmartRecruiters). (3) **XML feeds** are also available - useful for niche job boards not on the standard list, or for OFCCP-compliance scenarios requiring all jobs to be fed; setup and maintenance are minimal, with optional filters. The specific vendor list is **not static** - it changes over time as new vendors are added; a current list is expected to be available/linkable via partner resources. **VONQ** is a **separate paid add-on**, not part of the standard SmartRecruiters license/contract - it must be purchased separately and is roughly the equivalent of SF Recruiting's Job Posting solution (with differences). Make sure customers are aware VONQ requires an additional purchase. (Brady Kermody)
+
+---
+
+## PART 3: OPEN / UNRESOLVED ITEMS (No definitive answer given - flagged for follow-up)
+
+1. **CSB "SELECTED Customers" clarification** - what this means for the July release and for new customers not coming from SF Recruiting. Team ran out of time; to be addressed in a future session or follow-up.
+2. **Blue-instance company logo issue** - customer reports the default blue "SAP" logo won't be replaced by the company logo in a Blue/sandbox instance. Possibly a provisioning-related issue; not conclusively resolved on this call. First troubleshooting step suggested: confirm the square logo variant has been updated.
+3. **CSB / Internal Career Site - Employee Portal interaction** - SAP team itself is still clarifying exactly how the Internal Career Site (powered by CSB) and Employee Portal work together end-to-end; full visibility into the user experience was not yet available at time of this call.
+4. **Retry behavior for a failed one-time Onboarding/EC sync** - no clear guidance yet on what customers should do if the one-time hire sync fails for a candidate/job combination (re-initiation is not currently supported); Product clarification expected.
+5. **Dual ATS mode timeline for CSB** - unofficially referenced as possibly "next month" at time of this call, not confirmed.
+6. **Country-specific EC/Onboarding routing** - not available today; may come via future Recruit-to-Hire mapping enhancements, no committed timeline.
+
+---
+
+## PART 4: KEY RECURRING THEMES FOR CHATBOT CONTEXT
+
+- **Access Groups** are the primary access-control mechanism in SmartRecruiters - they *broaden* access rather than restrict it, and are based on core configuration fields (not tags, ratings, or custom fields).
+- **Foundational Data Sync** is the backbone of most field-mapping, validation, and cross-system data integrity between SF and SmartRecruiters - most "how do I get X data into SR/SF" answers trace back to this.
+- **Unified Data Model** and **Job Location object** are prerequisites for CSB filtering, job layout, and location sync - review documentation thoroughly before CSB activation.
+- Several capabilities are explicitly **"on the roadmap" but not available today**: SR business rules, candidate-level partitioning within a job, automated tag-assignment rules, country-specific EC/Onboarding routing, rehire/internal-transfer support in Onboarding sync, centralizing Salary Transparency and Headcount Salary Range fields, dual ATS mode for CSB.
+- **New Hire is the only supported event reason** for the Onboarding/EC sync today, though the event reason field can be overridden via mapping.
+- The **Activity Log tab** inside a SmartRecruiters candidate record is the primary debugging source for Onboarding/EC sync failures.
