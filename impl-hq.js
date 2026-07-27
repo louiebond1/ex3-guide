@@ -592,7 +592,13 @@ function appendAIMsg(role, text) {
   return el;
 }
 function formatAIMsg(text) {
-  return text.replace(/\\*\\*(.*?)\\*\\*/g,'<strong>$1</strong>').replace(/\\n/g,'<br>');
+  return String(text || '')
+    .replace(/【[^】]*】/g, '')
+    .replace(/\n?\s*(FOLLOW\s*UPS?|FOLLOW[- ]?UP QUESTIONS?|SUGGESTED QUESTIONS)\s*:[\s\S]*$/i, '')
+    .replace(/\\*\\*(.*?)\\*\\*/g, '$1')
+    .replace(/^(.{1,120}?):\s+-\s+/s, '$1:<br>- ')
+    .replace(/\s+-\s+/g, '<br>- ')
+    .replace(/\n/g, '<br>');
 }
 
 // ── Kickoff Generator ──────────────────────────────────────────────
@@ -1384,6 +1390,7 @@ function estSubmit() {
   if(!estGetVal('junior')){ alert('Please select the number of Juniors.'); return; }
   var _teamTotal = ['sr-lead','lead','consultant','junior'].reduce(function(s,n){ return s + (parseInt(estGetVal(n)) || 0); }, 0);
   if(_teamTotal === 0){ alert('At least one consultant must be assigned to the project.'); return; }
+  if(!estGetVal('dedicatedpm')){ alert('Please indicate if a dedicated Project Manager is required.'); return; }
 
   var answers = {
     package: estGetVal('package'),
@@ -1404,7 +1411,8 @@ function estSubmit() {
     srLead: estGetVal('sr-lead'),
     lead: estGetVal('lead'),
     consultant: estGetVal('consultant'),
-    junior: estGetVal('junior')
+    junior: estGetVal('junior'),
+    dedicatedPM: estGetVal('dedicatedpm')
   };
 
   for(var i = 1; i <= 4; i++){
