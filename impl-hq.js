@@ -591,11 +591,17 @@ function appendAIMsg(role, text) {
   document.getElementById('ai-messages').scrollTop = 99999;
   return el;
 }
+function escapeAIMsgHtml(text) {
+  return String(text || '').replace(/[&<>"']/g, function(ch) {
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+  });
+}
 function formatAIMsg(text) {
-  return String(text || '')
+  var cleaned = String(text || '')
     .replace(/【[^】]*】/g, '')
     .replace(/\n?\s*(FOLLOW\s*UPS?|FOLLOW[- ]?UP QUESTIONS?|SUGGESTED QUESTIONS)\s*:[\s\S]*$/i, '')
-    .replace(/\\*\\*(.*?)\\*\\*/g, '$1')
+    .replace(/\*\*(.*?)\*\*/g, '$1');
+  return escapeAIMsgHtml(cleaned)
     .replace(/^(.{1,120}?):\s+-\s+/s, '$1:<br>- ')
     .replace(/\s+-\s+/g, '<br>- ')
     .replace(/\n/g, '<br>');
@@ -2027,4 +2033,4 @@ async function exportSOW() {
     btn.disabled = false;
     btn.textContent = 'Download .docx';
   }
-}
+}

@@ -1,0 +1,74 @@
+{
+  "name": "EX3 SmartRecruiters AI evals",
+  "description": "Lightweight grounding and routing checks for the EX3 assistant.",
+  "cases": [
+    {
+      "id": "sso-smartrecruiters-not-ias",
+      "question": "How do I set up SSO?",
+      "rules": {
+        "required": ["SmartRecruiters", "Web SSO Configuration"],
+        "banned": ["SAP SuccessFactors IAS", "Identity Authentication Service", "IAS tenant"],
+        "maxWords": 140,
+        "noSourceMarkers": true
+      }
+    },
+    {
+      "id": "offer-template-admin-path",
+      "question": "Where does an admin upload an offer template?",
+      "rules": {
+        "required": ["Settings", "Templates", "Offer Templates"],
+        "banned": ["Email Templates", "Hiring Process"],
+        "maxWords": 120,
+        "noSourceMarkers": true
+      }
+    },
+    {
+      "id": "candidate-portal-candidate-facing",
+      "question": "I am a candidate. How do I check my application status?",
+      "context": { "type": "candidate" },
+      "rules": {
+        "required": ["Candidate Portal", "My Applications"],
+        "banned": ["Admin", "Access Groups", "system role"],
+        "maxWords": 140,
+        "noSourceMarkers": true
+      }
+    },
+    {
+      "id": "stuck-step-concrete-checks",
+      "question": "I'm stuck approving an offer as a hiring manager. What should I check first?",
+      "context": {
+        "type": "stuck_step",
+        "role": "hm",
+        "taskId": "approve-offer",
+        "taskTitle": "Approve an Offer",
+        "stepTitle": "Approve the offer",
+        "knownCauses": [
+          "The approval notification email went to spam",
+          "You are not the next approver in the sequence"
+        ],
+        "checks": [
+          "Check spam for the SmartRecruiters approval email",
+          "Ask the Recruiter to confirm the approval sequence",
+          "Try the Home approvals widget"
+        ],
+        "owner": "Recruiter"
+      },
+      "rules": {
+        "required": ["spam", "approval sequence", "Recruiter"],
+        "banned": ["SAP SuccessFactors IAS"],
+        "maxWords": 150,
+        "noSourceMarkers": true
+      }
+    },
+    {
+      "id": "out-of-scope-redirect",
+      "question": "What is the weather tomorrow?",
+      "rules": {
+        "required": ["SmartRecruiters"],
+        "banned": ["rain", "temperature", "forecast"],
+        "maxWords": 50,
+        "noSourceMarkers": true
+      }
+    }
+  ]
+}

@@ -2,6 +2,7 @@
 const express = require('express');
 const OpenAI = require('openai');
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env.local'), override: true });
 const twilio = require('twilio');
 const fs = require('fs');
 const https = require('https');
@@ -12,6 +13,70 @@ if (!fs.existsSync(LOGS_DIR)) fs.mkdirSync(LOGS_DIR);
 const LOG_FILE = path.join(LOGS_DIR, 'whatsapp.jsonl');
 const WEB_LOG_FILE = path.join(LOGS_DIR, 'web.jsonl');
 const THREADS_FILE = path.join(LOGS_DIR, 'threads.json');
+
+let openaiClient = null;
+const sourceFileCache = new Map();
+
+function hasOpenAIKey() {
+  return Boolean(process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.trim());
+}
+
+function aiConfigError(message, status = 503) {
+  const err = new Error(message);
+  err.status = status;
+  err.code = 'AI_NOT_CONFIGURED';
+  return err;
+}
+
+function getOpenAI() {
+  if (!hasOpenAIKey()) {
+    throw aiConfigError('OpenAI API key is not configured for this environment.');
+  }
+  if (!openaiClient) {
+    openaiClient = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return openaiClient;
+}
+
+const openai = new Proxy({}, {
+  get(_target, prop) {
+    return getOpenAI()[prop];
+  }
+});
+
+function getAssistantOpenAI() {
+  if (!process.env.ASSISTANT_ID) {
+    throw aiConfigError('Assistant not configured. Run: node setup.js');
+  }
+  return getOpenAI();
+}
+
+function createRateLimiter({ windowMs, max, label }) {
+  const hits = new Map();
+  return (req, res, next) => {
+    const forwarded = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+    const key = `${label}:${forwarded || req.ip || req.socket?.remoteAddress || 'unknown'}`;
+    const now = Date.now();
+    const current = hits.get(key);
+    if (!current || current.resetAt <= now) {
+      hits.set(key, { count: 1, resetAt: now + windowMs });
+      return next();
+    }
+    current.count += 1;
+    if (current.count > max) {
+      const retryAfter = Math.max(1, Math.ceil((current.resetAt - now) / 1000));
+      res.setHeader('Retry-After', String(retryAfter));
+      return res.status(429).json({ error: `${label} rate limit exceeded. Try again shortly.` });
+    }
+    return next();
+  };
+}
+
+const aiLimiter = createRateLimiter({ windowMs: 60 * 1000, max: 30, label: 'AI' });
+const ttsLimiter = createRateLimiter({ windowMs: 60 * 1000, max: 40, label: 'TTS' });
+const voiceLimiter = createRateLimiter({ windowMs: 60 * 1000, max: 10, label: 'Voice' });
+const avatarLimiter = createRateLimiter({ windowMs: 60 * 1000, max: 20, label: 'Avatar' });
+const whatsappLimiter = createRateLimiter({ windowMs: 60 * 1000, max: 20, label: 'WhatsApp' });
 
 function getUserThread(phone) {
   if (!fs.existsSync(THREADS_FILE)) return null;
@@ -110,27 +175,62 @@ function requirePassword(req, res, next) {
 </html>`);
 }
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 const TEXT_MODEL = process.env.OPENAI_TEXT_MODEL || process.env.OPENAI_MODEL || 'gpt-5.4-mini';
 
 const ASK_RESPONSE_INSTRUCTIONS = [
   'Answer the user directly and briefly.',
   'Assume the user is asking about SmartRecruiters unless they explicitly name another system.',
   'For SSO questions, answer the SmartRecruiters SSO setup path; do not explain SAP SuccessFactors IAS unless explicitly asked.',
-  'Use plain English. No markdown tables, no citations, no source markers, and no follow-up question footer.',
+  'Use plain English. No markdown tables and no follow-up question footer.',
+  'Ground answers in the uploaded SmartRecruiters source documents when possible. Do not invent source names.',
   'Keep most answers to 1-2 short sentences. If steps are needed, use at most 5 short bullets.',
   'For checklist questions, return only the checklist bullets. No intro sentence and no closing sentence.',
   'Put the useful answer first. Do not add filler like "these steps help", "feel free to ask", or "if you need more details".',
 ].join(' ');
 
-function buildAssistantQuestion(question) {
+const ROUTE_INSTRUCTIONS = {
+  stuck_step: 'The user is stuck on a specific product step. Start with the likely cause, then give concrete checks/fixes. Use the supplied task context before general advice.',
+  consultant: 'The user is an implementation consultant. Prefer implementation methodology, risks, dependencies, configuration limits, UAT, rollout, and go-live advice.',
+  candidate: 'The user is likely a candidate. Keep the answer candidate-facing and avoid admin/recruiter configuration details unless needed.',
+  task_lookup: 'The user wants task guidance. Give the shortest path through SmartRecruiters and include navigation paths when useful.',
+  out_of_scope: 'If the question is not about SmartRecruiters, politely redirect to SmartRecruiters topics in one sentence.',
+  general: 'Answer as a SmartRecruiters implementation guide.'
+};
+
+function classifyAssistantRequest(question, context = {}) {
+  const q = String(question || '').toLowerCase();
+  if (context && context.type === 'stuck_step') return 'stuck_step';
+  if (context && context.type === 'consultant_chat') return 'consultant';
+  if (context && context.type === 'candidate') return 'candidate';
+  if (/\b(sow|statement of work|uat|hypercare|go[- ]?live|cutover|workshop|implementation|integration|successfactors|sap|sandbox|production)\b/.test(q)) return 'consultant';
+  if (/\b(candidate|application|apply|portal|interview invite|offer letter|accept offer)\b/.test(q)) return 'candidate';
+  if (/\b(weather|recipe|football|movie|song|holiday|stock price|bitcoin)\b/.test(q)) return 'out_of_scope';
+  if (/\b(how do i|how to|where do i|steps?|create|configure|post|approve|schedule|template|role|access group)\b/.test(q)) return 'task_lookup';
+  return 'general';
+}
+
+function safeContextBlock(context) {
+  if (!context || typeof context !== 'object' || !Object.keys(context).length) return '';
+  const safe = JSON.stringify(context, (_key, value) => {
+    if (typeof value === 'string') return value.slice(0, 1200);
+    if (Array.isArray(value)) return value.slice(0, 12);
+    return value;
+  }, 2);
+  return `\n\n<structured_context>\n${safe}\n</structured_context>`;
+}
+
+function buildAssistantQuestion(question, context = {}) {
+  const route = classifyAssistantRequest(question, context);
   return `${question.trim()}
 
 Context: This site answers SmartRecruiters implementation questions. If the question is ambiguous, answer for SmartRecruiters, not SAP SuccessFactors.
-Answer style: concise, direct, plain English. No FOLLOWUPS section. No citation markers. No unnecessary intro or closing sentence. Use max 5 bullets for checklists.`;
+Request route: ${route}.
+Route guidance: ${ROUTE_INSTRUCTIONS[route] || ROUTE_INSTRUCTIONS.general}
+Answer style: concise, direct, plain English. No FOLLOWUPS section. No unnecessary intro or closing sentence. Use max 5 bullets for checklists.${safeContextBlock(context)}`;
+}
+
+function buildAssistantInstructions(route) {
+  return [ASK_RESPONSE_INSTRUCTIONS, ROUTE_INSTRUCTIONS[route] || ROUTE_INSTRUCTIONS.general].join(' ');
 }
 
 function cleanAssistantAnswer(raw) {
@@ -154,6 +254,71 @@ function cleanAssistantAnswer(raw) {
   return text;
 }
 
+function messageText(message) {
+  return (message?.content || [])
+    .filter(part => part.type === 'text' && part.text)
+    .map(part => part.text.value || '')
+    .join('\n')
+    .trim();
+}
+
+async function sourceFileName(client, fileId) {
+  if (!fileId) return null;
+  if (sourceFileCache.has(fileId)) return sourceFileCache.get(fileId);
+  try {
+    const file = await client.files.retrieve(fileId);
+    const name = file.filename || fileId;
+    sourceFileCache.set(fileId, name);
+    return name;
+  } catch {
+    sourceFileCache.set(fileId, fileId);
+    return fileId;
+  }
+}
+
+async function extractSourcesFromMessage(message, client) {
+  const annotations = [];
+  for (const part of message?.content || []) {
+    if (part.type === 'text' && part.text?.annotations) {
+      annotations.push(...part.text.annotations);
+    }
+  }
+
+  const out = [];
+  const seen = new Set();
+  for (const annotation of annotations) {
+    const fileId = annotation.file_citation?.file_id || annotation.file_path?.file_id;
+    if (!fileId) continue;
+    const fileName = await sourceFileName(client, fileId);
+    const key = `${fileId}:${fileName}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const quote = annotation.file_citation?.quote || annotation.text || '';
+    out.push({
+      fileId,
+      fileName,
+      quote: quote ? String(quote).replace(/\s+/g, ' ').slice(0, 240) : ''
+    });
+  }
+  return out;
+}
+
+async function latestAssistantResult(client, threadId) {
+  const messages = await client.beta.threads.messages.list(threadId, { limit: 5, order: 'desc' });
+  const message = messages.data.find(m => m.role === 'assistant') || messages.data[0];
+  const raw = messageText(message);
+  return {
+    raw,
+    answer: cleanAssistantAnswer(raw),
+    sources: await extractSourcesFromMessage(message, client),
+  };
+}
+
+function sendAIError(res, err, fallback = 'AI service error.') {
+  const status = err.status || (err.code === 'AI_NOT_CONFIGURED' ? 503 : 500);
+  return res.status(status).json({ error: status === 503 ? err.message : fallback });
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
@@ -165,7 +330,7 @@ app.use((req, res, next) => { res.setHeader('ngrok-skip-browser-warning', '1'); 
 app.use(express.static(path.join(__dirname)));
 
 const ttsCache = {};
-app.get('/api/tts', async (req, res) => {
+app.get('/api/tts', ttsLimiter, async (req, res) => {
   const text = (req.query.text || '').trim();
   const stressed = req.query.stressed === '1';
   if (!text) return res.status(400).end();
@@ -200,49 +365,47 @@ app.get('/api/tts', async (req, res) => {
     res.send(ttsCache[cacheKey]);
   } catch(e) {
     console.error('TTS error:', e.message);
-    res.status(500).end();
+    res.status(e.status || 500).end();
   }
 });
 
-app.post('/api/ask', async (req, res) => {
-  const { question, threadId } = req.body;
+app.post('/api/ask', aiLimiter, async (req, res) => {
+  const { question, threadId, context } = req.body;
 
   if (!question || typeof question !== 'string' || question.trim().length === 0) {
     return res.status(400).json({ error: 'Question is required.' });
   }
 
-  if (!process.env.ASSISTANT_ID) {
-    return res.status(500).json({ error: 'Assistant not configured. Run: node setup.js' });
-  }
-
   const start = Date.now();
   try {
+    const client = getAssistantOpenAI();
+    const route = classifyAssistantRequest(question, context);
     // Reuse existing thread for conversation memory, or create a new one
     let thread;
     if (threadId) {
       thread = { id: threadId };
     } else {
-      thread = await openai.beta.threads.create();
+      thread = await client.beta.threads.create();
     }
 
-    const messageContent = buildAssistantQuestion(question);
+    const messageContent = buildAssistantQuestion(question, context);
 
-    await openai.beta.threads.messages.create(thread.id, {
+    await client.beta.threads.messages.create(thread.id, {
       role: 'user',
       content: messageContent,
     });
 
     // Run the assistant
-    let run = await openai.beta.threads.runs.create(thread.id, {
+    let run = await client.beta.threads.runs.create(thread.id, {
       assistant_id: process.env.ASSISTANT_ID,
-      additional_instructions: ASK_RESPONSE_INSTRUCTIONS,
+      additional_instructions: buildAssistantInstructions(route),
     });
 
     // Poll until complete (with 30s timeout)
     while (run.status === 'in_progress' || run.status === 'queued') {
       if (Date.now() - start > 30000) throw new Error('Request timed out.');
       await new Promise(r => setTimeout(r, 1000));
-      run = await openai.beta.threads.runs.retrieve(thread.id, run.id);
+      run = await client.beta.threads.runs.retrieve(thread.id, run.id);
     }
 
     if (run.status !== 'completed') {
@@ -251,11 +414,9 @@ app.post('/api/ask', async (req, res) => {
     }
 
     // Get the assistant's reply
-    const messages = await openai.beta.threads.messages.list(thread.id);
-    const raw = messages.data[0]?.content[0]?.text?.value || '';
-
+    const result = await latestAssistantResult(client, thread.id);
     // Strip citation markers like 【4:0†source】
-    const cleaned = cleanAssistantAnswer(raw);
+    const cleaned = result.answer;
 
     if (!cleaned) throw new Error('No answer returned.');
 
@@ -267,12 +428,13 @@ app.post('/api/ask', async (req, res) => {
       threadId: thread.id,
       question: question.trim(),
       answer,
+      sources: result.sources,
       ms: Date.now() - start,
       success: true,
       uncertain: isUncertain(answer),
     });
 
-    res.json({ answer, threadId: thread.id, followUps });
+    res.json({ answer, threadId: thread.id, followUps, sources: result.sources });
   } catch (err) {
     console.error('OpenAI error:', err.message);
     logWebMessage({
@@ -284,18 +446,24 @@ app.post('/api/ask', async (req, res) => {
       success: false,
       uncertain: false,
     });
-    res.status(500).json({ error: 'AI service error.' });
+    sendAIError(res, err);
   }
 });
 
 // Streaming endpoint for main page chatbot
-app.post('/api/ask/stream', async (req, res) => {
-  const { question, threadId } = req.body;
+app.post('/api/ask/stream', aiLimiter, async (req, res) => {
+  const { question, threadId, context } = req.body;
   if (!question || typeof question !== 'string' || question.trim().length === 0) {
     return res.status(400).json({ error: 'Question is required.' });
   }
-  if (!process.env.ASSISTANT_ID) {
-    return res.status(500).json({ error: 'Assistant not configured.' });
+
+  let client;
+  let route;
+  try {
+    client = getAssistantOpenAI();
+    route = classifyAssistantRequest(question, context);
+  } catch (err) {
+    return sendAIError(res, err);
   }
 
   res.setHeader('Content-Type', 'text/event-stream');
@@ -310,15 +478,15 @@ app.post('/api/ask/stream', async (req, res) => {
   try {
     let thread;
     if (threadId) { thread = { id: threadId }; }
-    else { thread = await openai.beta.threads.create(); }
+    else { thread = await client.beta.threads.create(); }
 
-    const messageContent = buildAssistantQuestion(question);
+    const messageContent = buildAssistantQuestion(question, context);
 
-    await openai.beta.threads.messages.create(thread.id, { role: 'user', content: messageContent });
+    await client.beta.threads.messages.create(thread.id, { role: 'user', content: messageContent });
 
-    const runner = openai.beta.threads.runs.stream(thread.id, {
+    const runner = client.beta.threads.runs.stream(thread.id, {
       assistant_id: process.env.ASSISTANT_ID,
-      additional_instructions: ASK_RESPONSE_INSTRUCTIONS,
+      additional_instructions: buildAssistantInstructions(route),
     });
 
     runner.on('textDelta', (delta) => {
@@ -328,11 +496,12 @@ app.post('/api/ask/stream', async (req, res) => {
 
     await runner.finalRun();
 
-    const answer = cleanAssistantAnswer(fullText);
+    const result = await latestAssistantResult(client, thread.id);
+    const answer = result.answer || cleanAssistantAnswer(fullText);
     const followUps = [];
 
-    logWebMessage({ ts: new Date().toISOString(), threadId: thread.id, question: question.trim(), answer, ms: Date.now() - start, success: true, uncertain: isUncertain(answer) });
-    send({ done: true, threadId: thread.id, followUps, answer });
+    logWebMessage({ ts: new Date().toISOString(), threadId: thread.id, question: question.trim(), answer, sources: result.sources, ms: Date.now() - start, success: true, uncertain: isUncertain(answer) });
+    send({ done: true, threadId: thread.id, followUps, answer, sources: result.sources });
     res.end();
   } catch (err) {
     console.error('Stream error:', err.message);
@@ -346,7 +515,7 @@ app.get('/', (req, res) => {
 });
 
 // WhatsApp webhook — Twilio sends POST with body.Body = user message
-app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) => {
+app.post('/whatsapp', whatsappLimiter, express.urlencoded({ extended: false }), async (req, res) => {
   const userMsg = (req.body.Body || '').trim();
   const from = req.body.From || '';
   const twiml = new twilio.twiml.MessagingResponse();
@@ -365,6 +534,7 @@ app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) 
     const ext = mediaType.includes('ogg') ? 'ogg' : mediaType.includes('mp4') ? 'mp4' : mediaType.includes('mpeg') ? 'mp3' : 'ogg';
     const tmpFile = path.join(os.tmpdir(), `voice_${Date.now()}.${ext}`);
     try {
+      const client = getAssistantOpenAI();
       await downloadAudio(mediaUrl, tmpFile);
       const transcribed = await transcribeAudio(tmpFile);
       fs.unlink(tmpFile, () => {});
@@ -381,23 +551,27 @@ app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) 
       // Log and answer the transcribed message
       const start = Date.now();
       const existingThreadId = getUserThread(from);
-      const thread = existingThreadId ? { id: existingThreadId } : await openai.beta.threads.create();
+      const thread = existingThreadId ? { id: existingThreadId } : await client.beta.threads.create();
       saveUserThread(from, thread.id);
 
-      await openai.beta.threads.messages.create(thread.id, { role: 'user', content: transcribed });
-      let run = await openai.beta.threads.runs.create(thread.id, { assistant_id: process.env.ASSISTANT_ID });
+      const voiceContext = { type: 'whatsapp_voice' };
+      const route = classifyAssistantRequest(transcribed, voiceContext);
+
+      await client.beta.threads.messages.create(thread.id, { role: 'user', content: buildAssistantQuestion(transcribed, voiceContext) });
+      let run = await client.beta.threads.runs.create(thread.id, {
+        assistant_id: process.env.ASSISTANT_ID,
+        additional_instructions: buildAssistantInstructions(route),
+      });
 
       while (run.status === 'in_progress' || run.status === 'queued') {
         if (Date.now() - start > 55000) throw new Error('Timed out.');
         await new Promise(r => setTimeout(r, 1000));
-        run = await openai.beta.threads.runs.retrieve(thread.id, run.id);
+        run = await client.beta.threads.runs.retrieve(thread.id, run.id);
       }
 
       if (run.status !== 'completed') throw new Error(`Run status: ${run.status}`);
 
-      const messages = await openai.beta.threads.messages.list(thread.id);
-      let answer = messages.data[0]?.content[0]?.text?.value || '';
-      answer = answer.replace(/【[^】]*】/g, '').replace(/FOLLOWUPS:.*$/ms, '').trim();
+      let answer = (await latestAssistantResult(client, thread.id)).answer || '';
       if (answer.length > 1580) answer = answer.slice(0, 1577) + '…';
 
       await twilioClient.messages.create({
@@ -421,7 +595,7 @@ app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) 
       await twilioClient.messages.create({
         from: 'whatsapp:' + process.env.TWILIO_WHATSAPP_NUMBER,
         to: from,
-        body: 'Sorry, something went wrong with your voice note. Please try typing your question.',
+        body: err.code === 'AI_NOT_CONFIGURED' ? err.message : 'Sorry, something went wrong with your voice note. Please try typing your question.',
       });
     }
     return;
@@ -444,34 +618,36 @@ app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) 
   let success = false;
 
   try {
-    if (!process.env.ASSISTANT_ID) throw new Error('Assistant not configured.');
+    const client = getAssistantOpenAI();
 
     const existingThreadId = getUserThread(from);
     const thread = existingThreadId
       ? { id: existingThreadId }
-      : await openai.beta.threads.create();
+      : await client.beta.threads.create();
     saveUserThread(from, thread.id);
 
-    await openai.beta.threads.messages.create(thread.id, {
+    const textContext = { type: 'whatsapp' };
+    const route = classifyAssistantRequest(userMsg, textContext);
+
+    await client.beta.threads.messages.create(thread.id, {
       role: 'user',
-      content: userMsg,
+      content: buildAssistantQuestion(userMsg, textContext),
     });
 
-    let run = await openai.beta.threads.runs.create(thread.id, {
+    let run = await client.beta.threads.runs.create(thread.id, {
       assistant_id: process.env.ASSISTANT_ID,
+      additional_instructions: buildAssistantInstructions(route),
     });
 
     while (run.status === 'in_progress' || run.status === 'queued') {
       if (Date.now() - start > 55000) throw new Error('Timed out.');
       await new Promise(r => setTimeout(r, 1000));
-      run = await openai.beta.threads.runs.retrieve(thread.id, run.id);
+      run = await client.beta.threads.runs.retrieve(thread.id, run.id);
     }
 
     if (run.status !== 'completed') throw new Error(`Run status: ${run.status}`);
 
-    const messages = await openai.beta.threads.messages.list(thread.id);
-    answer = messages.data[0]?.content[0]?.text?.value || '';
-    answer = answer.replace(/【[^】]*】/g, '').replace(/FOLLOWUPS:.*$/ms, '').trim();
+    answer = (await latestAssistantResult(client, thread.id)).answer || '';
 
     if (answer.length > 1580) answer = answer.slice(0, 1577) + '…';
 
@@ -500,7 +676,7 @@ app.post('/whatsapp', express.urlencoded({ extended: false }), async (req, res) 
       await twilioClient.messages.create({
         from: 'whatsapp:' + process.env.TWILIO_WHATSAPP_NUMBER,
         to: from,
-        body: 'Sorry, something went wrong. Please try again.',
+        body: err.code === 'AI_NOT_CONFIGURED' ? err.message : 'Sorry, something went wrong. Please try again.',
       });
     } catch (e) {
       console.error('Failed to send error message:', e.message);
@@ -4094,7 +4270,6 @@ app.post('/consultant/implementation-hq/export-discovery', async (req, res) => {
 app.post('/consultant/implementation-hq/chat', async (req, res) => {
   const { message, threadId } = req.body;
   if (!message) return res.status(400).json({ error: 'No message' });
-  if (!process.env.ASSISTANT_ID) return res.status(500).json({ error: 'Assistant not configured' });
 
   try {
     if (/\b(sso|single sign-?on)\b/i.test(message)) {
@@ -4109,13 +4284,16 @@ app.post('/consultant/implementation-hq/chat', async (req, res) => {
       ].join('\n'));
     }
 
+    const client = getAssistantOpenAI();
+    const context = { type: 'consultant_chat' };
+    const route = classifyAssistantRequest(message, context);
     const thread = threadId
       ? { id: threadId }
-      : await openai.beta.threads.create();
+      : await client.beta.threads.create();
 
-    await openai.beta.threads.messages.create(thread.id, {
+    await client.beta.threads.messages.create(thread.id, {
       role: 'user',
-      content: buildAssistantQuestion(message),
+      content: buildAssistantQuestion(message, context),
     });
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
@@ -4125,9 +4303,9 @@ app.post('/consultant/implementation-hq/chat', async (req, res) => {
 
     let coachText = '';
     await new Promise((resolve, reject) => {
-      openai.beta.threads.runs.stream(thread.id, {
+      client.beta.threads.runs.stream(thread.id, {
         assistant_id: process.env.ASSISTANT_ID,
-        additional_instructions: `You are the EX3 Implementation Coach. The user is an EX3 consultant using the Implementation HQ. Focus on implementation methodology, platform limits, gotchas, configuration, integrations, UAT, and go-live.
+        additional_instructions: `${buildAssistantInstructions(route)} You are the EX3 Implementation Coach. The user is an EX3 consultant using the Implementation HQ. Focus on implementation methodology, platform limits, gotchas, configuration, integrations, UAT, and go-live.
 
 Answer style:
 - Be direct and to the point.
@@ -4161,7 +4339,7 @@ CRITICAL SAP SUCCESSFACTORS FACTS — treat these as authoritative. Do not contr
     res.end();
   } catch(err) {
     console.error('AI coach error:', err.message);
-    if (!res.headersSent) res.status(500).end('Error generating response');
+    if (!res.headersSent) res.status(err.status || 500).end(err.status === 503 ? err.message : 'Error generating response');
     else res.end();
   }
 });
@@ -8888,7 +9066,7 @@ function didAuth() {
 }
 
 // Create a new D-ID stream session
-app.post('/api/did/stream', async (req, res) => {
+app.post('/api/did/stream', avatarLimiter, async (req, res) => {
   try {
     const { source_url } = req.body;
     const r = await fetch(`${DID_BASE}/talks/streams`, {
@@ -8909,7 +9087,7 @@ app.post('/api/did/stream', async (req, res) => {
 });
 
 // Send browser SDP answer
-app.post('/api/did/stream/:streamId/sdp', async (req, res) => {
+app.post('/api/did/stream/:streamId/sdp', avatarLimiter, async (req, res) => {
   try {
     const { answer, session_id } = req.body;
     const r = await fetch(`${DID_BASE}/talks/streams/${req.params.streamId}/sdp`, {
@@ -8923,7 +9101,7 @@ app.post('/api/did/stream/:streamId/sdp', async (req, res) => {
 });
 
 // Send ICE candidates
-app.post('/api/did/stream/:streamId/ice', async (req, res) => {
+app.post('/api/did/stream/:streamId/ice', avatarLimiter, async (req, res) => {
   try {
     const { candidate, sdpMid, sdpMLineIndex, session_id } = req.body;
     const r = await fetch(`${DID_BASE}/talks/streams/${req.params.streamId}/ice`, {
@@ -8937,7 +9115,7 @@ app.post('/api/did/stream/:streamId/ice', async (req, res) => {
 });
 
 // Make avatar speak text
-app.post('/api/did/stream/:streamId/speak', async (req, res) => {
+app.post('/api/did/stream/:streamId/speak', avatarLimiter, async (req, res) => {
   try {
     const { text, session_id } = req.body;
     const r = await fetch(`${DID_BASE}/talks/streams/${req.params.streamId}`, {
@@ -8959,7 +9137,7 @@ app.post('/api/did/stream/:streamId/speak', async (req, res) => {
 });
 
 // Close stream
-app.delete('/api/did/stream/:streamId', async (req, res) => {
+app.delete('/api/did/stream/:streamId', avatarLimiter, async (req, res) => {
   try {
     const { session_id } = req.body;
     await fetch(`${DID_BASE}/talks/streams/${req.params.streamId}`, {
@@ -8973,9 +9151,10 @@ app.delete('/api/did/stream/:streamId', async (req, res) => {
 
 // ─── Voice Ask: Whisper → Assistants API (file_search) → TTS ────────────────
 // Accepts raw audio body; query param ?threadId= to continue a session
-app.post('/api/voice/ask', express.raw({ type: '*/*', limit: '25mb' }), async (req, res) => {
+app.post('/api/voice/ask', voiceLimiter, express.raw({ type: '*/*', limit: '25mb' }), async (req, res) => {
   let tmpPath = null;
   try {
+    const client = getAssistantOpenAI();
     const mimeType = req.headers['content-type'] || 'audio/webm';
     const ext = mimeType.includes('ogg') ? '.ogg'
               : mimeType.includes('mp4') ? '.mp4'
@@ -8985,7 +9164,7 @@ app.post('/api/voice/ask', express.raw({ type: '*/*', limit: '25mb' }), async (r
     fs.writeFileSync(tmpPath, req.body);
 
     // 1. Transcribe
-    const transcription = await openai.audio.transcriptions.create({
+    const transcription = await client.audio.transcriptions.create({
       file: fs.createReadStream(tmpPath),
       model: 'whisper-1',
     });
@@ -9000,31 +9179,32 @@ app.post('/api/voice/ask', express.raw({ type: '*/*', limit: '25mb' }), async (r
     if (threadId) {
       thread = { id: threadId };
     } else {
-      thread = await openai.beta.threads.create();
+      thread = await client.beta.threads.create();
       threadId = thread.id;
     }
 
-    await openai.beta.threads.messages.create(threadId, {
+    const voiceContext = { type: 'voice' };
+    const route = classifyAssistantRequest(question, voiceContext);
+
+    await client.beta.threads.messages.create(threadId, {
       role: 'user',
-      content: question,
+      content: buildAssistantQuestion(question, voiceContext),
     });
 
-    const run = await openai.beta.threads.runs.createAndPoll(threadId, {
+    const run = await client.beta.threads.runs.createAndPoll(threadId, {
       assistant_id: process.env.ASSISTANT_ID,
-      additional_instructions: 'You are answering via voice. Keep your answer concise (2–4 sentences max). No bullet points, no markdown. Speak conversationally.',
+      additional_instructions: `${buildAssistantInstructions(route)} You are answering via voice. Keep your answer concise (2-4 sentences max). No bullet points, no markdown. Speak conversationally.`,
     });
 
     if (run.status !== 'completed') {
       return res.status(500).json({ error: `Assistant run ${run.status}` });
     }
 
-    const msgs = await openai.beta.threads.messages.list(threadId, { limit: 1, order: 'desc' });
-    let answer = msgs.data[0]?.content?.[0]?.text?.value || 'Sorry, I could not generate a response.';
-    // Strip follow-up prompts and citations
-    answer = answer.replace(/FOLLOWUPS:.*/s, '').replace(/【[^】]*】/g, '').trim();
+    const result = await latestAssistantResult(client, threadId);
+    const answer = result.answer || 'Sorry, I could not generate a response.';
 
     // 3. TTS — OpenAI
-    const speech = await openai.audio.speech.create({
+    const speech = await client.audio.speech.create({
       model: 'tts-1',
       voice: 'nova',
       input: answer,
@@ -9037,12 +9217,13 @@ app.post('/api/voice/ask', express.raw({ type: '*/*', limit: '25mb' }), async (r
       threadId,
       question,
       answer,
+      sources: result.sources,
       audio: audioBuffer.toString('base64'),
     });
   } catch (e) {
     if (tmpPath) try { fs.unlinkSync(tmpPath); } catch {}
     console.error('Voice ask error:', e.message);
-    res.status(500).json({ error: e.message });
+    sendAIError(res, e, e.message);
   }
 });
 

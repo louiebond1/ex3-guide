@@ -2,6 +2,12 @@ require('dotenv').config();
 const OpenAI = require('openai');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env.local'), override: true });
+
+if (!process.env.OPENAI_API_KEY) {
+  console.error('OPENAI_API_KEY is missing. Add it to .env.local or .env before running setup.');
+  process.exit(1);
+}
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const ASSISTANT_MODEL = process.env.OPENAI_ASSISTANT_MODEL || process.env.OPENAI_MODEL || 'gpt-5.4-mini';
@@ -77,13 +83,14 @@ Rules:
   });
   console.log(`Assistant created: ${assistant.id}`);
 
-  // Append IDs to .env
-  const envPath = path.join(__dirname, '.env');
-  let envContent = fs.readFileSync(envPath, 'utf8').trimEnd();
+  // Append IDs to the local env file when present, otherwise fall back to .env.
+  const localEnvPath = path.join(__dirname, '.env.local');
+  const envPath = fs.existsSync(localEnvPath) ? localEnvPath : path.join(__dirname, '.env');
+  let envContent = fs.existsSync(envPath) ? fs.readFileSync(envPath, 'utf8').trimEnd() : '';
   envContent += `\nASSISTANT_ID=${assistant.id}\nVECTOR_STORE_ID=${vectorStore.id}\n`;
   fs.writeFileSync(envPath, envContent);
 
-  console.log('\n✓ Setup complete! IDs saved to .env');
+  console.log(`\nSetup complete! IDs saved to ${path.basename(envPath)}`);
   console.log('\nYou can now start the server:');
   console.log('  node server.js\n');
 }

@@ -4,7 +4,9 @@
   "description": "EX3 SmartRecruiters Enablement Guide with AI assistant",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "check": "node --check server.js && node --check impl-hq.js && node --check setup.js && node --check scripts/ai-eval.js",
+    "eval:ai": "node scripts/ai-eval.js"
   },
   "dependencies": {
     "docx": "^9.6.1",
