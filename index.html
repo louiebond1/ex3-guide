@@ -869,7 +869,8 @@ hr.rule{border:none;border-top:1px solid var(--border);margin:36px 0}
 @keyframes toastOut{to{opacity:0;transform:translateX(100%)}}
 
 /* ── AI ASSISTANT ──────────────────────────────────────── */
-.assistant-float{position:fixed;bottom:24px;right:24px;z-index:800;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.assistant-float{position:fixed;bottom:24px;right:24px;z-index:800;display:flex;flex-direction:column;align-items:flex-end;gap:12px;pointer-events:none}
+.assistant-float>*{pointer-events:auto}
 .assistant-panel{width:400px;height:min(640px,calc(100vh - 104px));background:rgba(253,252,250,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:20px;border:1px solid rgba(0,0,0,0.08);box-shadow:0 24px 70px rgba(0,0,0,0.13),inset 0 1px 0 rgba(255,255,255,0.9);overflow:hidden;opacity:0;transform:translateY(14px) scale(0.97);pointer-events:none;transition:opacity .25s ease,transform .3s cubic-bezier(.34,1.56,.64,1);display:flex;flex-direction:column}
 .assistant-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;animation:panel-border-glow 5s ease-in-out infinite}
 @keyframes panel-border-glow{0%,100%{box-shadow:0 24px 70px rgba(0,0,0,0.13),0 0 0 1.5px rgba(99,102,241,0.3),inset 0 1px 0 rgba(255,255,255,0.9)}33%{box-shadow:0 24px 70px rgba(0,0,0,0.13),0 0 0 1.5px rgba(139,92,246,0.5),0 0 24px rgba(139,92,246,0.07),inset 0 1px 0 rgba(255,255,255,0.9)}66%{box-shadow:0 24px 70px rgba(0,0,0,0.13),0 0 0 1.5px rgba(59,130,246,0.5),0 0 24px rgba(59,130,246,0.07),inset 0 1px 0 rgba(255,255,255,0.9)}}
@@ -1540,7 +1541,7 @@ const TASKS = {
   'rec-crm': [
     { id:'create-crm-community', icon:'💜',  title:'Create a Talent Community',    desc:'Set up a CRM community to pool candidates for a role type or talent segment',  role:'rec' },
     { id:'add-crm-members',      icon:'➕',  title:'Add Members to a Community',   desc:'Add individual candidates or bulk import a list into a talent community',        role:'rec' },
-    { id:'run-crm-campaign',     icon:'📣',  title:'Send an Engagement Campaign',  desc:'Build and send a targeted email campaign to a talent community',                role:'rec' },
+    { id:'run-crm-campaign',     icon:'📣',  title:'Send an Engagement Campaign',  desc:'Build and send a targeted email campaign to a talent community — from a single email to a full behaviour-triggered drip sequence',                role:'rec' },
   ],
 
   // ─── HIRING MANAGER ────────────────────────────
@@ -1648,7 +1649,7 @@ const TASKS = {
 
   'adm-compliance': [
     { id:'configure-consent-model',        icon:'🔐', title:'Configure the Consent Model',            desc:'Set how candidate consent works for data storage and CRM community membership',          role:'adm' },
-    { id:'configure-rejection-reasons',    icon:'❌', title:'Rejection Reasons — Mandatory Detail',   desc:'Enforce written context on every rejection — not just a dropdown selection',              role:'adm' },
+    { id:'configure-rejection-reasons',    icon:'❌', title:'Rejection Reasons — Require a Reason',   desc:'Make selecting a rejection reason mandatory instead of optional or defaulting to a vague catch-all',              role:'adm' },
     { id:'configure-sms-compliance',       icon:'💬', title:'Configure SMS Opt-In (GDPR / UAE PDPL)', desc:'Enable SmartMessage opt-in so candidates must reply START before receiving SMS',          role:'adm' },
     { id:'configure-serial-applicants',    icon:'🔁', title:'Track Reapplied Candidates',             desc:'Enable the visual badge flagging candidates who apply to the same job twice',              role:'adm' },
   ],
@@ -1660,7 +1661,7 @@ const TASKS = {
     { id:'crm-bulk-import-leads',          icon:'📥', title:'Bulk Import Leads to a CRM Community',  desc:'Import a spreadsheet of contacts into a talent community with correct source tracking',    role:'adm' },
   ],
   'adm-systemconfig': [
-    { id:'configure-predefined-locations', icon:'📍', title:'Configure Predefined Locations',         desc:'Set up office locations with coordinates for Google Maps to render on job ads',           role:'adm' },
+    { id:'configure-predefined-locations', icon:'📍', title:'Configure Predefined Locations',         desc:'Set up an admin-managed location list — only Country and City are required, coordinates are optional',           role:'adm' },
     { id:'configure-scheduling-rules',     icon:'⏰', title:'Global Scheduling Rules',                desc:'Set minimum notice periods and other constraints for candidate self-scheduling',          role:'adm' },
     { id:'understand-scheduling-priority', icon:'📅', title:'Scheduling Preference Priority',         desc:'Personal preferences always override global defaults — understand the full hierarchy',     role:'adm' },
     { id:'configure-approval-delegation',  icon:'🔄', title:'Configure Approval Delegation',          desc:'Route approvals to a delegate during a manager\'s planned absence',                       role:'adm' },
@@ -1679,7 +1680,7 @@ const TASKS = {
     { id:'understand-position-types',      icon:'🔄', title:'Position Types: New vs Replacement',       desc:'Understand the difference between New and Replacement positions and how they flow from SF', role:'adm' },
   ],
   'adm-integrations': [
-    { id:'sf-sr-integration-overview',     icon:'🔗', title:'SAP SuccessFactors ↔ SmartRecruiters Integration', desc:'How the SF-SR integration works, the 5 sync types, and what flows between systems', role:'adm' },
+    { id:'sf-sr-integration-overview',     icon:'🔗', title:'SAP SuccessFactors ↔ SmartRecruiters Integration', desc:'How the SF-SR integration works, what actually syncs today vs what\'s still roadmap, and what flows between systems', role:'adm' },
     { id:'user-sync-setup',                icon:'👥', title:'User Sync Configuration',                  desc:'Configure the automated sync that creates and updates SR users from SF records',     role:'adm' },
     { id:'integration-hub-setup',          icon:'🔗', title:'Integration Hub',                          desc:'New June 15: dedicated space in SR to manage all SF integration configuration',       role:'adm' },
     { id:'position-field-mapping',         icon:'📍', title:'Position-to-Job Field Mapping',            desc:'Configure which SF Position fields pre-fill SR job fields on job creation',           role:'adm' },
@@ -1867,7 +1868,7 @@ const TASK_DETAIL = {
       title:'Set the interview type, date, time and duration',
       desc:'Select the <strong>Interview Type</strong> from the dropdown (these are configured by your admin). Set the <strong>date</strong>, <strong>start time</strong>, and <strong>duration</strong>.',
       subs:[
-        { icon:'🏷️', title:'Why interview type matters', points:['The type label appears in the calendar invitation and candidate communications','The merge field [m_interview_type] in email templates pulls this label automatically','It helps candidates know what to prepare for — Phone Screen vs Technical Interview vs On-site are very different'] },
+        { icon:'🏷️', title:'Why interview type matters', points:['The type label appears in the calendar invitation and candidate communications','There\'s no merge field for the type label itself — the available interview merge fields are [m_event_start_time], [m_event_end_time], [m_meeting_location] and [self_schedule_url], so mention the type by name directly in your template text','It helps candidates know what to prepare for — Phone Screen vs Technical Interview vs On-site are very different'] },
         { icon:'📍', title:'Setting the format and location', points:['<strong>In-person</strong> — enter the office address or room details','<strong>Video</strong> — if you have a calendar integration (Google/Outlook), a meeting link is generated automatically. Otherwise use "Other Video" and paste your link','<strong>Phone</strong> — enter any relevant dial-in details in the notes field'] },
       ]
     },
@@ -2234,7 +2235,7 @@ const TASK_DETAIL = {
       title:'Save the group and assign it to users',
       desc:'Click <strong>Save</strong>. Then go to <strong>User Management</strong>, find each user who needs this group, click the pencil icon, and assign the access group to them.',
       subs:[
-        { icon:'👤', title:'Assigning to multiple users', points:['Access groups are assigned one user at a time via User Management','Each user can have multiple access groups assigned simultaneously','Changes take effect immediately — no need for users to log out and back in'] },
+        { icon:'👤', title:'Assigning to multiple users', points:['Access groups are assigned one user at a time via User Management','Each user can belong to only ONE access group at a time — assigning a new one replaces the old one, it doesn\'t stack','Jobs, on the other hand, can belong to multiple access groups','Changes take effect immediately — no need for users to log out and back in'] },
       ],
       tip:'After assigning, ask the user to log in and confirm they can see the right jobs and only the right jobs. A 2-minute check now prevents access control issues later.'
     },
@@ -2479,7 +2480,7 @@ const TASK_DETAIL = {
     { title:'Go to the HireLoop from your Home page', desc:'From your <strong>Home page</strong>, click the <strong>Activity</strong> tab (top left area). The HireLoop shows all activity on jobs and candidates you have access to.', path:['Home','Activity Tab'],
       subs:[{ icon:'📋', title:'What appears in the HireLoop', points:['Notes left by you and other team members','Candidate stage moves and status changes','Offer approvals and decisions','Interview scheduled and completed notifications'] }] },
     { title:'Type your note and use @ and # to tag people and candidates', desc:'Click in the note field. Type your message. Use <strong>@</strong> to tag a colleague (they get an email notification) or tag a job name (notifies the full hiring team). Use <strong>#</strong> to link to a specific candidate profile.',
-      subs:[{ icon:'@', title:'@ and # explained', points:['@ + colleague name — tags that individual and sends them an email alert','@ + job name — notifies the entire hiring team of that job at once','# + candidate name — creates a clickable link to their profile and logs the note on their profile too'] }] },
+      subs:[{ icon:'@', title:'@ and # explained', points:['@ + colleague name — tags that individual and sends them an email alert','@ + job name — notifies the entire hiring team of that job at once','# + candidate name — creates a clickable link to their profile and logs the note on their profile too'] }, { icon:'🔒', title:'Improved (July 2026): @mention suggestions now respect job access', points:['When typing a job title or reference number to tag a hiring team, the suggestions you see are now filtered to only jobs you actually have access to','This closes a permissions gap in segmented setups — previously a recruiter in one region could see hiring team suggestions from a job in another region they shouldn\'t have visibility into'] }] },
     { title:'Choose the note type and post', desc:'Select visibility: <strong>Open</strong> (all hiring team members), <strong>Direct Message</strong> (private to one person), or <strong>Note to Self</strong> (only you). Click <strong>Post</strong>.',
       subs:[{ icon:'💬', title:'Choosing the right note type', points:['Open note — use for status updates or decisions the whole team should see','Direct message — use for private queries to a colleague','Note to Self — use as a personal reminder, e.g. "Chase HM for feedback by Friday"'] }],
       tip:'Get into the habit of leaving notes instead of sending external emails about candidates. It keeps everything in one place and creates an audit trail for anyone joining the process later.' },
@@ -2583,7 +2584,7 @@ const TASK_DETAIL = {
   before:['The access group must already exist (see Create an Access Group guide)'],
   steps:[
     { title:'Go to User Management and open the user', desc:'Settings → Permissions → User Management. Find the user and click the pencil icon.', path:['Settings','Permissions','User Management'], subs:[] },
-    { title:'Select the Access Group', desc:'In the <strong>Access Group</strong> field, select the relevant group. A user can have multiple access groups assigned simultaneously.',
+    { title:'Select the Access Group', desc:'In the <strong>Access Group</strong> field, select the relevant group. A user can only belong to ONE access group at a time — selecting a new one replaces whatever was set before, it doesn\'t add to it.',
       subs:[{ icon:'🔐', title:'Multiple access groups', points:['Assign multiple groups when a user needs to see jobs across different regions or departments','Each group adds its set of accessible jobs — permissions combine, not cancel','Where permissions overlap, the highest level wins'] }] },
     { title:'Save and verify', desc:'Click <strong>Save</strong>. Ask the user to check their Jobs page to confirm they can see the right jobs. Changes are immediate.', subs:[] },
   ]
@@ -3223,7 +3224,7 @@ const TASK_DETAIL = {
       subs:[{ icon:'📋', title:'Common application fields', points:['First name, last name, email (required on all applications)','Phone number, address, and right to work (if required for this role)','Message to Hiring Manager — an optional cover note field','Social links (LinkedIn, GitHub etc.) if enabled for this role','Screening questions — specific questions configured for this role type'] }],
       warn:'Use the same email address every time you apply to the same company. SmartRecruiters uses your email address to identify you — a different email creates a duplicate profile.' },
     { title:'Upload your CV and submit', desc:'Upload your CV when prompted. The system will parse it and pre-populate your experience and education. Review the parsed data before submitting. Click <strong>Submit Application</strong> when ready.',
-      subs:[{ icon:'📄', title:'CV upload tips', points:['PDF or Word (.docx) format works best','Keep your file under 5MB','Avoid CVs with complex tables or graphics — these can cause parsing errors','After upload, check that your most recent role and dates have parsed correctly before submitting'] }] },
+      subs:[{ icon:'📄', title:'CV upload tips', points:['PDF or Word (.docx) format works best','Keep your file under 10MB','Avoid CVs with complex tables or graphics — these can cause parsing errors','After upload, check that your most recent role and dates have parsed correctly before submitting'] }] },
   ]
 },
 
@@ -3235,7 +3236,7 @@ const TASK_DETAIL = {
   before:[],
   steps:[
     { title:'Find the CV upload step in the application form', desc:'On the application form, find the <strong>Resume / CV</strong> field. Click the upload area or the "Browse" button to select your CV file from your device.',
-      subs:[{ icon:'📁', title:'Supported file formats', points:['PDF — best format for preserving layout; recommended for most CVs','DOCX (Microsoft Word) — also works well and parses accurately','Maximum file size: 5MB','Avoid: Pages files, ODT files, or CVs saved as images (JPEG/PNG) — these do not parse correctly'] }] },
+      subs:[{ icon:'📁', title:'Supported file formats', points:['PDF — best format for preserving layout; recommended for most CVs','DOCX (Microsoft Word) — also works well and parses accurately','Maximum file size: 10MB','Avoid: Pages files, ODT files, or CVs saved as images (JPEG/PNG) — these do not parse correctly'] }] },
     { title:'Wait for parsing to complete', desc:'Once uploaded, SmartRecruiters automatically reads your CV and fills in your work history, education, and skills. This takes a few seconds. A progress indicator will show when it is complete.',
       subs:[{ icon:'⚠️', title:'CV formats that don\'t parse well', points:['CVs built entirely inside a table (columns will merge incorrectly)','Heavily designed CVs with graphics, logos, or non-standard fonts','CVs saved as an image or scanned document (no selectable text)','CVs with very unusual date formats — stick to Month Year or just Year'] }] },
     { title:'Review the parsed information before submitting', desc:'Check that your most recent job title, employer, and dates have parsed correctly. If anything is missing or wrong, you can edit the fields manually before submitting.',
@@ -3252,8 +3253,8 @@ const TASK_DETAIL = {
   steps:[
     { title:'What are screening questions?', desc:'Screening questions are specific questions added to the application form by the hiring team. They appear after the main application fields and are specific to the role or job type you are applying for.',
       subs:[{ icon:'❓', title:'Types of screening questions', points:['Yes/No questions — e.g. "Do you have the right to work in the UK without requiring sponsorship?"','Dropdown — e.g. "How many years of relevant experience do you have? 0–2 / 2–5 / 5–10 / 10+"','Free text — e.g. "Briefly describe your experience with X"','Numeric — e.g. "What is your current annual salary?"'] }] },
-    { title:'Why do some questions affect your application?', desc:'Some questions are marked as <strong>Knockout questions</strong> — if you answer in a way that doesn\'t meet a minimum requirement, your application may be automatically flagged.',
-      subs:[{ icon:'🚨', title:'Knockout questions', points:['A knockout might be: "Do you have a valid driving licence? Yes / No" — if the role requires driving, answering No flags your application','Your application is not automatically rejected — it is flagged for the recruiter to review','Always answer honestly — misrepresenting a knockout answer can lead to your application being withdrawn later'] }] },
+    { title:'Why do some questions affect your application?', desc:'Some questions are marked as <strong>Knockout questions</strong> — if you answer in a way that doesn\'t meet a minimum requirement, your application can be automatically disqualified.',
+      subs:[{ icon:'🚨', title:'Knockout questions', points:['A knockout might be: "Do you have a valid driving licence? Yes / No" — if the role requires driving, answering No can disqualify your application','Knockout questions are the one part of the process that CAN auto-reject you — the employer configures whether an undesirable answer removes you automatically or just flags it for review','Always answer honestly — misrepresenting a knockout answer can lead to your application being withdrawn later'] }] },
     { title:'Tips for answering screening questions well', desc:'Read each question carefully. Answer honestly and completely. For free-text questions, keep your answer concise — 2–3 sentences is usually enough.',
       subs:[], tip:'If a question asks about salary expectations, give a specific range rather than "negotiable" — it helps the team assess fit faster and avoids a mismatch late in the process.' },
   ]
@@ -3261,15 +3262,15 @@ const TASK_DETAIL = {
 
 'cand-portal-login': {
   role:'cand', icon:'🔑', title:'Log Into the Candidate Portal',
-  desc:'Access your application status, messages and documents from the candidate-facing portal.',
-  path:['Candidate Portal','careers.smartrecruiters.com'],
+  desc:'Access your application status, messages and documents from the candidate-facing portal — no account or password required.',
+  path:['Candidate Portal','Application Tracking Link'],
   who:[{label:'Candidate',c:'var(--cand)'}],
-  before:['You need the email address you used when you applied','You should have received a Welcome or confirmation email with a portal link when you applied'],
+  before:['You need access to the email address you used when you applied'],
   steps:[
-    { title:'Find the Candidate Portal link', desc:'Check the confirmation email you received when you applied. It will contain a link to the Candidate Portal. You can also go directly to <strong>careers.smartrecruiters.com</strong> and log in with your application email.',
+    { title:'Find your application tracking link', desc:'Check the auto-reply confirmation email you received right after applying. It contains a unique tracking link for your submission — that link takes you to the Application Tracking Portal.',
       subs:[{ icon:'📧', title:'If you can\'t find your confirmation email', points:['Search your inbox for an email from SmartRecruiters or the company name','Check your spam/junk folder','If you applied using a different email by mistake, contact the company\'s recruitment team directly'] }] },
-    { title:'Log in with your email and set a password', desc:'Enter the email address you used to apply. If this is your first login, you will be prompted to set a password for your account. Follow the instructions in the email sent to you.',
-      subs:[{ icon:'🔐', title:'Password tips', points:['Use a password you will remember — you may need to log in multiple times during the process','If you forget your password, use the "Forgot Password" link on the login page','Your portal account applies to all applications you have made to companies using SmartRecruiters'] }] },
+    { title:'Log in with a one-time passcode — no password, no account', desc:'SmartRecruiters doesn\'t create a traditional account with a password. Instead, clicking the tracking link sends you a one-time passcode (OTP) by email, which you enter to access the portal.',
+      subs:[{ icon:'🔐', title:'Key things to know', points:['There\'s no profile or password to set up — you\'re never asked to create an account','The OTP is sent by email only — there\'s no SMS option for this','You\'ll get a fresh OTP each time you use the link, so keep the original confirmation email handy for future visits'] }] },
     { title:'Explore the portal', desc:'Once logged in you will see all your active and past applications, messages from the recruitment team, documents, and your interview schedule.',
       subs:[{ icon:'📋', title:'What is available in the portal', points:['Applications — all roles you have applied to and their current status','Messages — any email communications from the recruitment team','Documents — your uploaded CV and any offer documents','Interviews — upcoming interviews with date, time and format details'] }] },
   ]
@@ -3468,6 +3469,15 @@ const TASK_DETAIL = {
         'Calibrate thresholds over time — what counts as "strong match" varies by role type and job description quality'
       ]}]
     },
+    {
+      title:'New (July 2026): Winston Match data is now available in Report Builder',
+      desc:'You\'re no longer limited to reviewing match scores one job at a time in the pipeline — Winston Match data can now be brought into a report (see Create a Saved Report).',
+      subs:[{ icon:'📈', title:'What you can report on', points:[
+        'Overall match levels, dimension-level subscores, and scoring timestamps',
+        'Historical application data alongside match scores',
+        'Useful for adoption tracking — are recruiters actually using match insights? — and for checking whether high-match candidates progress differently across teams'
+      ]}]
+    },
   ]
 },
 
@@ -3486,17 +3496,16 @@ const TASK_DETAIL = {
       subs:[]
     },
     {
-      title:'Understand the three consent models',
-      desc:'Choose the model that matches your legal obligations.',
-      subs:[{ icon:'⚖️', title:'The three models', points:[
-        '<strong>Model 1 — Implicit consent for all</strong>: Submitting an application = consent for data storage AND CRM communities. No separate opt-in shown.',
-        '<strong>Model 2 — Apply + separate CRM opt-in</strong>: Applying gives data storage consent only. A separate tick-box lets candidates opt INTO CRM communities — they can apply without opting in. This is the model where "candidates consent to job applications but specifically opt out of CRM communities."',
-        '<strong>Model 3 — Explicit consent for everything</strong>: Candidates must actively consent to both data storage and communities before applying. Most restrictive.',
+      title:'Understand the two consent models',
+      desc:'SmartRecruiters supports two consent models, set globally (or separately per module — ATS / CRM / SmartMessage SMS / SmartMessage WhatsApp). Choose the one that matches your legal obligations.',
+      subs:[{ icon:'⚖️', title:'The two models', points:[
+        '<strong>Single Consent</strong>: The candidate grants permission for all data processing activities with one action — typically a single checkbox covering everything at once.',
+        '<strong>Separated Consent</strong>: A more granular approach — candidates see multiple, distinct checkboxes and can grant permission for specific purposes individually (e.g. consent to apply for the job without also opting into a CRM talent community).',
       ]}]
     },
     {
-      title:'Select Model 2 and save',
-      desc:'Select <strong>Model 2</strong> from the Consent Model dropdown. Customise the opt-in checkbox text if required. Click <strong>Save</strong>.',
+      title:'Select the appropriate model and save',
+      desc:'Select <strong>Single Consent</strong> or <strong>Separated Consent</strong> from the Consent Model dropdown (you can set one globally, or configure it separately per module). Customise the opt-in checkbox text if required. Click <strong>Save</strong>.',
       subs:[
         { icon:'⚠️', title:'Impact', points:[
           'Applies to new applicants only — existing candidates retain their original consent status',
@@ -3506,7 +3515,7 @@ const TASK_DETAIL = {
         { icon:'🌙', title:'UAE PDPL & Saudi PDPPL requirements', points:[
           '<strong>UAE Personal Data Protection Law (PDPL)</strong>: Requires explicit consent for collection and processing of personal data. Candidates must be informed of the purpose of data collection at the point of application.',
           '<strong>Saudi Arabia Personal Data Protection Law (PDPPL)</strong>: Requires clear, specific consent before collecting personal data. Data subjects have the right to withdraw consent at any time.',
-          'For Middle East implementations, use Model 3 (explicit consent for everything) or Model 2 with customised consent text approved by your legal team',
+          'For Middle East implementations, Separated Consent with customised, legally-approved consent text per purpose is generally the safer configuration',
           'Your privacy notice must reference the applicable law(s) — UAE PDPL, Saudi PDPPL, or both, depending on the countries in scope',
           'Retain consent records — document when and how each candidate gave consent'
         ]}
@@ -3874,13 +3883,15 @@ const TASK_DETAIL = {
   steps:[
     {
       title:'Go to Reports and click Create Report',
-      desc:'Navigate to <strong>Reports</strong> → click <strong>Create Report</strong>. Select a report type: Jobs, Candidates, Applications, or Offers.',
+      desc:'Navigate to <strong>Reports</strong> → click <strong>Create Report</strong>. Select a report type: Jobs, Candidates, Applications, Offers — plus two newer data sources added in the July 2026 release.',
       path:['Reports','Create Report'],
       subs:[{ icon:'📋', title:'Report types', points:[
         '<strong>Jobs</strong> — job status, department, recruiter, days open',
         '<strong>Candidates</strong> — candidate details, source, stage, rejection reason',
         '<strong>Applications</strong> — application volume by job, status, and time period',
-        '<strong>Offers</strong> — offer status, approval chain, and offer letter data'
+        '<strong>Offers</strong> — offer status, approval chain, and offer letter data',
+        '<strong>Winston Match (new, July 2026)</strong> — overall match levels, dimension-level subscores, scoring timestamps, and historical application data. Useful for tracking whether recruiters are actually using match insights, and whether high-match candidates progress differently across teams.',
+        '<strong>Messaging & SMS/WhatsApp (new, July 2026)</strong> — consent events, message activity, delivery outcomes, and replies. Sensitive data like phone numbers and message bodies is excluded from reporting.'
       ]}]
     },
     {
@@ -4226,35 +4237,51 @@ const TASK_DETAIL = {
 // ─── Q15: PREDEFINED LOCATIONS ────────────────────────
 'configure-predefined-locations': {
   role:'adm', icon:'📍', title:'Configure Predefined Locations',
-  desc:'Set up standardised office locations with coordinates — coordinates are required to render Google Maps on job ads.',
-  path:['Settings','Configuration','Predefined Locations'],
+  desc:'Set up a standardised, admin-managed list of locations. Only Country and City are actually required — street address and coordinates are optional extras.',
+  path:['Settings','Job Locations','Predefined Locations'],
   who:[{label:'Admin',c:'var(--a-adm)'}],
-  before:['Have accurate street addresses ready','You need latitude/longitude coordinates for the map — the street address text alone is not sufficient'],
+  before:['Know the Country and City for each location — that\'s all that\'s strictly required','If you want the Google Map to render on the job ad, you\'ll also want latitude/longitude for that location'],
   steps:[
     {
-      title:'Go to Settings → Configuration → Predefined Locations',
-      desc:'Settings → Configuration → <strong>Predefined Locations</strong>. Click <strong>+ Add Location</strong>.',
-      path:['Settings','Configuration','Predefined Locations'],
+      title:'Go to Settings → Job Locations → Predefined Locations',
+      desc:'Settings → <strong>Job Locations</strong> → <strong>Predefined Locations</strong> tab. Click <strong>Create Predefined Location</strong>.',
+      path:['Settings','Job Locations','Predefined Locations'],
       subs:[{ icon:'🗺️', title:'Why predefined locations exist', points:[
         'Prevents inconsistent address entry across job postings',
-        'Enables Google Map embed on job ads (requires coordinates)',
         'Enables accurate location-based filtering on the career site',
-        'Centralises location data for headcount and vacancy reporting'
+        'Centralises location data for headcount and vacancy reporting',
+        'Once created, users pick from a dropdown during job creation instead of typing free text'
       ]}]
     },
     {
-      title:'Fill in the address AND the coordinates',
-      desc:'Complete the full address fields (street, city, postal code, country) AND the <strong>Latitude</strong> and <strong>Longitude</strong> fields. Coordinates are what makes the Google Map render, not just the address text.',
-      subs:[{ icon:'📍', title:'Getting coordinates', points:[
-        'Go to Google Maps, right-click the exact office location → "What\'s here?" — coordinates appear at the bottom',
-        'Copy latitude (first number, e.g. 40.7128 for New York) and longitude (second number, e.g. -74.0060)',
-        'Without coordinates: Google Maps will not render on the job ad, even with a complete address',
-        'Key point: beyond street address, you must provide latitude and longitude for the map to render'
+      title:'Only Country and City are required — everything else is optional',
+      desc:'Enter the required <strong>Country</strong> and <strong>City</strong> (selected from the system\'s controlled list). Street address, postal code, and coordinates are all optional add-ons on top of that.',
+      subs:[
+        { icon:'📍', title:'What\'s actually required vs optional', points:[
+          'Required: Country and City only',
+          'Optional: street address and postal code — useful for internal documentation, not required to save the location',
+          'Optional: Latitude and Longitude — only needed if you want an interactive map to display on the job ad',
+          'Optional: an internal ID and Title (e.g. a store code, or "London Office" / "Flagship Store") — these never appear on the job ad itself'
+        ]},
+        { icon:'🗺️', title:'Getting coordinates (only if you want the map)', points:[
+          'Go to Google Maps, right-click the exact office location → "What\'s here?" — coordinates appear at the bottom',
+          'Copy latitude (first number, e.g. 40.7128 for New York) and longitude (second number, e.g. -74.0060)',
+          'Without coordinates, the location still saves and works fine — you just won\'t get the map embed on the job ad'
+        ]},
+      ]
+    },
+    {
+      title:'Faster alternative: sync locations from SAP Employee Central',
+      desc:'If you\'re integrated with SAP SuccessFactors, there\'s a sync tool (shipped with the Career Site Builder release) that can pre-populate your entire predefined location list from Employee Central automatically, instead of typing/searching each one manually.',
+      subs:[{ icon:'🔄', title:'How the sync works', points:[
+        'It syncs off the EC <strong>Job Location object</strong> (not the Foundation Location object) — this is a key prerequisite of the Unified Data Model, so get that set up first',
+        'All Job Location object values get pulled in to pre-populate your predefined location list — no need for manual Google Maps lookups or typing each one in',
+        'One limitation: this only syncs the list of available locations — it does not automatically default a location onto a specific job, that\'s still a manual selection'
       ]}]
     },
     {
       title:'Save and verify on a live job',
-      desc:'Save. Create a test job using this location, preview the job ad, and confirm the Google Map pin appears in the correct position.',
+      desc:'Save. Create a test job using this location, preview the job ad, and confirm it looks right — including the map pin if you added coordinates.',
       subs:[]
     },
   ]
@@ -4346,13 +4373,17 @@ const TASK_DETAIL = {
       ]}]
     },
     {
-      title:'Enable the Track Reapplied Candidates toggle and save',
-      desc:'Toggle <strong>Track Reapplied Candidates</strong> on. Save. Any candidate who reapplies to the same job will now show a badge in the pipeline.',
+      title:'Enable the Track Reapplied Candidates toggle, set the timeframe, and save',
+      desc:'Toggle <strong>Track Reapplied Candidates</strong> on. You can also set a timeframe for when the badge applies. Save. Any candidate who reapplies to the same job within that window will now show a badge in the pipeline.',
       subs:[{ icon:'🔁', title:'What counts as a reapplication', points:[
         'Same candidate email applying to the exact same job posting more than once',
         'Applies whether the previous application was active or closed',
         'Does NOT flag candidates who apply to different jobs — only exact same posting repeats',
         'Applies to the external career site — internal applications are tracked separately'
+      ]}, { icon:'⏱️', title:'Set a timeframe, not just on/off', points:[
+        'When you turn this on, you can determine when the reapplied badge should apply depending on the timeframe within which a candidate has reapplied',
+        'You may only want to flag candidates who reapply within 12 months, for example — or you may want to flag them any time they reapply, with no window at all',
+        'Pick the timeframe based on how relevant an old application still is for your hiring team\'s purposes'
       ]}]
     },
   ]
@@ -4550,6 +4581,14 @@ const TASK_DETAIL = {
       desc:'Save workflow → Save Hiring Process. Create a test internal application. Verify the candidate appears briefly in Recruiter Screen before being automatically advanced to Hiring Manager Review.',
       subs:[]
     },
+    {
+      title:'Before you enable this: check with legal/privacy',
+      desc:'Automatically skipping a stage based on a candidate attribute can be considered automated profiling or decision-making under applicable data protection laws.',
+      subs:[{ icon:'⚖️', title:'Compliance note', points:[
+        'SmartRecruiters itself flags that this kind of automation may fall under automated profiling / decision-making rules depending on jurisdiction',
+        'Review the privacy and legal implications of this feature with your legal and/or privacy team before activating it — don\'t treat this as a purely technical configuration step'
+      ]}]
+    },
   ]
 },
 
@@ -4619,8 +4658,8 @@ const TASK_DETAIL = {
         'Test by creating an offer on a Japan Hardware Engineering job — confirm the approval chain appears'
       ]}, { icon:'🔄', title:'Approval chain types', points:[
         'Sequential — approvers sign off in order. Approver 2 only notified after Approver 1 approves.',
-        'Parallel — all approvers notified simultaneously, approve in any order.',
-        'Any-of — approval complete as soon as any one designated approver signs off'
+        'Parallel — all approvers notified simultaneously, approve independently. When configuring a parallel chain you choose between two options: ALL approvers must approve, OR just one approval is enough ("any-of" is a setting inside Parallel, not a separate chain type)',
+        'Integration — an external system (e.g. an HRIS) manages and returns the approval decision on behalf of the system user, typically used when org-field logic alone can\'t express the approval requirement. Unlike the other two, an integration chain isn\'t limited to a single org field combination.'
       ]}]
     },
   ]
@@ -4628,16 +4667,16 @@ const TASK_DETAIL = {
 
 // ─── Q32: REJECTION REASONS ───────────────────────────
 'configure-rejection-reasons': {
-  role:'adm', icon:'❌', title:'Configure Rejection Reasons with Mandatory Detail',
-  desc:'Set up rejection reason codes and enable the "Require Additional Details" setting so recruiters must provide written context when rejecting — not just a dropdown selection.',
-  path:['Settings','Configuration','Rejection Reasons'],
+  role:'adm', icon:'❌', title:'Configure Rejection Reasons (Require a Reason on Rejection)',
+  desc:'Set up rejection reason codes and enable the "Require a reason when rejecting an application" setting so recruiters must select a reason from the list — not leave it blank or default to "Other".',
+  path:['Settings','Configuration','Rejection & withdrawal reasons'],
   who:[{label:'Admin',c:'var(--a-adm)'}],
   before:[],
   steps:[
     {
-      title:'Go to Settings → Configuration → Rejection Reasons',
-      desc:'Settings → Configuration → <strong>Rejection Reasons</strong>.',
-      path:['Settings','Configuration','Rejection Reasons'],
+      title:'Go to Settings → Configuration → Rejection & withdrawal reasons',
+      desc:'Settings → Configuration → <strong>Rejection & withdrawal reasons</strong>.',
+      path:['Settings','Configuration','Rejection & withdrawal reasons'],
       subs:[{ icon:'📊', title:'Why rejection reason quality matters', points:[
         'Rejection reasons feed pipeline analytics and diversity reporting',
         'Vague reasons like "Not suitable" obscure whether issues are at screening, skills, or compensation level',
@@ -4645,18 +4684,17 @@ const TASK_DETAIL = {
       ]}]
     },
     {
-      title:'Enable "Require Additional Details" on rejection',
-      desc:'Find the <strong>Require Additional Details</strong> toggle (or "Require Comments on Rejection"). Enable it. Recruiters can no longer complete a rejection without entering notes.',
+      title:'Enable "Require a reason when rejecting an application"',
+      desc:'Find the <strong>Require a reason when rejecting an application</strong> toggle and enable it.',
       subs:[{ icon:'✅', title:'Key point', points:[
-        'The specific setting to enable: "Require Additional Details" in Rejection Reasons configuration',
-        'Effect: a mandatory free-text notes field appears after the dropdown selection — rejection cannot proceed without it',
-        'Notes appear on the candidate profile and in rejection analytics exports',
-        'Communicate the change to recruiters before enabling — the new mandatory field will surprise them otherwise'
+        'The real setting name is "Require a reason when rejecting an application" — there is no separate free-text notes requirement',
+        'Effect: recruiters must select a reason from the dropdown list before a rejection can be completed — it just stops them skipping straight past it or defaulting to a vague catch-all',
+        'Communicate the change to recruiters before enabling — a newly-mandatory field will surprise them otherwise'
       ]}]
     },
     {
-      title:'Review and update the rejection reason list',
-      desc:'Edit, add, or deactivate reasons to match your taxonomy. Ensure reasons are specific enough for analytics but generic enough to apply across role types.',
+      title:'Review and update the rejection AND withdrawal reason lists',
+      desc:'Edit, add, or deactivate reasons to match your taxonomy — this covers both Rejection reasons (why the hiring team declined the candidate) and Withdrawal reasons (why the candidate pulled out) as separate lists under the same settings page. Ensure reasons are specific enough for analytics but generic enough to apply across role types.',
       subs:[{ icon:'📋', title:'Recommended categories', points:[
         'Screening: Insufficient experience, Missing qualification, Salary mismatch, No right to work',
         'Interview: Technical assessment failed, Communication skills, Cultural misalignment',
@@ -4689,7 +4727,8 @@ const TASK_DETAIL = {
         'If a recruiter tries to move a candidate from an earlier step directly to Offer (bypassing Technical Assessment), the system blocks the move with a warning',
         'The solution: mark the "Technical Assessment" step as Required in the hiring process. This ensures every Lead Engineer candidate must pass through it before the Offer stage.',
         'Required steps appear with a lock icon in the pipeline view',
-        'Admins can manually override Required steps if absolutely necessary — recruiters cannot'
+        'Admins can manually override Required steps if absolutely necessary — recruiters cannot',
+        'Watch out for backward moves: if a candidate is moved back to before a Required step, they have to go through it again — the requirement re-triggers, it doesn\'t stay "satisfied" from the first pass'
       ]}]
     },
     {
@@ -4878,7 +4917,8 @@ const TASK_DETAIL = {
       path:['Settings','Permissions','User Management'],
       subs:[{ icon:'1️⃣', title:'CRM seat by system role', points:[
         'Admin, Extended, Standard role users can hold a CRM seat with full Sourcer access',
-        'Basic role users can be added as Participants (read-only) without a CRM seat',
+        'Basic role users CAN also hold a CRM seat and be given full Sourcer access — they\'re not limited to Participant',
+        'Without a CRM seat, Basic role users can still be added as Participants (read-only)',
         'Employee role users cannot access CRM regardless',
         'Note: the recruiter has Standard role — sufficient. Enable the CRM seat and they can see the CRM tab.'
       ]}]
@@ -5050,18 +5090,22 @@ const TASK_DETAIL = {
     },
     {
       title:'Map the CSV columns to SmartRecruiters fields',
-      desc:'A column mapping screen appears. Match each column in your CSV to the corresponding SmartRecruiters field. Unmapped columns are ignored — they do not cause the import to fail.',
+      desc:'Download the provided import template — its columns are already mapped to the right SmartRecruiters fields, which is the easiest way to avoid mapping errors. If you\'re uploading your own spreadsheet instead, a column mapping screen lets you match each column to the corresponding field. Unmapped columns are ignored — they do not cause the import to fail.',
       subs:[]
     },
     {
-      title:'Set the Source to "Career Fair" before confirming',
-      desc:'Before confirming the import, find the <strong>Source</strong> field in the import settings. Set it to <strong>Career Fair</strong> (or the closest matching source in your source list). This tags all imported contacts with this source — ensuring correct source tracking.',
+      title:'Set the Source (and optionally a Segment) before confirming',
+      desc:'Before confirming the import, find the <strong>Source</strong> field in the import settings. Set it to <strong>Career Fair</strong> (or the closest matching source in your source list). This tags all imported contacts with this source — ensuring correct source tracking. You can also add the whole batch to a <strong>Segment</strong> at the same time, which is a separate, useful way to keep this specific batch organised within the community.',
       subs:[
         { icon:'📊', title:'Why source tracking matters on bulk imports', points:[
           'Setting source at import time tags all 200 contacts as "Career Fair" in one action — you cannot efficiently update source for 200 records after the fact',
           'Source data feeds into CRM analytics showing which channels produce the most engaged talent',
           'Correctly sourced leads make it possible to report ROI on career fair attendance: how many leads, how many engaged with campaigns, how many eventually applied and were hired',
           'If "Career Fair" does not appear in the source dropdown, ask your admin to add it to the Source list in Settings → Configuration → Sources'
+        ]},
+        { icon:'🏷️', title:'Segments — a second, optional way to organise the batch', points:[
+          'Segments let you group these 200 leads together within the community, separate from Source',
+          'Useful if you want to target this exact batch with a campaign later without relying on Source alone (e.g. if the community already has other Career Fair leads from a different event)'
         ]},
       ]
     },
@@ -5095,16 +5139,21 @@ const TASK_DETAIL = {
       path:['Settings','Apps & Integrations','Marketplace'],
       subs:[
         { icon:'📋', title:'Available filters on the Marketplace homepage', points:[
-          '<strong>Category</strong> — filter by integration type: Background Screening, Assessments, Job Boards, CRM, HRIS, Video Interviewing, etc.',
-          '<strong>Language</strong> — filter by the languages the partner\'s platform supports. Use the Language filter to find providers supporting Polish.',
-          '<strong>Region</strong> — filter by geographic region where the partner operates',
-          '<strong>Partner Tier</strong> — filter by SmartRecruiters partner certification level'
+          '<strong>Keyword Search</strong> — search for a specific partner by name (e.g. "HireVue")',
+          '<strong>Objectives</strong> — filter by hiring objective, e.g. improving hiring velocity or employer branding',
+          '<strong>Categories</strong> — filter by category: attracting, selecting, hiring, management and reporting, integration middleware, AI, etc.',
+          '<strong>Advisory Type</strong> — filter by the type of advisory services offered',
+          '<strong>Languages</strong> — filter by the languages the partner\'s platform supports. Use this to find providers supporting Polish.',
+          '<strong>Data Centers</strong> — filter by data center location',
+          '<strong>Target Customer Size</strong> — filter by the partner\'s target customer size',
+          '<strong>Integration Costs</strong> — filter by integration cost',
+          'You can also filter by partner type (Technology, Services, or AI) using the buttons at the top of the page, and sort by newest, alphabetically, or most reviewed'
         ]},
       ]
     },
     {
-      title:'Apply the Language filter — select Polish',
-      desc:'On the Marketplace homepage, find the <strong>Language</strong> filter in the left panel or filter bar. Select <strong>Polish</strong>. The results will narrow to only integrations whose platform supports the Polish language.',
+      title:'Apply the Languages filter — select Polish',
+      desc:'On the Marketplace homepage, find the <strong>Languages</strong> filter in the left-hand filter panel. Select <strong>Polish</strong>. The results will narrow to only integrations whose platform supports the Polish language.',
       subs:[
         { icon:'🌐', title:'Why language support matters for background checks', points:[
           'A background check that requires candidates to complete forms or consent flows in a language they cannot read creates compliance risk and a poor candidate experience',
@@ -5353,14 +5402,14 @@ const TASK_DETAIL = {
       ]
     },
     {
-      title:'Set the data retention period',
-      desc:'Select how long candidate data is retained in this community. Candidates approaching expiry receive an automatic opt-in renewal email — if they don\'t re-consent, they are removed automatically.',
+      title:'Set the community\'s Country — the retention period follows from that',
+      desc:'You don\'t pick a retention duration directly here — retention is an Admin-level global compliance setting configured per country. What you actually do at community level is select the <strong>Country</strong> field, and whichever retention policy your Admin has set up for that country applies automatically. If no matching country policy exists, the default policy applies.',
       subs:[
         { icon:'⚖️', title:'Compliance context', points:[
-          'UK/EU: typically 12–24 months under GDPR',
+          'UK/EU: typically 12–24 months under GDPR (as configured by your Admin)',
           'UAE (PDPL) and Saudi Arabia (PDPPL): data must be deleted when the processing purpose no longer exists — confirm the period with your legal team',
-          'SmartRecruiters enforces retention by Country field — each community can have its own retention policy',
-          'This is managed automatically — you do not need to manually remove expired members'
+          'This is managed automatically once configured — you do not need to manually remove expired members, and as a recruiter you can\'t override the retention length yourself',
+          'If your community needs a different retention period than what\'s currently applied, ask your Admin to review the Global Compliance settings — not something to change at community level'
         ]}
       ]
     },
@@ -5382,52 +5431,49 @@ const TASK_DETAIL = {
   before:['The community must already exist','For CSV imports, have the spreadsheet ready with at minimum: First Name, Last Name, Email Address'],
   steps:[
     {
-      title:'Open the community and click Add Members',
-      desc:'Go to <strong>CRM → Communities</strong>. Open the target community. Click <strong>Add Members</strong>. Three options appear: Search, Import, and Invite.',
+      title:'Open the community — there are four ways to add members',
+      desc:'Go to <strong>CRM → Communities</strong>. Open the target community. You have four distinct ways to grow it: manually adding, bulk importing, connecting a saved search, and lead capture forms.',
       subs:[
-        { icon:'📋', title:'Three ways to add members', points:[
-          '<strong>Search</strong> — find existing SmartRecruiters candidates or CRM contacts and add directly',
-          '<strong>Import CSV</strong> — upload a spreadsheet of new contacts (career fair leads, LinkedIn exports)',
-          '<strong>Invite</strong> — send an email invitation for prospects to join the community themselves'
+        { icon:'📋', title:'Four ways to add members', points:[
+          '<strong>Manually Add</strong> — use the Add Prospect button to enter someone\'s details directly, or upload a resume for parsing',
+          '<strong>Bulk Import</strong> — upload a CSV of new contacts (career fair leads, LinkedIn exports), and optionally add them straight into a segment',
+          '<strong>Connected Search</strong> — link a saved search from your People list so matching profiles get added, either run manually or scheduled to run automatically weekly/monthly',
+          '<strong>Lead Capture Form</strong> — a public form prospects fill in themselves to opt into the community (can be embedded on your career site)'
         ]}
       ]
     },
     {
-      title:'Search — add from your existing candidate database',
-      desc:'Click <strong>Search</strong>. Use keyword, skill, location, and source filters to find matching candidates already in SmartRecruiters. Select and click <strong>Add to Community</strong>.',
+      title:'Manually add or bulk import from your existing candidate database',
+      desc:'Use <strong>Add Prospect</strong> to enter someone directly, or <strong>Import Prospects</strong> to upload a CSV — download the provided template first to minimise mapping errors.',
       subs:[
-        { icon:'🔍', title:'Search tips for talent pooling', points:[
-          'Search by job titles and skills from the role type you are building the pool for',
-          'Filter by rejection reason to find silver-medal candidates from past roles — strong people who narrowly missed out',
-          'Filter by Source = Referral to find high-quality contacts already in the system',
-          'Boolean search works: ("Java" OR "Kotlin") AND "London"'
+        { icon:'🔍', title:'Tips for talent pooling', points:[
+          'When importing, you can specify the Source (e.g. "career fair") and add the whole batch into a Segment at the same time — a useful way to keep a batch organised for later',
+          'Filter by rejection reason on existing candidates to find silver-medal candidates from past roles — strong people who narrowly missed out',
+          'If an email already exists in SmartRecruiters, adding/importing links to the existing profile rather than creating a duplicate'
         ]}
       ]
     },
     {
-      title:'Import CSV — add contacts from a spreadsheet',
-      desc:'Click <strong>Import CSV</strong>. Prepare your file with at minimum First Name, Last Name, Email. Upload it, map columns to SmartRecruiters fields, set the Source, and confirm import.',
+      title:'Connected Search — keep the community growing automatically',
+      desc:'From the community, click <strong>Create Search</strong> — this redirects you to the People list, where you can use an existing saved search or build a new one with keywords and filters. Once connected, you can run it manually to pull in new matches, or schedule it to run automatically weekly or monthly.',
       subs:[
-        { icon:'⚠️', title:'CSV import requirements', points:[
-          'Required columns: First Name, Last Name, Email Address',
-          'Invalid or duplicate email addresses are automatically skipped',
-          'Set the Source field before confirming — you cannot efficiently update source for hundreds of records after the fact',
-          'If the email already exists in SmartRecruiters, the import links to the existing profile rather than creating a duplicate'
+        { icon:'🔄', title:'Why Connected Search is worth setting up', points:[
+          'It\'s the only one of the four methods that keeps adding new matching profiles on its own, on a schedule, without you doing anything after the initial setup',
+          'Good for evergreen role types — e.g. a standing search for Java developers in London stays useful indefinitely'
         ]}
       ]
     },
     {
-      title:'Invite — let prospects opt themselves in',
-      desc:'Click <strong>Invite</strong>. Write a short invitation message. SmartRecruiters generates a personal invite link that prospects click to join and consent to contact.',
+      title:'Lead Capture Form — let prospects opt themselves in',
+      desc:'From the community\'s <strong>Forms</strong> tab, create a Lead Capture Form. Set a candidate-facing name, choose a brand, set the language, and add a header/description. When a prospect submits it, their profile is created automatically and added to the community with status <strong>Interested</strong>.',
       subs:[
-        { icon:'✅', title:'Why self-opt-in is valuable', points:[
-          'Candidates who join themselves have explicitly consented — the cleanest possible opt-in record',
-          'Higher engagement rates than cold imports',
-          'Invite links can be shared via LinkedIn messages, events, or printed as QR codes at career fairs',
-          'Each link is tracked — you can see who joined via your specific invite'
+        { icon:'✅', title:'Why self-opt-in via Lead Capture Form is valuable', points:[
+          'Candidates who join themselves have explicitly consented — the cleanest possible opt-in record, and the form itself can capture CRM consent',
+          'You can add custom screening questions to the form',
+          'Share the form URL directly, or embed it on your career site or a university recruiting page — it\'s not a personal, individually-tracked invite link, it\'s one shared form URL for everyone'
         ]}
       ],
-      tip:'Build your community from multiple sources simultaneously: past candidates (Search), events (Import), and active outreach (Invite). A diverse sourcing mix creates a healthier, more engaged talent pool.'
+      tip:'Build your community from multiple sources simultaneously: existing candidates (Manual/Import), an evergreen pipeline (Connected Search), and active self-opt-in (Lead Capture Form). A diverse sourcing mix creates a healthier, more engaged talent pool.'
     }
   ]
 },
@@ -5478,6 +5524,24 @@ const TASK_DETAIL = {
           'Tuesday–Thursday mornings (8–10am recipient\'s local time) consistently produce the highest open rates for recruiting emails',
           'Avoid Friday afternoons and Monday mornings',
           'If your community spans multiple time zones, send at 9am in the majority time zone or use a send-time optimisation tool'
+        ]}
+      ]
+    },
+    {
+      title:'A campaign isn\'t limited to one email — it can be a full drip sequence',
+      desc:'What\'s described above covers a single message, but a campaign can actually be a sequence of multiple messages, each triggered by the prospect\'s behaviour rather than just a fixed date. Worth knowing about even if you only send one message today — it\'s the same feature, just using one of its options.',
+      subs:[
+        { icon:'🔁', title:'Behaviour-driven triggers for follow-up messages', points:[
+          'Days since the previous message was sent',
+          'Days since the previous message was opened (or NOT opened)',
+          'Days since the recipient replied (or did NOT reply)',
+          'Days since the recipient clicked a link or button in the previous message',
+          'Best practice: use a 1-day delay rather than immediate sending for anything rejection-adjacent, to soften the message'
+        ]},
+        { icon:'🎯', title:'Precise audience targeting with Entry/Exit Rules', points:[
+          'Entry rules control who\'s added to the campaign audience — filter by Segment, Location, Proximity, Status, Source, Tags, screening question answers, date added, or consent status',
+          'Exit rules automatically remove a prospect from the campaign once true — e.g. stop the sequence the moment they reply or apply',
+          'If you set no entry rules at all, everyone in the community is included by default'
         ]}
       ]
     },
@@ -5579,7 +5643,7 @@ const TASK_DETAIL = {
         { icon:'🏷️', title:'What Interview Types control', points:[
           'The type label appears in the scheduling modal when recruiters book interviews',
           'It appears in the candidate\'s invitation email subject and calendar event title',
-          'The merge field [m_interview_type] in email templates pulls this label automatically — making it critical for candidate communications',
+          'There\'s no merge field that pulls this label into email templates automatically — if candidates need to see the type name, write it directly into the template text (or the available fields [m_event_start_time]/[m_event_end_time]/[m_meeting_location]/[self_schedule_url] can be used for the logistics around it)',
           'Examples: Phone Screen, Video Interview, Technical Assessment, Panel Interview, Executive Interview, On-site'
         ]}
       ]
@@ -5612,7 +5676,7 @@ const TASK_DETAIL = {
           'Reference Check — structured reference conversation'
         ]}
       ],
-      tip:'After configuring interview types, ensure your interview email templates reference the [m_interview_type] merge field. It dynamically inserts the correct type label into every invitation — no manual editing per interview.'
+      tip:'There\'s no merge field that inserts the interview type label automatically — if it needs to appear in candidate communications, write it into the template text per interview type, or lean on the [m_meeting_location] and event time fields for the logistics instead.'
     }
   ]
 },
@@ -5769,7 +5833,7 @@ const TASK_DETAIL = {
 'sf-sr-integration-overview': {
   release:'changing-jun15',
   role:'adm', icon:'🔗', title:'SAP SuccessFactors ↔ SmartRecruiters Integration',
-  desc:'Understand the five sync types between SAP SuccessFactors and SmartRecruiters — what data flows in each direction, what to expect from each, and how to investigate failures. Updated for June 15, 2026: Integration Hub and enhanced field mapping are new.',
+  desc:'Understand the syncs between SAP SuccessFactors and SmartRecruiters — what data flows in each direction, what to expect, and how to investigate failures. Note: New Hire is currently the only supported Hire Sync event reason; other event types are roadmap, not live. Updated for June 15, 2026: Integration Hub and enhanced field mapping are new.',
   path:['Settings','Administration','Integration Hub'],
   who:[{label:'Admin',c:'var(--adm)'}],
   before:['The SF-SR integration is configured during implementation by your EX3 consultant — this guide helps you understand what is running and troubleshoot when something breaks','From June 15, 2026: all integration configuration moves to the new Integration Hub (Settings → Administration → Integration Hub)'],
@@ -5793,15 +5857,18 @@ const TASK_DETAIL = {
       ]
     },
     {
-      title:'Hire Sync types — five options, each creates a different SF record',
-      desc:'When a hire sync fires, the type of SF record created depends on configuration. This must be set correctly for each hire type your organisation processes.',
+      title:'Hire Sync — New Hire is the only supported event reason today',
+      desc:'As of the July 2026 partner release review, <strong>New Hire is the only event reason the Hire Sync actually supports</strong> — it creates a new employee record in SF for external candidates joining for the first time. Everything else below is on the roadmap, not live functionality — don\'t configure a process around them yet.',
       subs:[
-        { icon:'🎯', title:'The five Hire Sync types', points:[
-          '<strong>New Hire</strong> — creates a new employee record in SF. Used for external candidates joining the organisation for the first time.',
-          '<strong>Rehire</strong> — reinstates a former employee. Requires matching the candidate\'s externalID to the previous SF employee record.',
-          '<strong>Add Job Relationship</strong> — adds a second job to an existing employee (concurrent or matrix employment).',
-          '<strong>Add Non-Employee Relationship</strong> — for contractors, interns, or consultants who receive an SF record but not a permanent employee record.',
-          '<strong>Global Assignment</strong> — for employees moving internationally while retaining their home country employment record.'
+        { icon:'🎯', title:'Not currently supported (roadmap only)', points:[
+          '<strong>Rehire</strong> — reinstating a former employee is not supported today',
+          '<strong>Internal transfers</strong> — not supported today',
+          '<strong>Global Assignment</strong> — employees moving internationally while retaining their home record is not supported today',
+          'SAP has said this is a hot topic being actively worked on — check release notes for updates before relying on any of these',
+        ]},
+        { icon:'🛠️', title:'One thing that HAS changed recently', points:[
+          'You can now override the default "New Hire" event reason: sync over the Event Reason field (typically as an application field), make it required, and surface it on the New Hire form so the right reason gets passed to Onboarding',
+          'It\'s not yet fully confirmed how non-new-hire event reasons behave once passed through to Onboarding this way — test carefully',
         ]}
       ]
     },
@@ -6057,7 +6124,7 @@ const TASK_DETAIL = {
   desc:'From June 15, 2026, configure which SAP SuccessFactors Position fields automatically pre-fill SmartRecruiters job fields when a job is created from a Position. Reduces manual data entry for recruiters.',
   path:['Settings','Administration','Integration Hub','Position Mappings'],
   who:[{label:'Admin',c:'var(--a-adm)'}],
-  before:['Integration Hub must be available (June 15, 2026 onwards)','For every SF Position field you want to map, a matching SR job field must exist with the same data type — create these in advance','Test in your sandbox environment first'],
+  before:['Integration Hub must be available (June 15, 2026 onwards)','Only text-to-text field mapping is supported today — decimals, currency, and Matrix Relationships cannot be mapped, so check your field list against this before planning the rollout','Test in your sandbox environment first'],
   diagram:{type:'hflow',nodes:[
     {l:'SF Position',s:'hf-purple',sub:'Source field'},
     {l:'Integration Hub',s:'hf-adm',sub:'Mapping page'},
@@ -6075,9 +6142,19 @@ const TASK_DETAIL = {
       desc:'From June 15: Settings → Administration → <strong>Integration Hub</strong> → <strong>Position Mappings</strong>. You\'ll see a list of available SF Position fields on the left and SR job fields on the right.',
     },
     {
-      title:'Create a mapping',
-      desc:'Select the SF Position field you want to use as the source. Then select the matching SR job field as the destination. Click <strong>Add Mapping</strong>. Repeat for each field you want to pre-fill.',
-      warn:'Only map fields where the data types match exactly. A text field in SF cannot map to a picklist in SR without a transformation — the Hub will warn you if types are incompatible.',
+      title:'Create a mapping — know the real constraints first',
+      desc:'Select the SF Position field you want to use as the source. Then select the matching SR job field as the destination. Click <strong>Add Mapping</strong>. Repeat for each field you want to pre-fill. The constraints here are tighter than "types must match" — read the list below before you plan out which fields to map.',
+      subs:[{ icon:'⚠️', title:'Real mapping constraints (as of the July 2026 partner review)', points:[
+        'The field must be directly available ON the Position object — you cannot navigate through related objects to reach it',
+        'Only <strong>text-to-text</strong> mapping is supported today: if the SF EC Position field is text, it must map to a text field in SR',
+        'Decimal fields (e.g. Standard Hours) currently <strong>cannot</strong> be mapped at all — SmartRecruiters doesn\'t support decimal fields on this mapping',
+        'Numeric, percentage, and currency-style fields also do not map yet',
+        'Single-select fields (picklist or object) on the Position ARE supported',
+        'Pay Range can only be supported as a synced foundation object field, not as free navigation into related pay-range values',
+        'Matrix Relationships cannot be mapped from the Position at all',
+        'Recommended prep: review your current SF EC → SF Recruiting position mapping, identify what\'s already mapped, avoid recruiting-specific picklists where possible, create the field via Foundational Data Mapping first, then map like-for-like fields here'
+      ]}],
+      warn:'Given these constraints, plan your field list around what\'s actually mappable before promising recruiters a fully pre-filled job form — several common field types (decimals, currency, matrix relationships) simply aren\'t supported yet.',
     },
     {
       title:'Test the mapping',
@@ -6086,6 +6163,14 @@ const TASK_DETAIL = {
     {
       title:'Confirm recruiter experience',
       desc:'Mapped fields appear pre-filled but <strong>remain editable</strong> by the recruiter. They are not locked. Inform your recruiters which fields will be pre-populated so they know to verify rather than re-enter data.',
+    },
+    {
+      title:'New (July 2026): Hiring Manager can now be assigned directly on the Position',
+      desc:'A separate, related change from the same release — hiring managers can now be assigned directly at the Position level, independent of the existing Job-level hiring manager field.',
+      subs:[{ icon:'👤', title:'Why this matters', points:[
+        'This assignment persists with the Position through its lifecycle — it\'s a separate field from the Job-level hiring manager, not a replacement for it',
+        'Useful for structured position management setups where a shared services team creates the job on behalf of the business — the correct hiring manager can be tied to the Position from the start, before the job itself is even created'
+      ]}]
     },
   ]
 },
@@ -7201,8 +7286,8 @@ const STUCK = {
     who:'Recruiter',
   },
   'reject-cand':{
-    0:[{r:"No rejection email templates exist — the system requires one to send a notification"},{r:"The candidate is already in a terminal status (Hired or Withdrawn)"}],
-    checks:["Ask your Admin to create a rejection email template","If the candidate is Hired or Withdrawn their status can't be changed to Rejected"],
+    0:[{r:"You want to send a rejection email but no template is set up for it"},{r:"The candidate is already in a terminal status (Hired or Withdrawn)"}],
+    checks:["A missing template only blocks the EMAIL, not the rejection itself — you can untick the 'send email' option and still reject the candidate","Ask your Admin to create a rejection email template if you do want one sent","If the candidate is Hired or Withdrawn their status can't be changed to Rejected"],
     who:'Admin',
   },
   'send-to-agency':{
@@ -7243,8 +7328,8 @@ const STUCK = {
     who:'Recruiter',
   },
   'cand-portal-login':{
-    0:[{r:"You're using the wrong email — must be the same one you applied with"},{r:"Your account may not be activated yet if you applied very recently"}],
-    checks:["Use exactly the email address you used on your application","Check for an activation email from SmartRecruiters in your inbox and spam","Wait 15 minutes after applying before trying to log in for the first time"],
+    0:[{r:"You've lost or deleted the original confirmation email with your tracking link"},{r:"The one-time passcode email is going to spam, or hasn't arrived yet"}],
+    checks:["Search your inbox (including spam) for the original confirmation email from SmartRecruiters or the company name","There's no persistent account or password to reset here — every visit uses a fresh one-time passcode sent to your application email","If you applied using a different email by mistake, contact the company's recruitment team directly to have it corrected"],
     who:'Recruiter',
   },
   'cand-self-sched':{
@@ -7259,7 +7344,7 @@ const STUCK = {
   },
   // ─── ADMIN ───────────────────────────────────────
   'add-user':{
-    0:[{r:"The email domain isn't recognised if you use domain-based authentication"},{r:"A user with that email already exists (possibly deactivated)"}],
+    0:[{r:"A user with that email already exists (possibly deactivated)"},{r:"If your company uses SSO, the email doesn't exactly match what's in your identity provider"}],
     checks:["Search for the user first — they may already exist as inactive","Check if your company uses SSO — the email must exactly match what's in your identity provider","If the user exists but is inactive, reactivate them rather than creating a duplicate"],
     who:'Admin',
   },
