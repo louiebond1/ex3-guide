@@ -12,28 +12,31 @@ discovery tools) for internal consultants.
 
 ## Where things live
 
-- **Live site**: https://ex3-guide-production.up.railway.app
-- **Code**: `github.com/louiebond1/ex3-guide` — ⚠️ **this is Louie's personal
-  GitHub account, not a company org.** See below.
-- **Hosting**: Railway, project `hearty-clarity`, service `ex3-guide`
+- **Live site**: https://ex3-guide-production.up.railway.app (still needs
+  updating to match the new repo name — see below)
+- **Code**: `github.com/weareex3/smartrecruiters-guide` — transferred from
+  Louie's personal account (`louiebond1` → `louiebond` → `weareex3`) on
+  2026-09-02. Renamed from `ex3-guide` to `smartrecruiters-guide` because
+  `ex3-guide` was blocked on transfer (a private repo already existed at
+  that name under `louiebond`).
+- **Hosting**: Railway, project `hearty-clarity`, service `ex3-guide` — ⚠️
+  **still under Louie's personal Railway workspace.** Needs transferring
+  the same way (Settings → Transfer Project) to a company Railway team.
 - **Code on this laptop**:
-  `Documents/Codex/2026-05-27/whats-my-usage-limits/ex3-guide`
+  `Documents/Codex/2026-05-27/whats-my-usage-limits/ex3-guide` (local
+  folder name still says the old name; only the git remote/GitHub repo
+  changed)
 
-## ⚠ Do this first: get the code and hosting off personal accounts
+## ⚠ Still to do
 
-Both the GitHub repo and the Railway project currently sit under Louie's
-personal accounts, not company ones. Unlike a Railway project (which can be
-transferred in the dashboard), **a GitHub repo under a personal account is
-the bigger risk** — if that account is closed or access is revoked, the
-company could lose the entire commit history with no warning.
-
-Before Louie's last day:
-1. Transfer the GitHub repo (`louiebond1/ex3-guide`) to a company GitHub
-   org, or have someone with access create a company-owned fork/mirror and
-   switch the `origin` remote and Railway's deploy source over to it.
-2. Transfer the Railway project (`hearty-clarity`) to a company Railway
-   team (Settings → Transfer Project), or redeploy from the migrated repo
-   under a company Railway account.
+1. **Transfer the Railway project** (`hearty-clarity`) to a company Railway
+   team — GitHub is done, this is the remaining piece.
+2. **Consider renaming the Railway service/domain** to match
+   `smartrecruiters-guide` for consistency, or leave the
+   `ex3-guide-production.up.railway.app` domain as-is if changing it risks
+   breaking bookmarks/links people already use — either is fine, just be
+   deliberate about it rather than letting the two names drift apart by
+   accident.
 3. Confirm who owns and pays for the API keys this depends on (see below) —
    if any are on Louie's personal accounts, rotate them to company-owned
    keys.
